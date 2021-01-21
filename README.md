@@ -2,11 +2,11 @@
 
 
 Team : 
-- Equipe : les qualituries
+- Equipe : les qualituriers
 - Bateau : la qualiravelle
 
-Author : 
-- Alexandre Arcil
-- Bedjguelal Redoun
+Authors : 
+- Arcil Alexandre
+- Bedjguelal Redouan
 - Clodong Yann
 - D'Andrea William
