@@ -1,10 +1,13 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
+import static fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil.modAngle;
+
 /**
  * @author William D'Andrea
  * @author Clodong Yann
  */
 public class Point {
+    public static final Point NORTH_DIRECTION = new Point(1, 0);
 
     private double x;
     private double y;
@@ -14,7 +17,10 @@ public class Point {
         this.y = y;
     }
 
-
+    public Point(double angle) {
+        this.x = Math.cos(angle);
+        this.y = Math.sin(angle);
+    }
 
     public double getX() {
         return x;
@@ -90,7 +96,7 @@ public class Point {
      * @param other: 2eme vecteur
      * @return true si les deux vecteurs sont perpendiculaire
      */
-    public boolean isNormal(Point other) {
+    public boolean isNormalTo(Point other) {
         return scalar(other) == 0;
     }
 
@@ -99,7 +105,27 @@ public class Point {
      * @param other: 2eme vecteur
      * @return true si les vecteur sont parallèle
      */
-    public boolean isColinear(Point other) {
+    public boolean isColinearTo(Point other) {
         return cross(other) == 0;
+    }
+
+    /**
+     * Return angle between NORTH and this
+     * @return Angle
+     */
+    public double getOrientation() {
+        if(x == 0) return Math.PI / 2 * (y < 0 ? -1 : 1); // infinite case of atan
+        var unsignedAngle = Math.atan(y / x);
+        if(x < 0 ) unsignedAngle += Math.PI;
+        return modAngle(unsignedAngle);
+    }
+
+    /**
+     * Angle entre 2 vecteurs
+     * @param other, deuxieme vecteur
+     * @return angle tq tq this.rotate(angle) = other
+     */
+    public double angleWith(Point other) {
+        return modAngle(other.getOrientation() - getOrientation());
     }
 }
