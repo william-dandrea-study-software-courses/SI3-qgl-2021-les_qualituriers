@@ -6,7 +6,7 @@ Team :
 - Bateau : la qualiravelle
 
 Author : 
-Alexandre Arcil
-Bedjguelal Redoun
-Clodong Yann
-D'Andrea William
+- Alexandre Arcil
+- Bedjguelal Redoun
+- Clodong Yann
+- D'Andrea William
