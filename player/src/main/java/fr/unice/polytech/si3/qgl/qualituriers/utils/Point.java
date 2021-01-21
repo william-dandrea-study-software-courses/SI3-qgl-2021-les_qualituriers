@@ -1,5 +1,12 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
+
+/**
+ * Cette classe represente un point qui sera utilise pour localiser les elements sur le deck
+ *
+ * @author williamdandrea
+ */
+
 public class Point {
 
     private double x;

@@ -1,14 +1,16 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
-public enum Shape {
+/**
+ * Cette classe represente un element commun aux formes des obestacles
+ *
+ * @author williamdandrea
+ */
 
-    RECTANGLE {
+public class Shape {
 
-    },
-    CIRCLE {
+    protected Shapes type;
 
-    },
-    POLYGON {
-
+    public Shape(Shapes type) {
+        this.type = type;
     }
 }

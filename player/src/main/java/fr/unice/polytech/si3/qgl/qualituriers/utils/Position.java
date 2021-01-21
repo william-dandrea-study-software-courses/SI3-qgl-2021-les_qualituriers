@@ -1,5 +1,11 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
+/**
+ * Une position est en sorte un point avec une dirrection, qui permet au bateau de savoir ou il peut avancer et ou il ne peux pas
+ *
+ * @author williamdandrea
+ */
+
 public class Position {
     private double x;
     private double y;
