@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.teamid;
+package fr.unice.polytech.si3.qgl.qualituriers;
 
 import java.util.ArrayList;
 import java.util.List;
