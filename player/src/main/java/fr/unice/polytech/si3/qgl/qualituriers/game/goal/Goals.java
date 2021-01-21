@@ -1,6 +1,10 @@
 package fr.unice.polytech.si3.qgl.qualituriers.game.goal;
 
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+/**
+ * Correspond aux objectifs (goals). Chaque enum contient le type ainsi que la class qui le représente.
+ *
+ * @author williamdandrea
+ */
 
 public enum Goals {
 

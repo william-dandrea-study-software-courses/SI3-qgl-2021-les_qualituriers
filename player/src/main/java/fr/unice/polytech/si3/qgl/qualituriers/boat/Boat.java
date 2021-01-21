@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.boat;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
+import fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities.Entities;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Position;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Shape;
 
