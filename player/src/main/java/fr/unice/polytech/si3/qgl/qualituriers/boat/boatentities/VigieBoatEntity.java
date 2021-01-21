@@ -7,9 +7,9 @@ package fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities;
  */
 
 
-public class VigieEntity extends Entity{
+public class VigieBoatEntity extends BoatEntity {
 
-    public VigieEntity(int x, int y) {
-        super(Entities.VIGIE, x, y);
+    public VigieBoatEntity(int x, int y) {
+        super(BoatEntities.VIGIE, x, y);
     }
 }

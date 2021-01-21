@@ -5,13 +5,13 @@ package fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities;
  *
  * @author williamdandrea
  */
-public class Entity {
+public class BoatEntity {
 
-    protected Entities type;
+    protected BoatEntities type;
     protected int x;
     protected int y;
 
-    public Entity(Entities type, int x, int y) {
+    public BoatEntity(BoatEntities type, int x, int y) {
         this.type = type;
         this.x = x;
         this.y = y;

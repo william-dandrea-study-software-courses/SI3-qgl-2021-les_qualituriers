@@ -1,4 +1,6 @@
-package fr.unice.polytech.si3.qgl.qualituriers.utils;
+package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
+
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 /**
  * Cette classe represente un polygone qui pourra etre utiliser pour representer un bateau car un polygone à une

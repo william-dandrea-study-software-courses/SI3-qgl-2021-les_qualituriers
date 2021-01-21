@@ -6,12 +6,12 @@ package fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities;
  * @author williamdandrea
  */
 
-public class VoileEntity extends Entity{
+public class VoileBoatEntity extends BoatEntity {
 
     private boolean openned;
 
-    public VoileEntity(int x, int y, boolean openned) {
-        super(Entities.VOILE, x, y);
+    public VoileBoatEntity(int x, int y, boolean openned) {
+        super(BoatEntities.VOILE, x, y);
         this.openned = openned;
     }
 }

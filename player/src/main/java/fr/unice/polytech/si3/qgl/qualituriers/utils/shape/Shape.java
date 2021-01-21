@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.utils;
+package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 /**
  * Cette classe represente un element commun aux formes des obestacles

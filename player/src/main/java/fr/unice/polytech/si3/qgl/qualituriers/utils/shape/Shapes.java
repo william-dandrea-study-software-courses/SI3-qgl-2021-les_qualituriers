@@ -1,6 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.utils;
-
-import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
+package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 /**
  * Correspond aux différentes formes que peuvent prendre les obstacles. Chaque enum contient le type ainsi que la

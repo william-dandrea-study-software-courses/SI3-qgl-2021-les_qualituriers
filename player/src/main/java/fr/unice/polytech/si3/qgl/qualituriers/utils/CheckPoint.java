@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
+
 /**
  * Cette classe represente un checkpoint auquel le bateau devra arriver pour valider une course
  *
