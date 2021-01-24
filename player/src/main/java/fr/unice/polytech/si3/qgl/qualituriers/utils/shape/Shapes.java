@@ -21,4 +21,8 @@ public enum Shapes {
         this.type = type;
         this.shape = shape;
     }
+
+    public String getType() {
+        return type;
+    }
 }
