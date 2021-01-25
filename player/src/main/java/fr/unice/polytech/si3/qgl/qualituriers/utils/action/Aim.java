@@ -7,6 +7,11 @@ public class Aim extends Action {
 
     private double angle;
 
+    public Aim(int sailorId, double angle) {
+        super(sailorId, Actions.AIM);
+        this.angle = angle;
+    }
+
     public double getAngle() {
         return angle;
     }

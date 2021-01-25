@@ -9,9 +9,9 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 public enum Shapes {
 
-    RECTANGLE("RECTANGLE", Rectangle.class),
-    CIRCLE("CIRCLE", Circle.class),
-    POLYGON("POLYGONE", Polygon.class);
+    RECTANGLE("rectangle", Rectangle.class),
+    CIRCLE("circle", Circle.class),
+    POLYGON("polygon", Polygon.class);
 
     private final String type;
     private final Class<? extends Shape> shape;

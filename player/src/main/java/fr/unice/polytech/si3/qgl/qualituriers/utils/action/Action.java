@@ -6,6 +6,12 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 public class Action {
 
     protected int sailorId;
+    protected Actions type;
+
+    public Action(int sailorId, Actions type) {
+        this.type = type;
+        this.sailorId = sailorId;
+    }
 
     public int getSailorId() {
         return sailorId;

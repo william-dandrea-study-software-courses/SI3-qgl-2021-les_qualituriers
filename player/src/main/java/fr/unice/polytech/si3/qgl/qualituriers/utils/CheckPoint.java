@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 
 /**
@@ -15,11 +16,11 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 public class CheckPoint {
 
     private Position position;
-    private Shapes shapes;
+    private Shape shape;
 
-    public CheckPoint(Position position, Shapes shapes) {
+    public CheckPoint(Position position, Shape shape) {
         this.position = position;
-        this.shapes = shapes;
+        this.shape = shape;
     }
 
     @JsonCreator
@@ -27,13 +28,31 @@ public class CheckPoint {
         this.position = new Position(posX, posY, orientation);
         switch(type){
             case "rectangle":
-                this.shapes = new Shapes(1,1,0);
+                //this.shape = new Shape(Shapes.RECTANGLE);
+                //this.shape = new Shapes(1,1,0);
         }
     }
 
-    public String getShapesAsString() {
+    /*public String getShapesAsString() {
         return shapes.getType();
-    }
+    }*/
 
     public CheckPoint(){}
+
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public Shape getShape() {
+        return shape;
+    }
+
+    @Override
+    public String toString() {
+        return "CheckPoint{" +
+                "position=" + position +
+                ", shape=" + shape +
+                '}';
+    }
 }

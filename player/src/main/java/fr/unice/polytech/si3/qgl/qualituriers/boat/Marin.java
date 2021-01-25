@@ -18,4 +18,8 @@ public class Marin {
         this.y = y;
         this.name = name;
     }
+
+    public int getId() {
+        return id;
+    }
 }

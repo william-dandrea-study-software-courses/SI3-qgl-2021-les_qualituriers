@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities.BoatEntities;
+import fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Position;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 
@@ -19,20 +20,15 @@ public class Boat {
     private Position position;
     private String name;
     private Deck deck;
-
-    public String getName() {
-        return name;
-    }
-
-    private BoatEntities[] entities;
+    private BoatEntity[] entitys;
     private Shapes shapes;
 
-    public Boat(int life, Position position, String name, Deck deck, BoatEntities[] entities, Shapes shapes) {
+    public Boat(int life, Position position, String name, Deck deck, BoatEntity[] entitys, Shapes shapes) {
         this.life = life;
         this.position = position;
         this.name = name;
         this.deck = deck;
-        this.entities = entities;
+        this.entitys = entitys;
         this.shapes = shapes;
     }
 
@@ -44,4 +40,12 @@ public class Boat {
         this.deck = new Deck(width, length);
     }
 
+    public String getName() {
+        return name;
+    }
+    public int getLife() { return life; }
+    public Position getPosition() { return position; }
+    public Deck getDeck() { return deck; }
+    public BoatEntity[] getEntities() { return entitys; }
+    public Shapes getShapes() { return shapes; }
 }

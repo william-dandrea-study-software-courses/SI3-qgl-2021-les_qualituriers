@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 /**
@@ -15,9 +17,17 @@ public class Polygon extends Shape{
     private double orientation;
     private Point[] vertices;
 
-    public Polygon(double orientation, Point[] vertices) {
-        super(Shapes.POLYGON);
+    public Polygon(@JsonProperty("orientation")double orientation, @JsonProperty("vertices") Point[] vertices) {
+        super(Shapes.POLYGON.getType());
         this.orientation = orientation;
         this.vertices = vertices;
+    }
+
+    public double getOrientation() {
+        return orientation;
+    }
+
+    public Point[] getVertices() {
+        return vertices;
     }
 }

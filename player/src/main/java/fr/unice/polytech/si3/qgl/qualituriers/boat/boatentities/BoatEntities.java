@@ -7,7 +7,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities;
  */
 
 public enum BoatEntities {
-    RAME("OAR_B", RameBoatEntity.class),
+    RAME("OAR", RameBoatEntity.class),
     VOILE("SAIL", VoileBoatEntity.class),
     GOUVERNAIL("RUDDER", GouvernailBoatEntity.class),
     VIGIE("WATCH", VigieBoatEntity.class),

@@ -5,6 +5,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
  */
 public class Fire extends Action {
 
-
-
+    public Fire(int sailorId) {
+        super(sailorId, Actions.FIRE);
+    }
 }

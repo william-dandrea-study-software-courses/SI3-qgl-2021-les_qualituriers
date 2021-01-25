@@ -16,4 +16,12 @@ public class Deck {
         this.width = width;
         this.length = length;
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getLength() {
+        return length;
+    }
 }
