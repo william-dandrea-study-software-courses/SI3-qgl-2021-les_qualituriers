@@ -53,8 +53,8 @@ public class CockpitIntelligence {
 
 
 
-
         return jsonArray;
+
     }
 
 

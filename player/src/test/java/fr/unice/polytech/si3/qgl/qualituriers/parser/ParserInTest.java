@@ -31,6 +31,11 @@ public class ParserInTest {
     }
 
     @Test
+    void createBoatTest() throws IOException{
+
+    }
+
+    @Test
     void createCheckpointTest() throws IOException {
 
 
