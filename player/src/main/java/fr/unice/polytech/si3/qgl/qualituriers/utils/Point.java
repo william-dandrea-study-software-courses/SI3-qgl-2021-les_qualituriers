@@ -1,13 +1,14 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
-import static fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil.modAngle;
 
 /**
- * @author William D'Andrea
- * @author Clodong Yann
+ * Cette classe represente un point qui sera utilise pour localiser les elements sur le deck
+ *
+ * @author williamdandrea
+ * @author CLODONG Yann
  */
+
 public class Point {
-    public static final Point NORTH_DIRECTION = new Point(1, 0);
 
     private double x;
     private double y;

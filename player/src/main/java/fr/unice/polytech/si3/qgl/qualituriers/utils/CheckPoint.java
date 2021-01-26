@@ -1,0 +1,58 @@
+package fr.unice.polytech.si3.qgl.qualituriers.utils;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
+
+/**
+ * Cette classe represente un checkpoint auquel le bateau devra arriver pour valider une course
+ *
+ * @author williamdandrea
+ */
+
+
+public class CheckPoint {
+
+    private Position position;
+    private Shape shape;
+
+    public CheckPoint(Position position, Shape shape) {
+        this.position = position;
+        this.shape = shape;
+    }
+
+    @JsonCreator
+    public CheckPoint(@JsonProperty("x") int posX,@JsonProperty("y") int posY,@JsonProperty("orientation") int orientation,@JsonProperty("type") String type){
+        this.position = new Position(posX, posY, orientation);
+        switch(type){
+            case "rectangle":
+                //this.shape = new Shape(Shapes.RECTANGLE);
+                //this.shape = new Shapes(1,1,0);
+        }
+    }
+
+    /*public String getShapesAsString() {
+        return shapes.getType();
+    }*/
+
+    public CheckPoint(){}
+
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public Shape getShape() {
+        return shape;
+    }
+
+    @Override
+    public String toString() {
+        return "CheckPoint{" +
+                "position=" + position +
+                ", shape=" + shape +
+                '}';
+    }
+}

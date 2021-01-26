@@ -1,0 +1,12 @@
+{
+  "position": {
+    "x": 1000,
+    "y": 0,
+    "orientation": 0
+  },
+  "shape": {
+    "type": "polygon",
+    "orientation": 50,
+    "vertices": [[1,1], [-1,1], [-1,-1], [1,-1]]
+  }
+}

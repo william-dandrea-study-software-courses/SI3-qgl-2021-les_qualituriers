@@ -1,0 +1,14 @@
+
+{
+  "position": {
+    "x": 1000,
+    "y": 0,
+    "orientation": 0
+  },
+  "shape": {
+    "type": "rectangle",
+    "width": 50,
+    "height": 100,
+    "orientation": 150
+  }
+}

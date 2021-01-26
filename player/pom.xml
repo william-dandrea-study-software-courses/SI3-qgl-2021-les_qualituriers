@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>fr.unice.polytech.si3.qgl</groupId>
-	<artifactId>qualituriers</artifactId>
+	<artifactId>les_qualituriers</artifactId>
 	<version>0.1-SNAPSHOT</version>
 
 	<properties>
@@ -13,7 +13,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<junit.jupiter.version>5.5.1</junit.jupiter.version>
-		<mockito.core.version>3.2.0</mockito.core.version>
+		<mockito.core.version>3.6.0</mockito.core.version>
 		<jackson.databind.version>2.10.1</jackson.databind.version>
 	</properties>
 
@@ -40,7 +40,6 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.databind.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- Testing -->
