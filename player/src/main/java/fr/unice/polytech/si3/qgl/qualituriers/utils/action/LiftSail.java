@@ -6,6 +6,6 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 public class LiftSail extends Action {
 
     public LiftSail(int sailorId) {
-        super(sailorId, Actions.LIFT_SAIL);
+        super(sailorId, Actions.LIFT_SAIL.getType());
     }
 }

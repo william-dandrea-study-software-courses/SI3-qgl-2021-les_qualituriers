@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import fr.unice.polytech.si3.qgl.qualituriers.boat.Boat;
+import fr.unice.polytech.si3.qgl.qualituriers.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Position;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
@@ -41,8 +42,10 @@ public class ParserIn {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public Boat createBoat() throws JsonProcessingException{
         om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+
         Boat boat = om.treeToValue(inputNode.get("ship"), Boat.class);
-        System.out.println(boat.getName());
+        //System.out.println(boat.getName());
         return boat;
     }
 
@@ -89,8 +92,6 @@ public class ParserIn {
             return Optional.empty();
         }
 
-
-
         JsonNode positionJsonNode = jsonNode.get("position");
         JsonNode shapeJsonNode = jsonNode.get("shape");
         // On recupere la position
@@ -119,6 +120,44 @@ public class ParserIn {
         }
 
         return Optional.empty();
+
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public List<Optional<Marin>> createSailors() throws JsonProcessingException {
+        List<Optional<Marin>> marins = new ArrayList<>();
+
+        om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        if (inputNode != null && inputNode.get("sailors") != null) {
+            JsonNode checkpointsArrays = inputNode.get("sailors");
+
+            // Les sailors sont concidérés comme des arrayx car il y en a plusieurs, on va donc extraire chaque
+            // checkpoints un par un.
+            if (checkpointsArrays.isArray()) {
+                for (JsonNode objNode : checkpointsArrays) {
+
+                    marins.add(returnTheGoodSailor(objNode));
+
+                }
+            }
+        }
+
+        return marins;
+    }
+
+
+    Optional<Marin> returnTheGoodSailor(JsonNode jsonNode) throws JsonProcessingException {
+
+        if (jsonNode == null || inputNode == null) {
+            return Optional.empty();
+        }
+
+        om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        Marin marin = om.treeToValue(jsonNode, Marin.class);
+        return Optional.of(marin);
+
 
     }
 }

@@ -8,7 +8,7 @@ public class Aim extends Action {
     private double angle;
 
     public Aim(int sailorId, double angle) {
-        super(sailorId, Actions.AIM);
+        super(sailorId, Actions.AIM.getType());
         this.angle = angle;
     }
 

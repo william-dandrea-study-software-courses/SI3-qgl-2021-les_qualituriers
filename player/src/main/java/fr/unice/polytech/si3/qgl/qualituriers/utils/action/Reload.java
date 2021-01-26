@@ -6,6 +6,6 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 public class Reload extends Action {
 
     public Reload(int sailorId) {
-        super(sailorId, Actions.RELOAD);
+        super(sailorId, Actions.RELOAD.getType());
     }
 }

@@ -141,4 +141,18 @@ public class ParserInTest {
 
 
     }
+
+    @Test
+    void returnTheGoodSailorTest() throws IOException {
+
+        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/ParserInInitExempleGithub.JSON");
+        JsonNode inputNode = om.readTree(from);
+        ParserIn p = new ParserIn(inputNode);
+
+
+        System.out.println(p.createSailors());
+
+    }
+
+
 }

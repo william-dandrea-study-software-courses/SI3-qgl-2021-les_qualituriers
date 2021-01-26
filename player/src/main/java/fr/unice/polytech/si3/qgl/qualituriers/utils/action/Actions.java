@@ -36,4 +36,7 @@ public enum Actions {
         return null;
     }
 
+    public String getType() {
+        return type;
+    }
 }

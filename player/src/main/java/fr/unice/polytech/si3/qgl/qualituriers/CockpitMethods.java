@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.boat.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
 import java.util.Optional;
@@ -36,12 +37,11 @@ public class CockpitMethods {
             return Optional.empty();
         }
 
-
         ObjectMapper objectMapper = new ObjectMapper();
 
-
-        Moving moving = new Moving(sailor.getId(), xDistance, yDistance);
+        Moving moving = new Moving(sailor.getId() ,xDistance, yDistance);
         String stringMoving = null;
+
         try {
             stringMoving = objectMapper.writeValueAsString(moving);
         } catch (JsonProcessingException e) {

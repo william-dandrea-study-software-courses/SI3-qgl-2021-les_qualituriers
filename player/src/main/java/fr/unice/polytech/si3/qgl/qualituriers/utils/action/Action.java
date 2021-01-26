@@ -1,14 +1,16 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author Alexandre Arcil
  */
 public class Action {
 
     protected int sailorId;
-    protected Actions type;
+    protected String type;
 
-    public Action(int sailorId, Actions type) {
+    public Action(int sailorId, @JsonProperty("type")String type) {
         this.type = type;
         this.sailorId = sailorId;
     }
