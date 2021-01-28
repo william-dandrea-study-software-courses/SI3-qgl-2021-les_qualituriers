@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import static fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil.modAngle;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author CLODONG Yann
+ */
 public class PointTest {
 
     @Test
