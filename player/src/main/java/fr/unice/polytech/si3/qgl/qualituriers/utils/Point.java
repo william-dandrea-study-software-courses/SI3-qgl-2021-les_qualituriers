@@ -90,7 +90,8 @@ public class Point {
      * Direction: vecteur colinéaire à celui-ci de norme 1
      * @return vecteur directeur
      */
-    public Point nomalized() {
+    public Point normalized() {
+        if(x == 0 && y == 0) return new Point(0, 0);
         return this.scalar(1 / length());
     }
 
@@ -100,7 +101,7 @@ public class Point {
      * @return true si les deux vecteurs sont perpendiculaire
      */
     public boolean isNormalTo(Point other) {
-        return scalar(other) == 0;
+        return Math.abs(scalar(other)) < 2 * Double.MIN_VALUE;
     }
 
     /**
@@ -109,7 +110,7 @@ public class Point {
      * @return true si les vecteur sont parallèle
      */
     public boolean isColinearTo(Point other) {
-        return cross(other) == 0;
+        return Math.abs(cross(other)) < 2 * Double.MIN_VALUE;
     }
 
     /**

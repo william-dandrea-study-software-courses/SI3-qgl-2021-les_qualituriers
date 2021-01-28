@@ -17,7 +17,7 @@ public class Position {
     public Position(double x, double y, double orientation) {
         this.x = x;
         this.y = y;
-        this.orientation = orientation;
+        this.orientation = AngleUtil.modAngle(orientation);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Position {
     }
 
     /**
-     * @return Vecteur droite de cette position
+     * @return Vecteur droit de cette position
      */
     public Point right() {
         return new Point(orientation);
