@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.game;
 
-import fr.unice.polytech.si3.qgl.qualituriers.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.boat.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goals;
 
 /**

@@ -1,6 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.deckentities.deckvisibleentities;
-
-import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
+package fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible;
 
 /**
  * Correspond aux perturbations sur le deck visible. Chaque enum contient le type ainsi que la class qui le représente.

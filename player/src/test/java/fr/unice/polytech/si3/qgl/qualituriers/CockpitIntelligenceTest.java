@@ -2,13 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.qualituriers.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.boat.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities.BoatEntities;
-import fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.parser.ParserIn;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Position;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

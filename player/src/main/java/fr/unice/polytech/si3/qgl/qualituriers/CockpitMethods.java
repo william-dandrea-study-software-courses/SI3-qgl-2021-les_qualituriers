@@ -2,9 +2,8 @@ package fr.unice.polytech.si3.qgl.qualituriers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.qualituriers.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.boat.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
 import java.util.Optional;

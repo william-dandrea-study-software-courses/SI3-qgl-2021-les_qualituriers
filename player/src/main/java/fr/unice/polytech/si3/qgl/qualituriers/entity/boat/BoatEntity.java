@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities;
+package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
 /**
  * Cette classe a pour objectif de contenir tout ce qui est commun aux différents types d'entités dans le bateau

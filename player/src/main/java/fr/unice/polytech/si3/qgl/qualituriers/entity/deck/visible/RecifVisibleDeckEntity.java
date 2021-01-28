@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.deckentities.deckvisibleentities;
+package fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Position;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;

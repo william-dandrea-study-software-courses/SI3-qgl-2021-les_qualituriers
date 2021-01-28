@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities;
+package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
 /**
  * Cette classe represente l'élément VIGIE qui sera placé dans un bateau

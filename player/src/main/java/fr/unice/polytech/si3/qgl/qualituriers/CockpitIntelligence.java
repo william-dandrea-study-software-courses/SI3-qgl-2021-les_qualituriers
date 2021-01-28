@@ -2,8 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import fr.unice.polytech.si3.qgl.qualituriers.boat.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 
 import java.util.ArrayList;

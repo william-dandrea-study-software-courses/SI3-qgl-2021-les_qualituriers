@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.boat;
+package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

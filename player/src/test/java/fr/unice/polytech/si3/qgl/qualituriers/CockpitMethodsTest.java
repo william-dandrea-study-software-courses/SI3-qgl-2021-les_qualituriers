@@ -1,9 +1,9 @@
 package fr.unice.polytech.si3.qgl.qualituriers;
 
-import fr.unice.polytech.si3.qgl.qualituriers.boat.Boat;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 
-import fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities.BoatEntities;
-import fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities.BoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntities;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Position;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;

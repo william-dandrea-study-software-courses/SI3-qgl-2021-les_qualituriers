@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.boat.boatentities;
+package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
 /**
  * Correspond aux entités dans le bateau. Chaque enum contient le type ainsi que la classe qui le représente.

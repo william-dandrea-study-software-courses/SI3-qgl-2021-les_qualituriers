@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.deckentities;
+package fr.unice.polytech.si3.qgl.qualituriers.entity.deck;
 
 /**
  * Cette classe represente le vent qui sera present sur le deck

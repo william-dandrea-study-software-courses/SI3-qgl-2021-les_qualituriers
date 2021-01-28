@@ -1,8 +1,8 @@
 package fr.unice.polytech.si3.qgl.qualituriers.game;
 
-import fr.unice.polytech.si3.qgl.qualituriers.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.deckentities.Wind;
-import fr.unice.polytech.si3.qgl.qualituriers.deckentities.deckvisibleentities.VisibleDeckEntities;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntities;
 
 /**
  * Cette classe represente la prochaine action du jeu
