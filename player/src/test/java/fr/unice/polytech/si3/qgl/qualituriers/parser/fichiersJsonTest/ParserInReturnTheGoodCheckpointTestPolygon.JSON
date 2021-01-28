@@ -7,6 +7,6 @@
   "shape": {
     "type": "polygon",
     "orientation": 50,
-    "vertices": [[1,1], [-1,1], [-1,-1], [1,-1]]
+    "vertices": [{"x" :  1.0, "y" :  2.0}]
   }
 }

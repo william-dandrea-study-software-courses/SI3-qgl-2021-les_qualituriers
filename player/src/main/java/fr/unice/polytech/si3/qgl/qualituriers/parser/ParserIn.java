@@ -72,6 +72,7 @@ public class ParserIn {
             if (checkpointsArrays.isArray()) {
                 for (JsonNode objNode : checkpointsArrays) {
 
+                    System.out.println(objNode);
                     checkPoint.add(returnTheGoodCheckpoint(objNode));
 
                 }

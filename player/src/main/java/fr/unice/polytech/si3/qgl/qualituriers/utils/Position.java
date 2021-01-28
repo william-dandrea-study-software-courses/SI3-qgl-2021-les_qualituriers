@@ -14,7 +14,7 @@ public class Position {
     private double y;
     private double orientation;
 
-    public Position(double x, double y, double orientation) {
+    public Position(@JsonProperty("x") double x, @JsonProperty("y") double y, @JsonProperty("orientation") double orientation) {
         this.x = x;
         this.y = y;
         this.orientation = AngleUtil.modAngle(orientation);
