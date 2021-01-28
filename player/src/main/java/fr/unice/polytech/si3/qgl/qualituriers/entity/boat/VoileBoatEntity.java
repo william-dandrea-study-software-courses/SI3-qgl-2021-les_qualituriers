@@ -8,7 +8,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
 public class VoileBoatEntity extends BoatEntity {
 
-    private boolean opened;
+    private final boolean opened;
 
     public VoileBoatEntity(int x, int y, boolean opened) {
         super(BoatEntities.VOILE, x, y);

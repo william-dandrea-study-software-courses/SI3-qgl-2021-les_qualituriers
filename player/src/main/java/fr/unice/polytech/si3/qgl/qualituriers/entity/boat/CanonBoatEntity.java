@@ -8,8 +8,8 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
 public class CanonBoatEntity extends BoatEntity {
 
-    private boolean loaded;
-    private double angle;
+    private final boolean loaded;
+    private final double angle;
 
     public CanonBoatEntity(int x, int y, boolean loaded, double angle) {
         super(BoatEntities.CANON, x, y);

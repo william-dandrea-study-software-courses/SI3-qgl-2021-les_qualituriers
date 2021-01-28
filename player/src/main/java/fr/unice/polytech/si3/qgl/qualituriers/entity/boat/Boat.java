@@ -11,24 +11,27 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
  * en fonction de l'emplacement des entity
  *
  * @author williamdandrea
+ * TODO : 28/01/2020 : essayer de revoir le constructeur pour parser des json node plutot que chaques field un par un.
  */
 public class Boat {
 
-    private int life;
-    private Position position;
-    private String name;
-    private Deck deck;
-    private BoatEntity[] entitys;
-    private Shapes shapes;
+    private final int life;
+    private final Position position;
+    private final String name;
+    private final Deck deck;
+    private final BoatEntity[] entities;
+    private final Shapes shapes;
 
-    public Boat(int life, Position position, String name, Deck deck, BoatEntity[] entitys, Shapes shapes) {
+
+    public Boat(int life, Position position, String name, Deck deck, BoatEntity[] entities, Shapes shapes) {
         this.life = life;
         this.position = position;
         this.name = name;
         this.deck = deck;
-        this.entitys = entitys;
+        this.entities = entities;
         this.shapes = shapes;
     }
+
 
     @JsonCreator
     public Boat(@JsonProperty("life") int life,@JsonProperty("x") int posX,@JsonProperty("y") int posY,@JsonProperty("name") String name,@JsonProperty("width") int width,@JsonProperty("length") int length){
@@ -36,6 +39,8 @@ public class Boat {
         this.position = new Position(posX, posY, 0);
         this.name = name;
         this.deck = new Deck(width, length);
+        this.entities = new BoatEntity[0];
+        this.shapes = Shapes.RECTANGLE;
     }
 
     public String getName() {
@@ -44,6 +49,6 @@ public class Boat {
     public int getLife() { return life; }
     public Position getPosition() { return position; }
     public Deck getDeck() { return deck; }
-    public BoatEntity[] getEntities() { return entitys; }
+    public BoatEntity[] getEntities() { return entities; }
     public Shapes getShapes() { return shapes; }
 }

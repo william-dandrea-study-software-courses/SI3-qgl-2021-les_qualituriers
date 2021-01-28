@@ -11,6 +11,7 @@ public class BoatEntity {
     protected int x;
     protected int y;
 
+
     public BoatEntity(BoatEntities type, int x, int y) {
         this.type = type;
         this.x = x;
