@@ -1,17 +1,14 @@
 package fr.unice.polytech.si3.qgl.qualituriers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.unice.polytech.si3.qgl.qualituriers.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.parser.ParserIn;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 
-import static fr.unice.polytech.si3.qgl.qualituriers.CockpitIntelligence.premierRendu;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class Cockpit implements ICockpit {
 
