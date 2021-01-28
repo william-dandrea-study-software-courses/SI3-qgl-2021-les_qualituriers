@@ -1,6 +1,8 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 
+import static fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil.modAngle;
+
 /**
  * Cette classe represente un point qui sera utilise pour localiser les elements sur le deck
  *
@@ -128,5 +130,18 @@ public class Point {
      */
     public double angleWith(Point other) {
         return modAngle(other.getOrientation() - getOrientation());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(!(obj instanceof Point)) return false;
+        var pobj = (Point)obj;
+        return pobj.x == x && pobj.y == y;
+    }
+
+    @Override
+    public String toString() {
+        return "{ x: " + x + ", y: " + y + " }";
     }
 }
