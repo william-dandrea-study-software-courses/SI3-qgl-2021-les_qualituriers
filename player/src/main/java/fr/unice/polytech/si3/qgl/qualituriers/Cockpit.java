@@ -15,7 +15,7 @@ import static fr.unice.polytech.si3.qgl.qualituriers.CockpitIntelligence.premier
 
 public class Cockpit implements ICockpit {
 
-	Boat boat;
+	Optional<Boat> boat;
 	List<Optional<Marin>> sailors;
 
 	public void initGame(String game) {
@@ -27,15 +27,15 @@ public class Cockpit implements ICockpit {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Init game input: " + game);
+		//System.out.println("Init game input: " + game);
 
 	}
 
 
 
 	public String nextRound(String round) {
-		System.out.println("Next round input: " + round);
-		String rendu = "";
+		//System.out.println("Next round input: " + round);
+		String rendu = "[]";
 		try {
 			rendu = CockpitIntelligence.premierRendu(sailors);
 		} catch (JsonProcessingException e) {

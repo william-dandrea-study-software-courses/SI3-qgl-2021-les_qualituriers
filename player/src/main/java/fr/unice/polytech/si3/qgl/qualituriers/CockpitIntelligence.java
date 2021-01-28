@@ -24,37 +24,28 @@ public class CockpitIntelligence {
      *     "type": "OAR"
      * },
      *
-     * @return
+     * @return un sring au format JSON qui indique a tout les marins de ramer
      */
     public static String premierRendu(List<Optional<Marin>> sailors) throws JsonProcessingException {
 
+        ObjectMapper om = new ObjectMapper();
         List<Oar> trueSailors= new ArrayList<>();
 
-        if (sailors == null) {
-            return "";
+        if (sailors == null || sailors.isEmpty()) {
+            return "[]";
         }
         for (Optional<Marin> marinOp: sailors) {
 
-            Marin marin = marinOp.get();
-            Oar oar = new Oar(marin.getId());
-            trueSailors.add(oar);
+            if (marinOp.isPresent()) {
+                Marin marin = marinOp.get();
+                Oar oar = new Oar(marin.getId());
+                trueSailors.add(oar);
 
-            //System.out.println(oar.toString());
+            }
         }
 
+        return om.writeValueAsString(trueSailors);
 
-        ObjectMapper om = new ObjectMapper();
-        String json = "";
-
-        String jsonArray = om.writeValueAsString(trueSailors);
-
-        // [{"stringValue":"a","intValue":1,"booleanValue":true},
-        // {"stringValue":"bc","intValue":3,"booleanValue":false}]
-
-
-
-
-        return jsonArray;
     }
 
 

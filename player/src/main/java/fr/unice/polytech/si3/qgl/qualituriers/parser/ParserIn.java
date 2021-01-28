@@ -40,13 +40,15 @@ public class ParserIn {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public Boat createBoat() throws JsonProcessingException{
+    public Optional<Boat> createBoat() throws JsonProcessingException{
         om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
+        if (inputNode != null && inputNode.get("ship") != null) {
+            return Optional.of(om.treeToValue(inputNode.get("ship"), Boat.class));
+        }
 
-        Boat boat = om.treeToValue(inputNode.get("ship"), Boat.class);
         //System.out.println(boat.getName());
-        return boat;
+        return Optional.empty();
     }
 
 

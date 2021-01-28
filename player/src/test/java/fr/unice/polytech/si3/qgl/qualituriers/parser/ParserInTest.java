@@ -31,6 +31,11 @@ public class ParserInTest {
     }
 
     @Test
+    void createBoatTest() throws IOException{
+
+    }
+
+    @Test
     void createCheckpointTest() throws IOException {
 
 
@@ -150,7 +155,7 @@ public class ParserInTest {
         ParserIn p = new ParserIn(inputNode);
 
 
-        System.out.println(p.createSailors());
+        //System.out.println(p.createSailors());
 
     }
 
