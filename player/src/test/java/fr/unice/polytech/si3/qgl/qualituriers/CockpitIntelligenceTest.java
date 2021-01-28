@@ -32,8 +32,8 @@ public class CockpitIntelligenceTest {
         JsonNode inputNode = om.readTree(from);
         ParserIn p = new ParserIn(inputNode);
 
-        //System.out.println(p.createSailors());
-        //System.out.println(cockpitIntel.premierRendu(p.createSailors()));
+        System.out.println(p.createSailors());
+        System.out.println(cockpitIntel.premierRendu(p.createSailors()));
 
     }
 
