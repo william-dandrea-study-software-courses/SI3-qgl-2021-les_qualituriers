@@ -11,7 +11,7 @@ public class VoileBoatEntity extends BoatEntity {
     private final boolean opened;
 
     public VoileBoatEntity(int x, int y, boolean opened) {
-        super(BoatEntities.VOILE, x, y);
+        super(BoatEntities.VOILE.getType(), x, y);
         this.opened = opened;
     }
 }

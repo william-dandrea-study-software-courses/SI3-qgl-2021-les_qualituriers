@@ -19,4 +19,8 @@ public enum Goals {
         this.type = type;
         this.goal = goal;
     }
+
+    public String getType() {
+        return type;
+    }
 }

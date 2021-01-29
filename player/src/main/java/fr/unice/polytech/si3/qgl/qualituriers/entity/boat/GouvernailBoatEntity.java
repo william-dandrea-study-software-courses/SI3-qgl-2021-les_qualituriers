@@ -10,6 +10,6 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 public class GouvernailBoatEntity extends BoatEntity {
 
     public GouvernailBoatEntity(int x, int y) {
-        super(BoatEntities.GOUVERNAIL, x, y);
+        super(BoatEntities.GOUVERNAIL.getType(), x, y);
     }
 }

@@ -2,8 +2,9 @@ package fr.unice.polytech.si3.qgl.qualituriers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.qualituriers.parser.ParserIn;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -23,32 +24,30 @@ class CockpitTest {
     }
 
     @Test
-    void nextRoundTest() {
-
-        assertEquals("[]", this.cockpit.nextRound("{}"));
-
-
+    public void initGameRenderNotNull() throws IOException {
+        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/ParserInInitExempleGithub.JSON");
+        JsonNode inputNode = om.readTree(from);
+        cockpit.initGame(inputNode.toString());
+        assertNotNull(cockpit.render);
     }
 
     @Test
+    void nextRoundEmpty() {
+        assertEquals("[]", this.cockpit.nextRound("{}"));
+    }
+
+    @Test @DisplayName("Les marins ne doivent qu'avancer")
     void testAll() throws IOException {
         File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/ParserInInitExempleGithub.JSON");
         JsonNode inputNode = om.readTree(from);
-
-        //System.out.println(inputNode.toString());
         cockpit.initGame(inputNode.toString());
 
         File from2 = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/nextRoundInitGithub.JSON");
         JsonNode inputNode2 = om.readTree(from2);
 
-        //System.out.println(cockpit.nextRound(inputNode2.toString()));
-
-        assertTrue(cockpit.nextRound(inputNode2.toString()).contains("0"));
-        assertTrue(cockpit.nextRound(inputNode2.toString()).contains("1"));
-        assertTrue(cockpit.nextRound(inputNode2.toString()).contains("2"));
-        assertTrue(cockpit.nextRound(inputNode2.toString()).contains("3"));
-        assertTrue(cockpit.nextRound(inputNode2.toString()).contains("4"));
-        assertTrue(cockpit.nextRound(inputNode2.toString()).contains("5"));
-        assertFalse(cockpit.nextRound(inputNode2.toString()).contains("8"));
+        for (int i = 0; i < 8; i++) {
+            String response = cockpit.nextRound(inputNode2.toString());
+            assertDoesNotThrow(() -> om.readValue(response, Oar[].class));
+        }
     }
 }

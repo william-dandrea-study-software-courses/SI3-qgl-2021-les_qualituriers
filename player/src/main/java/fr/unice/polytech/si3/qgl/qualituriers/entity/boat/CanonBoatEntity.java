@@ -12,7 +12,7 @@ public class CanonBoatEntity extends BoatEntity {
     private final double angle;
 
     public CanonBoatEntity(int x, int y, boolean loaded, double angle) {
-        super(BoatEntities.CANON, x, y);
+        super(BoatEntities.CANON.getType(), x, y);
         this.loaded = loaded;
         this.angle = angle;
     }

@@ -4,7 +4,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Position;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,14 +26,14 @@ public class CockpitMethodsTest {
     void moveSailorSomewhereTest() {
         //assertEquals("[]", this.cockpit.nextRound("{}"));
 
-        BoatEntity[] boatEntitys = {new BoatEntity(BoatEntities.RAME, 0, 0)};
+        BoatEntity[] boatEntities = {new BoatEntity(BoatEntities.RAME.getType(), 0, 0)};
 
         Boat boat = new Boat(
                 1000,
-                new Position(0,0,0),
+                new Transform(0,0,0),
                 "Bateau",
                 new Deck(5,5),
-                boatEntitys,
+                boatEntities,
                 Shapes.RECTANGLE
         );
 

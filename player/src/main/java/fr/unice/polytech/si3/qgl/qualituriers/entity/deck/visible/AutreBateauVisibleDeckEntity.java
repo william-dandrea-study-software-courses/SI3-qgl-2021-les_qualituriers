@@ -1,6 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible;
 
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Position;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 /**
@@ -13,8 +13,8 @@ public class AutreBateauVisibleDeckEntity extends VisibleDeckEntity {
 
     private int life;
 
-    public AutreBateauVisibleDeckEntity(Position position, Shape shape, int life) {
-        super(VisibleDeckEntities.AUTREBATEAU, position, shape);
+    public AutreBateauVisibleDeckEntity(Transform position, Shape shape, int life) {
+        //super(VisibleDeckEntities.AUTREBATEAU, position, shape);
         this.life = life;
     }
 }

@@ -9,41 +9,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author CLODONG Yann
  */
 
-public class Position {
-    private double x;
-    private double y;
-    private double orientation;
+public class Transform extends Point {
 
-    public Position(@JsonProperty("x") double x, @JsonProperty("y") double y, @JsonProperty("orientation") double orientation) {
-        this.x = x;
-        this.y = y;
+    private final double orientation;
+
+    public Transform(@JsonProperty("x") double x, @JsonProperty("y") double y, @JsonProperty("orientation") double orientation) {
+        super(x, y);
         this.orientation = AngleUtil.modAngle(orientation);
     }
 
     @Override
     public String toString() {
-        return "Position{" +
-                "x=" + x +
-                ", y=" + y +
-                ", orientation=" + orientation +
+        return "Transform{" +
+                "Point: " + super.toString() +
+                "orientation=" + orientation +
                 '}';
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
     }
 
     public double getOrientation() {
         return orientation;
     }
 
-    public Position(Point position, double orientation) {
-        this.x = position.getX();
-        this.y = position.getY();
+    public Transform(Point position, double orientation) {
+        super(position.getX(), position.getY());
         this.orientation = orientation;
     }
 
@@ -80,7 +68,7 @@ public class Position {
      * @return location
      */
     public Point getPoint() {
-        return new Point(x, y);
+        return new Point(this.getX(), this.getY());
     }
 
     /**
@@ -96,8 +84,8 @@ public class Position {
      * @param direction: Direction (normé) dans laquelle déplacer cette position
      * @return La position translatée
      */
-    public Position translate(Point direction) {
-        return new Position(direction.add(getPoint()), orientation);
+    public Transform translate(Point direction) {
+        return new Transform(direction.add(getPoint()), orientation);
     }
 
     /**
@@ -105,8 +93,8 @@ public class Position {
      * @param deltaAngle: angle
      * @return Position qui a tourner de deltaAngle
      */
-    public Position rotate(double deltaAngle) {
-        return new Position(x, y, orientation + deltaAngle);
+    public Transform rotate(double deltaAngle) {
+        return new Transform(this.getX(), this.getY(), orientation + deltaAngle);
     }
 
     /**

@@ -20,4 +20,8 @@ public enum BoatEntities {
         this.type = type;
         this.entity = entity;
     }
+
+    public String getType() {
+        return type;
+    }
 }

@@ -2,9 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 
 /**
  * Cette classe represente un checkpoint auquel le bateau devra arriver pour valider une course
@@ -15,17 +13,17 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 
 public class CheckPoint {
 
-    private Position position;
+    private Transform position;
     private Shape shape;
 
-    public CheckPoint(Position position, Shape shape) {
+    public CheckPoint(Transform position, Shape shape) {
         this.position = position;
         this.shape = shape;
     }
 
     @JsonCreator
     public CheckPoint(@JsonProperty("x") int posX,@JsonProperty("y") int posY,@JsonProperty("orientation") int orientation,@JsonProperty("type") String type){
-        this.position = new Position(posX, posY, orientation);
+        this.position = new Transform(posX, posY, orientation);
         switch(type){
             case "rectangle":
                 //this.shape = new Shape(Shapes.RECTANGLE);
@@ -40,7 +38,7 @@ public class CheckPoint {
     public CheckPoint(){}
 
 
-    public Position getPosition() {
+    public Transform getPosition() {
         return position;
     }
 

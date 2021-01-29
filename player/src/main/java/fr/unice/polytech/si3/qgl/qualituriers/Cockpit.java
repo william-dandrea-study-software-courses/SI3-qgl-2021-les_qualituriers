@@ -1,44 +1,45 @@
 package fr.unice.polytech.si3.qgl.qualituriers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.parser.ParserIn;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.render.FirstRender;
+import fr.unice.polytech.si3.qgl.qualituriers.render.Render;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class Cockpit implements ICockpit {
 
-	Optional<Boat> boat;
-	List<Optional<Marin>> sailors;
+	Render render;
+	private ObjectMapper om;
 
 	public void initGame(String game) {
-		ParserIn parser = new ParserIn();
+		this.om = new ObjectMapper();
+		this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		try {
-			parser.initParser(game);
-			boat = parser.createBoat();
-			sailors = parser.createSailors();
+			GameInfo gameInfo = om.readValue(game, GameInfo.class);
+			this.render = new FirstRender(gameInfo);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		//System.out.println("Init game input: " + game);
-
 	}
 
-
-
 	public String nextRound(String round) {
-		//System.out.println("Next round input: " + round);
-		String rendu = "[]";
-		try {
-			rendu = CockpitIntelligence.premierRendu(sailors);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+		if(this.render != null) {
+			try {
+				RoundInfo roundInfo = om.readValue(round, RoundInfo.class);
+				Object obj = this.render.nextRound(roundInfo);
+				if (obj != null)
+					return this.om.writeValueAsString(obj);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		}
-		return rendu;
+		return "[]";
 	}
 
 	@Override

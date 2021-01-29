@@ -1,24 +1,13 @@
 package fr.unice.polytech.si3.qgl.qualituriers.parser;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Position;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+/**
+ * Je (Alexandre) le laisse au cas où
+ */
 public class ParserIn {
 
-    private ObjectMapper om;
+    /*private ObjectMapper om;
     private JsonNode inputNode;
 
     public ParserIn(){
@@ -47,12 +36,12 @@ public class ParserIn {
     }
 
 
-    /**
+    *//**
      * Cette méthode crée un nouveau checkpoint en parsant l'inputNode qui  été initialisé précédemment
      * MODIF : william
      * @return List de CheckPoints Optionnal adapté au type de forme, si erreur ou rien, return List vide
      * @throws JsonProcessingException
-     */
+     *//*
     @JsonIgnoreProperties(ignoreUnknown = true)
     public List<Optional<CheckPoint>> createCheckpoint() throws JsonProcessingException{
 
@@ -78,12 +67,12 @@ public class ParserIn {
     }
 
 
-    /**
+    *//**
      * Cette méthode récupére un checkPoint sous la forme d'un JsonNode et le transforme en un Optionnal<CheckPoint>
      * @param jsonNode qui est le json initial de l'objet checkpoint
      * @return l'objet Checkpoint wrapper d'un optionnal si il existe, Optionnal.empty sinon
      * @throws JsonProcessingException
-     */
+     *//*
     Optional<CheckPoint> returnTheGoodCheckpoint(JsonNode jsonNode) throws JsonProcessingException {
 
         if (jsonNode == null || inputNode == null) {
@@ -93,7 +82,7 @@ public class ParserIn {
         JsonNode positionJsonNode = jsonNode.get("position");
         JsonNode shapeJsonNode = jsonNode.get("shape");
         // On recupere la position
-        Position position = om.treeToValue(positionJsonNode, Position.class);
+        Transform position = om.treeToValue(positionJsonNode, Transform.class);
 
         om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -157,5 +146,5 @@ public class ParserIn {
         return Optional.of(marin);
 
 
-    }
+    }*/
 }

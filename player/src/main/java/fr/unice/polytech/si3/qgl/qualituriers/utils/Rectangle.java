@@ -21,7 +21,7 @@ public class Rectangle {
      * @return Position du coin
      */
     public Point upRight() {
-        Position pos = new Position(0, 0, orientation);
+        Transform pos = new Transform(0, 0, orientation);
         return  pos.getPoint()                          // position
                     .add(                               // +
                 pos.up().scalar(height / 2)             // up * h / 2
@@ -34,7 +34,7 @@ public class Rectangle {
      * @return Position du coin
      */
     public Point upLeft() {
-        Position pos = new Position(0, 0, orientation);
+        Transform pos = new Transform(0, 0, orientation);
         return  pos.getPoint()                          // position
                     .add(                               // +
                 pos.up().scalar(height / 2)             // up * h / 2
@@ -47,7 +47,7 @@ public class Rectangle {
      * @return Position du coin
      */
     public Point DownRight() {
-        Position pos = new Position(0, 0, orientation);
+        Transform pos = new Transform(0, 0, orientation);
         return  pos.getPoint()                          // position
                     .add(                               // +
                 pos.down().scalar(height / 2)             // down * h / 2
@@ -60,7 +60,7 @@ public class Rectangle {
      * @return Position du coin
      */
     public Point downLeft() {
-        Position pos = new Position(0, 0, orientation);
+        Transform pos = new Transform(0, 0, orientation);
         return  pos.getPoint()                          // position
                     .add(                               // +
                 pos.down().scalar(height / 2)             // down * h / 2

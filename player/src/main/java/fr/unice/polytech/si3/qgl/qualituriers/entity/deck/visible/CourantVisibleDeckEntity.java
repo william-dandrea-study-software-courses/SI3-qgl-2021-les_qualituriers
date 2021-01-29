@@ -1,6 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible;
 
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Position;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 /**
@@ -14,8 +14,8 @@ public class CourantVisibleDeckEntity extends VisibleDeckEntity{
 
     private double strength;
 
-    public CourantVisibleDeckEntity(Position position, Shape shape, double strength) {
-        super(VisibleDeckEntities.COURANT, position, shape);
+    public CourantVisibleDeckEntity(Transform position, Shape shape, double strength) {
+        //super(VisibleDeckEntities.COURANT, position, shape);
         this.strength = strength;
     }
 }

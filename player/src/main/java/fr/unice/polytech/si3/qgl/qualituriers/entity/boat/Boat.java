@@ -3,7 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Position;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 
 /**
@@ -16,16 +16,16 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 public class Boat {
 
     private final int life;
-    private final Position position;
+    private final Transform transform;
     private final String name;
     private final Deck deck;
     private final BoatEntity[] entities;
     private final Shapes shapes;
 
 
-    public Boat(int life, Position position, String name, Deck deck, BoatEntity[] entities, Shapes shapes) {
+    public Boat(int life, Transform position, String name, Deck deck, BoatEntity[] entities, Shapes shapes) {
         this.life = life;
-        this.position = position;
+        this.transform = position;
         this.name = name;
         this.deck = deck;
         this.entities = entities;
@@ -36,7 +36,7 @@ public class Boat {
     @JsonCreator
     public Boat(@JsonProperty("life") int life,@JsonProperty("x") int posX,@JsonProperty("y") int posY,@JsonProperty("name") String name,@JsonProperty("width") int width,@JsonProperty("length") int length){
         this.life = life;
-        this.position = new Position(posX, posY, 0);
+        this.transform = new Transform(posX, posY, 0);
         this.name = name;
         this.deck = new Deck(width, length);
         this.entities = new BoatEntity[0];
@@ -47,7 +47,7 @@ public class Boat {
         return name;
     }
     public int getLife() { return life; }
-    public Position getPosition() { return position; }
+    public Transform getTransform() { return transform; }
     public Deck getDeck() { return deck; }
     public BoatEntity[] getEntities() { return entities; }
     public Shapes getShapes() { return shapes; }

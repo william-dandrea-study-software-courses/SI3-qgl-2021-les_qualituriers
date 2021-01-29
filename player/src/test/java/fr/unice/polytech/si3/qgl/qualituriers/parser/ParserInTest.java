@@ -1,22 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.parser;
-import static org.mockito.Mockito.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.qualituriers.CockpitMethods;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Polygon;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.Assert.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Optional;
 
 /**
  * @author williamdandrea
@@ -25,7 +9,7 @@ public class ParserInTest {
 
     ObjectMapper om;
 
-    @BeforeEach
+    /*@BeforeEach
     void setUp() {
         om = new ObjectMapper();
     }
@@ -157,7 +141,7 @@ public class ParserInTest {
 
         //System.out.println(p.createSailors());
 
-    }
+    }*/
 
 
 }

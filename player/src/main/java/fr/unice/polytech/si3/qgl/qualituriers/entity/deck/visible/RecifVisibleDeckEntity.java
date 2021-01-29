@@ -1,6 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible;
 
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Position;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 /**
@@ -11,7 +11,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 public class RecifVisibleDeckEntity extends VisibleDeckEntity {
 
-    public RecifVisibleDeckEntity(Position position, Shape shape) {
-        super(VisibleDeckEntities.RECIF, position, shape);
+    public RecifVisibleDeckEntity(Transform position, Shape shape) {
+        //super(VisibleDeckEntities.RECIF, position, shape);
     }
 }

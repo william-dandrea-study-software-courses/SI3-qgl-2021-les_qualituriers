@@ -8,6 +8,6 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 public class RameBoatEntity extends BoatEntity {
 
     public RameBoatEntity(int x, int y) {
-        super(BoatEntities.RAME, x, y);
+        super(BoatEntities.RAME.getType(), x, y);
     }
 }
