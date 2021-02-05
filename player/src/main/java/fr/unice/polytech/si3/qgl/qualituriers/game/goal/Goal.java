@@ -1,36 +1,22 @@
 package fr.unice.polytech.si3.qgl.qualituriers.game.goal;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.AutreBateauVisibleDeckEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.CourantVisibleDeckEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.RecifVisibleDeckEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 
-
+/**
+ * @author Alexandre Arcil
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "mode", defaultImpl = Void.class)
+@JsonSubTypes({
+        @JsonSubTypes.Type(name = "REGATTA", value = RegattaGoal.class),
+        @JsonSubTypes.Type(name = "BATTLE", value = BattleGoal.class)
+})
 public class Goal {
 
-    private String mode;
-    private CheckPoint[] checkPoints;
-    // protected Goals type;
+    protected Goals mode;
 
-    @JsonCreator
-    public Goal(@JsonProperty("mode") String mode, @JsonProperty("checkpoints") CheckPoint[] checkPoints) {
-       // this.type = type;
+    public Goal(Goals mode) {
         this.mode = mode;
-        this.checkPoints = checkPoints;
     }
 
-    public Goal(Goals battle) {
-    }
-
-    public String getMode() {
-        return mode;
-    }
-
-    public CheckPoint[] getCheckPoints() {
-        return checkPoints;
-    }
 }
