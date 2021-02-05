@@ -19,4 +19,7 @@ public class Goal {
         this.mode = mode;
     }
 
+    public Goals getMode() {
+        return mode;
+    }
 }

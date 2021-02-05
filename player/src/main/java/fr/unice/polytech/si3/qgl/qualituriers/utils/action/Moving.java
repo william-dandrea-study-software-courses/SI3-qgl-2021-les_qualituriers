@@ -10,17 +10,10 @@ public class Moving extends Action {
     private int distanceX;
     private int distanceY;
 
-
     public Moving(int sailorId, int distanceX, int distanceY) {
-        super(sailorId, Actions.MOVING.getType());
+        super(Actions.MOVING, sailorId);
         this.distanceX = distanceX;
         this.distanceY = distanceY;
-    }
-
-
-    @JsonProperty("action")
-    public String getAction() {
-        return Actions.MOVING.getType();
     }
 
     @JsonProperty("xdistance")

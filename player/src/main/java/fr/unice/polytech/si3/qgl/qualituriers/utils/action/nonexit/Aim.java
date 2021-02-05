@@ -1,14 +1,14 @@
-package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
+package fr.unice.polytech.si3.qgl.qualituriers.utils.action.nonexit;
 
 /**
  * @author Alexandre Arcil
  */
-public class Aim extends Action {
+public class Aim /*extends Action*/ {
 
     private double angle;
 
     public Aim(int sailorId, double angle) {
-        super(sailorId, Actions.AIM.getType());
+        //super(sailorId, Actions.AIM);
         this.angle = angle;
     }
 

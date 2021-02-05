@@ -6,6 +6,6 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 public class LowerSail extends Action {
 
     public LowerSail(int sailorId) {
-        super(sailorId, Actions.LOWER_SAIL.getType());
+        super(Actions.LOWER_SAIL, sailorId);
     }
 }

@@ -5,12 +5,11 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
  *
  * @author williamdandrea
  */
-
 public enum BoatEntities {
-    RAME("OAR", RameBoatEntity.class),
-    VOILE("SAIL", VoileBoatEntity.class),
-    GOUVERNAIL("RUDDER", GouvernailBoatEntity.class),
-    VIGIE("WATCH", VigieBoatEntity.class),
+    OAR("OAR", OarBoatEntity.class),
+    SAIL("SAIL", SailBoatEntity.class),
+    RUDDER("RUDDER", RudderBoatEntity.class),
+    WATCH("WATCH", WatchBoatEntity.class),
     CANON("CANON", CanonBoatEntity.class);
 
     private final String type;
@@ -24,4 +23,5 @@ public enum BoatEntities {
     public String getType() {
         return type;
     }
+
 }

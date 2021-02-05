@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 /**
  * Cette classe a pour objectif de décrire un bateau, le bateau pourra bouger mais aussi faire plusieurs actions
  * en fonction de l'emplacement des entity
  *
- * @author williamdandrea
+ * @author williamdandrea, Alexandre Arcil
  * TODO : 28/01/2020 : essayer de revoir le constructeur pour parser des json node plutot que chaques field un par un.
  */
 public class Boat {
@@ -20,27 +20,18 @@ public class Boat {
     private final String name;
     private final Deck deck;
     private final BoatEntity[] entities;
-    private final Shapes shapes;
+    private final Shape shape;
 
-
-    public Boat(int life, Transform position, String name, Deck deck, BoatEntity[] entities, Shapes shapes) {
+    @JsonCreator
+    public Boat(@JsonProperty("life") int life, @JsonProperty("position") Transform position,
+                @JsonProperty("name") String name, @JsonProperty("deck") Deck deck,
+                @JsonProperty("entities") BoatEntity[] entities, @JsonProperty("shape") Shape shape) {
         this.life = life;
         this.transform = position;
         this.name = name;
         this.deck = deck;
         this.entities = entities;
-        this.shapes = shapes;
-    }
-
-
-    @JsonCreator
-    public Boat(@JsonProperty("life") int life,@JsonProperty("x") int posX,@JsonProperty("y") int posY,@JsonProperty("name") String name,@JsonProperty("width") int width,@JsonProperty("length") int length){
-        this.life = life;
-        this.transform = new Transform(posX, posY, 0);
-        this.name = name;
-        this.deck = new Deck(width, length);
-        this.entities = new BoatEntity[0];
-        this.shapes = Shapes.RECTANGLE;
+        this.shape = shape;
     }
 
     public String getName() {
@@ -50,5 +41,8 @@ public class Boat {
     public Transform getTransform() { return transform; }
     public Deck getDeck() { return deck; }
     public BoatEntity[] getEntities() { return entities; }
-    public Shapes getShapes() { return shapes; }
+
+    public Shape getShape() {
+        return shape;
+    }
 }

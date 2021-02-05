@@ -26,7 +26,7 @@ public class CockpitMethodsTest {
     void moveSailorSomewhereTest() {
         //assertEquals("[]", this.cockpit.nextRound("{}"));
 
-        BoatEntity[] boatEntities = {new BoatEntity(BoatEntities.RAME.getType(), 0, 0)};
+        /*BoatEntity[] boatEntities = {new BoatEntity(BoatEntities.RAME.getType(), 0, 0)};
 
         Boat boat = new Boat(
                 1000,
@@ -35,7 +35,7 @@ public class CockpitMethodsTest {
                 new Deck(5,5),
                 boatEntities,
                 Shapes.RECTANGLE
-        );
+        );*/
 
         //Marin sailor = new Marin(1,0,0,"Marin");
 

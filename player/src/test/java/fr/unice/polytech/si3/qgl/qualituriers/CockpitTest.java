@@ -2,7 +2,6 @@ package fr.unice.polytech.si3.qgl.qualituriers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +21,39 @@ class CockpitTest {
         this.cockpit = new Cockpit();
         this.om = new ObjectMapper();
     }
+
+    //TODO ajouter les méthodes equals
+    /*@Test
+    public void gameInfoCorrect() throws IOException {
+        CheckPoint[] checkPoints = new CheckPoint[2];
+        checkPoints[0] = new CheckPoint(new Transform(1000, 0, 0), new Circle(50));
+        checkPoints[1] = new CheckPoint(new Transform(0, 0, 0), new Circle(50));
+        RegattaGoal goal = new RegattaGoal(checkPoints);
+        BoatEntity[] entities = new BoatEntity[8];
+        entities[0] = new RameBoatEntity(1, 0);
+        entities[1] = new RameBoatEntity(1, 2);
+        entities[2] = new RameBoatEntity(3, 0);
+        entities[3] = new RameBoatEntity(3, 2);
+        entities[4] = new RameBoatEntity(4, 0);
+        entities[5] = new RameBoatEntity(4, 2);
+        entities[6] = new RameBoatEntity(2, 1);
+        entities[7] = new RameBoatEntity(5, 0);
+        Boat boat = new Boat(100, new Transform(0, 0, 0), "Les copaings d'abord!", new Deck(3, 6),
+                entities, new Rectangle(3, 6, 0));
+        Marin[] marins = new Marin[6];
+        marins[0] = new Marin(0, 0, 0, "Edward Teach");
+        marins[1] = new Marin(1, 0, 1, "Edward Pouce");
+        marins[2] = new Marin(2, 0, 2, "Tom Pouce");
+        marins[3] = new Marin(3, 1, 0, "Jack Teach");
+        marins[4] = new Marin(4, 1, 1, "Jack Teach");
+        marins[5] = new Marin(5, 2, 1, "Tom Pouce");
+        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/ParserInInitExempleGithub.JSON");
+        GameInfo gameInfo = om.readValue(from, GameInfo.class);
+        assertEquals(goal, gameInfo.getGoal());
+        assertEquals(1, gameInfo.getShipCount());
+        assertEquals(marins, gameInfo.getSailors());
+        assertEquals(boat, gameInfo.getShip());
+    }*/
 
     @Test
     public void initGameRenderNotNull() throws IOException {
@@ -47,7 +79,7 @@ class CockpitTest {
 
         for (int i = 0; i < 8; i++) {
             String response = cockpit.nextRound(inputNode2.toString());
-            assertDoesNotThrow(() -> om.readValue(response, Oar[].class));
+            assertEquals("[{\"type\":\"OAR\",\"sailorId\":0},{\"type\":\"OAR\",\"sailorId\":1},{\"type\":\"OAR\",\"sailorId\":2},{\"type\":\"OAR\",\"sailorId\":3},{\"type\":\"OAR\",\"sailorId\":4},{\"type\":\"OAR\",\"sailorId\":5}]", response);
         }
     }
 }

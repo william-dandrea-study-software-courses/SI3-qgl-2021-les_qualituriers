@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -13,6 +14,7 @@ public class Transform extends Point {
 
     private final double orientation;
 
+    @JsonCreator
     public Transform(@JsonProperty("x") double x, @JsonProperty("y") double y, @JsonProperty("orientation") double orientation) {
         super(x, y);
         this.orientation = AngleUtil.modAngle(orientation);
