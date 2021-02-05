@@ -18,6 +18,9 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
         @JsonSubTypes.Type(name = "REGATTA", value = RegattaGoal.class),
         @JsonSubTypes.Type(name = "BATTLE", value = BattleGoal.class)
 })
+
+
+
 public class VisibleDeckEntity {
 
     protected String type;

@@ -8,6 +8,6 @@ package fr.unice.polytech.si3.qgl.qualituriers.game.goal;
 public class RegattaGoal extends Goal {
 
     public RegattaGoal() {
-        //super(Goals.REGATTA);
+        super(Goals.REGATTA);
     }
 }

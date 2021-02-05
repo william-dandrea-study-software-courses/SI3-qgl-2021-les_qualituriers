@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author William D'Andrea
  * @author Yann Clodong
@@ -14,6 +16,10 @@ public class Rectangle {
         this.width = width;
         this.height = height;
         this.orientation = orientation;
+    }
+
+    public Rectangle(@JsonProperty("width") double w, @JsonProperty("height") double h){
+
     }
 
     /**

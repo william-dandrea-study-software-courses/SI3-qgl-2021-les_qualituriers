@@ -10,6 +10,6 @@ public class Application {
 		Cockpit cockpit = new Cockpit();
 		cockpit.initGame(new Scanner(System.in).nextLine());
 		System.out.println("An instance of my team player: " + cockpit);
-		System.out.println("When called, it returns some JSON: " + cockpit.nextRound(""));
+		System.out.println("When called, it returns some JSON: " + cockpit.nextRound(new Scanner(System.in).nextLine()));
 	}
 }
