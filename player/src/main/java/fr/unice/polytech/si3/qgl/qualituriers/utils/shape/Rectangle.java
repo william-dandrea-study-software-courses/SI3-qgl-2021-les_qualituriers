@@ -1,23 +1,23 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Cette classe represente un element rectangulaire qui pourra etre utiliser pour les différents obstacles
+ * Cette classe représente un element rectangulaire qui pourra être utiliser pour les différents obstacles
  *
- * @author williamdandrea
+ * @author williamdandrea, Alexandre Arcil
  */
+public class Rectangle extends Shape {
 
+    private final double width;
+    private final double height;
+    private final double orientation;
 
-public class Rectangle extends Shape{
-
-    private double width;
-    private double height;
-    private double orientation;
-
-    public Rectangle(@JsonProperty("width")double width, @JsonProperty("height")double height, @JsonProperty("orientation")double orientation) {
-        super(Shapes.RECTANGLE.getType());
+    @JsonCreator
+    public Rectangle(@JsonProperty("width") double width, @JsonProperty("height") double height,
+                     @JsonProperty("orientation") double orientation) {
+        super(Shapes.RECTANGLE);
         this.width = width;
         this.height = height;
         this.orientation = orientation;

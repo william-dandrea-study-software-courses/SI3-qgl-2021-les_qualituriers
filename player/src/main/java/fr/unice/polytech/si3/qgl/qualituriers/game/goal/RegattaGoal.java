@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.game.goal;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 
@@ -12,7 +13,9 @@ public class RegattaGoal extends Goal {
 
     private CheckPoint[] checkPoints;
 
-    public RegattaGoal(@JsonProperty("checkpoints") CheckPoint[] checkPoints) {
+    @JsonCreator
+    public RegattaGoal(@JsonProperty("checkpoints") CheckPoint[] checkpoints) {
         super(Goals.REGATTA);
+        this.checkPoints = checkpoints;
     }
 }
