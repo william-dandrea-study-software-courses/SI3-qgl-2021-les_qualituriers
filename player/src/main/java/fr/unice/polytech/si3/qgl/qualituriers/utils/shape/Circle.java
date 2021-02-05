@@ -1,22 +1,21 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 /**
- * Cette classe represente un element rond qui pourra etre utiliser pour les différents obstacles
+ * Cette classe représente un element rond qui pourra être utiliser pour les différents obstacles
  *
- * @author williamdandrea
+ * @author williamdandrea, Alexandre Arcil
  */
+public class Circle extends Shape {
 
+    private final double radius;
 
-public class Circle extends Shape{
-
-    private double radius;
-
+    @JsonCreator
     public Circle(@JsonProperty("radius") double radius) {
-        super(Shapes.CIRCLE.getType());
+        super(Shapes.CIRCLE);
         this.radius = radius;
     }
 

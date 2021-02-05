@@ -1,12 +1,15 @@
 package fr.unice.polytech.si3.qgl.qualituriers.game.goal;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
- * Cette classe represente l'objectif Batlle (confrontation etre plusiurs bateaux)
+ * Cette classe represent l'objectif Bataille (confrontation entre plusieurs bateaux)
  *
  * @author williamdandrea
  */
 public class BattleGoal extends Goal {
 
+    @JsonCreator
     public BattleGoal() {
        super(Goals.BATTLE);
     }
