@@ -30,4 +30,9 @@ public class Polygon extends Shape{
     public Point[] getVertices() {
         return vertices;
     }
+
+    @Override
+    public boolean isIn(Point position) {
+        return false;
+    }
 }

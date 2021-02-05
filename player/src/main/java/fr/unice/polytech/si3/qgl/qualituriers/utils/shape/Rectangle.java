@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 /**
  * Cette classe represente un element rectangulaire qui pourra etre utiliser pour les différents obstacles
@@ -29,6 +30,18 @@ public class Rectangle extends Shape{
 
     public double getHeight() {
         return height;
+    }
+
+
+    @Override
+    public boolean isIn(Point position) {
+        var orr = position.getOrientation() - orientation;
+        var orthoPosition = new Point(orr).scalar(position.length());
+
+        return orthoPosition.getX() >= 0 &&
+                orthoPosition.getY() >= 0 &&
+                orthoPosition.getX() <= width &&
+                orthoPosition.getY() <= height;
     }
 
     public double getOrientation() {
