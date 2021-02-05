@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.render;
 
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 
 /**
  * @author Alexandre Arcil
@@ -13,12 +14,24 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
  */
 public class SecondRender extends Render {
 
+    private int nextCheckpoint = 0;
+
     public SecondRender(GameInfo gameInfo) {
         super(gameInfo);
     }
 
+    /**
+     * @return the angle to reach the next checkpoint
+     */
+    public double getAngleToRotate() {
+        var checkpoint = gameInfo.getGoal().getCheckPoints()[nextCheckpoint];
+        return gameInfo.getShip().getTransform().getAngleToSee(checkpoint.getPosition());
+    }
+
+
     @Override
     public Object nextRound(RoundInfo round) {
+        // Don't forget to change nextCheckpoint when it's reached
         return null;
     }
 
