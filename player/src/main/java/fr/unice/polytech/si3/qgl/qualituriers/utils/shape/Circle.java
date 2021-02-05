@@ -7,7 +7,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 /**
  * Cette classe représente un element rond qui pourra être utiliser pour les différents obstacles
  *
- * @author williamdandrea, Alexandre Arcil
+ * @author williamdandrea, Alexandre Arcil, CLODONG Yann
  */
 public class Circle extends Shape {
 

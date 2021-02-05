@@ -7,7 +7,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 /**
  * Cette classe représente l'objectif Regatta (course entre des bateaux)
  *
- * @author williamdandrea
+ * @author williamdandrea, CLODONG Yann
  */
 public class RegattaGoal extends Goal {
 
@@ -17,5 +17,9 @@ public class RegattaGoal extends Goal {
     public RegattaGoal(@JsonProperty("checkpoints") CheckPoint[] checkpoints) {
         super(Goals.REGATTA);
         this.checkPoints = checkpoints;
+    }
+
+    public CheckPoint[] getCheckPoints() {
+        return checkPoints;
     }
 }
