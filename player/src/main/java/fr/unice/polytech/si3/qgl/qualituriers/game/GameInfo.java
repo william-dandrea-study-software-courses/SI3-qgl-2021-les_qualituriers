@@ -7,8 +7,11 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goals;
 
+import java.util.Arrays;
+
 /**
  * Cette class a pour but d'initialiser le jeu et de permettre de pouvoir faire des actions plus tard sur le jeu
+ * @author CLODONG Yann
  */
 
 public class GameInfo {
@@ -41,5 +44,16 @@ public class GameInfo {
 
     public Marin[] getSailors() {
         return sailors;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(!(obj instanceof GameInfo)) return false;
+        var castedObj = (GameInfo)obj;
+        return castedObj.goal.equals(goal) &&
+                castedObj.ship.equals(ship) &&
+                castedObj.shipCount == shipCount &&
+                Arrays.equals(castedObj.sailors, sailors);
     }
 }

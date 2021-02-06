@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Cette classe représente l'élément Canon qui sera placé dans un bateau
  *
  * @author williamdandrea, Alexandre Arcil
+ * @author CLODONG Yann
  */
 public class CanonBoatEntity extends BoatEntity {
 
@@ -19,5 +20,13 @@ public class CanonBoatEntity extends BoatEntity {
         super(BoatEntities.CANON, x, y);
         this.loaded = loaded;
         this.angle = angle;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(!(obj instanceof CanonBoatEntity)) return false;
+        var castedObj = (CanonBoatEntity)obj;
+        return super.equals(obj) && castedObj.loaded == loaded && castedObj.angle == angle;
     }
 }

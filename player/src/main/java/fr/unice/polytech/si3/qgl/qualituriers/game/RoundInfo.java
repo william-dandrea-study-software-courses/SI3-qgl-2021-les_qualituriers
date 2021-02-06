@@ -7,10 +7,13 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 
+import java.util.Arrays;
+
 /**
  * Cette classe represente la prochaine action du jeu
  *
  * @author williamdandrea
+ * @author CLODONG Yann
  */
 
 public class RoundInfo {
@@ -37,5 +40,13 @@ public class RoundInfo {
 
     public VisibleDeckEntity[] getVisibleEntities() {
         return visibleEntities;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(!(obj instanceof RoundInfo)) return false;
+        var castedObj = (RoundInfo)obj;
+        return castedObj.ship.equals(ship) && castedObj.wind.equals(wind) && Arrays.equals(castedObj.visibleEntities, visibleEntities);
     }
 }

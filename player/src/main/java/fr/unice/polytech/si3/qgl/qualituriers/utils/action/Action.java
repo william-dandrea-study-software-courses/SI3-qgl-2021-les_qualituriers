@@ -1,7 +1,10 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+
 /**
  * @author Alexandre Arcil
+ * @author CLODONG Yann
  */
 public abstract class Action {
 
@@ -24,5 +27,13 @@ public abstract class Action {
 
     public Actions getType() {
         return type;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(!(obj instanceof Action)) return false;
+        var castedObj = (Action)obj;
+        return castedObj.type == type && castedObj.sailorId == sailorId;
     }
 }

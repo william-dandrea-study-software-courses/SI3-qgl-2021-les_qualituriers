@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 
 /**
  * Une position est en sorte un point avec une dirrection, qui permet au bateau de savoir ou il peut avancer et ou il ne peux pas
@@ -26,6 +27,14 @@ public class Transform extends Point {
                 "Point: " + super.toString() +
                 "orientation=" + orientation +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(!(obj instanceof Transform)) return false;
+        var castedObj = (Transform)obj;
+        return super.equals(obj) && castedObj.orientation == orientation;
     }
 
     public double getOrientation() {

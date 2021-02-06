@@ -18,6 +18,7 @@ import java.util.Optional;
  * en fonction de l'emplacement des entity
  *
  * @author williamdandrea, Alexandre Arcil
+ * @author CLODONG Yann
  * TODO : 28/01/2020 : essayer de revoir le constructeur pour parser des json node plutot que chaques field un par un.
  */
 public class Boat {
@@ -114,5 +115,13 @@ public class Boat {
             return Optional.of(stringMoving);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(!(obj instanceof Boat)) return false;
+        var castedObj = (Boat)obj;
+        return castedObj.name == name;
     }
 }

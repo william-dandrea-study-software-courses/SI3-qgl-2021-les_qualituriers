@@ -1,9 +1,11 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 
 /**
  * @author Alexandre Arcil
+ * @author CLODONG Yann
  */
 public class Moving extends Action {
 
@@ -48,6 +50,14 @@ public class Moving extends Action {
     public boolean canMove(int xInit, int yInit, int xFinal, int yFinal) {
         // TODO : Créer cette fonction et l'implementer dans MOVING de cockpitMethods
         return true;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(!(obj instanceof Moving)) return false;
+        var castedObj = (Moving)obj;
+        return super.equals(obj) && castedObj.distanceX == distanceX && castedObj.distanceY == distanceY;
     }
 
 }

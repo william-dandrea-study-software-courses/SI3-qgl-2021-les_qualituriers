@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Cette classe represente un marin qui pourra donner des ordres a différents protagonistes present sur le bateau
  *
  * @author williamdandrea
+ * @author CLODONG Yann
  */
 public class Marin {
 
@@ -33,5 +34,13 @@ public class Marin {
                 ", y=" + y +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(!(obj instanceof Marin)) return false;
+        var castedObj = (Marin)obj;
+        return castedObj.id == id;
     }
 }

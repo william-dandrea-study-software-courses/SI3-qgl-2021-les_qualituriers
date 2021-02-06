@@ -4,6 +4,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
  * Correspond aux entités dans le bateau. Chaque enum contient le type ainsi que la classe qui le représente.
  *
  * @author williamdandrea
+ * @author CLODONG Yann
  */
 public enum BoatEntities {
     OAR("OAR", OarBoatEntity.class),
@@ -23,5 +24,7 @@ public enum BoatEntities {
     public String getType() {
         return type;
     }
+
+
 
 }

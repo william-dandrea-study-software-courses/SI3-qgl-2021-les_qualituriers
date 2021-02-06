@@ -1,7 +1,10 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+
 /**
  * @author Alexandre Arcil
+ * @author CLODONG Yann
  */
 public class Turn extends Action {
 
@@ -21,4 +24,11 @@ public class Turn extends Action {
         return rotation;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(!(obj instanceof Turn)) return false;
+        var castedObj = (Turn)obj;
+        return super.equals(obj) && castedObj.rotation == rotation;
+    }
 }

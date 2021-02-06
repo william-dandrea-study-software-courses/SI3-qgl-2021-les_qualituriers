@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 /**
@@ -42,6 +43,14 @@ public class Rectangle extends Shape {
                 orthoPosition.getY() >= 0 &&
                 orthoPosition.getX() <= width &&
                 orthoPosition.getY() <= height;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(!(obj instanceof Rectangle)) return false;
+        var castedObj = (Rectangle)obj;
+        return castedObj.width == width && castedObj.height == height && castedObj.orientation == orientation;
     }
 
     public double getOrientation() {
