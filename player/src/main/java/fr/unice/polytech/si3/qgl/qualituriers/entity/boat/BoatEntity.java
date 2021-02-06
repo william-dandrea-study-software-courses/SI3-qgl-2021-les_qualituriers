@@ -36,4 +36,13 @@ public abstract class BoatEntity {
         var castedObj = (BoatEntity)obj;
         return castedObj.type == type && castedObj.x == x && castedObj.y == y;
     }
+
+    @Override
+    public String toString() {
+        return "BoatEntity{" +
+                "type=" + type +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

@@ -9,9 +9,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Cette classe a pour objectif de décrire un bateau, le bateau pourra bouger mais aussi faire plusieurs actions
@@ -56,22 +55,127 @@ public class Boat {
 
 
     /**
+     *Gauche  Droite  Rotation
+     * 0	    0	    0
+     * 0	    1	    PI/4
+     * 0	    2	    PI/2
+     * 1	    0	    -PI/4
+     * 1	    1	    0
+     * 1	    2	    PI/4
+     * 2	    0	    -PI/2
+     * 2	    1	    -PI/4
+     * 2	    2	    0
+     *
      * Strategie :
      * - Regarder ou sont les marins
      * -
-     * @param orientationValue
+     * @param finaleOrientationOfTheBoat
      */
-    void turnBoat(double orientationValue) {
+    void turnBoat(double finaleOrientationOfTheBoat, Marin sailors[]) {
 
-        List<BoatEntity> listOfSailors = new ArrayList<>();
+        // We retrieve the oars (and their positions) who are positioned on the Boat
+        List<BoatEntity> listOfOars = Arrays.stream(entities).filter(boatEntity -> boatEntity.type.equals(BoatEntities.OAR) ).collect(Collectors.toList());
+        List<BoatEntity> listOfOarsAtLeft = listOfOars.stream().filter(boatEntity -> boatEntity.y == 0).collect(Collectors.toList());
+        List<BoatEntity> listOfOarsAtRight = listOfOars.stream().filter(boatEntity -> boatEntity.y == deck.getWidth()-1).collect(Collectors.toList());
+        int numberOfOars = listOfOars.size();
+        int numberOfLeftOars = listOfOarsAtLeft.size();
+        int numberOfRightOars = listOfOarsAtRight.size();
 
-        for (BoatEntity entity: entities) {
+        // We calculate the angle between the actual orientation of the boat and the wanted orientation
+        double actualOrientationOfTheBoat = transform.getOrientation();
+        double differenceOfAngle = finaleOrientationOfTheBoat - actualOrientationOfTheBoat;
 
-            if (entity.type.equals(BoatEntities.SAIL)) {
-                listOfSailors.add(entity);
+        // We watch if we have sailors positioned on the oar
+        List<Marin> sailorsOnOarAtRight = new ArrayList<>();
+        List<Marin> sailorsOnOarAtLeft = new ArrayList<>();
+
+        for (Marin sailor: sailors) {
+            for(BoatEntity rightEntity : listOfOarsAtRight) {
+                if (rightEntity.x == sailor.getX() && rightEntity.y == sailor.getY()) {
+                    sailorsOnOarAtRight.add(sailor);
+                }
+            }
+            for(BoatEntity leftEntity : listOfOarsAtLeft) {
+                if (leftEntity.x == sailor.getX() && leftEntity.y == sailor.getY()) {
+                    sailorsOnOarAtLeft.add(sailor);
+                }
             }
         }
+
+        System.out.println("ListOfOars : " + listOfOars.toString());
+        Arrays.stream(sailors).forEach(sailor -> System.out.println(sailor.toString()));
+
+        System.out.println("ListOfOarsLeft : " + listOfOarsAtLeft.toString());
+        System.out.println("ListOfOarsRight : " + listOfOarsAtRight.toString());
+
+        System.out.println("Number of oars : " + numberOfOars);
+        System.out.println("Number of left oars : " + numberOfLeftOars);
+        System.out.println("Number of righ oars : " + numberOfRightOars);
+
+        System.out.println("SailorAtLeft : " + sailorsOnOarAtLeft.toString() );
+        System.out.println("SailorAtRight : " + sailorsOnOarAtRight.toString() );
+
+        System.out.println("Difference of angle : " + differenceOfAngle);
+
+
+
+        // We check if we have a number pair or impair of oar, if it is impair, we have one more possible angle
+        int numberOfAnglesPossibles  = (numberOfOars % 2 != 0) ? (numberOfOars / 2) + 1 : (numberOfOars / 2);
+
+
+        class BabordTribordAngle {
+            private int babord;
+            private int tribord;
+            private double angle;
+
+            public BabordTribordAngle(int babord, int tribord, double angle) { this.babord = babord;this.tribord = tribord;this.angle = angle; }
+
+            public int getBabord() { return babord; }
+            public int getTribord() { return tribord; }
+            public double getAngle() { return angle; }
+
+            @Override
+            public String toString() {
+                return "BabordTribordAngle{" +
+                        "babord=" + babord +
+                        ", tribord=" + tribord +
+                        ", angle=" + angle +
+                        '}' + '\n';
+            }
+        }
+
+        // This map represent the angle (Double) we have if we have (Integer - babord) oar left and (Integer - tribort) oar right (of the boat)
+        // First integer : number of oar at babord (left)
+        // Second integer : number of oar at tribord (right)
+        List<BabordTribordAngle> possibleAngles = new ArrayList<>();
+
+        for (int bab = 0; bab <= numberOfAnglesPossibles; bab++) {
+            for (int tri = 0; tri <= numberOfAnglesPossibles ; tri++) {
+                if (bab + tri <= numberOfOars) {
+                    //PI/2x<diff rame tribord - rame bâbord>/<nombre total de rames>
+                    int diff = tri - bab;
+                    double angle = Math.PI / ((2.0 * diff));
+                    possibleAngles.add(new BabordTribordAngle(bab,tri,angle));
+
+                    System.out.println(bab + " " + tri + " " + diff + " " + angle);
+                }
+            }
+        }
+
+
+
+       //System.out.println(possibleAngles.toString());
+
+
+
+
+
+
+
+
     }
+
+
 
 
 
@@ -124,4 +228,9 @@ public class Boat {
         var castedObj = (Boat)obj;
         return castedObj.name == name;
     }
+
+
+
+
+
 }
