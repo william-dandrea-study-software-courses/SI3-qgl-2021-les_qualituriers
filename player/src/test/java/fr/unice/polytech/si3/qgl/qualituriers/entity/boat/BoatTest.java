@@ -39,7 +39,7 @@ class BoatTest {
         Transform transform = new Transform(0,0,0);
         String name = "boatTest1";
         Deck deck = new Deck(2,4);
-        BoatEntity[] entities = {oar1,oar2,oar3,oar4, oar5, oar6, oar7};
+        BoatEntity[] entities = {oar1,oar2,oar3,oar4, oar5, oar6};
         Shape shape = new Shape(Shapes.POLYGON) {
             @Override
             public boolean isIn(Point position) {
@@ -51,7 +51,8 @@ class BoatTest {
 
         Boat boat = new Boat(life, transform, name, deck, entities,shape);
 
-        boat.turnBoat((Math.PI)/4, sailors);
+        boat.turnBoat( ((Math.PI)/2) + ((Math.PI)/2) + ((Math.PI)/2) + ((Math.PI)/4), sailors);
+        // ((Math.PI)/6)
     }
 
     @Test
