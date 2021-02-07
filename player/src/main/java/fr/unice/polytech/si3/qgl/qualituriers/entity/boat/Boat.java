@@ -102,25 +102,9 @@ public class Boat {
             }
         }
 
-        System.out.println("ListOfOars : " + listOfOars.toString());
-        Arrays.stream(sailors).forEach(sailor -> System.out.println(sailor.toString()));
-
-        System.out.println("ListOfOarsLeft : " + listOfOarsAtLeft.toString());
-        System.out.println("ListOfOarsRight : " + listOfOarsAtRight.toString());
-
-        System.out.println("Number of oars : " + numberOfOars);
-        System.out.println("Number of left oars : " + numberOfLeftOars);
-        System.out.println("Number of righ oars : " + numberOfRightOars);
-
-        System.out.println("SailorAtLeft : " + sailorsOnOarAtLeft.toString() );
-        System.out.println("SailorAtRight : " + sailorsOnOarAtRight.toString() );
-
-        System.out.println("Difference of angle : " + differenceOfAngle);
-
-
 
         // We check if we have a number pair or impair of oar, if it is impair, we have one more possible angle
-        int numberOfAnglesPossibles  = (numberOfOars % 2 != 0) ? (numberOfOars / 2) + 1 : (numberOfOars / 2);
+        int numberOfAnglesPossibles  = (numberOfOars % 2 != 0) ? (numberOfOars / 2) + 1: (numberOfOars / 2);
 
 
         class BabordTribordAngle {
@@ -154,19 +138,111 @@ public class Boat {
                 if (bab + tri <= numberOfOars) {
                     //PI/2x<diff rame tribord - rame bâbord>/<nombre total de rames>
                     int diff = tri - bab;
-                    double angle = Math.PI / ((2.0 * diff));
+
+                    double angle = (diff == 0) ? 0 : Math.PI * diff / numberOfOars ;
                     possibleAngles.add(new BabordTribordAngle(bab,tri,angle));
 
-                    System.out.println(bab + " " + tri + " " + diff + " " + angle);
+                    //System.out.println(bab + " " + tri + " " + diff + " " + angle);
                 }
             }
         }
 
 
 
-       //System.out.println(possibleAngles.toString());
+        System.out.println(possibleAngles.toString());
+
+        // We try to find the good angles in the possibleAngle list
+
+        double differenceWeAccept = 0.0001;
+        List<BabordTribordAngle> rotActionToDoForTurn = new ArrayList<>();
 
 
+
+        // Si angle négatif
+        if (differenceOfAngle < 0) {
+
+            while (differenceOfAngle <= -Math.PI/2) {
+
+                //System.out.println("difference of angle : " + differenceOfAngle);
+                // Cas ou angle < O
+                if (differenceOfAngle <= -(Math.PI / 2)) {
+
+                    for (BabordTribordAngle babTriAng : possibleAngles) {
+
+                        if (babTriAng.getAngle() == -(Math.PI / 2)) {
+
+                            rotActionToDoForTurn.add(babTriAng);
+
+                        }
+
+                    }
+                    differenceOfAngle = differenceOfAngle + (Math.PI / 2);
+
+                }
+
+            }
+
+            System.out.println("difference of angle : " + differenceOfAngle);
+
+
+            //System.out.println("Hello");
+            for (BabordTribordAngle babTriAng : possibleAngles) {
+
+                double min = differenceOfAngle - differenceWeAccept;
+                double max = differenceOfAngle + differenceWeAccept;
+
+                if ( babTriAng.getAngle() >= min && babTriAng.getAngle() <= max) {
+                    // TODO : we can optimize here for check what is the good element to do
+                    rotActionToDoForTurn.add(babTriAng);
+                    System.out.println(babTriAng);
+                    differenceOfAngle = differenceOfAngle - babTriAng.getAngle();
+                    break;
+                }
+            }
+
+        } else if (differenceOfAngle > 0){
+
+            while (differenceOfAngle >= Math.PI/2) {
+
+                //System.out.println("difference of angle : " + differenceOfAngle);
+                // Cas ou angle > O
+                if (differenceOfAngle >= (Math.PI / 2)) {
+
+                    for (BabordTribordAngle babTriAng : possibleAngles) {
+
+                        if (babTriAng.getAngle() == (Math.PI / 2)) {
+
+                            rotActionToDoForTurn.add(babTriAng);
+
+                        }
+
+                    }
+                    differenceOfAngle = differenceOfAngle - (Math.PI / 2);
+
+                }
+
+            }
+
+            System.out.println("difference of angle : " + differenceOfAngle);
+
+            //System.out.println("Hello");
+            for (BabordTribordAngle babTriAng : possibleAngles) {
+
+                double min = differenceOfAngle - differenceWeAccept;
+                double max = differenceOfAngle + differenceWeAccept;
+
+                if ( babTriAng.getAngle() >= min && babTriAng.getAngle() <= max) {
+                    // TODO : we can optimize here for check what is the good element to do
+                    rotActionToDoForTurn.add(babTriAng);
+                    System.out.println(babTriAng);
+                    differenceOfAngle = differenceOfAngle - babTriAng.getAngle();
+                    break;
+                }
+            }
+        }
+
+
+        System.out.println(rotActionToDoForTurn.toString());
 
 
 
@@ -175,6 +251,8 @@ public class Boat {
 
     }
 
+
+    // ==================================== Methods For turnBoat ==================================== //
 
 
 
@@ -228,6 +306,12 @@ public class Boat {
         var castedObj = (Boat)obj;
         return castedObj.name == name;
     }
+
+
+
+
+
+
 
 
 
