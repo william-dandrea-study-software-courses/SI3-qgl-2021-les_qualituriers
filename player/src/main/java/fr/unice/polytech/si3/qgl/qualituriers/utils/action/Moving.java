@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 
 /**
  * @author Alexandre Arcil
@@ -48,8 +49,8 @@ public class Moving extends Action {
      * @return
      */
     public boolean canMove(int xInit, int yInit, int xFinal, int yFinal) {
-        // TODO : Créer cette fonction et l'implementer dans MOVING de cockpitMethods
-        return true;
+        // TODO : 'implementer dans MOVING de cockpitMethods
+        return (xFinal - xInit) <= Config.MAX_MOVING_CASES_MARIN && (yFinal - yInit) <= Config.MAX_MOVING_CASES_MARIN;
     }
 
     @Override

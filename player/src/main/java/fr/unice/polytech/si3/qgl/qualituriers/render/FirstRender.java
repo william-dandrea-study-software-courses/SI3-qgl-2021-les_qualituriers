@@ -6,6 +6,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class FirstRender extends Render {
     public String nextRound(RoundInfo round) throws JsonProcessingException {
         List<Oar> sailors = new ArrayList<>();
         ObjectMapper om = new ObjectMapper();
+        // TODO : itérer toutes les rames pour vérifier quel marin peut y accéder en utilisant Moving.canMove()
         for (Marin marin : this.gameInfo.getSailors()) {
             Oar oar = new Oar(marin.getId());
             sailors.add(oar);
