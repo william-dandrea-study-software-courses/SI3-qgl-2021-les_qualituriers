@@ -32,9 +32,9 @@ public class Cockpit implements ICockpit {
 		if(this.render != null) {
 			try {
 				RoundInfo roundInfo = om.readValue(round, RoundInfo.class);
-				Object obj = this.render.nextRound(roundInfo);
-				if (obj != null)
-					return this.om.writeValueAsString(obj);
+				String next = this.render.nextRound(roundInfo);
+				if (next != null)
+					return next;
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}

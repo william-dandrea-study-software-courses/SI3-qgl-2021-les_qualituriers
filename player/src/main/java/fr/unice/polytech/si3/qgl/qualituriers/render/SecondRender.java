@@ -37,7 +37,7 @@ public class SecondRender extends Render {
 
 
     @Override
-    public Object nextRound(RoundInfo round) {
+    public String nextRound(RoundInfo round) {
         // Don't forget to change nextCheckpoint when it's reached
         return null;
     }

@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.render;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
@@ -24,13 +26,14 @@ public class FirstRender extends Render {
     }
 
     @Override
-    public Object nextRound(RoundInfo round) {
+    public String nextRound(RoundInfo round) throws JsonProcessingException {
         List<Oar> sailors = new ArrayList<>();
+        ObjectMapper om = new ObjectMapper();
         for (Marin marin : this.gameInfo.getSailors()) {
             Oar oar = new Oar(marin.getId());
             sailors.add(oar);
         }
-        return sailors;
+        return om.writeValueAsString(sailors);
     }
 
 }

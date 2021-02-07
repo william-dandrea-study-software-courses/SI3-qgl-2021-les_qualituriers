@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.render;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 
@@ -23,6 +24,6 @@ public abstract class Render {
      * @return L'object qui sera envoyé comme réponse
      * TODO: changer le type de retour ? Object est très imprécis et sujet à problème
      */
-    public abstract Object nextRound(RoundInfo round);
+    public abstract String nextRound(RoundInfo round) throws JsonProcessingException;
 
 }
