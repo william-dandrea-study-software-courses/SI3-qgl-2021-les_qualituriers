@@ -102,6 +102,20 @@ public class Boat {
             }
         }
 
+        System.out.println("ListOfOars : " + listOfOars.toString());
+        Arrays.stream(sailors).forEach(sailor -> System.out.println(sailor.toString()));
+
+        System.out.println("ListOfOarsLeft : " + listOfOarsAtLeft.toString());
+        System.out.println("ListOfOarsRight : " + listOfOarsAtRight.toString());
+
+        System.out.println("Number of oars : " + numberOfOars);
+        System.out.println("Number of left oars : " + numberOfLeftOars);
+        System.out.println("Number of righ oars : " + numberOfRightOars);
+
+        System.out.println("SailorAtLeft : " + sailorsOnOarAtLeft.toString() );
+        System.out.println("SailorAtRight : " + sailorsOnOarAtRight.toString() );
+
+        System.out.println("Difference of angle : " + differenceOfAngle);
 
         // We check if we have a number pair or impair of oar, if it is impair, we have one more possible angle
         int numberOfAnglesPossibles  = (numberOfOars % 2 != 0) ? (numberOfOars / 2) + 1: (numberOfOars / 2);
@@ -243,6 +257,10 @@ public class Boat {
 
 
         System.out.println(rotActionToDoForTurn.toString());
+
+
+        // Now we watch if we have the good number of oar from each side
+
 
 
 
