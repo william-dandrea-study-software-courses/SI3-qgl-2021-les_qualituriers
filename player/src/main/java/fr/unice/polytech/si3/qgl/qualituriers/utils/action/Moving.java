@@ -61,4 +61,13 @@ public class Moving extends Action {
         return super.equals(obj) && castedObj.distanceX == distanceX && castedObj.distanceY == distanceY;
     }
 
+    @Override
+    public String toString() {
+        return "Moving{" +
+                "distanceX=" + distanceX +
+                ", distanceY=" + distanceY +
+                ", type=" + type +
+                ", sailorId=" + sailorId +
+                '}';
+    }
 }

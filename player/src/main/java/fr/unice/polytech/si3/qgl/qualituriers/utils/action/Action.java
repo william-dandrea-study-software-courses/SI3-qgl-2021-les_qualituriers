@@ -36,4 +36,12 @@ public abstract class Action {
         var castedObj = (Action)obj;
         return castedObj.type == type && castedObj.sailorId == sailorId;
     }
+
+    @Override
+    public String toString() {
+        return "Action{" +
+                "type=" + type +
+                ", sailorId=" + sailorId +
+                '}';
+    }
 }

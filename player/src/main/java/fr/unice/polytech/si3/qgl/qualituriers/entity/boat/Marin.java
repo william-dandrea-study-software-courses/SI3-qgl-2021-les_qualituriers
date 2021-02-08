@@ -11,8 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Marin {
 
     private final int id;
-    private final int x;
-    private final int y;
+    private int x;
+    private int y;
     private final String name;
 
     public Marin(@JsonProperty("id")int id, @JsonProperty("x")int x, @JsonProperty("y")int y, @JsonProperty("name")String name) {
@@ -36,6 +36,14 @@ public class Marin {
 
     public String getName() {
         return name;
+    }
+
+    public void setX( int x ) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     @Override
