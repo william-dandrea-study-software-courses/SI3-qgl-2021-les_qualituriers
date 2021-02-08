@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatutils.BabordTribordAngle;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatutils.HowTurn;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -121,36 +123,51 @@ public class Boat {
         int numberOfAnglesPossibles  = (numberOfOars % 2 != 0) ? (numberOfOars / 2) + 1: (numberOfOars / 2);
 
 
-        class BabordTribordAngle {
-            private int babord;
-            private int tribord;
-            private double angle;
 
-            public BabordTribordAngle(int babord, int tribord, double angle) { this.babord = babord;this.tribord = tribord;this.angle = angle; }
-
-            public int getBabord() { return babord; }
-            public int getTribord() { return tribord; }
-            public double getAngle() { return angle; }
-
-            @Override
-            public String toString() {
-                return "BabordTribordAngle{" +
-                        "babord=" + babord +
-                        ", tribord=" + tribord +
-                        ", angle=" + angle +
-                        '}' + '\n';
-            }
-        }
 
         // This map represent the angle (Double) we have if we have (Integer - babord) oar left and (Integer - tribort) oar right (of the boat)
         // First integer : number of oar at babord (left)
         // Second integer : number of oar at tribord (right)
+        List<BabordTribordAngle> possibleAngles = permutationsOfAngle(numberOfAnglesPossibles, numberOfOars);
+        System.out.println(possibleAngles.toString());
+
+
+
+
+        // We try to find the good angles in the possibleAngle list
+
+        double differenceWeAccept = 0.0001;
+        HowTurn howTurn = findTheGoodAngle(differenceOfAngle, possibleAngles, differenceWeAccept);
+
+
+        System.out.println(howTurn.toString());
+        //System.out.println(differenceOfAngle);
+
+        // Now we watch if we have the good number of oar from each side
+
+
+    }
+
+
+    // ==================================== Methods For turnBoat ==================================== //
+
+
+    /**
+     * This list represent the angle (Double) we have if we have (Integer - babord) oar left and (Integer - tribort) oar right (of the boat)
+     * First integer : number of oar at babord (left)
+     * Second integer : number of oar at tribord (right)
+     * @param numberOfAnglesPossibles
+     * @param numberOfOars
+     * @return
+     */
+    private List<BabordTribordAngle> permutationsOfAngle(int numberOfAnglesPossibles, int numberOfOars) {
+
         List<BabordTribordAngle> possibleAngles = new ArrayList<>();
 
         for (int bab = 0; bab <= numberOfAnglesPossibles; bab++) {
             for (int tri = 0; tri <= numberOfAnglesPossibles ; tri++) {
                 if (bab + tri <= numberOfOars) {
-                    //PI/2x<diff rame tribord - rame bâbord>/<nombre total de rames>
+                    //PI * <diff rame tribord - rame bâbord>/<nombre total de rames>
                     int diff = tri - bab;
 
                     double angle = (diff == 0) ? 0 : Math.PI * diff / numberOfOars ;
@@ -160,16 +177,13 @@ public class Boat {
                 }
             }
         }
+        return possibleAngles;
+    }
 
 
+    private HowTurn findTheGoodAngle(double differenceOfAngle, List<BabordTribordAngle> possibleAngles, double differenceWeAccept) {
 
-        System.out.println(possibleAngles.toString());
-
-        // We try to find the good angles in the possibleAngle list
-
-        double differenceWeAccept = 0.0001;
         List<BabordTribordAngle> rotActionToDoForTurn = new ArrayList<>();
-
 
 
         // Si angle négatif
@@ -237,7 +251,7 @@ public class Boat {
 
             }
 
-            System.out.println("difference of angle : " + differenceOfAngle);
+
 
             //System.out.println("Hello");
             for (BabordTribordAngle babTriAng : possibleAngles) {
@@ -259,19 +273,8 @@ public class Boat {
         System.out.println(rotActionToDoForTurn.toString());
 
 
-        // Now we watch if we have the good number of oar from each side
-
-
-
-
-
-
-
+        return new HowTurn(rotActionToDoForTurn, differenceOfAngle);
     }
-
-
-    // ==================================== Methods For turnBoat ==================================== //
-
 
 
 
