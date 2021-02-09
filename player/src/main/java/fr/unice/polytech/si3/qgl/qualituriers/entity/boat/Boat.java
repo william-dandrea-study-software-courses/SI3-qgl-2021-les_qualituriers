@@ -35,6 +35,7 @@ public class Boat {
     private final BoatEntity[] entities;
     private final Shape shape;
     private List<Action> actionsToDo;
+    private List<Marin> sailors;
 
     @JsonCreator
     public Boat(@JsonProperty("life") int life, @JsonProperty("position") Transform position,
@@ -81,34 +82,17 @@ public class Boat {
      */
     void turnBoat(double finaleOrientationOfTheBoat, Marin sailors[]) {
 
+        this.sailors = Arrays.asList(sailors.clone());
         // We retrieve the oars (and their positions) who are positioned on the Boat
         List<BoatEntity> listOfOars = Arrays.stream(entities).filter(boatEntity -> boatEntity.type.equals(BoatEntities.OAR) ).collect(Collectors.toList());
-        List<BoatEntity> listOfOarsAtLeft = listOfOars.stream().filter(boatEntity -> boatEntity.y == 0).collect(Collectors.toList());
-        List<BoatEntity> listOfOarsAtRight = listOfOars.stream().filter(boatEntity -> boatEntity.y == deck.getWidth()-1).collect(Collectors.toList());
         int numberOfOars = listOfOars.size();
-        int numberOfLeftOars = listOfOarsAtLeft.size();
-        int numberOfRightOars = listOfOarsAtRight.size();
+
 
         // We calculate the angle between the actual orientation of the boat and the wanted orientation
         double actualOrientationOfTheBoat = transform.getOrientation();
         double differenceOfAngle = finaleOrientationOfTheBoat - actualOrientationOfTheBoat;
 
-        // We watch if we have sailors positioned on the oar
-        List<Marin> sailorsOnOarAtRight = new ArrayList<>();
-        List<Marin> sailorsOnOarAtLeft = new ArrayList<>();
 
-        for (Marin sailor: sailors) {
-            for(BoatEntity rightEntity : listOfOarsAtRight) {
-                if (rightEntity.x == sailor.getX() && rightEntity.y == sailor.getY()) {
-                    sailorsOnOarAtRight.add(sailor);
-                }
-            }
-            for(BoatEntity leftEntity : listOfOarsAtLeft) {
-                if (leftEntity.x == sailor.getX() && leftEntity.y == sailor.getY()) {
-                    sailorsOnOarAtLeft.add(sailor);
-                }
-            }
-        }
 
 
         // We check if we have a number pair or impair of oar, if it is impair, we have one more possible angle
@@ -136,7 +120,7 @@ public class Boat {
             // do what is write in the actionsForTurning.getCanDoAngle
 
             for (BabordTribordAngle actualAngle: actionsForTurning.getCanDoAngle()) {
-                generateActionsForRotation(actualAngle, possibleAngles, sailors, numberOfLeftOars, numberOfRightOars, sailorsOnOarAtRight, sailorsOnOarAtLeft, differenceWeAccept);
+                generateActionsForRotation(actualAngle, possibleAngles, differenceWeAccept);
             }
 
         } else {
@@ -149,9 +133,38 @@ public class Boat {
     // ==================================== Methods For turnBoat ==================================== //
 
 
-    private void generateActionsForRotation(BabordTribordAngle angle, List<BabordTribordAngle> possibleAngles , Marin sailors[], int numberOfBabordOar, int numberOfTribordOar, List<Marin> sailorsOnOarAtTribord, List<Marin> sailorsOnOarAtBabord, double differenceWeAccept) {
+    private void generateActionsForRotation(BabordTribordAngle angle, List<BabordTribordAngle> possibleAngles, double differenceWeAccept) {
+
 
         double wantedAngle = angle.getAngle();
+
+        /**
+         * Dans un premier temps, nous generons toutes les variables qui pourrons nous etre utile par la suite
+         */
+        List<BoatEntity> listOfOars = Arrays.stream(entities).filter(boatEntity -> boatEntity.type.equals(BoatEntities.OAR) ).collect(Collectors.toList());
+        List<BoatEntity> listOfOarsAtLeft = listOfOars.stream().filter(boatEntity -> boatEntity.y == 0).collect(Collectors.toList());
+        List<BoatEntity> listOfOarsAtRight = listOfOars.stream().filter(boatEntity -> boatEntity.y == deck.getWidth()-1).collect(Collectors.toList());
+        int numberOfBabordOar = listOfOarsAtLeft.size();
+        int numberOfTribordOar = listOfOarsAtRight.size();
+
+        List<Marin> sailorsOnOarAtTribord = new ArrayList<>();
+        List<Marin> sailorsOnOarAtBabord = new ArrayList<>();
+
+
+        for (Marin sailor: sailors) {
+            for(BoatEntity rightEntity : listOfOarsAtRight) {
+                if (rightEntity.x == sailor.getX() && rightEntity.y == sailor.getY()) {
+                    sailorsOnOarAtTribord.add(sailor);
+                }
+            }
+            for(BoatEntity leftEntity : listOfOarsAtLeft) {
+                if (leftEntity.x == sailor.getX() && leftEntity.y == sailor.getY()) {
+                    sailorsOnOarAtBabord.add(sailor);
+                }
+            }
+        }
+
+
         System.out.println("Nous entrons dans la fonction generateAction et nous voulons un angle de : " + wantedAngle);
 
 
@@ -198,7 +211,7 @@ public class Boat {
                     // Mais sinon, nous devons bouger un marin
                     System.out.println("Babord toute !");
 
-                    moveSailorsAtBabord(Arrays.asList(sailors.clone()), goal.getBabord(), goal.getTribord(), sailorsOnOarAtTribord, sailorsOnOarAtBabord);
+                    moveSailorsAtBabord(goal.getBabord(), goal.getTribord(), sailorsOnOarAtTribord, sailorsOnOarAtBabord);
                 }
 
 
@@ -210,7 +223,7 @@ public class Boat {
                     // Mais sinon, nous devons bouger un marin
                     System.out.println("Tribord toute !");
 
-                    moveSailorsAtTribord();
+                    moveSailorsAtTribord(goal.getBabord(), goal.getTribord(), sailorsOnOarAtTribord, sailorsOnOarAtBabord);
                 }
 
             }
@@ -220,7 +233,16 @@ public class Boat {
     /**
      * Nous devons récolter des marins qui se situent au centre du bateau ou a tribord et les déplacer a babord
      */
-    public void moveSailorsAtBabord(List<Marin> sailors, int goalBabord, int goalTribord, List<Marin> sailorsOnOarAtTribord, List<Marin> sailorsOnOarAtBabord) {
+    public void moveSailorsAtBabord(int goalBabord, int goalTribord, List<Marin> sailorsOnOarAtTribord, List<Marin> sailorsOnOarAtBabord) {
+
+
+        /**
+         * Nous allons d'abord rechercher les rames inutilisées a babord (c'est-a-dire une case a babord ou nous avons
+         * une rame mais pas de marins)
+         */
+
+
+        List<Point> freeOarPlaceAtBabord = freeOarPlaceAtBabord(sailors);
 
         /**
          * Cherchons d'abord un marin qui ne se situe pas sur une rame (c'est a dire qu'il se situe sur une case vide)
@@ -228,30 +250,244 @@ public class Boat {
          * coordonnées : (toute la hauteur du bateau  ;  [1 : +inf])
          */
 
+        System.out.println("========================================================");
         System.out.println("Nous avons actuellement " + sailorsOnOarAtBabord.size() + " marins a babors et " + sailorsOnOarAtTribord.size() + " marins a tribord");
         System.out.println("Nous allons essayer de placer " + goalBabord + " marins a babord et " + goalTribord + " marins a tribord");
-
+        System.out.println("========================================================");
 
         List<Point> emplacementWhereAnyBoatEntities = parcelsWhereAnyEntitiesArePresent();
+        System.out.println("Emplacement ou il n'y a aucune rame : " + emplacementWhereAnyBoatEntities.toString());
+        System.out.println("Place OAR inutilisées a babord: " + freeOarPlaceAtBabord);
 
-        // Nous allons essayer de voir si nous pouvons trouver un marin sur cette emplacement
+        // Nous allons essayer de trouver un marin qui ne se situe pas sur une rame (c'est a dire qu'il se situe sur une case vide)
+        List<Marin> sailorsWhoAreSituatedOnAnyBotEntities = new ArrayList<>();
+
+        for (Point point : emplacementWhereAnyBoatEntities) {
+            if (marinIsPresentOnOneParcel((int) point.getX(), (int) point.getY())) {
+                Optional<Marin> marin = findTheSailorOnTheBoat((int) point.getX(), (int) point.getY());
+                if (marin.isPresent()) {
+                    sailorsWhoAreSituatedOnAnyBotEntities.add(marin.get());
+                }
+
+            }
+        }
+
+        System.out.println("Nous avons un marin potentiel a l'emplacement (situé sur une case vide) : " + sailorsWhoAreSituatedOnAnyBotEntities.toString());
+
+        // Nous allons chercher les marins qui se situent sur une rame a tribord
+        // => sailorsOnOarAtTribord
+
+        System.out.println("Nous avons un marin potentiel a l'emplacement (situé sur une rame a tribord) : " + sailorsOnOarAtTribord.toString());
 
 
 
+        /**
+         * Ce que nous devons faire maintenant, c'est prendre les marins se situant sur une case vide et les bouger sur
+         * une rame a babord. Si nous avons pas suffisament de marins libres, il nous est nécessaire de bouger un marin
+         * qui se situe sur une rame a tribord
+         */
 
+        // Nous devons d'abord connaitre le nombre de marins que nous souhaitons a babord :
+        int wantedSailorAtBabord = goalBabord - sailorsOnOarAtBabord.size();
+
+        // Verifions si nous en avons assez dans la liste des marins qui ne se trouve sur aucune BoatEntities
+        if (wantedSailorAtBabord <= sailorsWhoAreSituatedOnAnyBotEntities.size()) {
+            // Nous avons ici suffisament de marins sur des places libres pour entammer une rotation
+            System.out.println("Suffisament de marins dans des places libres, bougeons les marins !");
+            moveListOfSailors(sailorsWhoAreSituatedOnAnyBotEntities, freeOarPlaceAtBabord);
+
+        } else {
+            // Nous sommes obliger de piocher encore quelques marins dans la liste des marins a tribord
+            System.out.println("Pas assez de marins dans des places libres, enlevons des marins qui se situent sur des rames a tribord ...");
+            List<Point> residualsPoints = moveListOfSailors(sailorsWhoAreSituatedOnAnyBotEntities, freeOarPlaceAtBabord);
+            moveListOfSailors(sailorsOnOarAtTribord, residualsPoints);
+        }
+
+        System.out.println(actionsToDo.toString());
+    }
+
+    public void moveSailorsAtTribord(int goalBabord, int goalTribord, List<Marin> sailorsOnOarAtTribord, List<Marin> sailorsOnOarAtBabord) {
+
+        /**
+         * Nous allons d'abord rechercher les rames inutilisées a babord (c'est-a-dire une case a babord ou nous avons
+         * une rame mais pas de marins)
+         */
+
+
+        List<Point> freeOarPlaceAtTribord = freeOarPlaceAtTribord();
+
+        /**
+         * Cherchons d'abord un marin qui ne se situe pas sur une rame (c'est a dire qu'il se situe sur une case vide)
+         * ensuite un marin qui ne se situe pas a babord : Un marin qui ne se situe pas a babord à comme
+         * coordonnées : (toute la hauteur du bateau  ;  [1 : +inf])
+         */
+
+        System.out.println("========================================================");
+        System.out.println("Nous avons actuellement " + sailorsOnOarAtBabord.size() + " marins a babors et " + sailorsOnOarAtTribord.size() + " marins a tribord");
+        System.out.println("Nous allons essayer de placer " + goalBabord + " marins a babord et " + goalTribord + " marins a tribord");
+        System.out.println("========================================================");
+
+        List<Point> emplacementWhereAnyBoatEntities = parcelsWhereAnyEntitiesArePresent();
+        System.out.println("Emplacement ou il n'y a aucune rame : " + emplacementWhereAnyBoatEntities.toString());
+        System.out.println("Place OAR inutilisées a babord: " + freeOarPlaceAtTribord);
+
+        // Nous allons essayer de trouver un marin qui ne se situe pas sur une rame (c'est a dire qu'il se situe sur une case vide)
+        List<Marin> sailorsWhoAreSituatedOnAnyBotEntities = new ArrayList<>();
+
+        for (Point point : emplacementWhereAnyBoatEntities) {
+            if (marinIsPresentOnOneParcel((int) point.getX(), (int) point.getY())) {
+                Optional<Marin> marin = findTheSailorOnTheBoat((int) point.getX(), (int) point.getY());
+                if (marin.isPresent()) {
+                    sailorsWhoAreSituatedOnAnyBotEntities.add(marin.get());
+                }
+
+            }
+        }
+
+
+        System.out.println("Nous avons un marin potentiel a l'emplacement (situé sur une case vide) : " + sailorsWhoAreSituatedOnAnyBotEntities.toString());
+
+        // Nous allons chercher les marins qui se situent sur une rame a tribord
+        // => sailorsOnOarAtBabord
+
+        System.out.println("Nous avons un marin potentiel a l'emplacement (situé sur une rame a babord) : " + sailorsOnOarAtBabord.toString());
+
+        /**
+         * Ce que nous devons faire maintenant, c'est prendre les marins se situant sur une case vide et les bouger sur
+         * une rame a babord. Si nous avons pas suffisament de marins libres, il nous est nécessaire de bouger un marin
+         * qui se situe sur une rame a tribord
+         */
+
+        // Nous devons d'abord connaitre le nombre de marins que nous souhaitons a babord :
+        int wantedSailorAtTribord = goalTribord - sailorsOnOarAtTribord.size();
+
+        // Verifions si nous en avons assez dans la liste des marins qui ne se trouve sur aucune BoatEntities
+        if (wantedSailorAtTribord <= sailorsWhoAreSituatedOnAnyBotEntities.size()) {
+            // Nous avons ici suffisament de marins sur des places libres pour entammer une rotation
+            System.out.println("Suffisament de marins dans des places libres, bougeons les marins !");
+            moveListOfSailors(sailorsWhoAreSituatedOnAnyBotEntities, freeOarPlaceAtTribord);
+
+        } else {
+            // Nous sommes obliger de piocher encore quelques marins dans la liste des marins a tribord
+            System.out.println("Pas assez de marins dans des places libres, enlevons des marins qui se situent sur des rames a tribord ...");
+            List<Point> residualsPoints = moveListOfSailors(sailorsWhoAreSituatedOnAnyBotEntities, freeOarPlaceAtTribord);
+            moveListOfSailors(sailorsOnOarAtTribord, residualsPoints);
+        }
+
+        System.out.println(actionsToDo.toString());
 
     }
 
-    public void moveSailorsAtTribord() {
+
+
+    /**
+     * Cette méhode a pour but de faire bouger les marins présent dans la liste en input en destination des emplacements
+     * fourni egalement en input
+     * et genere des actions
+     *
+     * @return list de point restant (qui permettron a une autre fonction de deplacer les marins ici)
+     */
+
+    private List<Point> moveListOfSailors(List<Marin> sailorsWeWantToMove, List<Point> destinations) {
+
+        int maxOfTheFor = 0;
+        if (sailorsWeWantToMove.size() > destinations.size()) {
+            maxOfTheFor = destinations.size();
+        } else {
+            maxOfTheFor = sailorsWeWantToMove.size();
+        }
+        int i = 0;
+        for (; i < maxOfTheFor; i++) {
+
+            Point destination = destinations.get(i);
+            Marin marin = sailorsWeWantToMove.get(i);
+            Point trajectoire = calculateTheTrajectoire(marin.getX(), marin.getY(), (int) destination.getX(), (int) destination.getY());
+            Action action = new Moving(marin.getId(), (int) trajectoire.getX(), (int) trajectoire.getY());
+            actionsToDo.add(action);
+
+            marin.setX((int) destination.getX());
+            marin.setY((int) destination.getY());
+
+        }
+
+        return destinations.subList(i, destinations.size());
+    }
+
+    /**
+     * Cette méthode permet de trouver la trajectoire pour atteindre une destination. On a un point de depart, un
+     * point d'arrivée, et cette methode nous dit combien de cases nous devons nous deplacer;
+     */
+
+    private Point calculateTheTrajectoire(int xStart, int yStart, int xFinal, int yFinal) {
+        return new Point(xFinal - xStart, yFinal - yStart);
+    }
+
+
+    /**
+     * Cette methode permet, a parti d'une coordonéee x et y, de trouver le marin qui se situe a cette position
+     */
+    private Optional<Marin> findTheSailorOnTheBoat(int x, int y) {
+
+        for (Marin marin : sailors) {
+            if (marin.getX() == x && marin.getY() == y) {
+                return Optional.of(marin);
+            }
+        }
+        return Optional.empty();
 
     }
+
+    /**
+     * Cette methode a pour objectif de trouver les places ou nous avons un canon mais aucun marin
+     * @param sailors
+     * @return
+     */
+    List<Point> freeOarPlaceAtBabord(List<Marin> sailors) {
+        List<Point> finalList = new ArrayList<>();
+
+        // On parcours toutes les rames (de babords) a la recherche d'un endroit ou nous n'avons pas de marin
+        for (BoatEntity rame : entities) {
+            if (rame.y == 0) {
+
+                if (!marinIsPresentOnOneParcel(rame.x, rame.y)) {
+                    finalList.add(new Point(rame.x, rame.y));
+                }
+
+            }
+        }
+
+        return finalList;
+    }
+
+    /**
+     * Cette methode a pour objectif de trouver les places ou nous avons un canon mais aucun marin
+     * @return
+     */
+    List<Point> freeOarPlaceAtTribord() {
+        List<Point> finalList = new ArrayList<>();
+
+        // On parcours toutes les rames (de babords) a la recherche d'un endroit ou nous n'avons pas de marin
+        for (BoatEntity rame : entities) {
+            if (rame.y == deck.getWidth()-1) {
+
+                if (!marinIsPresentOnOneParcel(rame.x, rame.y)) {
+                    finalList.add(new Point(rame.x, rame.y));
+                }
+
+            }
+        }
+
+        return finalList;
+    }
+
+
 
     /**
      * Cette fonction va retourner une liste avec toutes les cases du bateau qui ne possede aucun canon (plus generalement, aucune entités
      */
     public List<Point> parcelsWhereAnyEntitiesArePresent() {
 
-        Arrays.stream(entities).forEach(enti -> System.out.println(enti.toString()));
+        //Arrays.stream(entities).forEach(enti -> System.out.println(enti.toString()));
         List<Point> finalList = new ArrayList<>();
 
         // Grace aux deux boucles suivantes, nous parcourons les parcelles du bateau
@@ -285,8 +521,8 @@ public class Boat {
 
 
 
-    private boolean marinIsPresentOnOneParcel(List<Marin> marins, int x, int y) {
-        for ( Marin marin : marins) {
+    private boolean marinIsPresentOnOneParcel(int x, int y) {
+        for ( Marin marin : sailors) {
             if (marin.getX() == x && marin.getY() == y) {
                 return true;
             }
@@ -299,10 +535,9 @@ public class Boat {
     /**
      * Cette méthode a pour objectif de regarder si, dans le boat actuelle, si on a le nombre souhaité de marins a babord
      * @param wantedNumberOfSailorsAtBabord
-     * @param sailors
      * @return true si on a le bon nombre a babord, false sinon
      */
-    private boolean watchIfWeHaveTheGoodNumberOfSailorsAtBabord(int wantedNumberOfSailorsAtBabord, List<Marin> sailors) {
+    private boolean watchIfWeHaveTheGoodNumberOfSailorsAtBabord(int wantedNumberOfSailorsAtBabord) {
 
         List<BoatEntity> listOfOars = Arrays.stream(entities).filter(boatEntity -> boatEntity.type.equals(BoatEntities.OAR) ).collect(Collectors.toList());
         List<BoatEntity> listOfOarsAtLeft = listOfOars.stream().filter(boatEntity -> boatEntity.y == 0).collect(Collectors.toList());
@@ -323,10 +558,9 @@ public class Boat {
     /**
      * Cette méthode a pour objectif de regarder si, dans le boat actuelle, si on a le nombre souhaité de marins a tribord
      * @param wantedNumberOfSailorsAtTribord
-     * @param sailors
      * @return true si on a le bon nombre a tribord, false sinon
      */
-    private boolean watchIfWeHaveTheGoodNumberOfSailorsAtTribord(int wantedNumberOfSailorsAtTribord, List<Marin> sailors) {
+    private boolean watchIfWeHaveTheGoodNumberOfSailorsAtTribord(int wantedNumberOfSailorsAtTribord) {
 
         List<BoatEntity> listOfOars = Arrays.stream(entities).filter(boatEntity -> boatEntity.type.equals(BoatEntities.OAR) ).collect(Collectors.toList());
         List<BoatEntity> listOfOarsAtRight = listOfOars.stream().filter(boatEntity -> boatEntity.y == deck.getWidth()-1).collect(Collectors.toList());
