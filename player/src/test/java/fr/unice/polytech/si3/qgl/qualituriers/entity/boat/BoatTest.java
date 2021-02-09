@@ -51,9 +51,13 @@ class BoatTest {
 
         Boat boat = new Boat(life, transform, name, deck, entities,shape);
 
-        //boat.turnBoat( - ((Math.PI)/2) - ((Math.PI)/2) - ((Math.PI)/6), sailors);
+        boat.turnBoat( - ((Math.PI)/2) - ((Math.PI)/2) - ((Math.PI)/6), sailors);
         boat.turnBoat(  ((Math.PI)/2) + ((Math.PI)/2) + ((Math.PI)/6), sailors);
+        boat.turnBoat(   -((Math.PI)/2) + ((Math.PI)/8), sailors);
+        boat.turnBoat(   0, sailors);
         // ((Math.PI)/6)
+
+
     }
 
     @Test
