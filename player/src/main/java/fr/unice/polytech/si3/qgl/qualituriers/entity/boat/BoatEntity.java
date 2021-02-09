@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -9,13 +10,15 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * @author williamdandrea, Alexandre Arcil
  * @author CLODONG Yann
  */
+
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = Void.class)
 @JsonSubTypes({
-        @JsonSubTypes.Type(name = "OAR", value = OarBoatEntity.class),
-        @JsonSubTypes.Type(name = "SAIL", value = SailBoatEntity.class),
-        @JsonSubTypes.Type(name = "RUDDER", value = RudderBoatEntity.class),
-        @JsonSubTypes.Type(name = "WATCH", value = WatchBoatEntity.class),
-        @JsonSubTypes.Type(name = "CANON", value = CanonBoatEntity.class)
+        @JsonSubTypes.Type(name = "oar", value = OarBoatEntity.class),
+        @JsonSubTypes.Type(name = "sail", value = SailBoatEntity.class),
+        @JsonSubTypes.Type(name = "rudder", value = RudderBoatEntity.class),
+        @JsonSubTypes.Type(name = "watch", value = WatchBoatEntity.class),
+        @JsonSubTypes.Type(name = "canon", value = CanonBoatEntity.class)
 })
 public abstract class BoatEntity {
 
@@ -23,7 +26,7 @@ public abstract class BoatEntity {
     protected int x;
     protected int y;
 
-    public BoatEntity(BoatEntities type, int x, int y) {
+    public BoatEntity(@JsonProperty("type") BoatEntities type, @JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.type = type;
         this.x = x;
         this.y = y;

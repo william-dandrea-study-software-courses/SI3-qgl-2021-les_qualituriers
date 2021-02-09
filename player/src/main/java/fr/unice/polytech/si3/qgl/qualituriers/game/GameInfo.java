@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.game;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goals;
@@ -17,9 +18,9 @@ import java.util.Arrays;
 public class GameInfo {
 
     private final Goal goal;
-    private final Boat ship;
-    private final Marin[] sailors;
-    private final int shipCount;
+    private Boat ship;
+    private Marin[] sailors;
+    private int shipCount;
 
     @JsonCreator
     public GameInfo(@JsonProperty("goal") Goal goal, @JsonProperty("ship") Boat ship,
@@ -55,5 +56,17 @@ public class GameInfo {
                 castedObj.ship.equals(ship) &&
                 castedObj.shipCount == shipCount &&
                 Arrays.equals(castedObj.sailors, sailors);
+    }
+
+    public void setShip(Boat ship) {
+        this.ship = ship;
+    }
+
+    public void setSailors(Marin[] sailors) {
+        this.sailors = sailors;
+    }
+
+    public void setShipCount(int shipCount) {
+        this.shipCount = shipCount;
     }
 }

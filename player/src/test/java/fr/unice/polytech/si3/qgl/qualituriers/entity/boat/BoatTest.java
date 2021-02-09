@@ -8,6 +8,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoatTest {
@@ -30,10 +32,11 @@ class BoatTest {
         BoatEntity oar6 = new BoatEntity(BoatEntities.OAR, 3,1) {};
         BoatEntity oar7 = new BoatEntity(BoatEntities.OAR, 2,1) {};
 
+
         Marin sailor1 = new Marin(1,0,0,"sailor1");
         Marin sailor2 = new Marin(2,1,0,"sailor2");
-        Marin sailor3 = new Marin(3,2,1,"sailor3");
-        Marin sailor4 = new Marin(4,2,0,"sailor4");
+        Marin sailor3 = new Marin(3,0,1,"sailor3");
+        Marin sailor4 = new Marin(4,1,1,"sailor4");
 
         int life = 100;
         Transform transform = new Transform(0,0,0);
@@ -51,11 +54,17 @@ class BoatTest {
 
         Boat boat = new Boat(life, transform, name, deck, entities,shape);
 
-        boat.turnBoat( - ((Math.PI)/2) - ((Math.PI)/2) - ((Math.PI)/6), sailors);
-        boat.turnBoat(  ((Math.PI)/2) + ((Math.PI)/2) + ((Math.PI)/6), sailors);
-        boat.turnBoat(   -((Math.PI)/2) + ((Math.PI)/8), sailors);
-        boat.turnBoat(   0, sailors);
+        boat.setSailors(Arrays.asList(sailors.clone()));
+        boat.moveBoatToAPoint(new Transform(new Point(0,0), 0));
+        System.out.println(boat.getActionsToDo());
+
+        //boat.turnBoat( - ((Math.PI)/2) - ((Math.PI)/2) - ((Math.PI)/6));
+        //boat.turnBoat(  ((Math.PI)/2) + ((Math.PI)/2) + ((Math.PI)/6));
+        //boat.turnBoat(   -((Math.PI)/2) + ((Math.PI)/8));
+        //boat.turnBoat(   0);
         // ((Math.PI)/6)
+
+
 
 
     }

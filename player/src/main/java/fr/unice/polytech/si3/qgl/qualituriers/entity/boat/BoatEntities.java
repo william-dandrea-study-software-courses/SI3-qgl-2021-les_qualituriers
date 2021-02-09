@@ -25,6 +25,11 @@ public enum BoatEntities {
         return type;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "BoatEntities{" +
+                "type='" + type + '\'' +
+                ", entity=" + entity +
+                '}';
+    }
 }

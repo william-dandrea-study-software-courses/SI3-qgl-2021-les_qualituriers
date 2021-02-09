@@ -47,4 +47,6 @@ public class CheckPoint {
         var castedObj = (CheckPoint)obj;
         return castedObj.position.equals(position) && castedObj.shape.equals(shape);
     }
+
+
 }

@@ -29,11 +29,11 @@ import java.util.stream.Collectors;
  */
 public class Boat {
 
-    private final int life;
-    private final Transform transform;
+    private int life;
+    private Transform transform;
     private final String name;
     private final Deck deck;
-    private final BoatEntity[] entities;
+    private BoatEntity[] entities;
     private final Shape shape;
     private List<Action> actionsToDo;
     private List<Marin> sailors;
@@ -49,6 +49,8 @@ public class Boat {
         this.entities = entities;
         this.shape = shape;
         this.actionsToDo = new ArrayList<>();
+
+
     }
 
     public String getName() {
@@ -59,13 +61,43 @@ public class Boat {
     public Deck getDeck() { return deck; }
     public BoatEntity[] getEntities() { return entities; }
 
+    public List<Action> getActionsToDo() {
+        return actionsToDo;
+    }
+
     public Shape getShape() {
         return shape;
     }
 
+    public void setLife(int life) {
+        this.life = life;
+    }
+
+    public void setTransform(Transform transform) {
+        this.transform = transform;
+    }
+
+    public void setEntities(BoatEntity[] entities) {
+        this.entities = entities;
+    }
+
+    public void setSailors(List<Marin> sailors) {
+        this.sailors = sailors;
+    }
+
+    public void setActionsToDo(List<Action> actionsToDo) {
+        this.actionsToDo = actionsToDo;
+    }
+
+    public void moveBoatToAPoint(Transform transformFinal) {
 
 
-    void moveBoatToAPoint(Point pointFinal) {
+        // On verifie si on est deja dans le checkpoint
+
+
+        Point pointFinal = transformFinal.getPoint();
+        double angleWeWantToTurn = transform.getAngleToSee(pointFinal);
+        turnBoat(angleWeWantToTurn);
 
     }
 
@@ -90,10 +122,12 @@ public class Boat {
      * -
      * @param finaleOrientationOfTheBoat
      */
-    void turnBoat(double finaleOrientationOfTheBoat, Marin sailors[]) {
+    void turnBoat(double finaleOrientationOfTheBoat) {
 
-        this.sailors = Arrays.asList(sailors.clone());
         // We retrieve the oars (and their positions) who are positioned on the Boat
+
+
+
         List<BoatEntity> listOfOars = Arrays.stream(entities).filter(boatEntity -> boatEntity.type.equals(BoatEntities.OAR) ).collect(Collectors.toList());
         int numberOfOars = listOfOars.size();
 
@@ -123,7 +157,7 @@ public class Boat {
         HowTurn actionsForTurning = findTheGoodAngle(differenceOfAngle, possibleAngles, differenceWeAccept);
 
 
-        System.out.println(differenceOfAngle);
+        //System.out.println(differenceOfAngle);
 
 
         if (differenceOfAngle <= smallestEcartPossible /2 && differenceOfAngle >= -smallestEcartPossible/2) {
@@ -160,8 +194,8 @@ public class Boat {
                         // Nous allons dans un premier temps essayer de trouver l'angle le plus proche (inferieur)
 
 
-                        System.out.println("smallest : " + smallestEcartPossible);
-                        System.out.println("What we want : " + differenceOfAngle);
+                        //System.out.println("smallest : " + smallestEcartPossible);
+                        //System.out.println("What we want : " + differenceOfAngle);
                         BabordTribordAngle dispositionWePrivilege = possibleAngles.stream().filter(angle -> angle.getTribord() == angle.getBabord()).findAny().get();;
 
 
@@ -174,7 +208,7 @@ public class Boat {
 
                             if (differenceOfAngle > 0) {
                                 if (differenceOfAngle - actualAngle.getAngle() <= smallestEcartPossible) {
-                                    System.out.println("Bienvenue 1");
+
                                     dispositionWePrivilege = actualAngle;
 
                                 }
@@ -182,7 +216,7 @@ public class Boat {
 
                             if (differenceOfAngle < 0) {
                                 if (differenceOfAngle - actualAngle.getAngle() >= -smallestEcartPossible) {
-                                    System.out.println("Bienvenue21");
+
                                     dispositionWePrivilege = actualAngle;
 
                                 }
@@ -201,7 +235,7 @@ public class Boat {
 
         }
 
-        System.out.println(actionsToDo);
+        //System.out.println(actionsToDo);
 
 
     }
@@ -298,7 +332,7 @@ public class Boat {
                 /**
                  * Si nous avons suffisament a tribord et a babord, il nous suffit de ramer sur les bonnes rames
                  */
-                System.out.println("Nous avons suffisament de marins de chaque cote, RAMONS !");
+                //System.out.println("Nous avons suffisament de marins de chaque cote, RAMONS !");
                 generateOarAction(goal.getBabord(), goal.getTribord(), sailorsOnOarAtBabord, sailorsOnOarAtTribord);
 
 
@@ -309,7 +343,7 @@ public class Boat {
 
                 if (sailorsOnOarAtBabord.size() < goal.getBabord()) {
                     // Mais sinon, nous devons bouger un marin
-                    System.out.println("Babord toute !");
+                    //System.out.println("Babord toute !");
 
                     moveSailorsAtBabord(goal.getBabord(), goal.getTribord(), sailorsOnOarAtTribord, sailorsOnOarAtBabord);
                 } else {
@@ -319,7 +353,7 @@ public class Boat {
 
                 if (sailorsOnOarAtTribord.size() < goal.getTribord()) {
                     // Mais sinon, nous devons bouger un marin
-                    System.out.println("Tribord toute !");
+                    //System.out.println("Tribord toute !");
 
                     moveSailorsAtTribord(goal.getBabord(), goal.getTribord(), sailorsOnOarAtTribord, sailorsOnOarAtBabord);
                 } else {
@@ -327,7 +361,7 @@ public class Boat {
                 }
 
                 generateOarAction(goal.getBabord(), goal.getTribord(), sailorsOnOarAtBabord(), sailorsOnOarAtTribord());
-                System.out.println(actionsToDo);
+                //System.out.println(actionsToDo);
 
             }
         }

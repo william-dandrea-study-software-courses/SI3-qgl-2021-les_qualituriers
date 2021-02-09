@@ -4,8 +4,8 @@
     "checkpoints": [
       {
         "position": {
-          "x": 1000,
-          "y": 0,
+          "x": 10,
+          "y": 10,
           "orientation": 0
         },
         "shape": {

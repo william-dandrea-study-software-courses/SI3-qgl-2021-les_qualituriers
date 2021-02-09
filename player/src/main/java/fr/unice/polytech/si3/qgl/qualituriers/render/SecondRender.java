@@ -1,11 +1,19 @@
 package fr.unice.polytech.si3.qgl.qualituriers.render;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 
+import javax.xml.crypto.NoSuchMechanismException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Alexandre Arcil, CLODONG Yann
@@ -19,9 +27,13 @@ public class SecondRender extends Render {
 
     private final CheckPoint[] checkpoints;
     private int nextCheckpoint = 0;
+    private boolean firstRound = true;
+
+    private ObjectMapper om;
 
     public SecondRender(GameInfo gameInfo) {
         super(gameInfo);
+        om = new ObjectMapper();
 
         var goal = (RegattaGoal)gameInfo.getGoal();
         checkpoints = goal.getCheckPoints();
@@ -37,9 +49,35 @@ public class SecondRender extends Render {
 
 
     @Override
-    public String nextRound(RoundInfo round) {
+    public String nextRound(RoundInfo round) throws JsonProcessingException {
         // Don't forget to change nextCheckpoint when it's reached
-        return null;
+
+        // EN premier, nous allons affecter les nouvelles bonns valeurs au bateau
+        gameInfo.getShip().setTransform(round.getShip().getTransform());
+        gameInfo.getShip().setEntities(round.getShip().getEntities());
+
+
+        RegattaGoal regGoal = (RegattaGoal) gameInfo.getGoal();
+        CheckPoint[] checkPoints = regGoal.getCheckPoints();
+        CheckPoint checkPoint = Arrays.stream(checkPoints).findAny().get();
+
+
+        if (firstRound) {
+            gameInfo.getShip().setSailors(Arrays.asList(gameInfo.getSailors().clone()));
+            firstRound = false;
+        }
+
+        gameInfo.getShip().moveBoatToAPoint(checkPoint.getPosition());
+
+
+        List<Action> actions = gameInfo.getShip().getActionsToDo();
+        gameInfo.getShip().setActionsToDo(new ArrayList<Action>());
+
+
+
+
+
+        return om.writeValueAsString(actions);
     }
 
 }
