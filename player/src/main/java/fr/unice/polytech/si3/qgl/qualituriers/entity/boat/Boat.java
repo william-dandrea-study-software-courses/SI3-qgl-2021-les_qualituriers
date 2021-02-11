@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatutils.BabordTribordAngle;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatutils.BoatPosition;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatutils.HowTurn;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
@@ -14,7 +13,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
-import org.w3c.dom.ls.LSOutput;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,7 +23,6 @@ import java.util.stream.Collectors;
  *
  * @author williamdandrea, Alexandre Arcil
  * @author CLODONG Yann
- * TODO : 28/01/2020 : essayer de revoir le constructeur pour parser des json node plutot que chaques field un par un.
  */
 public class Boat {
 
@@ -49,8 +46,6 @@ public class Boat {
         this.entities = entities;
         this.shape = shape;
         this.actionsToDo = new ArrayList<>();
-
-
     }
 
     public String getName() {
@@ -928,21 +923,20 @@ public class Boat {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null) return false;
-        if(!(obj instanceof Boat)) return false;
-        var castedObj = (Boat)obj;
-        return castedObj.name == name;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Boat boat = (Boat) o;
+        return life == boat.life && Objects.equals(transform, boat.transform) && Objects.equals(name, boat.name)
+                && Objects.equals(deck, boat.deck) && Arrays.equals(entities, boat.entities)
+                && Objects.equals(shape, boat.shape) && Objects.equals(actionsToDo, boat.actionsToDo)
+                && Objects.equals(sailors, boat.sailors);
     }
 
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(life, transform, name, deck, shape, actionsToDo, sailors);
+        result = 31 * result + Arrays.hashCode(entities);
+        return result;
+    }
 }
