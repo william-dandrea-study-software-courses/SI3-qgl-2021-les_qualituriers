@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 /**
  * Cette classe a pour objectif de contenir tout ce qui est commun aux différents types d'entités dans le bateau
@@ -30,6 +31,14 @@ public abstract class BoatEntity {
         this.type = type;
         this.x = x;
         this.y = y;
+    }
+
+    public Point getPosition() {
+        return new Point(x, y);
+    }
+
+    public BoatEntities getType() {
+        return type;
     }
 
     @Override
