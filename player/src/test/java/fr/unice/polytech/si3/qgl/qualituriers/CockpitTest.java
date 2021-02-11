@@ -1,7 +1,15 @@
 package fr.unice.polytech.si3.qgl.qualituriers;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
+import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,25 +28,26 @@ class CockpitTest {
     void setUp() {
         this.cockpit = new Cockpit();
         this.om = new ObjectMapper();
+        this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    //TODO ajouter les méthodes equals
-    /*@Test
+
+    @Test
     public void gameInfoCorrect() throws IOException {
         CheckPoint[] checkPoints = new CheckPoint[2];
-        checkPoints[0] = new CheckPoint(new Transform(1000, 0, 0), new Circle(50));
+        checkPoints[0] = new CheckPoint(new Transform(10, 10, 0), new Circle(50));
         checkPoints[1] = new CheckPoint(new Transform(0, 0, 0), new Circle(50));
         RegattaGoal goal = new RegattaGoal(checkPoints);
         BoatEntity[] entities = new BoatEntity[8];
-        entities[0] = new RameBoatEntity(1, 0);
-        entities[1] = new RameBoatEntity(1, 2);
-        entities[2] = new RameBoatEntity(3, 0);
-        entities[3] = new RameBoatEntity(3, 2);
-        entities[4] = new RameBoatEntity(4, 0);
-        entities[5] = new RameBoatEntity(4, 2);
-        entities[6] = new RameBoatEntity(2, 1);
-        entities[7] = new RameBoatEntity(5, 0);
-        Boat boat = new Boat(100, new Transform(0, 0, 0), "Les copaings d'abord!", new Deck(3, 6),
+        entities[0] = new OarBoatEntity(1, 0);
+        entities[1] = new OarBoatEntity(1, 2);
+        entities[2] = new OarBoatEntity(3, 0);
+        entities[3] = new OarBoatEntity(3, 2);
+        entities[4] = new OarBoatEntity(4, 0);
+        entities[5] = new OarBoatEntity(4, 2);
+        entities[6] = new SailBoatEntity(2, 1, false);
+        entities[7] = new RudderBoatEntity(5, 0);
+        Boat boat = new Boat( 100, new Transform(0, 0, 0), "Les copaings d'abord!", new Deck(3, 6),
                 entities, new Rectangle(3, 6, 0));
         Marin[] marins = new Marin[6];
         marins[0] = new Marin(0, 0, 0, "Edward Teach");
@@ -51,9 +60,9 @@ class CockpitTest {
         GameInfo gameInfo = om.readValue(from, GameInfo.class);
         assertEquals(goal, gameInfo.getGoal());
         assertEquals(1, gameInfo.getShipCount());
-        assertEquals(marins, gameInfo.getSailors());
+        assertArrayEquals(marins, gameInfo.getSailors());
         assertEquals(boat, gameInfo.getShip());
-    }*/
+    }
 
     @Test
     public void initGameRenderNotNull() throws IOException {

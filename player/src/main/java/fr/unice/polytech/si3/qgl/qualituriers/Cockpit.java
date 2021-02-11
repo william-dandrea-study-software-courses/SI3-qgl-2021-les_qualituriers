@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
-import fr.unice.polytech.si3.qgl.qualituriers.render.FirstRender;
-import fr.unice.polytech.si3.qgl.qualituriers.render.Render;
 import fr.unice.polytech.si3.qgl.qualituriers.render.SecondRender;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 
@@ -19,9 +17,7 @@ public class Cockpit implements ICockpit {
 	private ObjectMapper om;
 
 	public void initGame(String game) {
-		System.out.println("=============================================================================================");
 		System.out.println("Game : " + game);
-		System.out.println("=============================================================================================");
 		this.om = new ObjectMapper();
 		this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		try {
@@ -34,16 +30,12 @@ public class Cockpit implements ICockpit {
 	}
 
 	public String nextRound(String round) {
-		System.out.println("=============================================================================================");
 		System.out.println("Round : " + round);
-		System.out.println("=============================================================================================");
 		if(this.render != null) {
 			try {
 				RoundInfo roundInfo = om.readValue(round, RoundInfo.class);
 				String next = this.render.nextRound(roundInfo);
-
 				if (next != null)
-					System.out.println(next);
 					return next;
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
@@ -56,6 +48,5 @@ public class Cockpit implements ICockpit {
 	public List<String> getLogs() {
 		return new ArrayList<>();
 	}
+
 }
-
-
