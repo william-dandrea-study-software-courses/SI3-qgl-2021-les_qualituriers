@@ -1,7 +1,5 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-
 /**
  * @author Alexandre Arcil
  * @author CLODONG Yann
