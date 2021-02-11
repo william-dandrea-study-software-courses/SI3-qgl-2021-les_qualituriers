@@ -2,7 +2,6 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.deck;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 
 /**
  * Cette classe represente le vent qui sera present sur le deck

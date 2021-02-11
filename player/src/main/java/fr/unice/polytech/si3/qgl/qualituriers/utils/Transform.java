@@ -2,7 +2,6 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 
 /**
  * Une position est en sorte un point avec une dirrection, qui permet au bateau de savoir ou il peut avancer et ou il ne peux pas

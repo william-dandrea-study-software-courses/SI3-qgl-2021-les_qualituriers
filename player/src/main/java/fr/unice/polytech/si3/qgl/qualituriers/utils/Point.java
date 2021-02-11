@@ -1,6 +1,9 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import static fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil.modAngle;
 
 /**
@@ -15,7 +18,8 @@ public class Point {
     private final double x;
     private final double y;
 
-    public Point(double x, double y) {
+    @JsonCreator
+    public Point(@JsonProperty("x") double x, @JsonProperty("y") double y) {
         this.x = x;
         this.y = y;
     }
