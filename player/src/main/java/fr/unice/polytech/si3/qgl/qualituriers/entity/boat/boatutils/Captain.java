@@ -16,8 +16,9 @@ public class Captain {
 
     public void decide() {
         if(target == null) return;
-        setBend();
+
         setSpeed();
+        setBend();
     }
 
     private void setSpeed() {
@@ -43,7 +44,7 @@ public class Captain {
         else boat.getForeman().setBendLeft(bend);
     }
 
-    public void GoTo(Point position) {
+    public void goTo(Point position) {
         this.target = position;
     }
 }

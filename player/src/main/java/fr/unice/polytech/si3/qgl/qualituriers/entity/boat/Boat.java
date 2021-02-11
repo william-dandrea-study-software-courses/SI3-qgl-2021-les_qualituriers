@@ -103,6 +103,11 @@ public class Boat {
         return foreman;
     }
 
+    @JsonIgnore
+    public Captain getCaptain() {
+        return captain;
+    }
+
     public void setActionsToDo(List<Action> actionsToDo) {
         this.actionsToDo = actionsToDo;
     }
@@ -952,17 +957,6 @@ public class Boat {
         if(obj == null) return false;
         if(!(obj instanceof Boat)) return false;
         var castedObj = (Boat)obj;
-        return castedObj.name == name;
+        return castedObj.name.equals(name);
     }
-
-
-
-
-
-
-
-
-
-
-
 }
