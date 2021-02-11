@@ -70,17 +70,21 @@ class CockpitTest {
 
     @Test @DisplayName("Les marins ne doivent qu'avancer")
     void testAll() throws IOException {
-        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/ParserInInitExempleGithub.JSON");
+        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/initGame.json");
         JsonNode inputNode = om.readTree(from);
         cockpit.initGame(inputNode.toString());
 
-        File from2 = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/nextRoundInitGithub.JSON");
-        JsonNode inputNode2 = om.readTree(from2);
 
+        for (int i = 1; i <= 12 ; i++) {
+            String str = "src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/nextRound" + i + ".json";
+            cockpit.nextRound(om.readTree(new File(str)).toString());
 
-        for (int i = 0; i < 20; i++) {
-            cockpit.nextRound(inputNode2.toString());
         }
+
+
+
+
+
 
 
     }
