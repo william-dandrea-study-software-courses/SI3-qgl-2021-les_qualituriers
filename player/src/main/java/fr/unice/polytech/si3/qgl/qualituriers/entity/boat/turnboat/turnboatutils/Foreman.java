@@ -45,7 +45,8 @@ public class Foreman {
      */
     public void setSailors(Collection<Marin> sailors) {
         for(var post: posts.entrySet()) {
-            unAssignSailorToOar((OarBoatEntity)post.getKey());
+            if(post.getKey().getType() == BoatEntities.OAR)
+                unAssignSailorToOar((OarBoatEntity)post.getKey());
         }
         availableSailors = new ArrayList<>(sailors);
         int humanSpeedCapacity = availableSailors.size() / 2;
@@ -161,7 +162,7 @@ public class Foreman {
      */
     public void setBendLeft(int oarsman) {
         if(oarsman < 0) oarsman = 0;
-        else if(oarsman > maxSpeed) oarsman = maxSpeed;
+        else if(oarsman > speed) oarsman = speed;
         bend = -oarsman;
     }
 
@@ -170,7 +171,7 @@ public class Foreman {
      * @param percentage (0 -> 1): La proportion rameurs qui arrete de ramer
      */
     public void setBendLeft(double percentage) {
-        setBendLeft((int)(percentage * (double)maxSpeed));
+        setBendLeft((int)(percentage * (double)speed));
     }
 
     /**
@@ -179,7 +180,7 @@ public class Foreman {
      */
     public void setBendRight(int oarsman) {
         if(oarsman < 0) oarsman = 0;
-        else if(oarsman > maxSpeed) oarsman = maxSpeed;
+        else if(oarsman > speed) oarsman = speed;
         bend = oarsman;
     }
 
@@ -188,7 +189,7 @@ public class Foreman {
      * @param percentage (0 -> 1): La proportion rameurs qui arrete de ramer
      */
     public void setBendRight(double percentage) {
-        setBendRight((int)(percentage * (double)maxSpeed));
+        setBendRight((int)(percentage * (double)speed));
     }
 
     /**

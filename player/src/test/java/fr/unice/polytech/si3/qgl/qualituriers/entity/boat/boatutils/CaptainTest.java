@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class CaptainTest {
     Boat boat;
     OarBoatEntity oar;
@@ -55,7 +57,33 @@ public class CaptainTest {
     }
 
     @Test
-    void GoToTest() {
+    void GoToTestByLeft() {
+        boat.getCaptain().goTo(new Point(-10, 1));
+        boat.getCaptain().decide();
+        boat.getForeman().decide();
 
+        assertTrue(boat.getForeman().getNumberLeftRowingSailors() < boat.getForeman().getNumberRightRowingSailors());
+        assertEquals(0, boat.getForeman().getNumberLeftRowingSailors());
     }
+
+    @Test
+    void GoToByRight() {
+        boat.getCaptain().goTo(new Point(-10, -1));
+        boat.getCaptain().decide();
+        boat.getForeman().decide();
+
+        assertTrue(boat.getForeman().getNumberLeftRowingSailors() > boat.getForeman().getNumberRightRowingSailors());
+        assertEquals(0, boat.getForeman().getNumberRightRowingSailors());
+    }
+
+    @Test
+    void GoToForward() {
+        boat.getCaptain().goTo(new Point(10, 0));
+        boat.getCaptain().decide();
+        boat.getForeman().decide();
+
+        assertEquals(boat.getForeman().getNumberRightRowingSailors(), boat.getForeman().getNumberLeftRowingSailors());
+        assertNotEquals(0, boat.getForeman().getNumberRightRowingSailors());
+    }
+
 }
