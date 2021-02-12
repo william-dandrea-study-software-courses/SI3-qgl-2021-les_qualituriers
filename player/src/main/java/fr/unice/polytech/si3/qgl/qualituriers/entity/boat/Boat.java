@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatutils.BabordTribordAngle;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatutils.HowTurn;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.BabordTribordAngle;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.HowTurn;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
@@ -102,15 +102,6 @@ public class Boat {
      * Cette methode permet de créer une rotation si le bateau a besoin de tourner, ou de ramer tout droit
      * Cette methode genere les actions BougerMarin mais aussi RAMER
      *Gauche  Droite  Rotation
-     * 0	    0	    0
-     * 0	    1	    PI/4
-     * 0	    2	    PI/2
-     * 1	    0	    -PI/4
-     * 1	    1	    0
-     * 1	    2	    PI/4
-     * 2	    0	    -PI/2
-     * 2	    1	    -PI/4
-     * 2	    2	    0
      *
      * Strategie :
      * - Regarder ou sont les marins
@@ -129,7 +120,7 @@ public class Boat {
 
         // We calculate the angle between the actual orientation of the boat and the wanted orientation
         double actualOrientationOfTheBoat = transform.getOrientation();
-        double differenceOfAngle = finaleOrientationOfTheBoat - actualOrientationOfTheBoat;
+        double differenceOfAngle = finaleOrientationOfTheBoat;
 
 
 
@@ -142,7 +133,6 @@ public class Boat {
         // Second integer : number of oar at tribord (right)
         List<BabordTribordAngle> possibleAngles = permutationsOfAngle(numberOfAnglesPossibles, numberOfOars);
         //System.out.println(possibleAngles.toString());
-
 
 
         // We try to find the good angles in the possibleAngle list

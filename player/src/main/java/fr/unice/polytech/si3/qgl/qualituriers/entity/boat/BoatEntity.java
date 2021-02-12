@@ -48,4 +48,8 @@ public abstract class BoatEntity {
                 ", y=" + y +
                 '}';
     }
+
+    public BoatEntities getType() {
+        return type;
+    }
 }
