@@ -80,4 +80,12 @@ public class SecondRender extends Render {
         return om.writeValueAsString(actions);
     }
 
+    public CheckPoint[] getCheckpoints(){
+        return checkpoints;
+    }
+
+    public int getNextCheckpoint(){
+        return nextCheckpoint;
+    }
+
 }

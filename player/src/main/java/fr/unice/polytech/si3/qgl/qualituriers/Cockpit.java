@@ -13,15 +13,19 @@ import java.util.List;
 
 public class Cockpit implements ICockpit {
 
-	SecondRender render;
+	public static final boolean VERBOSE = false;
+	public SecondRender render;
 	private ObjectMapper om;
+	public GameInfo gameInfo;
+	public RoundInfo roundInfo;
+	String temp;
 
 	public void initGame(String game) {
 		System.out.println("Game : " + game);
 		this.om = new ObjectMapper();
 		this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		try {
-			GameInfo gameInfo = om.readValue(game, GameInfo.class);
+			gameInfo = om.readValue(game, GameInfo.class);
 
 			this.render = new SecondRender(gameInfo);
 		} catch (JsonProcessingException e) {
@@ -33,8 +37,9 @@ public class Cockpit implements ICockpit {
 		System.out.println("Round : " + round);
 		if(this.render != null) {
 			try {
-				RoundInfo roundInfo = om.readValue(round, RoundInfo.class);
+				roundInfo = om.readValue(round, RoundInfo.class);
 				String next = this.render.nextRound(roundInfo);
+				temp = next;
 				if (next != null)
 					return next;
 			} catch (JsonProcessingException e) {
