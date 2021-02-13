@@ -19,4 +19,14 @@ public class BabordTribordAngle {
                 ", angle=" + angle +
                 '}' + '\n';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof BabordTribordAngle) {
+            if (this.tribord == ((BabordTribordAngle) obj).tribord && this.babord == ((BabordTribordAngle) obj).babord && this.angle == ((BabordTribordAngle) obj).angle)
+                return true;
+        }
+        return false;
+    }
 }

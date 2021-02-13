@@ -43,7 +43,7 @@ public abstract class BoatEntity {
     @Override
     public String toString() {
         return "BoatEntity{" +
-                "type=" + type +
+                "type=" + type.toString() +
                 ", x=" + x +
                 ", y=" + y +
                 '}';
@@ -51,5 +51,13 @@ public abstract class BoatEntity {
 
     public BoatEntities getType() {
         return type;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
