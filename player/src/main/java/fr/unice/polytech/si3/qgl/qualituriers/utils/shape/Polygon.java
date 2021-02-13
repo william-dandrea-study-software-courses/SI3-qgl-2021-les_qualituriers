@@ -4,8 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.PositionableShape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Cette classe représente un polygone qui pourra être utiliser pour représenter un bateau car un polygone à une
@@ -34,9 +38,49 @@ public class Polygon extends Shape {
         return vertices;
     }
 
+    public List<Segment> getSegments() {
+        List<Segment> segments = new ArrayList<>();
+
+        // Create segment for each vertice and his neighboors
+        for(int i = 0; i < vertices.length - 1; i++) {
+            var thisAPos = vertices[i].rotate(orientation);
+            var afterAPos = vertices[i + 1].rotate(orientation);
+
+            segments.add(new Segment(thisAPos, afterAPos));
+        }
+
+        // Close the shape
+        var firstAPos = vertices[0].rotate(orientation);
+        var lastAPos = vertices[vertices.length - 1].rotate(orientation);
+        segments.add(new Segment(lastAPos, firstAPos));
+
+        return segments;
+    }
+
+    public List<Segment> getSegments(Transform transform) {
+        List<Segment> segments = new ArrayList<>();
+
+        // Create segment for each vertice and his neighboors
+        for(int i = 0; i < vertices.length - 1; i++) {
+            var thisAPos = transform.getPoint().add(vertices[i].rotate(transform.getOrientation() + orientation));
+            var afterAPos = transform.getPoint().add(vertices[i + 1].rotate(transform.getOrientation() + orientation));
+
+            segments.add(new Segment(thisAPos, afterAPos));
+        }
+
+        // Close the shape
+        var firstAPos = transform.getPoint().add(vertices[0].rotate(transform.getOrientation() + orientation));
+        var lastAPos = transform.getPoint().add(vertices[vertices.length - 1].rotate(transform.getOrientation() + orientation));
+        segments.add(new Segment(lastAPos, firstAPos));
+
+        return segments;
+    }
+
+
     @Override
     public boolean isIn(Point position) {
-        return false;
+        var pointSegment = new Segment(new Point(0, 0), position);
+        return getSegments().stream().noneMatch(pointSegment::intersectWith);
     }
 
     @Override
