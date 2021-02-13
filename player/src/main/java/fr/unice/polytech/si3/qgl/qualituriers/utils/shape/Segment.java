@@ -19,6 +19,11 @@ public class Segment {
         return end;
     }
 
+    /**
+     * Teste si le segment intersect avec le cercle
+     * @param other le cercle
+     * @return true si le segment intersect avec le cercle, false sinon
+     */
     public boolean intersectWith(PositionableShape<Circle> other) {
         var segmentLength = end.substract(start).length();
         var vector = end.substract(start).normalized();
@@ -41,6 +46,11 @@ public class Segment {
                 (startInside != endInside);
     }
 
+    /**
+     * Teste si les 2 segments intersect
+     * @param other le deuxieme segment
+     * @return true si les segments intersect, false sinon
+     */
     public boolean intersectWith(Segment other) {
 
 
