@@ -2,9 +2,6 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Collisions {
 
 
@@ -12,26 +9,6 @@ public class Collisions {
         var distance = circle1.getTransform().getPoint().substract(circle2.getTransform().getPoint()).length();
         return distance < circle1.getShape().getRadius() + circle2.getShape().getRadius();
     }
-
-    /*public static List<Segment> getSegments(PositionableShape<Polygon> polygon) {
-        var vertices = polygon.getShape().getVertices();
-        List<Segment> segments = new ArrayList<>();
-
-        // Create segment for each vertice and his neighboors
-        for(int i = 0; i < vertices.length - 1; i++) {
-            var thisAPos = polygon.getTransform().getPoint().add(vertices[i].rotate(polygon.getTransform().getOrientation() + polygon.getShape().getOrientation()));
-            var afterAPos = polygon.getTransform().getPoint().add(vertices[i + 1].rotate(polygon.getTransform().getOrientation() + polygon.getShape().getOrientation()));
-
-            segments.add(new Segment(thisAPos, afterAPos));
-        }
-
-        // Close the shape
-        var firstAPos = polygon.getTransform().getPoint().add(vertices[0].rotate(polygon.getTransform().getOrientation() + polygon.getShape().getOrientation()));
-        var lastAPos = polygon.getTransform().getPoint().add(vertices[vertices.length - 1].rotate(polygon.getTransform().getOrientation() + polygon.getShape().getOrientation()));
-        segments.add(new Segment(lastAPos, firstAPos));
-
-        return segments;
-    }*/
 
     private static boolean isPolygonsCollidingEachOther(PositionableShape<Polygon> polygon1, PositionableShape<Polygon> polygon2) {
         var ss1 = polygon1.getShape().getSegments(polygon1.getTransform());
@@ -50,6 +27,13 @@ public class Collisions {
                 || polygon.isIn(circle.getTransform().getPoint());
     }
 
+
+    /**
+     * Teste si les forme sont en contact
+     * @param shape1 La première forme
+     * @param shape2 La seconde forme
+     * @return true si les formes sont en contact, false sinon
+     */
     public static boolean isColliding(PositionableShape<Shape> shape1, PositionableShape<Shape> shape2) {
 
         if(shape1.getShape().getType() == Shapes.RECTANGLE)
