@@ -38,6 +38,10 @@ public class Polygon extends Shape {
         return vertices;
     }
 
+    /**
+     * Calcul les segments du polygon dans sont propre repère : relatif au transform de la shape
+     * @return La liste des segments
+     */
     public List<Segment> getSegments() {
         List<Segment> segments = new ArrayList<>();
 
@@ -57,6 +61,11 @@ public class Polygon extends Shape {
         return segments;
     }
 
+    /**
+     * Calcul les segments du polygon dans le repere global
+     * @param transform le transform de la forme
+     * @return La liste des segments
+     */
     public List<Segment> getSegments(Transform transform) {
         List<Segment> segments = new ArrayList<>();
 
