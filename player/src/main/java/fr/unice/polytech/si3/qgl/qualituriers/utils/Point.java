@@ -129,6 +129,15 @@ public class Point {
     }
 
     /**
+     * Le vecteur que a un angle de angle avec celui-ci
+     * @param angle: l'Angle
+     * @return le nouveau vecteur
+     */
+    public Point rotate(double angle) {
+        return new Point(getOrientation() + angle).scalar(length());
+    }
+
+    /**
      * Angle entre 2 vecteurs
      * @param other, deuxieme vecteur
      * @return angle tq tq this.rotate(angle) = other

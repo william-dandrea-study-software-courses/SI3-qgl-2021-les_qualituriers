@@ -1,0 +1,59 @@
+{
+  "ship": {
+    "type": "ship",
+    "position": {
+      "x": 78.95471993432115,
+      "y": 97.72926950259351,
+      "orientation": 0.5235987755982952
+    },
+    "name": "qualituriers",
+    "deck": {
+      "width": 2,
+      "length": 4
+    },
+    "entities": [
+      {
+        "x": 1,
+        "y": 0,
+        "type": "oar"
+      },
+      {
+        "x": 1,
+        "y": 1,
+        "type": "oar"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "type": "oar"
+      },
+      {
+        "x": 2,
+        "y": 1,
+        "type": "oar"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "type": "oar"
+      },
+      {
+        "x": 3,
+        "y": 1,
+        "type": "oar"
+      }
+    ],
+    "life": 300,
+    "shape": {
+      "type": "rectangle",
+      "width": 2,
+      "height": 4,
+      "orientation": 0
+    }
+  },
+  "visibleEntities": [],
+  "wind": {
+    "orientation": 0,
+    "strength": 0
+  }
+}

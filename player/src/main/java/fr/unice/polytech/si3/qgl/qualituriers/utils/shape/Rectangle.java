@@ -34,6 +34,15 @@ public class Rectangle extends Shape {
     }
 
 
+    public Polygon toPolygon() {
+        return new Polygon(orientation, new Point[] {
+                new Point(-width / 2, height / 2),
+                new Point(width / 2, height / 2),
+                new Point(-width / 2, -height / 2),
+                new Point(width / 2, -height / 2)
+        });
+    }
+
     @Override
     public boolean isIn(Point position) {
         var orr = position.getOrientation() - orientation;

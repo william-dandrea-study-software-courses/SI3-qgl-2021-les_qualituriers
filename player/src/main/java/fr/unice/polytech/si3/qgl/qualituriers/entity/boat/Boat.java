@@ -87,11 +87,14 @@ public class Boat {
     public void moveBoatToAPoint(Transform transformFinal) {
 
 
+        //System.out.println("================================================================================================");
         // On verifie si on est deja dans le checkpoint
+
 
 
         Point pointFinal = transformFinal.getPoint();
         double angleWeWantToTurn = transform.getAngleToSee(pointFinal);
+        System.out.println("=============== : " + angleWeWantToTurn);
         turnBoat(angleWeWantToTurn);
 
     }
@@ -129,7 +132,8 @@ public class Boat {
 
         // We calculate the angle between the actual orientation of the boat and the wanted orientation
         double actualOrientationOfTheBoat = transform.getOrientation();
-        double differenceOfAngle = finaleOrientationOfTheBoat - actualOrientationOfTheBoat;
+        // FALSE : double differenceOfAngle = finaleOrientationOfTheBoat - actualOrientationOfTheBot;
+        double differenceOfAngle = finaleOrientationOfTheBoat;
 
 
 
@@ -141,7 +145,7 @@ public class Boat {
         // First integer : number of oar at babord (left)
         // Second integer : number of oar at tribord (right)
         List<BabordTribordAngle> possibleAngles = permutationsOfAngle(numberOfAnglesPossibles, numberOfOars);
-        //System.out.println(possibleAngles.toString());
+        System.out.println(possibleAngles.toString());
 
 
 
@@ -152,7 +156,7 @@ public class Boat {
         HowTurn actionsForTurning = findTheGoodAngle(differenceOfAngle, possibleAngles, differenceWeAccept);
 
 
-        //System.out.println(differenceOfAngle);
+        System.out.println(differenceOfAngle);
 
 
         if (differenceOfAngle <= smallestEcartPossible /2 && differenceOfAngle >= -smallestEcartPossible/2) {
@@ -184,18 +188,18 @@ public class Boat {
 
                         // Si on a pas le bon angle, il est donc nécessaire de tourner vers l'angle le plus proche et ensuite de
                         // calculer une trajectoire
-                        //System.out.println("Pas le bon angle MOMO");
+                        System.out.println("Pas le bon angle MOMO");
 
                         // Nous allons dans un premier temps essayer de trouver l'angle le plus proche (inferieur)
 
 
-                        //System.out.println("smallest : " + smallestEcartPossible);
-                        //System.out.println("What we want : " + differenceOfAngle);
+                        System.out.println("smallest : " + smallestEcartPossible);
+                        System.out.println("What we want : " + differenceOfAngle);
                         BabordTribordAngle dispositionWePrivilege = possibleAngles.stream().filter(angle -> angle.getTribord() == angle.getBabord()).findAny().get();;
 
 
                         for (BabordTribordAngle actualAngle: possibleAngles) {
-                            //System.out.println(actualAngle.toString());
+                            System.out.println(actualAngle.toString());
 
 
                             // Pour angleWeWant Positif : Si actualAngle appartient a (angleWeWant - (smallestEcartPossible / 2)) On peut prendre en compte ce babordTribordAngle
@@ -219,8 +223,8 @@ public class Boat {
                         }
 
                         generateActionsForRotation(dispositionWePrivilege, possibleAngles, differenceWeAccept);
-                        //System.out.println(dispositionWePrivilege.toString());
-                        //System.out.println(actionsToDo);
+                        System.out.println(dispositionWePrivilege.toString());
+                        System.out.println(actionsToDo);
 
                     }
                 }
@@ -253,7 +257,7 @@ public class Boat {
                     double angle = (diff == 0) ? 0 : Math.PI * diff / numberOfOars ;
                     possibleAngles.add(new BabordTribordAngle(bab,tri,angle));
 
-                    //System.out.println(bab + " " + tri + " " + diff + " " + angle);
+                    System.out.println(bab + " " + tri + " " + diff + " " + angle);
                 }
             }
         }
@@ -295,7 +299,7 @@ public class Boat {
         }
 
 
-        //System.out.println("Nous entrons dans la fonction generateAction et nous voulons un angle de : " + wantedAngle);
+        System.out.println("Nous entrons dans la fonction generateAction et nous voulons un angle de : " + wantedAngle);
 
 
         /** Dans un premier temps, nous allons chercher le nombre de rame qu'il nous faut a babord et a tribord pour
@@ -313,7 +317,7 @@ public class Boat {
          * Maintenant que nous avons notre objectif de repartition, il nous faut regarder sur le bateau si nous avons
          * le bon nombre de rames du bon cote
          */
-        //System.out.println(goal.toString());
+        System.out.println(goal.toString());
 
 
         if (numberOfBabordOar >= goal.getBabord() && numberOfTribordOar >= goal.getTribord()) {
@@ -327,7 +331,7 @@ public class Boat {
                 /**
                  * Si nous avons suffisament a tribord et a babord, il nous suffit de ramer sur les bonnes rames
                  */
-                //System.out.println("Nous avons suffisament de marins de chaque cote, RAMONS !");
+                System.out.println("Nous avons suffisament de marins de chaque cote, RAMONS !");
                 generateOarAction(goal.getBabord(), goal.getTribord(), sailorsOnOarAtBabord, sailorsOnOarAtTribord);
 
 
@@ -338,7 +342,7 @@ public class Boat {
 
                 if (sailorsOnOarAtBabord.size() < goal.getBabord()) {
                     // Mais sinon, nous devons bouger un marin
-                    //System.out.println("Babord toute !");
+                    System.out.println("Babord toute !");
 
                     moveSailorsAtBabord(goal.getBabord(), goal.getTribord(), sailorsOnOarAtTribord, sailorsOnOarAtBabord);
                 } else {
@@ -348,7 +352,7 @@ public class Boat {
 
                 if (sailorsOnOarAtTribord.size() < goal.getTribord()) {
                     // Mais sinon, nous devons bouger un marin
-                    //System.out.println("Tribord toute !");
+                    System.out.println("Tribord toute !");
 
                     moveSailorsAtTribord(goal.getBabord(), goal.getTribord(), sailorsOnOarAtTribord, sailorsOnOarAtBabord);
                 } else {
@@ -407,8 +411,8 @@ public class Boat {
      */
     private void generateOarAction(int numberOfOarWeWantToActivateAtBabord, int numberOfOarWeWantToActivateAtTribord, List<Marin> sailorsOnOarAtBabord, List<Marin> sailorsOnOarAtTribord) {
 
-        //System.out.println(sailorsOnOarAtBabord + " : " + sailorsOnOarAtTribord);
-        //System.out.println(numberOfOarWeWantToActivateAtBabord + " : " + numberOfOarWeWantToActivateAtTribord);
+        System.out.println(sailorsOnOarAtBabord + " : " + sailorsOnOarAtTribord);
+        System.out.println(numberOfOarWeWantToActivateAtBabord + " : " + numberOfOarWeWantToActivateAtTribord);
 
         for (int i = 0; i < numberOfOarWeWantToActivateAtBabord; i++) {
             actionsToDo.add(new Oar(sailorsOnOarAtBabord.get(i).getId()));
@@ -416,7 +420,7 @@ public class Boat {
         for (int i = 0; i < numberOfOarWeWantToActivateAtTribord; i++) {
             actionsToDo.add(new Oar(sailorsOnOarAtTribord.get(i).getId()));
         }
-        //System.out.println(actionsToDo.toString());
+        System.out.println(actionsToDo.toString());
     }
 
     /**
@@ -439,14 +443,14 @@ public class Boat {
          * coordonnées : (toute la hauteur du bateau  ;  [1 : +inf])
          */
 
-        //System.out.println("========================================================");
-        //System.out.println("Nous avons actuellement " + sailorsOnOarAtBabord.size() + " marins a babors et " + sailorsOnOarAtTribord.size() + " marins a tribord");
-        //System.out.println("Nous allons essayer de placer " + goalBabord + " marins a babord et " + goalTribord + " marins a tribord");
-        //System.out.println("========================================================");
+        System.out.println("========================================================");
+        System.out.println("Nous avons actuellement " + sailorsOnOarAtBabord.size() + " marins a babors et " + sailorsOnOarAtTribord.size() + " marins a tribord");
+        System.out.println("Nous allons essayer de placer " + goalBabord + " marins a babord et " + goalTribord + " marins a tribord");
+        System.out.println("========================================================");
 
         List<Point> emplacementWhereAnyBoatEntities = parcelsWhereAnyEntitiesArePresent();
-        //System.out.println("Emplacement ou il n'y a aucune rame : " + emplacementWhereAnyBoatEntities.toString());
-        //System.out.println("Place OAR inutilisées a babord: " + freeOarPlaceAtBabord);
+        System.out.println("Emplacement ou il n'y a aucune rame : " + emplacementWhereAnyBoatEntities.toString());
+        System.out.println("Place OAR inutilisées a babord: " + freeOarPlaceAtBabord);
 
         // Nous allons essayer de trouver un marin qui ne se situe pas sur une rame (c'est a dire qu'il se situe sur une case vide)
         List<Marin> sailorsWhoAreSituatedOnAnyBotEntities = new ArrayList<>();
@@ -461,12 +465,12 @@ public class Boat {
             }
         }
 
-        //System.out.println("Nous avons un marin potentiel a l'emplacement (situé sur une case vide) : " + sailorsWhoAreSituatedOnAnyBotEntities.toString());
+        System.out.println("Nous avons un marin potentiel a l'emplacement (situé sur une case vide) : " + sailorsWhoAreSituatedOnAnyBotEntities.toString());
 
         // Nous allons chercher les marins qui se situent sur une rame a tribord
         // => sailorsOnOarAtTribord
 
-        //System.out.println("Nous avons un marin potentiel a l'emplacement (situé sur une rame a tribord) : " + sailorsOnOarAtTribord.toString());
+        System.out.println("Nous avons un marin potentiel a l'emplacement (situé sur une rame a tribord) : " + sailorsOnOarAtTribord.toString());
 
 
 
@@ -482,17 +486,17 @@ public class Boat {
         // Verifions si nous en avons assez dans la liste des marins qui ne se trouve sur aucune BoatEntities
         if (wantedSailorAtBabord <= sailorsWhoAreSituatedOnAnyBotEntities.size()) {
             // Nous avons ici suffisament de marins sur des places libres pour entammer une rotation
-            //System.out.println("Suffisament de marins dans des places libres, bougeons les marins !");
+            System.out.println("Suffisament de marins dans des places libres, bougeons les marins !");
             moveListOfSailors(sailorsWhoAreSituatedOnAnyBotEntities, freeOarPlaceAtBabord);
 
         } else {
             // Nous sommes obliger de piocher encore quelques marins dans la liste des marins a tribord
-            //System.out.println("Pas assez de marins dans des places libres, enlevons des marins qui se situent sur des rames a tribord ...");
+            System.out.println("Pas assez de marins dans des places libres, enlevons des marins qui se situent sur des rames a tribord ...");
             List<Point> residualsPoints = moveListOfSailors(sailorsWhoAreSituatedOnAnyBotEntities, freeOarPlaceAtBabord);
             moveListOfSailors(sailorsOnOarAtTribord, residualsPoints);
         }
 
-        //System.out.println(actionsToDo.toString());
+        System.out.println(actionsToDo.toString());
     }
 
     public void moveSailorsAtTribord(int goalBabord, int goalTribord, List<Marin> sailorsOnOarAtTribord, List<Marin> sailorsOnOarAtBabord) {
@@ -511,14 +515,14 @@ public class Boat {
          * coordonnées : (toute la hauteur du bateau  ;  [1 : +inf])
          */
 
-        //System.out.println("========================================================");
-        //System.out.println("Nous avons actuellement " + sailorsOnOarAtBabord.size() + " marins a babors et " + sailorsOnOarAtTribord.size() + " marins a tribord");
-        //System.out.println("Nous allons essayer de placer " + goalBabord + " marins a babord et " + goalTribord + " marins a tribord");
-        //System.out.println("========================================================");
+        System.out.println("========================================================");
+        System.out.println("Nous avons actuellement " + sailorsOnOarAtBabord.size() + " marins a babors et " + sailorsOnOarAtTribord.size() + " marins a tribord");
+        System.out.println("Nous allons essayer de placer " + goalBabord + " marins a babord et " + goalTribord + " marins a tribord");
+        System.out.println("========================================================");
 
         List<Point> emplacementWhereAnyBoatEntities = parcelsWhereAnyEntitiesArePresent();
-        //System.out.println("Emplacement ou il n'y a aucune rame : " + emplacementWhereAnyBoatEntities.toString());
-        //System.out.println("Place OAR inutilisées a babord: " + freeOarPlaceAtTribord);
+        System.out.println("Emplacement ou il n'y a aucune rame : " + emplacementWhereAnyBoatEntities.toString());
+        System.out.println("Place OAR inutilisées a babord: " + freeOarPlaceAtTribord);
 
         // Nous allons essayer de trouver un marin qui ne se situe pas sur une rame (c'est a dire qu'il se situe sur une case vide)
         List<Marin> sailorsWhoAreSituatedOnAnyBotEntities = new ArrayList<>();
@@ -534,12 +538,12 @@ public class Boat {
         }
 
 
-        //System.out.println("Nous avons un marin potentiel a l'emplacement (situé sur une case vide) : " + sailorsWhoAreSituatedOnAnyBotEntities.toString());
+        System.out.println("Nous avons un marin potentiel a l'emplacement (situé sur une case vide) : " + sailorsWhoAreSituatedOnAnyBotEntities.toString());
 
         // Nous allons chercher les marins qui se situent sur une rame a tribord
         // => sailorsOnOarAtBabord
 
-        //System.out.println("Nous avons un marin potentiel a l'emplacement (situé sur une rame a babord) : " + sailorsOnOarAtBabord.toString());
+        System.out.println("Nous avons un marin potentiel a l'emplacement (situé sur une rame a babord) : " + sailorsOnOarAtBabord.toString());
 
         /**
          * Ce que nous devons faire maintenant, c'est prendre les marins se situant sur une case vide et les bouger sur
@@ -553,17 +557,17 @@ public class Boat {
         // Verifions si nous en avons assez dans la liste des marins qui ne se trouve sur aucune BoatEntities
         if (wantedSailorAtTribord <= sailorsWhoAreSituatedOnAnyBotEntities.size()) {
             // Nous avons ici suffisament de marins sur des places libres pour entammer une rotation
-            //System.out.println("Suffisament de marins dans des places libres, bougeons les marins !");
+            System.out.println("Suffisament de marins dans des places libres, bougeons les marins !");
             moveListOfSailors(sailorsWhoAreSituatedOnAnyBotEntities, freeOarPlaceAtTribord);
 
         } else {
             // Nous sommes obliger de piocher encore quelques marins dans la liste des marins a tribord
-            //System.out.println("Pas assez de marins dans des places libres, enlevons des marins qui se situent sur des rames a tribord ...");
+            System.out.println("Pas assez de marins dans des places libres, enlevons des marins qui se situent sur des rames a tribord ...");
             List<Point> residualsPoints = moveListOfSailors(sailorsWhoAreSituatedOnAnyBotEntities, freeOarPlaceAtTribord);
             moveListOfSailors(sailorsOnOarAtBabord, residualsPoints);
         }
 
-        //System.out.println(actionsToDo.toString());
+        System.out.println(actionsToDo.toString());
 
     }
 
@@ -798,7 +802,7 @@ public class Boat {
                     double angle = (diff == 0) ? 0 : Math.PI * diff / numberOfOars ;
                     possibleAngles.add(new BabordTribordAngle(bab,tri,angle));
 
-                    //System.out.println(bab + " " + tri + " " + diff + " " + angle);
+                    System.out.println(bab + " " + tri + " " + diff + " " + angle);
                 }
             }
         }
@@ -864,7 +868,7 @@ public class Boat {
             if ( babTriAng.getAngle() >= min && babTriAng.getAngle() <= max) {
                 // TODO : we can optimize here for check what is the good element to do
                 rotActionToDoForTurn.add(babTriAng);
-                //System.out.println(babTriAng);
+                System.out.println(babTriAng);
                 differenceOfAngle = differenceOfAngle - babTriAng.getAngle();
                 break;
             }
