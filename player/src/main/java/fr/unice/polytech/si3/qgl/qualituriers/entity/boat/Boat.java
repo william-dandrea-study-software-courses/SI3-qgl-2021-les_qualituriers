@@ -108,6 +108,24 @@ public class Boat {
         return captain;
     }
 
+
+    /**
+     * Donne la liste d'action a chaque tour permettant d'achever l'objectif fixe au capitaine
+     * @return La liste d'action.
+     */
+    public List<Action> playerTurn() {
+        captain.decide();
+        foreman.decide();
+
+        List<Action> actions = new ArrayList<>();
+
+        for(var sailor : sailors) {
+            actions.addAll(sailor.actionDoneDuringTurn());
+        }
+
+        return actions;
+    }
+
     public void setActionsToDo(List<Action> actionsToDo) {
         this.actionsToDo = actionsToDo;
     }
