@@ -2,15 +2,13 @@ package fr.unice.polytech.si3.qgl.qualituriers.render;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.CockpitLogger;
 
-import javax.xml.crypto.NoSuchMechanismException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,8 +29,8 @@ public class SecondRender extends Render {
 
     private ObjectMapper om;
 
-    public SecondRender(GameInfo gameInfo) {
-        super(gameInfo);
+    public SecondRender(GameInfo gameInfo, CockpitLogger logger) {
+        super(gameInfo, logger);
         om = new ObjectMapper();
 
         var goal = (RegattaGoal)gameInfo.getGoal();

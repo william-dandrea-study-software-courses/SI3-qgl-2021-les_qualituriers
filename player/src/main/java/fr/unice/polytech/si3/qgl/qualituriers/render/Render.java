@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.render;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
 
 /**
  * Représente un rendu.
@@ -13,9 +14,11 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 public abstract class Render {
 
     protected final GameInfo gameInfo;
+    protected final ILogger logger;
 
-    public Render(GameInfo gameInfo) {
+    public Render(GameInfo gameInfo, ILogger logger) {
         this.gameInfo = gameInfo;
+        this.logger = logger;
     }
 
     /**
