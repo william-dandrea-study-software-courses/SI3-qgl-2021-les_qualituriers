@@ -8,16 +8,28 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.BabordTribordAngle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+/**
+ * Classe de test pour {@link TurnBoat}
+ *
+ * @author D'Andrea William
+ * @version 1.0 - MAJ pour WEEK3
+ * @date 14 février 2021
+ */
 class TurnBoatTest {
 
     private Transform defaultTransform;
@@ -57,6 +69,269 @@ class TurnBoatTest {
 
 
     }
+
+    @Test
+    void turnBoatTestReturnActionsWithTheGoodAmountOfSailorsOnEachSide() {
+
+        Deck actualDeck = new Deck(2,4);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,1){},
+                new BoatEntity(BoatEntities.OAR, 1,0){},
+                new BoatEntity(BoatEntities.OAR, 1,1){},
+                new BoatEntity(BoatEntities.OAR, 3,0){},
+                new BoatEntity(BoatEntities.OAR, 3,1){},
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,0,0, "marin1")); // babord
+            add(new Marin(2,0,1, "marin2")); // tribord
+            add(new Marin(3,1,0, "marin3")); // babord
+            add(new Marin(4,1,1, "marin4")); // tribord
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(Math.PI/6, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+        System.out.println(actions);
+        assertEquals(3, actions.size());
+
+        List<Action> babordActions = actions.stream().filter(action -> action.getSailorId() == 1 || action.getSailorId() == 3).collect(Collectors.toList());
+        List<Action> tribordActions = actions.stream().filter(action -> action.getSailorId() == 2 || action.getSailorId() == 4).collect(Collectors.toList());
+        assertEquals(2, tribordActions.size());
+        assertEquals(1, babordActions.size());
+    }
+
+
+    @Test
+    void turnBoatTestReturnActionsWithNotTheGoodAmountOfSailorsOnEachSide() {
+
+        Deck actualDeck = new Deck(2,4);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,1){},
+                new BoatEntity(BoatEntities.OAR, 1,0){},
+                new BoatEntity(BoatEntities.OAR, 1,1){},
+                new BoatEntity(BoatEntities.OAR, 3,0){},
+                new BoatEntity(BoatEntities.OAR, 3,1){},
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,1,1, "marin1")); // tribord
+            add(new Marin(2,0,1, "marin2")); // tribord
+            add(new Marin(3,2,0, "marin3")); // rien
+            add(new Marin(4,2,1, "marin4")); // rien
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(-2*Math.PI/6, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+        System.out.println(actions);
+
+
+        //List<Action> babordActions = actions.stream().filter(action -> action.getSailorId() == 1 || action.getSailorId() == 3).collect(Collectors.toList());
+        //List<Action> tribordActions = actions.stream().filter(action -> action.getSailorId() == 2 || action.getSailorId() == 4).collect(Collectors.toList());
+
+
+
+        System.out.println(actions);
+        assertEquals(2, actions.stream().filter(action -> action instanceof Oar).count());
+        //assertEquals(1, babordActions.size());
+    }
+
+    @Test
+    void turnBoatTestReturnActionsWithNotTheGoodAmountOfSailorsOnEachSideForTheOtherSide() {
+
+        Deck actualDeck = new Deck(2,4);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,1){},
+                new BoatEntity(BoatEntities.OAR, 1,0){},
+                new BoatEntity(BoatEntities.OAR, 1,1){},
+                new BoatEntity(BoatEntities.OAR, 3,0){},
+                new BoatEntity(BoatEntities.OAR, 3,1){},
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,0,1, "marin1")); // babord
+            add(new Marin(2,0,0, "marin2")); // babord
+            add(new Marin(3,2,0, "marin3")); // rien
+            add(new Marin(4,2,1, "marin4")); // rien
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(2*Math.PI/6, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+        System.out.println(actions);
+
+
+        //List<Action> babordActions = actions.stream().filter(action -> action.getSailorId() == 1 || action.getSailorId() == 3).collect(Collectors.toList());
+        //List<Action> tribordActions = actions.stream().filter(action -> action.getSailorId() == 2 || action.getSailorId() == 4).collect(Collectors.toList())
+
+
+        System.out.println(actions);
+        assertEquals(2, actions.stream().filter(action -> action instanceof Oar).count());
+        //assertEquals(1, babordActions.size());
+    }
+
+    /**
+     * Va evoluer selon l'algo - peut etre faux si l'algo permet de bouger des marins qui sont deja positionnées sur
+     * des rames
+     */
+    @Test
+    void turnBoatTestWithAnyFreeSailorsBabord() {
+
+        Deck actualDeck = new Deck(2,4);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,1){},
+                new BoatEntity(BoatEntities.OAR, 1,0){},
+                new BoatEntity(BoatEntities.OAR, 1,1){},
+                new BoatEntity(BoatEntities.OAR, 3,0){},
+                new BoatEntity(BoatEntities.OAR, 3,1){},
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,0,1, "marin1")); // babord
+            add(new Marin(2,0,0, "marin2")); // babord
+            add(new Marin(3,1,0, "marin3")); // rien
+            add(new Marin(4,1,1, "marin4")); // rien
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(Math.PI/2, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+
+
+        System.out.println(actions);
+        assertEquals(2, actions.stream().filter(action -> action instanceof Oar).count());
+        //assertEquals(1, babordActions.size());
+    }
+
+
+    /**
+     * Va evoluer selon l'algo - peut etre faux si l'algo permet de bouger des marins qui sont deja positionnées sur
+     * des rames
+     */
+    @Test
+    void turnBoatTestWithAnyFreeSailorsTribord() {
+
+        Deck actualDeck = new Deck(2,4);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,1){},
+                new BoatEntity(BoatEntities.OAR, 1,0){},
+                new BoatEntity(BoatEntities.OAR, 1,1){},
+                new BoatEntity(BoatEntities.OAR, 3,0){},
+                new BoatEntity(BoatEntities.OAR, 3,1){},
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,0,0, "marin1")); // babord
+            add(new Marin(2,1,0, "marin2")); // babord
+            add(new Marin(3,0,1, "marin3")); // rien
+            add(new Marin(4,1,1, "marin4")); // rien
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(-Math.PI/2, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+
+
+        System.out.println(actions);
+        assertEquals(2, actions.stream().filter(action -> action instanceof Oar).count());
+        //assertEquals(1, babordActions.size());
+    }
+
+
+    /**
+     * Va evoluer selon l'algo - peut etre faux si l'algo permet de bouger des marins qui sont deja positionnées sur
+     * des rames
+     */
+    @Test
+    void turnBoatTestWithAnyFreeSailorsAndAnyTribordSailorsTribord() {
+
+        Deck actualDeck = new Deck(2,4);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,1){},
+                new BoatEntity(BoatEntities.OAR, 1,0){},
+                new BoatEntity(BoatEntities.OAR, 1,1){},
+                new BoatEntity(BoatEntities.OAR, 3,0){},
+                new BoatEntity(BoatEntities.OAR, 3,1){},
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,0,1, "marin1")); // babord
+            add(new Marin(2,1,1, "marin2")); // babord
+            add(new Marin(3,3,1, "marin3")); // rien
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(-Math.PI/2, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+
+
+        System.out.println(actions);
+        assertEquals(0, actions.stream().filter(action -> action instanceof Oar).count());
+        //assertEquals(1, babordActions.size());
+    }
+
+
+    /**
+     * Va evoluer selon l'algo - peut etre faux si l'algo permet de bouger des marins qui sont deja positionnées sur
+     * des rames
+     */
+    @Test
+    void turnBoatTestWithAnyFreeSailorsAndAnyBabordSailorsBabord() {
+
+        Deck actualDeck = new Deck(2,4);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,1){},
+                new BoatEntity(BoatEntities.OAR, 1,0){},
+                new BoatEntity(BoatEntities.OAR, 1,1){},
+                new BoatEntity(BoatEntities.OAR, 3,0){},
+                new BoatEntity(BoatEntities.OAR, 3,1){},
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,0,0, "marin1")); // babord
+            add(new Marin(2,1,0, "marin2")); // babord
+            add(new Marin(3,3,0, "marin3")); // rien
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(Math.PI/2, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+
+
+        System.out.println(actions);
+        assertEquals(0, actions.stream().filter(action -> action instanceof Oar).count());
+        //assertEquals(1, babordActions.size());
+    }
+
+
+
+
+
+
+
+
 
     @Test
     void turnBoatWhenAngleOfDeriveEqual0() {
@@ -150,6 +425,8 @@ class TurnBoatTest {
 
         TurnBoat turnBoat = new TurnBoat((Math.PI/6) - 0.01, actualBoat, actualListSailors);
         turnBoat.turnBoat();
+
+        System.out.println(turnBoat.getFinalDispositionOfOars().getAngle());
         assertEquals((Math.PI/6), turnBoat.getFinalDispositionOfOars().getAngle());
 
         turnBoat = new TurnBoat((Math.PI/6) + 0.01, actualBoat, actualListSailors);
@@ -392,8 +669,7 @@ class TurnBoatTest {
     @Test
     void generateListOfPossibleAnglesTestWithClassicInputAndDifferentField() {
 
-        //defaultListBoatEntities.add(new BoatEntity(BoatEntities.OAR, 2,2) {});
-        //defaultListBoatEntities.add(new BoatEntity(BoatEntities.OAR, 2,1) {});
+
 
         TurnBoat turnBoat = new TurnBoat(0.0,defaultBoat, defaultListSailors);
 
@@ -541,11 +817,13 @@ class TurnBoatTest {
 
 
         TurnBoat turnBoat = new TurnBoat(2 * Math.PI / 6, actualBoat, actualListSailors);
-        turnBoat.turnBoat();
+        //turnBoat.turnBoat();
 
-        BabordTribordAngle finalRepartition = turnBoat.generateIdealRepartitionOfOars(2 * Math.PI / 6);
+        BabordTribordAngle finalRepartition = turnBoat.selectTheGoodAngle(2 * Math.PI / 6);
 
-        assertEquals(new BabordTribordAngle(1, 3, 2 * Math.PI / 6), finalRepartition);
+        //System.out.println(finalRepartition);
+
+        assertEquals(2 * Math.PI / 6, finalRepartition.getAngle());
     }
 
     @Test
@@ -574,12 +852,13 @@ class TurnBoatTest {
         }};
 
 
-        TurnBoat turnBoat = new TurnBoat(2 * Math.PI / 6, actualBoat, actualListSailors);
+        TurnBoat turnBoat = new TurnBoat(-2 * Math.PI / 6, actualBoat, actualListSailors);
         turnBoat.turnBoat();
 
-        BabordTribordAngle finalRepartition = turnBoat.generateIdealRepartitionOfOars(-2 * Math.PI / 6);
+        BabordTribordAngle finalRepartition = turnBoat.selectTheGoodAngle(-2 * Math.PI / 6);
 
-        assertEquals(new BabordTribordAngle(3, 1, -2 * Math.PI / 6), finalRepartition);
+
+        assertEquals(-2 * Math.PI / 6, finalRepartition.getAngle());
     }
 
 
@@ -748,7 +1027,7 @@ class TurnBoatTest {
         TurnBoat turnBoat = new TurnBoat(0.85, actualBoat, actualListSailors);
         turnBoat.turnBoat();
 
-        BabordTribordAngle finalRepartition = turnBoat.generateIdealRepartitionOfOars(0.85);
+        BabordTribordAngle finalRepartition = turnBoat.selectTheGoodAngle(0.85);
 
         assertEquals(+Math.PI / 4, finalRepartition.getAngle());
     }
@@ -783,7 +1062,7 @@ class TurnBoatTest {
         TurnBoat turnBoat = new TurnBoat(-0.85, actualBoat, actualListSailors);
         turnBoat.turnBoat();
 
-        BabordTribordAngle finalRepartition = turnBoat.generateIdealRepartitionOfOars(-0.85);
+        BabordTribordAngle finalRepartition = turnBoat.selectTheGoodAngle(-0.85);
 
         assertEquals(-Math.PI / 4, finalRepartition.getAngle());
     }
@@ -822,4 +1101,9 @@ class TurnBoatTest {
 
         assertEquals(0.0, finalRepartition.getAngle());
     }
+
+
+
+
+
 }

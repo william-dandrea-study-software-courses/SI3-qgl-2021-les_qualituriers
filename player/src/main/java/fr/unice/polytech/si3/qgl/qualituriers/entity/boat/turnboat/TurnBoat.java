@@ -9,6 +9,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.BabordTribordAngle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,15 +19,17 @@ import java.util.stream.Collectors;
  * Cette classe a pour objectif générale de faire tourner le bateau d'un certain angle.
  *
  * Cette classe doit être appelé si l'on souhaite faire bouger le bateau d'un certain angle. Nous avons plusieurs solutions :
- * - soit nous pouvons tourner d'un angle exacte (un angle donné par la formule) et ainsi, l'algo va aller chercher la meilleur répartition de marins
+ * - soit nous pouvons tourner d'un angle exacte (un angle donné par la formule) et ainsi, l'algorithme va aller chercher la meilleur répartition de marins
+ *
+ * @author D'Andrea William
+ * @version 1.0 - MAJ pour WEEK3
+ * @date 14 février 2021
  */
 public class TurnBoat {
 
-    private final double ECART_DOUBLE = 0.001;
+    private static final double ECART_DOUBLE = 0.001;
 
     // Initial properties
-
-
     private final Boat boat;
     private final double finalOrientationBoat;
     private final List<Marin> sailors;
@@ -56,13 +60,14 @@ public class TurnBoat {
     /**
      * @param finalOrientationBoat l'orientation finale que le bateau doit avoir (pas besoin de faire de calculs au préalable)
      * @param boat : le bateau actuel
-     * @param sailors est la liste des marins que l'on veut utiliser pour executer cette action
+     * @param sailors est la liste des marins que l'on veut utiliser pour exécuter cette action
      */
     public TurnBoat(double finalOrientationBoat, Boat boat, List<Marin> sailors) {
         this.finalOrientationBoat = finalOrientationBoat;
         this.boat = boat;
         this.sailors = sailors;
 
+        actionsToDo = new ArrayList<>();
 
         actualizeAll();
 
@@ -71,7 +76,7 @@ public class TurnBoat {
 
     public List<Action> turnBoat() {
 
-        actualizeAll();
+
 
         // Intern properties
         double differenceOfAngle = generateDifferenceOfAngle(false);
@@ -85,15 +90,17 @@ public class TurnBoat {
         possibleAngles = generateListOfPossibleAngles(0);
 
         if (differenceOfAngle <= -Math.PI / 2) {
-            finalDispositionOfOars = generateIdealRepartitionOfOars(-Math.PI / 2);
+            finalDispositionOfOars = selectTheGoodAngle(-Math.PI / 2);
         } else if (differenceOfAngle >= Math.PI / 2) {
-            finalDispositionOfOars = generateIdealRepartitionOfOars(Math.PI / 2);
+            finalDispositionOfOars = selectTheGoodAngle(Math.PI / 2);
         } else {
-            finalDispositionOfOars = generateIdealRepartitionOfOars(differenceOfAngle);
+            finalDispositionOfOars = selectTheGoodAngle(differenceOfAngle);
         }
 
 
-        System.out.println(finalDispositionOfOars);
+
+
+        oar(finalDispositionOfOars.getBabord(), finalDispositionOfOars.getTribord());
 
 
 
@@ -101,22 +108,58 @@ public class TurnBoat {
     }
 
 
+    BabordTribordAngle selectTheGoodAngle(double angle) {
+        // On les regeneres pour etre sur
+        possibleAngles = generateListOfPossibleAngles(0);
+
+
+        BabordTribordAngle finalRepartition = new BabordTribordAngle(0,0,0);
+        double smallestEcart = Math.PI / numberOfOars;
+
+
+
+        // condition si on est autour de 0
+        if (smallestEcart/2 >= angle &&  -smallestEcart/2 <= angle) {
+
+            Optional<BabordTribordAngle> finalRepartitionTemp = possibleAngles.stream().filter(eachAngle -> eachAngle.getTribord() == eachAngle.getBabord() && eachAngle.getBabord() == numberOfOars/2).findAny();
+            if (finalRepartitionTemp.isPresent()){
+                finalRepartition = finalRepartitionTemp.get();
+            }
+
+        } else {
+            for (BabordTribordAngle eachAngle : possibleAngles) {
+                if (angle > eachAngle.getAngle() - (smallestEcart/2) && angle <= eachAngle.getAngle() + (smallestEcart/2) ) {
+                    System.out.println("=======bonjour");
+                    finalRepartition = generateIdealRepartitionOfOars(eachAngle.getAngle());
+                    System.out.println("======" + finalRepartition);
+                    break;
+                }
+            }
+        }
+
+
+        return finalRepartition;
+    }
+
+
+
 
     /**
      * Cette méthode va permettre de trouver quel est la répartition idéale de marin qui vont ramer
      * @param angle est l'angle dont on souhaite tourner
-     * @return la meilleure dispositions des rames pour entammer une rotation
+     * @return la meilleure dispositions des rames pour entamer une rotation
      */
     BabordTribordAngle generateIdealRepartitionOfOars(double angle) {
 
-        BabordTribordAngle finalRepartition = null;
 
         List<BabordTribordAngle> idealsRepartitionOfOars = possibleAngles.stream().filter( eachAngle -> eachAngle.getAngle() - ECART_DOUBLE <= angle && eachAngle.getAngle() + ECART_DOUBLE >= angle).collect(Collectors.toList());
+        BabordTribordAngle finalRepartition = new BabordTribordAngle(0,0,0);
+
 
         if (!idealsRepartitionOfOars.isEmpty()) {
             finalRepartition = idealsRepartitionOfOars.stream().findFirst().get();
-        }
 
+        }
 
         // Plus on a de marins qui rament, et plus notre bateau pourra aller vite. Il faut donc trouver le maximum possible
         int numberOfSailorOnOarAtTribord = sailorsOnOarAtTribord.size();
@@ -124,89 +167,205 @@ public class TurnBoat {
         int numberOfSailorsOnAnyEntities = sailorsOnAnyEntities.size();
 
 
-        // // CAS OU ANGLE TOMBE PAS SUR UNE VALEUR EXACTE //
+
+        // CAS OU ANGLE TOMBE PAS SUR UNE VALEUR EXACTE //
 
         // On va parcourir toutes les dispositions idéales afin de trouver celle qui pourra utiliser le maximum de marin
         for (BabordTribordAngle repartition : idealsRepartitionOfOars) {
 
+
+
             // On regarde si on en a assez a babord et a tribord (dans ceux qui sont déjà sur des rames)
             if (repartition.getBabord() <= numberOfSailorOnOarAtBabord && repartition.getTribord() <= numberOfSailorOnOarAtTribord) {
                 finalRepartition = repartition;
+
             } else {
 
-                // Si on en a assez a babord mais qu'il en manque un certain nombre a tribord mais qu'on a suffisamment de marin libre pour combler le trou
-                if (repartition.getBabord() <= numberOfSailorOnOarAtBabord && repartition.getTribord() > numberOfSailorOnOarAtTribord) {
+                if (repartition.getBabord() <= numberOfSailorOnOarAtBabord && repartition.getTribord() > numberOfSailorOnOarAtTribord && numberOfSailorsOnAnyEntities >= repartition.getTribord() - numberOfSailorOnOarAtTribord) {
+                    // Si on en a assez a babord mais qu'il en manque un certain nombre a tribord mais qu'on a suffisamment de marin libre pour combler le trou
 
                     int numberOfMissingTribordSailor = repartition.getTribord() - numberOfSailorOnOarAtTribord;
 
                     // On va d'abord trouver une place libre a tribord
                     finalRepartition = findBestRepartitionFromOneBoatSide(finalRepartition, numberOfSailorsOnAnyEntities, repartition, numberOfMissingTribordSailor, listOfOarsAtBabordWithAnySailorsOnIt);
+                    moveSailorsOnOar(finalRepartition);
+
+
                 }
 
 
-                // Si on en a assez a tribord mais qu'il en manque un certain nombre a babord mais qu'on a suffisamment de marin libre pour combler le trou
-                if (repartition.getTribord() <= numberOfSailorOnOarAtTribord && repartition.getBabord() > numberOfSailorOnOarAtBabord) {
+                if (repartition.getTribord() <= numberOfSailorOnOarAtTribord && repartition.getBabord() > numberOfSailorOnOarAtBabord && numberOfSailorsOnAnyEntities >= repartition.getBabord() - numberOfSailorOnOarAtBabord) {
 
+
+                    // Si on en a assez a tribord mais qu'il en manque un certain nombre a babord mais qu'on a suffisamment de marin libre pour combler le trou
                     int numberOfMissingBabordSailor = repartition.getBabord() - numberOfSailorOnOarAtBabord;
 
                     // On va d'abord trouver une place libre a tribord
                     finalRepartition = findBestRepartitionFromOneBoatSide(finalRepartition, numberOfSailorsOnAnyEntities, repartition, numberOfMissingBabordSailor, listOfOarsAtTribordWithAnySailorsOnIt);
+                    moveSailorsOnOar(finalRepartition);
+
                 }
+
+                //finalRepartition = repartitionMin;
 
 
                 // Si nous n'avons pas suffisamment de marin a gauche et a droite mais suffisamment de marins libres
                 // TODO : faire un algo permettant de trouver si on peut bouger tout les marins libres lorsque l'on a pas assez de marin sur des rames a gauche ET a droite
 
-
             }
+
         }
 
-
-        // CAS OU ANGLE NE TOMBE PAS SUR UNE VALEUR EXACTE //
-        if (finalRepartition == null) {
-
-            // PI * <diff rame tribord - rame bâbord>/<nombre total de rames>
-            double smallestEcart = Math.PI / numberOfOars;
-
-
-            // condition si on est autour de 0
-            if (smallestEcart/2 >= angle &&  -smallestEcart/2 <= angle) {
-
-                Optional<BabordTribordAngle> finalRepartitionTemp = possibleAngles.stream().filter(eachAngle -> eachAngle.getTribord() == eachAngle.getBabord() && eachAngle.getBabord() == numberOfOars/2).findAny();
-                if (finalRepartitionTemp.isPresent()){
-                    finalRepartition = finalRepartitionTemp.get();
-                }
-
-            } else {
-                for (BabordTribordAngle eachAngle : possibleAngles) {
-                    if (angle > eachAngle.getAngle() - (smallestEcart/2) && angle <= eachAngle.getAngle() + (smallestEcart/2) ) {
-                        finalRepartition = generateIdealRepartitionOfOars(eachAngle.getAngle());
-                    }
-                }
-            }
-        }
 
         return finalRepartition;
 
     }
 
 
+    private void moveSailorsOnOar(BabordTribordAngle repartition) {
+
+
+
+        int wantedBabordSailors = repartition.getBabord();
+        int wantedTribordSailors = repartition.getTribord();
+
+
+        while (sailorsOnOarAtBabord.size() <= wantedBabordSailors) {
+
+            BoatEntity rameWeChoose = listOfOarsAtBabordWithAnySailorsOnIt.stream().findFirst().get();
+            Marin marinWeChoose = sailorsOnAnyEntities.stream().filter(marin -> rameWeChoose.getX() - marin.getX() <= Config.MAX_MOVING_CASES_MARIN && rameWeChoose.getY() - marin.getY() <= Config.MAX_MOVING_CASES_MARIN).findAny().get();
+
+            // On va parcourir tout les marins libres et regarder lequel est le plus loin
+            for (Marin marinLibre : sailorsOnAnyEntities ) {
+
+                int differenceOfDistanceXMarinWeChoose = rameWeChoose.getX() - marinWeChoose.getX();
+                int differenceOfDistanceYMarinWeChoose = rameWeChoose.getY() - marinWeChoose.getY();
+
+                int differenceOfDistanceXMarinLibre = rameWeChoose.getX() - marinLibre.getX();
+                int differenceOfDistanceYMarinLibre = rameWeChoose.getY() - marinLibre.getY();
+
+                // Si le marin libre est plus loin que le marin actuel, on prend celui la
+                if (differenceOfDistanceXMarinLibre >= differenceOfDistanceXMarinWeChoose && differenceOfDistanceYMarinLibre >= differenceOfDistanceYMarinWeChoose && differenceOfDistanceXMarinLibre <= Config.MAX_MOVING_CASES_MARIN && differenceOfDistanceYMarinLibre <= Config.MAX_MOVING_CASES_MARIN) {
+                    marinWeChoose = marinLibre;
+                }
+            }
+
+
+
+            Moving marinMoving = new Moving(marinWeChoose.getId(), rameWeChoose.getX() - marinWeChoose.getX(), rameWeChoose.getY() - marinWeChoose.getY());
+            actionsToDo.add(marinMoving);
+
+            // Maintenant on bouge le marin marinWeChoose vers la rame rameWeChoose
+            marinWeChoose.setX(rameWeChoose.getX());
+            marinWeChoose.setY(rameWeChoose.getY());
+
+            Oar oar = new Oar(marinMoving.getSailorId());
+            actionsToDo.add(oar);
+
+            actualizeAll();
+        }
+
+
+
+        while (sailorsOnOarAtTribord.size() <= wantedTribordSailors) {
+
+            BoatEntity rameWeChoose = listOfOarsAtTribordWithAnySailorsOnIt.stream().findFirst().get();
+            Marin marinWeChoose = sailorsOnAnyEntities.stream().filter(marin -> rameWeChoose.getX() - marin.getX() <= Config.MAX_MOVING_CASES_MARIN && rameWeChoose.getY() - marin.getY() <= Config.MAX_MOVING_CASES_MARIN).findAny().get();
+
+            // On va parcourir tout les marins libres et regarder lequel est le plus loin
+            for (Marin marinLibre : sailorsOnAnyEntities ) {
+
+                int differenceOfDistanceXMarinWeChoose = rameWeChoose.getX() - marinWeChoose.getX();
+                int differenceOfDistanceYMarinWeChoose = rameWeChoose.getY() - marinWeChoose.getY();
+
+                int differenceOfDistanceXMarinLibre = rameWeChoose.getX() - marinLibre.getX();
+                int differenceOfDistanceYMarinLibre = rameWeChoose.getY() - marinLibre.getY();
+
+                // Si le marin libre est plus loin que le marin actuel, on prend celui la
+                if (differenceOfDistanceXMarinLibre >= differenceOfDistanceXMarinWeChoose && differenceOfDistanceYMarinLibre >= differenceOfDistanceYMarinWeChoose && differenceOfDistanceXMarinLibre <= Config.MAX_MOVING_CASES_MARIN && differenceOfDistanceYMarinLibre <= Config.MAX_MOVING_CASES_MARIN) {
+                    marinWeChoose = marinLibre;
+                }
+            }
+
+
+
+            Moving marinMoving = new Moving(marinWeChoose.getId(), rameWeChoose.getX() - marinWeChoose.getX(), rameWeChoose.getY() - marinWeChoose.getY());
+            actionsToDo.add(marinMoving);
+
+            // Maintenant on bouge le marin marinWeChoose vers la rame rameWeChoose
+            marinWeChoose.setX(rameWeChoose.getX());
+            marinWeChoose.setY(rameWeChoose.getY());
+
+            Oar oar = new Oar(marinMoving.getSailorId());
+            actionsToDo.add(oar);
+
+            actualizeAll();
+        }
+    }
+
+
+
+
+
+
+
+
+    private void oar(int babordOars, int tribordOars) {
+
+        actualizeListSailorsOnOar();
+
+        if (sailorsOnOarAtBabord.size() >= babordOars) {
+            for (int i = 0; i < babordOars; i++) {
+                Marin marin = sailorsOnOarAtBabord.get(i);
+                if (verifyIfSailorActuallyOar(marin.getId())) {
+                    actionsToDo.add(new Oar(marin.getId()));
+                }
+
+            }
+        }
+
+        if (sailorsOnOarAtTribord.size() >= tribordOars) {
+            for (int i = 0; i < tribordOars; i++) {
+                Marin marin = sailorsOnOarAtTribord.get(i);
+                if (verifyIfSailorActuallyOar(marin.getId())) {
+                    actionsToDo.add(new Oar(marin.getId()));
+                }
+            }
+        }
+
+
+    }
+
+    private boolean verifyIfSailorActuallyOar(int id) {
+        for (Action action : actionsToDo) {
+            if ((action instanceof Oar) && action.getSailorId() == id) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     /**
-     * Cette méthode va aller chercher la meilleure répartition possible lorsque l'on a suffisament de marins positionnées
-     * D'un cote du bateau mais pas suffisament dans l'autre. Il va donc aller chercher si on peut déplacer les marins libres
+     * Cette méthode va aller chercher la meilleure répartition possible lorsque l'on a suffisamment de marins positionnées
+     * D'un cote du bateau mais pas suffisamment dans l'autre. Il va donc aller chercher si on peut déplacer les marins libres
      * sur les rames ou il manque des marins afin de réaliser la répartition avec le plus de rames
-     * @param finalRepartition la valeur de sortie actuelle -> qui evoluera
+     * @param finalRepartition la valeur de sortie actuelle -> qui évoluera
      * @param numberOfSailorsOnAnyEntities nombre de marins qui ne sont sur aucune rames
      * @param repartition repartition actuelle de rames (tribordBabordAngle)
      * @param numberOfMissingSailor combien nous voulons de sailors
      * @param listOfOarsWithAnySailorsOnIt liste des rames ou il n'y a aucun marin dessus
-     * @return une repartition qui optimise les deplacement des marins
+     * @return une repartition qui optimise les déplacement des marins
      */
     private BabordTribordAngle findBestRepartitionFromOneBoatSide(BabordTribordAngle finalRepartition, int numberOfSailorsOnAnyEntities, BabordTribordAngle repartition, int numberOfMissingSailor, List<BoatEntity> listOfOarsWithAnySailorsOnIt) {
 
         if (numberOfMissingSailor <= numberOfSailorsOnAnyEntities) {
 
-            // On parcours tout les marins libre et on regarde si ils peuvent tous se deplacer
+
+
+            Map<Marin, BoatEntity> marinWeCanMove = new HashMap<>();
+
+            // On parcours tout les marins libre et on regarde si ils peuvent tous se déplacer
             for (Marin marinLibre : sailorsOnAnyEntities) {
 
                 int maxDistanceX = 0;   //Config.MAX_MOVING_CASES_MARIN;
@@ -219,17 +378,26 @@ public class TurnBoat {
                     int differenceOfX = rameLibre.getX() - marinLibre.getX();
                     int differenceOfY = rameLibre.getY() - marinLibre.getY();
 
-                    // Si la distance est supérieur a celle d'avant mais inferieur a la distance max qu'un marin peut faire, on a une nouvelle disposition
+                    // Si la distance est supérieur a celle d'avant mais inférieur a la distance max qu'un marin peut faire, on a une nouvelle disposition
                     if (differenceOfX >= maxDistanceX && differenceOfY >= maxDistanceY && differenceOfX <= Config.MAX_MOVING_CASES_MARIN && differenceOfY <= Config.MAX_MOVING_CASES_MARIN) {
+                        maxDistanceX = differenceOfX; maxDistanceY = differenceOfY;
+
                         finalRepartition = repartition;
-                        break;
+                        
+
                     }
                 }
-
             }
         }
+
+
         return finalRepartition;
     }
+
+
+
+
+
 
     /**
      * Les consignes du jeu disent que le bateau, pour une certaine quantité de rames, ne peut faire qu'un certains
@@ -273,7 +441,7 @@ public class TurnBoat {
     /**
      * Cette méthode actualise la variable differenceOfAngle qui a pour but de connaitre de quel angle le bateau doit
      * tourner
-     * @param privilegeNegativeAngle true si on privilégie un angle négatif pour un demi-tour, false si on préfére avoir
+     * @param privilegeNegativeAngle true si on privilégie un angle négatif pour un demi-tour, false si on préfère avoir
      *                               un angle positif lors d'un demi-tour (angle = PI)
      */
     double generateDifferenceOfAngle(boolean privilegeNegativeAngle) {
@@ -290,7 +458,7 @@ public class TurnBoat {
     /**
      * Cet algorithme est un algorithme de minimisation d'un angle qui va calculer l'équivalent d'un angle en une plus
      * petite valeur
-     * @param angle que l'on souhaite potentiellement reduire
+     * @param angle que l'on souhaite potentiellement réduire
      * @return angle réduit
      */
     private double minimizationAngleAlgorithm(double angle) {
@@ -313,15 +481,23 @@ public class TurnBoat {
      */
     private void actualizeListSailorsOnOar() {
 
+
+
+
         for (Marin sailor: sailors) {
+
             for(BoatEntity rightEntity : listOfOarsAtTribord) {
                 if (rightEntity.getX() == sailor.getX() && rightEntity.getY() == sailor.getY()) {
+
                     sailorsOnOarAtTribord.add(sailor);
                     sailorsOnOar.add(sailor);
                 }
             }
+
+
             for(BoatEntity leftEntity : listOfOarsAtBabord) {
                 if (leftEntity.getX() == sailor.getX() && leftEntity.getY() == sailor.getY()) {
+
                     sailorsOnOarAtBabord.add(sailor);
                     sailorsOnOar.add(sailor);
                 }
@@ -390,7 +566,7 @@ public class TurnBoat {
 
         }
 
-        actionsToDo = new ArrayList<>();
+
         possibleAngles = new ArrayList<>();
 
 
