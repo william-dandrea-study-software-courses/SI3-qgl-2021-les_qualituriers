@@ -113,7 +113,7 @@ public class Boat {
      * Donne la liste d'action a chaque tour permettant d'achever l'objectif fixe au capitaine
      * @return La liste d'action.
      */
-    public List<Action> playerTurn() {
+    public List<Action> playTurn() {
         captain.decide();
         foreman.decide();
 
