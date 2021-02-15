@@ -57,16 +57,4 @@ public abstract class BoatEntity {
                 ", y=" + y +
                 '}';
     }
-
-    public BoatEntities getType() {
-        return type;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
 }

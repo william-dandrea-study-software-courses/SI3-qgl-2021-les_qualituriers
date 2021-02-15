@@ -1,18 +1,19 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.BabordTribordAngle;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.HowTurn;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.*;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,6 +34,11 @@ public class Boat {
     private BoatEntity[] entities;
     private final Shape shape;
     private List<Action> actionsToDo;
+
+    @JsonIgnore
+    private Captain captain;
+    @JsonIgnore
+    private Foreman foreman;
     private List<Marin> sailors;
 
     @JsonCreator
@@ -46,6 +52,9 @@ public class Boat {
         this.entities = entities;
         this.shape = shape;
         this.actionsToDo = new ArrayList<>();
+
+        //this.captain = new Captain(this);
+        //this.foreman = new Foreman(this);
     }
 
     public String getName() {
@@ -78,6 +87,41 @@ public class Boat {
 
     public void setSailors(List<Marin> sailors) {
         this.sailors = sailors;
+        this.foreman.setSailors(sailors);
+    }
+
+    @JsonIgnore
+    public List<Marin> getSailors() {
+        if(sailors == null) return new ArrayList<>();
+        return List.copyOf(sailors);
+    }
+
+    @JsonIgnore
+    public Foreman getForeman() {
+        return foreman;
+    }
+
+    @JsonIgnore
+    public Captain getCaptain() {
+        return captain;
+    }
+
+
+    /**
+     * Donne la liste d'action a chaque tour permettant d'achever l'objectif fixe au capitaine
+     * @return La liste d'action.
+     */
+    public List<Action> playTurn() {
+        captain.decide();
+        foreman.decide();
+
+        List<Action> actions = new ArrayList<>();
+
+        for(var sailor : sailors) {
+            actions.addAll(sailor.actionDoneDuringTurn());
+        }
+
+        return actions;
     }
 
     public void setActionsToDo(List<Action> actionsToDo) {
@@ -95,6 +139,8 @@ public class Boat {
         turnBoat(angleWeWantToTurn);
 
     }
+
+
 
 
     /**
@@ -913,20 +959,10 @@ public class Boat {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Boat boat = (Boat) o;
-        return life == boat.life && Objects.equals(transform, boat.transform) && Objects.equals(name, boat.name)
-                && Objects.equals(deck, boat.deck) && Arrays.equals(entities, boat.entities)
-                && Objects.equals(shape, boat.shape) && Objects.equals(actionsToDo, boat.actionsToDo)
-                && Objects.equals(sailors, boat.sailors);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(life, transform, name, deck, shape, actionsToDo, sailors);
-        result = 31 * result + Arrays.hashCode(entities);
-        return result;
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(!(obj instanceof Boat)) return false;
+        var castedObj = (Boat)obj;
+        return castedObj.name.equals(name);
     }
 }
