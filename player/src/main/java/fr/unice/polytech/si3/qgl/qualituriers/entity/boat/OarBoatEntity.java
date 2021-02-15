@@ -14,4 +14,20 @@ public class OarBoatEntity extends BoatEntity {
     public OarBoatEntity(@JsonProperty("x") int x, @JsonProperty("y") int y) {
         super(BoatEntities.OAR, x, y);
     }
+
+    /**
+     * la rame est-elle une rame droite du bateau ?
+     * @return true si la rame est une rame droite du bateau
+     */
+    public boolean isRightOar() {
+        return y != 0;
+    }
+
+    /**
+     * la rame est-elle une rame gauche du bateau ?
+     * @return true si la rame est une rame gauche du bateau
+     */
+    public boolean isLeftOar() {
+        return y == 0;
+    }
 }

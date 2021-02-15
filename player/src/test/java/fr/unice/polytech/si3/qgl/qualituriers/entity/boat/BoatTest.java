@@ -24,13 +24,13 @@ class BoatTest {
     @Test
     void turnBoatTest() {
 
-        BoatEntity oar1 = new BoatEntity(BoatEntities.OAR, 0,0) {};
-        BoatEntity oar2 = new BoatEntity(BoatEntities.OAR, 1,0) {};
-        BoatEntity oar3 = new BoatEntity(BoatEntities.OAR, 0,1) {};
-        BoatEntity oar4 = new BoatEntity(BoatEntities.OAR, 1,1) {};
-        BoatEntity oar5 = new BoatEntity(BoatEntities.OAR, 3,0) {};
-        BoatEntity oar6 = new BoatEntity(BoatEntities.OAR, 3,1) {};
-        BoatEntity oar7 = new BoatEntity(BoatEntities.OAR, 2,1) {};
+        BoatEntity oar1 = new OarBoatEntity(0,0);
+        BoatEntity oar2 = new OarBoatEntity(1,0);
+        BoatEntity oar3 = new OarBoatEntity(0,1);
+        BoatEntity oar4 = new OarBoatEntity(1,1);
+        BoatEntity oar5 = new OarBoatEntity(3,0);
+        BoatEntity oar6 = new OarBoatEntity(3,1);
+        BoatEntity oar7 = new OarBoatEntity(2,1);
 
 
         Marin sailor1 = new Marin(1,0,0,"sailor1");

@@ -1,16 +1,15 @@
 {
   "ship": {
     "type": "ship",
-    "life": 100,
     "position": {
-      "x": 0,
-      "y": 0,
-      "orientation": 0
+      "x": 52.93255129340979,
+      "y": 52.10755129340978,
+      "orientation": 1.5707963267948943
     },
-    "name": "Les copaings d'abord!",
+    "name": "qualituriers",
     "deck": {
-      "width": 3,
-      "length": 6
+      "width": 2,
+      "length": 4
     },
     "entities": [
       {
@@ -20,46 +19,41 @@
       },
       {
         "x": 1,
-        "y": 2,
+        "y": 1,
         "type": "oar"
       },
       {
-        "x": 3,
+        "x": 2,
         "y": 0,
-        "type": "oar"
-      },
-      {
-        "x": 3,
-        "y": 2,
-        "type": "oar"
-      },
-      {
-        "x": 4,
-        "y": 0,
-        "type": "oar"
-      },
-      {
-        "x": 4,
-        "y": 2,
         "type": "oar"
       },
       {
         "x": 2,
         "y": 1,
-        "type": "sail",
-        "openned": false
+        "type": "oar"
       },
       {
-        "x": 5,
+        "x": 3,
         "y": 0,
-        "type": "rudder"
+        "type": "oar"
+      },
+      {
+        "x": 3,
+        "y": 1,
+        "type": "oar"
       }
     ],
+    "life": 300,
     "shape": {
       "type": "rectangle",
-      "width": 3,
-      "height": 6,
+      "width": 2,
+      "height": 4,
       "orientation": 0
     }
+  },
+  "visibleEntities": [],
+  "wind": {
+    "orientation": 0,
+    "strength": 0
   }
 }
