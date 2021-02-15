@@ -470,6 +470,36 @@ class TurnBoatTest {
     }
 
 
+
+    @Test
+    void turnBoatCrashTestBigBoat() {
+        Deck actualDeck = new Deck(6,18);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,5){},
+                new BoatEntity(BoatEntities.OAR, 1,5){},
+                new BoatEntity(BoatEntities.OAR, 2,5){},
+                new BoatEntity(BoatEntities.OAR, 3,5){},
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,17,0, "marin1"));
+            add(new Marin(3,17,1, "marin3"));
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(2 * Math.PI / 6, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+
+
+        System.out.println(actions);
+        assertTrue(actions.isEmpty());
+
+
+    }
+
+
     @Test
     void turnBoatWhenAngleOfDeriveEqual0() {
 
