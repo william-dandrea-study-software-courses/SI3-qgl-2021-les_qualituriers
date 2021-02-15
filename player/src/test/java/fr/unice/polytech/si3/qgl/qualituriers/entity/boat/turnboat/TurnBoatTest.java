@@ -9,6 +9,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
@@ -27,8 +28,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * Classe de test pour {@link TurnBoat}
  *
  * @author D'Andrea William
- * @version 1.0 - MAJ pour WEEK3
- * @date 14 février 2021
+ * @version 2.0 - MAJ pour WEEK3
+ * @date 16 février 2021
  */
 class TurnBoatTest {
 
@@ -212,7 +213,7 @@ class TurnBoatTest {
 
 
         System.out.println(actions);
-        assertEquals(2, actions.stream().filter(action -> action instanceof Oar).count());
+        assertEquals(3, actions.stream().filter(action -> action instanceof Oar).count());
         //assertEquals(1, babordActions.size());
     }
 
@@ -249,7 +250,7 @@ class TurnBoatTest {
 
 
         System.out.println(actions);
-        assertEquals(2, actions.stream().filter(action -> action instanceof Oar).count());
+        assertEquals(3, actions.stream().filter(action -> action instanceof Oar).count());
         //assertEquals(1, babordActions.size());
     }
 
@@ -285,7 +286,7 @@ class TurnBoatTest {
 
 
         System.out.println(actions);
-        assertEquals(0, actions.stream().filter(action -> action instanceof Oar).count());
+        assertEquals(3, actions.stream().filter(action -> action instanceof Oar).count());
         //assertEquals(1, babordActions.size());
     }
 
@@ -321,16 +322,152 @@ class TurnBoatTest {
 
 
         System.out.println(actions);
-        assertEquals(0, actions.stream().filter(action -> action instanceof Oar).count());
+        assertEquals(3, actions.stream().filter(action -> action instanceof Oar).count());
         //assertEquals(1, babordActions.size());
     }
 
 
 
 
+    @Test
+    void turnBoatTestWithAnyFreeMarinAtTribord() {
+        Deck actualDeck = new Deck(3,6);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,2){},
+                new BoatEntity(BoatEntities.OAR, 2,0){},
+                new BoatEntity(BoatEntities.OAR, 2,2){},
+                new BoatEntity(BoatEntities.OAR, 4,0){},
+                new BoatEntity(BoatEntities.OAR, 4,2){}
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,0,0, "marin1"));
+            add(new Marin(3,2,0, "marin3"));
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(2 * Math.PI / 6, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+
+
+        System.out.println(actions);
+        assertEquals(2, actions.stream().filter(action -> action instanceof Moving).count());
+        assertEquals(2, actions.stream().filter(action -> action instanceof Oar).count());
+
+
+    }
 
 
 
+
+    @Test
+    void turnBoatTestWithAnyFreeMarinAtBabord() {
+        Deck actualDeck = new Deck(3,6);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,2){},
+                new BoatEntity(BoatEntities.OAR, 2,0){},
+                new BoatEntity(BoatEntities.OAR, 2,2){},
+                new BoatEntity(BoatEntities.OAR, 4,0){},
+                new BoatEntity(BoatEntities.OAR, 4,2){}
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,0,2, "marin1"));
+            add(new Marin(3,2,2, "marin3"));
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(-2 * Math.PI / 6, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+
+
+        System.out.println(actions);
+        assertEquals(2, actions.stream().filter(action -> action instanceof Moving).count());
+        assertEquals(2, actions.stream().filter(action -> action instanceof Oar).count());
+
+
+    }
+
+    @Test
+    void turnBoatCrashTestAll() {
+        Deck actualDeck = new Deck(3,6);
+        BoatEntity[] actualListBoatEntities = {
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(-2 * Math.PI / 6, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+
+
+        System.out.println(actions);
+        assertTrue(actions.isEmpty());
+
+
+    }
+
+
+    @Test
+    void turnBoatCrashTestSailors() {
+        Deck actualDeck = new Deck(3,6);
+        BoatEntity[] actualListBoatEntities = {
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,0,2, "marin1"));
+            add(new Marin(3,2,2, "marin3"));
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(-2 * Math.PI / 6, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+
+
+        System.out.println(actions);
+        assertTrue(actions.isEmpty());
+
+
+    }
+
+    @Test
+    void turnBoatCrashTestOars() {
+        Deck actualDeck = new Deck(3,6);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,2){},
+                new BoatEntity(BoatEntities.OAR, 2,0){},
+                new BoatEntity(BoatEntities.OAR, 2,2){},
+                new BoatEntity(BoatEntities.OAR, 4,0){},
+                new BoatEntity(BoatEntities.OAR, 4,2){}
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(-2 * Math.PI / 6, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+
+
+        System.out.println(actions);
+        assertTrue(actions.isEmpty());
+
+
+    }
 
 
     @Test

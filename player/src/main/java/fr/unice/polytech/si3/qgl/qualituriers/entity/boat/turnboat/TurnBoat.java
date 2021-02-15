@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
  * - soit nous pouvons tourner d'un angle exacte (un angle donné par la formule) et ainsi, l'algorithme va aller chercher la meilleur répartition de marins
  *
  * @author D'Andrea William
- * @version 1.0 - MAJ pour WEEK3
- * @date 14 février 2021
+ * @version 2.0 - MAJ pour WEEK3
+ * @date 16 février 2021
  */
 public class TurnBoat {
 
@@ -55,7 +55,7 @@ public class TurnBoat {
 
 
     // Final properties
-    private List<Action> actionsToDo;
+    private final List<Action> actionsToDo;
 
     /**
      * @param finalOrientationBoat l'orientation finale que le bateau doit avoir (pas besoin de faire de calculs au préalable)
@@ -129,9 +129,7 @@ public class TurnBoat {
         } else {
             for (BabordTribordAngle eachAngle : possibleAngles) {
                 if (angle > eachAngle.getAngle() - (smallestEcart/2) && angle <= eachAngle.getAngle() + (smallestEcart/2) ) {
-                    System.out.println("=======bonjour");
                     finalRepartition = generateIdealRepartitionOfOars(eachAngle.getAngle());
-                    System.out.println("======" + finalRepartition);
                     break;
                 }
             }
@@ -175,44 +173,179 @@ public class TurnBoat {
 
 
 
+
             // On regarde si on en a assez a babord et a tribord (dans ceux qui sont déjà sur des rames)
             if (repartition.getBabord() <= numberOfSailorOnOarAtBabord && repartition.getTribord() <= numberOfSailorOnOarAtTribord) {
                 finalRepartition = repartition;
 
             } else {
 
+                boolean anyDisposition = true;
+
                 if (repartition.getBabord() <= numberOfSailorOnOarAtBabord && repartition.getTribord() > numberOfSailorOnOarAtTribord && numberOfSailorsOnAnyEntities >= repartition.getTribord() - numberOfSailorOnOarAtTribord) {
                     // Si on en a assez a babord mais qu'il en manque un certain nombre a tribord mais qu'on a suffisamment de marin libre pour combler le trou
-
+                    anyDisposition = false;
                     int numberOfMissingTribordSailor = repartition.getTribord() - numberOfSailorOnOarAtTribord;
 
                     // On va d'abord trouver une place libre a tribord
                     finalRepartition = findBestRepartitionFromOneBoatSide(finalRepartition, numberOfSailorsOnAnyEntities, repartition, numberOfMissingTribordSailor, listOfOarsAtBabordWithAnySailorsOnIt);
-                    moveSailorsOnOar(finalRepartition);
+                    moveSailorsOnOarWithFreeSailors(finalRepartition);
+
+
 
 
                 }
 
 
                 if (repartition.getTribord() <= numberOfSailorOnOarAtTribord && repartition.getBabord() > numberOfSailorOnOarAtBabord && numberOfSailorsOnAnyEntities >= repartition.getBabord() - numberOfSailorOnOarAtBabord) {
-
+                    anyDisposition = false;
 
                     // Si on en a assez a tribord mais qu'il en manque un certain nombre a babord mais qu'on a suffisamment de marin libre pour combler le trou
                     int numberOfMissingBabordSailor = repartition.getBabord() - numberOfSailorOnOarAtBabord;
 
                     // On va d'abord trouver une place libre a tribord
                     finalRepartition = findBestRepartitionFromOneBoatSide(finalRepartition, numberOfSailorsOnAnyEntities, repartition, numberOfMissingBabordSailor, listOfOarsAtTribordWithAnySailorsOnIt);
-                    moveSailorsOnOar(finalRepartition);
+                    moveSailorsOnOarWithFreeSailors(finalRepartition);
 
                 }
 
                 //finalRepartition = repartitionMin;
 
 
-                // Si nous n'avons pas suffisamment de marin a gauche et a droite mais suffisamment de marins libres
-                // TODO : faire un algo permettant de trouver si on peut bouger tout les marins libres lorsque l'on a pas assez de marin sur des rames a gauche ET a droite
+                // TODO : refactorer cette méthode mais faire très attentions a l'actualisation des lists listOfOarsAtTribordWithAnySailorsOnIt et listOfOarsAtBabordWithAnySailorsOnIt
+                if (anyDisposition) {
+                    // Si nous n'avons pas suffisamment de marin a gauche et a droite mais suffisamment de marins libres
 
+                    System.out.println("On est la : actuellement -> " + numberOfSailorOnOarAtBabord + " : " + numberOfSailorOnOarAtTribord);
+                    System.out.println(repartition);
+
+                    // On compte combien de marin il nous manque du bon coté
+                    // On regarde si on peut enlever des marins qui sont sur des rames l'autre coté et les bouger du bon coté tout en respectant la disposition
+                    // Si on peut on les déplace
+
+
+
+                    // Si on a assez de marin sur le bateau pour exécuter la disposition
+                    if ((numberOfSailorOnOarAtBabord + numberOfSailorOnOarAtTribord) >= (repartition.getTribord() + repartition.getBabord())) {
+
+
+                        // Si on en a pas assez a tribord
+                        if (numberOfSailorOnOarAtTribord <= repartition.getTribord()) {
+
+                            // On va bouger un marin de babord vers tribord
+                            System.out.println("On va bouger un marin de babord vers tribord");
+
+
+                            // On a le droit de déplacer seulement un certain nombre de marin pour respecter la repartition
+                            int numberOfSailorWeCanMoveFromBabordToTribord = numberOfSailorOnOarAtBabord - repartition.getBabord();
+                            System.out.println("1 : " + numberOfSailorWeCanMoveFromBabordToTribord);
+
+
+
+                            // Maintenant on sélectionne numberOfSailorWeCanMoveFromBabordToTribord marins de babord afin de les faire bouger a tribord
+                            for (Marin babordSailorWeCanMove : sailorsOnOarAtBabord) {
+
+                                Optional<BoatEntity> destination = Optional.empty();
+
+                                //On ne choisi que un certain nombre de marins
+                                if (numberOfSailorWeCanMoveFromBabordToTribord >0) {
+
+                                    // On parcours les potentielles destinations a tribord
+                                    for (BoatEntity finalPosition : listOfOarsAtTribordWithAnySailorsOnIt) {
+
+                                        if (babordSailorWeCanMove.canMoveTo(finalPosition.getX(), finalPosition.getY())) {
+
+                                            destination = Optional.of(finalPosition);
+
+                                            numberOfSailorWeCanMoveFromBabordToTribord--;
+                                            break;
+                                        }
+
+                                    }
+
+                                }
+
+                                if (destination.isPresent()) {
+                                    // On peut déplacer le marin vers cette position
+                                    actionsToDo.add(new Moving(babordSailorWeCanMove.getId(), destination.get().getX() - babordSailorWeCanMove.getX(), destination.get().getY() - babordSailorWeCanMove.getY()));
+                                    actionsToDo.add(new Oar(babordSailorWeCanMove.getId()));
+
+                                    babordSailorWeCanMove.setX(destination.get().getX());
+                                    babordSailorWeCanMove.setY(destination.get().getY());
+
+
+                                    // ET updater listOfOarsAtTribordWithAnySailorsOnIt
+                                    listOfOarsAtTribordWithAnySailorsOnIt.remove(destination.get());
+
+
+
+                                }
+
+
+                            }
+
+                        }
+
+
+                        // Si on en a pas assez a babord
+                        if (numberOfSailorOnOarAtBabord <= repartition.getBabord()) {
+
+                            // On va bouger un marin de tribord vers babord
+                            System.out.println("On va bouger un marin de tribord vers babord");
+
+
+
+                            // On a le droit de déplacer seulement un certain nombre de marin pour respecter la repartition
+                            int numberOfSailorWeCanMoveFromTribordToBabord = numberOfSailorOnOarAtTribord - repartition.getTribord();
+                            System.out.println("2 : " + numberOfSailorWeCanMoveFromTribordToBabord);
+
+
+
+                            // Maintenant on sélectionne numberOfSailorWeCanMoveFromBabordToTribord marins de babord afin de les faire bouger a tribord
+                            for (Marin tribordSailorWeCanMove : sailorsOnOarAtTribord) {
+
+                                Optional<BoatEntity> destination = Optional.empty();
+
+                                //On ne choisi que un certain nombre de marins
+                                if (numberOfSailorWeCanMoveFromTribordToBabord >0) {
+
+                                    // On parcours les potentielles destinations a tribord
+                                    for (BoatEntity finalPosition : listOfOarsAtBabordWithAnySailorsOnIt) {
+
+                                        if (tribordSailorWeCanMove.canMoveTo(finalPosition.getX(), finalPosition.getY())) {
+
+                                            destination = Optional.of(finalPosition);
+
+                                            numberOfSailorWeCanMoveFromTribordToBabord--;
+                                            break;
+                                        }
+
+                                    }
+
+                                }
+
+                                if (destination.isPresent()) {
+                                    // On peut déplacer le marin vers cette position
+                                    actionsToDo.add(new Moving(tribordSailorWeCanMove.getId(), destination.get().getX() - tribordSailorWeCanMove.getX(), destination.get().getY() - tribordSailorWeCanMove.getY()));
+                                    actionsToDo.add(new Oar(tribordSailorWeCanMove.getId()));
+
+                                    tribordSailorWeCanMove.setX(destination.get().getX());
+                                    tribordSailorWeCanMove.setY(destination.get().getY());
+
+
+                                    // ET updater listOfOarsAtTribordWithAnySailorsOnIt
+                                    listOfOarsAtBabordWithAnySailorsOnIt.remove(destination.get());
+
+
+
+                                }
+                            }
+                        }
+                    }
+                }
             }
+
+
 
         }
 
@@ -222,7 +355,11 @@ public class TurnBoat {
     }
 
 
-    private void moveSailorsOnOar(BabordTribordAngle repartition) {
+    /**
+     * Cette méthode a pour objectif de faire bouger les marins libre por reussir au mieux la disposition souhaité
+     * @param repartition que l'on souhaite
+     */
+    private void moveSailorsOnOarWithFreeSailors(BabordTribordAngle repartition) {
 
 
 
@@ -232,7 +369,11 @@ public class TurnBoat {
 
         while (sailorsOnOarAtBabord.size() <= wantedBabordSailors) {
 
-            BoatEntity rameWeChoose = listOfOarsAtBabordWithAnySailorsOnIt.stream().findFirst().get();
+
+
+            BoatEntity rameWeChoose = (listOfOarsAtBabordWithAnySailorsOnIt.stream().findFirst().isPresent()) ? listOfOarsAtBabordWithAnySailorsOnIt.stream().findFirst().get() : boatEntities.get(0);
+
+
             Marin marinWeChoose = sailorsOnAnyEntities.stream().filter(marin -> rameWeChoose.getX() - marin.getX() <= Config.MAX_MOVING_CASES_MARIN && rameWeChoose.getY() - marin.getY() <= Config.MAX_MOVING_CASES_MARIN).findAny().get();
 
             // On va parcourir tout les marins libres et regarder lequel est le plus loin
@@ -304,12 +445,12 @@ public class TurnBoat {
     }
 
 
-
-
-
-
-
-
+    /**
+     * Cette méthode va faire ramer (si il y a bien le bon nombre de rame) :
+     * @param babordOars rames a babord
+     * @param tribordOars rames a tribord
+     * Et va donc actualiser la liste d'actions
+     */
     private void oar(int babordOars, int tribordOars) {
 
         actualizeListSailorsOnOar();
@@ -336,6 +477,12 @@ public class TurnBoat {
 
     }
 
+
+    /**
+     * Cette méthode permet de vérifier si un marin n'est pas déjà entrain de ramer
+     * @param id du marin que l'on souhaite verifier
+     * @return true si le marin n'est pas actuellement entrain de ramer, false sinon
+     */
     private boolean verifyIfSailorActuallyOar(int id) {
         for (Action action : actionsToDo) {
             if ((action instanceof Oar) && action.getSailorId() == id) {
@@ -363,7 +510,7 @@ public class TurnBoat {
 
 
 
-            Map<Marin, BoatEntity> marinWeCanMove = new HashMap<>();
+
 
             // On parcours tout les marins libre et on regarde si ils peuvent tous se déplacer
             for (Marin marinLibre : sailorsOnAnyEntities) {
