@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 
 /**
  * Cette classe represente un marin qui pourra donner des ordres a différents protagonistes present sur le bateau
@@ -44,6 +45,10 @@ public class Marin {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public boolean canMoveTo(int xFinal, int yFinal) {
+        return (Math.abs(x - xFinal) <= Config.MAX_MOVING_CASES_MARIN && Math.abs(y - yFinal) <= Config.MAX_MOVING_CASES_MARIN);
     }
 
     @Override
