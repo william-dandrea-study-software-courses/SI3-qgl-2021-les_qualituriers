@@ -363,85 +363,101 @@ public class TurnBoat {
 
 
 
+
         int wantedBabordSailors = repartition.getBabord();
         int wantedTribordSailors = repartition.getTribord();
 
 
-        while (sailorsOnOarAtBabord.size() <= wantedBabordSailors) {
+        //while (sailorsOnOarAtBabord.size() <= wantedBabordSailors) {
+        for (Marin eachMarin : sailors) {
 
+            if (sailorsOnOarAtBabord.size() <= wantedBabordSailors) {
+                boolean finded = false;
 
+                BoatEntity rameWeChoose = (listOfOarsAtBabordWithAnySailorsOnIt.stream().findFirst().isPresent()) ? listOfOarsAtBabordWithAnySailorsOnIt.stream().findFirst().get() : boatEntities.get(0);
 
-            BoatEntity rameWeChoose = (listOfOarsAtBabordWithAnySailorsOnIt.stream().findFirst().isPresent()) ? listOfOarsAtBabordWithAnySailorsOnIt.stream().findFirst().get() : boatEntities.get(0);
+                Marin marinWeChoose = sailors.get(0);
+                Optional<Marin> marinWeChooseOp = sailorsOnAnyEntities.stream().filter(marin -> rameWeChoose.getX() - marin.getX() <= Config.MAX_MOVING_CASES_MARIN && rameWeChoose.getY() - marin.getY() <= Config.MAX_MOVING_CASES_MARIN).findAny();
+                if (marinWeChooseOp.isPresent()){ marinWeChoose = marinWeChooseOp.get(); }
 
+                // On va parcourir tout les marins libres et regarder lequel est le plus loin
+                for (Marin marinLibre : sailorsOnAnyEntities ) {
 
-            Marin marinWeChoose = sailorsOnAnyEntities.stream().filter(marin -> rameWeChoose.getX() - marin.getX() <= Config.MAX_MOVING_CASES_MARIN && rameWeChoose.getY() - marin.getY() <= Config.MAX_MOVING_CASES_MARIN).findAny().get();
+                    int differenceOfDistanceXMarinWeChoose = rameWeChoose.getX() - marinWeChoose.getX();
+                    int differenceOfDistanceYMarinWeChoose = rameWeChoose.getY() - marinWeChoose.getY();
 
-            // On va parcourir tout les marins libres et regarder lequel est le plus loin
-            for (Marin marinLibre : sailorsOnAnyEntities ) {
+                    int differenceOfDistanceXMarinLibre = rameWeChoose.getX() - marinLibre.getX();
+                    int differenceOfDistanceYMarinLibre = rameWeChoose.getY() - marinLibre.getY();
 
-                int differenceOfDistanceXMarinWeChoose = rameWeChoose.getX() - marinWeChoose.getX();
-                int differenceOfDistanceYMarinWeChoose = rameWeChoose.getY() - marinWeChoose.getY();
+                    // Si le marin libre est plus loin que le marin actuel, on prend celui la
+                    if (differenceOfDistanceXMarinLibre >= differenceOfDistanceXMarinWeChoose && differenceOfDistanceYMarinLibre >= differenceOfDistanceYMarinWeChoose && Math.abs(differenceOfDistanceXMarinLibre) <= Config.MAX_MOVING_CASES_MARIN && Math.abs(differenceOfDistanceYMarinLibre) <= Config.MAX_MOVING_CASES_MARIN) {
+                        marinWeChoose = marinLibre;
+                        finded = true;
+                    }
+                }
 
-                int differenceOfDistanceXMarinLibre = rameWeChoose.getX() - marinLibre.getX();
-                int differenceOfDistanceYMarinLibre = rameWeChoose.getY() - marinLibre.getY();
+                if (finded && marinWeChoose.canMoveTo(rameWeChoose.getX(), rameWeChoose.getY())) {
+                    Moving marinMoving = new Moving(marinWeChoose.getId(), rameWeChoose.getX() - marinWeChoose.getX(), rameWeChoose.getY() - marinWeChoose.getY());
+                    actionsToDo.add(marinMoving);
 
-                // Si le marin libre est plus loin que le marin actuel, on prend celui la
-                if (differenceOfDistanceXMarinLibre >= differenceOfDistanceXMarinWeChoose && differenceOfDistanceYMarinLibre >= differenceOfDistanceYMarinWeChoose && differenceOfDistanceXMarinLibre <= Config.MAX_MOVING_CASES_MARIN && differenceOfDistanceYMarinLibre <= Config.MAX_MOVING_CASES_MARIN) {
-                    marinWeChoose = marinLibre;
+                    // Maintenant on bouge le marin marinWeChoose vers la rame rameWeChoose
+                    marinWeChoose.setX(rameWeChoose.getX());
+                    marinWeChoose.setY(rameWeChoose.getY());
+
+                    Oar oar = new Oar(marinMoving.getSailorId());
+                    actionsToDo.add(oar);
+
+                    actualizeAll();
                 }
             }
-
-
-
-            Moving marinMoving = new Moving(marinWeChoose.getId(), rameWeChoose.getX() - marinWeChoose.getX(), rameWeChoose.getY() - marinWeChoose.getY());
-            actionsToDo.add(marinMoving);
-
-            // Maintenant on bouge le marin marinWeChoose vers la rame rameWeChoose
-            marinWeChoose.setX(rameWeChoose.getX());
-            marinWeChoose.setY(rameWeChoose.getY());
-
-            Oar oar = new Oar(marinMoving.getSailorId());
-            actionsToDo.add(oar);
-
-            actualizeAll();
         }
 
 
 
-        while (sailorsOnOarAtTribord.size() <= wantedTribordSailors) {
+        //while (sailorsOnOarAtTribord.size() <= wantedTribordSailors ) {
+        for (Marin eachMarin : sailors) {
 
-            BoatEntity rameWeChoose = listOfOarsAtTribordWithAnySailorsOnIt.stream().findFirst().get();
-            Marin marinWeChoose = sailorsOnAnyEntities.stream().filter(marin -> rameWeChoose.getX() - marin.getX() <= Config.MAX_MOVING_CASES_MARIN && rameWeChoose.getY() - marin.getY() <= Config.MAX_MOVING_CASES_MARIN).findAny().get();
+            if (sailorsOnOarAtTribord.size() <= wantedTribordSailors ) {
+                boolean finded = false;
+                BoatEntity rameWeChoose = (listOfOarsAtTribordWithAnySailorsOnIt.stream().findFirst().isPresent()) ? listOfOarsAtTribordWithAnySailorsOnIt.stream().findFirst().get() : boatEntities.get(0);
 
-            // On va parcourir tout les marins libres et regarder lequel est le plus loin
-            for (Marin marinLibre : sailorsOnAnyEntities ) {
+                Marin marinWeChoose = sailors.get(0);
+                Optional<Marin> marinWeChooseOp = sailorsOnAnyEntities.stream().filter(marin -> rameWeChoose.getX() - marin.getX() <= Config.MAX_MOVING_CASES_MARIN && rameWeChoose.getY() - marin.getY() <= Config.MAX_MOVING_CASES_MARIN).findAny();
+                if (marinWeChooseOp.isPresent()){ marinWeChoose = marinWeChooseOp.get(); }
 
-                int differenceOfDistanceXMarinWeChoose = rameWeChoose.getX() - marinWeChoose.getX();
-                int differenceOfDistanceYMarinWeChoose = rameWeChoose.getY() - marinWeChoose.getY();
+                // On va parcourir tout les marins libres et regarder lequel est le plus loin
+                for (Marin marinLibre : sailorsOnAnyEntities ) {
 
-                int differenceOfDistanceXMarinLibre = rameWeChoose.getX() - marinLibre.getX();
-                int differenceOfDistanceYMarinLibre = rameWeChoose.getY() - marinLibre.getY();
+                    int differenceOfDistanceXMarinWeChoose = rameWeChoose.getX() - marinWeChoose.getX();
+                    int differenceOfDistanceYMarinWeChoose = rameWeChoose.getY() - marinWeChoose.getY();
 
-                // Si le marin libre est plus loin que le marin actuel, on prend celui la
-                if (differenceOfDistanceXMarinLibre >= differenceOfDistanceXMarinWeChoose && differenceOfDistanceYMarinLibre >= differenceOfDistanceYMarinWeChoose && differenceOfDistanceXMarinLibre <= Config.MAX_MOVING_CASES_MARIN && differenceOfDistanceYMarinLibre <= Config.MAX_MOVING_CASES_MARIN) {
-                    marinWeChoose = marinLibre;
+                    int differenceOfDistanceXMarinLibre = rameWeChoose.getX() - marinLibre.getX();
+                    int differenceOfDistanceYMarinLibre = rameWeChoose.getY() - marinLibre.getY();
+                    // Si le marin libre est plus loin que le marin actuel, on prend celui la
+                    if (differenceOfDistanceXMarinLibre >= differenceOfDistanceXMarinWeChoose && differenceOfDistanceYMarinLibre >= differenceOfDistanceYMarinWeChoose && Math.abs(differenceOfDistanceXMarinLibre) <= Config.MAX_MOVING_CASES_MARIN && Math.abs(differenceOfDistanceYMarinLibre) <= Config.MAX_MOVING_CASES_MARIN) {
+                        marinWeChoose = marinLibre;
+                        finded = true;
+                    }
+                }
+
+
+                if (finded && marinWeChoose.canMoveTo(rameWeChoose.getX(), rameWeChoose.getY())) {
+                    Moving marinMoving = new Moving(marinWeChoose.getId(), rameWeChoose.getX() - marinWeChoose.getX(), rameWeChoose.getY() - marinWeChoose.getY());
+                    actionsToDo.add(marinMoving);
+
+                    // Maintenant on bouge le marin marinWeChoose vers la rame rameWeChoose
+                    marinWeChoose.setX(rameWeChoose.getX());
+                    marinWeChoose.setY(rameWeChoose.getY());
+
+                    Oar oar = new Oar(marinMoving.getSailorId());
+                    actionsToDo.add(oar);
+
+                    actualizeAll();
                 }
             }
-
-
-
-            Moving marinMoving = new Moving(marinWeChoose.getId(), rameWeChoose.getX() - marinWeChoose.getX(), rameWeChoose.getY() - marinWeChoose.getY());
-            actionsToDo.add(marinMoving);
-
-            // Maintenant on bouge le marin marinWeChoose vers la rame rameWeChoose
-            marinWeChoose.setX(rameWeChoose.getX());
-            marinWeChoose.setY(rameWeChoose.getY());
-
-            Oar oar = new Oar(marinMoving.getSailorId());
-            actionsToDo.add(oar);
-
-            actualizeAll();
         }
+
+        // TODO :  si on ne peux pas deplacer les marins sur les oars, on ne fait rien -> Il faudrait une feature qui rapporche les marins quand il ne peuxvent etre deplacer sur des oars
     }
 
 
@@ -718,56 +734,6 @@ public class TurnBoat {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
