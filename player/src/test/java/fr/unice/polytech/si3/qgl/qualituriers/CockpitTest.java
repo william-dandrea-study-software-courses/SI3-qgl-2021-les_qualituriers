@@ -11,6 +11,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -77,6 +78,7 @@ class CockpitTest {
         assertEquals("[]", this.cockpit.nextRound("{}"));
     }
 
+    @Disabled
     @Test @DisplayName("Les marins ne doivent qu'avancer")
     void testAll() throws IOException {
         File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/initGame.json");

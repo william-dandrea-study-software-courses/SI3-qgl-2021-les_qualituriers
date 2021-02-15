@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatutils;
+package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils;
 
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
 

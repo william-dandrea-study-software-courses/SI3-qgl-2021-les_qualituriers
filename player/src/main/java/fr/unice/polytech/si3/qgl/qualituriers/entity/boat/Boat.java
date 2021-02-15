@@ -6,9 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatutils.*;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatutils.BabordTribordAngle;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatutils.HowTurn;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.*;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
@@ -55,8 +54,8 @@ public class Boat {
         this.shape = shape;
         this.actionsToDo = new ArrayList<>();
 
-        this.captain = new Captain(this);
-        this.foreman = new Foreman(this);
+        //this.captain = new Captain(this);
+        //this.foreman = new Foreman(this);
     }
 
     public String getName() {

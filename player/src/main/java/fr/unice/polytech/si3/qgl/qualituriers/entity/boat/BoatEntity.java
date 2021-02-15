@@ -58,10 +58,6 @@ public abstract class BoatEntity {
                 '}';
     }
 
-    public BoatEntities getType() {
-        return type;
-    }
-
     public int getX() {
         return x;
     }

@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
@@ -106,6 +107,7 @@ public class Marin {
 
     private Action getAssignmentAction() {
         if(assignment == null) return null;
+
         switch(assignment.type) {
             case OAR: return new Oar(id);
         }

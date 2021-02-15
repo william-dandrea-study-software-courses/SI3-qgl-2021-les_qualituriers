@@ -1,10 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntities;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.BabordTribordAngle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
@@ -807,7 +804,7 @@ class TurnBoatTest {
     @Test
     void generateListOfPossibleAnglesTestWithUnpairInput() {
 
-        BoatEntity[] actualListBoatEntities = {new BoatEntity(BoatEntities.OAR, 0,0) {}};
+        BoatEntity[] actualListBoatEntities = {new OarBoatEntity(0,0) {}};
 
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, defaultDeck, actualListBoatEntities, defaultShape);
