@@ -37,6 +37,14 @@ public abstract class BoatEntity {
         return new Point(x, y);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public BoatEntities getType() {
         return type;
     }
