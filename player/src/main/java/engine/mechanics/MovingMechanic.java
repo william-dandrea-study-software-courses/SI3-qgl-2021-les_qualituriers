@@ -17,7 +17,9 @@ public class MovingMechanic extends Mechanic {
     @Override
     public void execute(List<Action> actions, Race race) {
 
+
         for (Action action : actions) {
+
             boolean breaking = false;
             if (action instanceof Moving) {
 

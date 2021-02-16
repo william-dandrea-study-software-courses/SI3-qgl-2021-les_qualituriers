@@ -21,7 +21,7 @@ public class OarMechanic extends Mechanic {
     private final double maxSpeed = 1;
 
     @Override
-    public void Execute(List<Action> actions, Race race) throws JsonProcessingException {
+    public void execute(List<Action> actions, Race race)  {
         int left = 0;
         int right = 0;
 

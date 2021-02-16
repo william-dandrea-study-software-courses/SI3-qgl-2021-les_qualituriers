@@ -91,11 +91,7 @@ public class Main {
 
             List<Action> finalActionsDone = actionsDone;
             Arrays.stream(race.getMechanics()).forEach(m -> {
-                try {
-                    m.Execute(finalActionsDone, race);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
+                m.execute(finalActionsDone, race);
             });
 
             System.out.println(race.getBoat().getPosition());
