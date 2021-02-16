@@ -17,35 +17,5 @@ public class OarMechanic extends Mechanic {
 
     @Override
     public void Execute(List<Action> actions, Race race) {
-        int left = 0;
-        int right = 0;
-
-        List<OarBoatEntity> usedoar = new ArrayList<>();
-
-        actions.stream().filter(a -> a.getType() == Actions.OAR).map(action -> {
-
-            var sailorOpt = Arrays.stream(race.getSailors()).filter(m -> m.getId() == action.getSailorId()).findAny();
-            if(sailorOpt.isEmpty()) throw new SailorNotFoundException(action.getSailorId());
-
-            var sailor = sailorOpt.get();
-            var sailorPos = sailor.getPosition();
-
-            var oarOpt = Arrays.stream(race.getBoat().getEntities()).filter(e -> e.getPosition().equals(sailorPos) && e.getType() == BoatEntities.OAR).findAny();
-            if(oarOpt.isEmpty()) throw new SailorAssignmentNotFound(sailor.getId(), sailor.getPosition(), BoatEntities.OAR);
-            var oar = (OarBoatEntity)oarOpt.get();
-
-            return oar;
-        }).forEach(usedoar::add);
-
-        for(var oar : usedoar) {
-            if(oar.isLeftOar()) left++;
-            else right++;
-        }
-        var dtheta = (right - left) * Math.PI / 6;
-        race.getBoat().getPosition().rotate(dtheta);
-
-        race.getBoat().getPosition().translate(race.getBoat().getPosition().right().scalar(Math.min(left, right) * maxSpeed));
-
-        //Point bendCenter =
     }
 }

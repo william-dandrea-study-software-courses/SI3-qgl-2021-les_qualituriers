@@ -17,6 +17,8 @@ public class RenderTest extends Render {
     @Override
     public String nextRound(RoundInfo round) throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();
-        return om.writeValueAsString(round);
+        System.out.println(om.writeValueAsString(round));
+
+        return "[]";
     }
 }

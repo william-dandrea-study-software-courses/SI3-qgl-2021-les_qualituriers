@@ -15,7 +15,7 @@ public class Moving extends Action {
     private int distanceX;
     private int distanceY;
 
-    public Moving(int sailorId, int distanceX, int distanceY) {
+    public Moving(@JsonProperty("sailorId") int sailorId, @JsonProperty("xdistance") int distanceX, @JsonProperty("ydistance") int distanceY) {
         super(Actions.MOVING, sailorId);
         this.distanceX = distanceX;
         this.distanceY = distanceY;

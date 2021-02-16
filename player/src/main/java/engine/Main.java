@@ -32,12 +32,12 @@ import java.util.List;
 public class Main {
 
     static Boat createBoat() {
-        BoatEntity oar = new OarBoatEntity(0,0) {};
-        BoatEntity oar2 = new OarBoatEntity(1,0) {};
-        BoatEntity oar3 = new OarBoatEntity(0,1) {};
-        BoatEntity oar4 = new OarBoatEntity(1,1) {};
-        BoatEntity oar5 = new OarBoatEntity(3,0) {};
-        BoatEntity oar6 = new OarBoatEntity(3,1) {};
+        BoatEntity oar = new OarBoatEntity(0,0);
+        BoatEntity oar2 = new OarBoatEntity(1,0);
+        BoatEntity oar3 = new OarBoatEntity(0,1);
+        BoatEntity oar4 = new OarBoatEntity(1,1);
+        BoatEntity oar5 = new OarBoatEntity(3,0);
+        BoatEntity oar6 = new OarBoatEntity(3,1);
 
         int life = 100;
         Transform transform = new Transform(0,0,0);
@@ -45,7 +45,6 @@ public class Main {
         Deck deck = new Deck(2,4);
         BoatEntity[] entities = {oar6,oar5,oar3,oar4, oar2, oar};
         Shape shape = new Rectangle(5, 3, 0);
-
 
         return new Boat(life, transform, name, deck, entities,shape);
     }
@@ -69,10 +68,6 @@ public class Main {
     static void RunRace(Race race) throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-        module.addSerializer(BoatEntities.class, new BoatEntitySerializer());
-        module.addDeserializer(Action.class, new Deserializer());
-
-        om.registerModule(module);
 
 
         // Init game
@@ -105,5 +100,9 @@ public class Main {
 
     public static void main(String... args) throws JsonProcessingException {
         RunRace(createRace());
+        BoatEntity entity = new OarBoatEntity(3, 3);
+        ObjectMapper om = new ObjectMapper();
+        System.out.println(om.writeValueAsString(entity));
+
     }
 }

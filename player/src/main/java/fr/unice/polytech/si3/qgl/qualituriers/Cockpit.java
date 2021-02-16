@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Cockpit implements ICockpit {
 
-	RenderTest render;
+	ThirdRender render;
 	private ObjectMapper om;
 
 	public void initGame(String game) {
@@ -25,7 +25,7 @@ public class Cockpit implements ICockpit {
 		try {
 			GameInfo gameInfo = om.readValue(game, GameInfo.class);
 
-			this.render = new RenderTest(gameInfo);
+			this.render = new ThirdRender(gameInfo);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

@@ -23,16 +23,18 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 })
 public abstract class BoatEntity {
 
+    @JsonIgnore
     protected BoatEntities type;
     protected int x;
     protected int y;
 
-    public BoatEntity(BoatEntities type, @JsonProperty("x") int x, @JsonProperty("y") int y) {
+    public BoatEntity(@JsonProperty("type") BoatEntities type, @JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.type = type;
         this.x = x;
         this.y = y;
     }
 
+    @JsonIgnore
     public Point getPosition() {
         return new Point(x, y);
     }
@@ -45,6 +47,7 @@ public abstract class BoatEntity {
         return y;
     }
 
+    @JsonIgnore
     public BoatEntities getType() {
         return type;
     }
