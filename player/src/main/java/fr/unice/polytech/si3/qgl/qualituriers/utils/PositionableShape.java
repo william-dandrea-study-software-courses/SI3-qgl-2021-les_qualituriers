@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 
 public class PositionableShape<T extends Shape> {
     private final Transform transform;
@@ -25,8 +26,9 @@ public class PositionableShape<T extends Shape> {
      * @return PositionableShape<Polygon>
      */
     public PositionableShape<Polygon> convertToPolygon() {
+
         if(shape.getType() == Shapes.RECTANGLE) {
-            return new PositionableShape<>(((Rectangle)shape).toPolygon(), transform);
+            return new PositionableShape<>(((Rectangle) shape).toPolygon(), transform);
         }
         throw  new ClassCastException("Only rectangles can be converted to polygons");
     }

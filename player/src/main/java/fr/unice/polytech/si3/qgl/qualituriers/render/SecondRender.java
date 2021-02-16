@@ -14,6 +14,7 @@ import javax.xml.crypto.NoSuchMechanismException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Alexandre Arcil, CLODONG Yann
@@ -57,9 +58,11 @@ public class SecondRender extends Render {
         gameInfo.getShip().setEntities(round.getShip().getEntities());
 
 
+        CheckPoint checkPoint;
         RegattaGoal regGoal = (RegattaGoal) gameInfo.getGoal();
         CheckPoint[] checkPoints = regGoal.getCheckPoints();
-        CheckPoint checkPoint = Arrays.stream(checkPoints).findAny().get();
+        Optional<CheckPoint> checkPointOp = Arrays.stream(checkPoints).findAny();
+        if (checkPointOp.isPresent()) {checkPoint = checkPointOp.get();}
 
 
         if (firstRound) {
@@ -67,11 +70,12 @@ public class SecondRender extends Render {
             firstRound = false;
         }
 
-        gameInfo.getShip().moveBoatToAPoint(checkPoint.getPosition());
+        //gameInfo.getShip().moveBoatToAPoint(checkPoint.getPosition());
 
 
-        List<Action> actions = gameInfo.getShip().getActionsToDo();
-        gameInfo.getShip().setActionsToDo(new ArrayList<Action>());
+        //List<Action> actions = gameInfo.getShip().getActionsToDo();
+        List<Action> actions = new ArrayList<>();
+        //gameInfo.getShip().setActionsToDo(new ArrayList<Action>());
 
 
 
