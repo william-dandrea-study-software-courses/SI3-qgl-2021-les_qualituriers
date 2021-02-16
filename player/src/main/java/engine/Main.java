@@ -1,18 +1,15 @@
 package engine;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import engine.mechanics.MovingMechanic;
 import engine.mechanics.OarMechanic;
 import engine.mechanics.Mechanic;
 import engine.races.Race;
-import engine.serializers.BoatEntitySerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
@@ -21,11 +18,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.*;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.serialization.Deserializer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -92,7 +86,7 @@ public class Main {
             System.out.println(actionString);
 
             List<Action> finalActionsDone = actionsDone;
-            Arrays.stream(race.getMechanics()).forEach(m -> m.Execute(finalActionsDone, race));
+            Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
         } while(actionsDone.size() != 0);
         //      Run game
         //      Execute action

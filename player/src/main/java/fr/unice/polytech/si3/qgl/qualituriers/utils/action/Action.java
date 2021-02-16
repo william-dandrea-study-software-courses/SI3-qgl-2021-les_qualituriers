@@ -13,11 +13,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
  * @author Alexandre Arcil
  * @author CLODONG Yann
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = Void.class)
-@JsonSubTypes({
-        @JsonSubTypes.Type(name = "oar", value = Oar.class),
-        @JsonSubTypes.Type(name = "moving", value = Moving.class)
-})
+
 public abstract class Action {
 
     protected Actions type;
@@ -37,7 +33,7 @@ public abstract class Action {
         this.sailorId = sailorId;
     }
 
-    @JsonIgnore
+
     public Actions getType() {
         return type;
     }

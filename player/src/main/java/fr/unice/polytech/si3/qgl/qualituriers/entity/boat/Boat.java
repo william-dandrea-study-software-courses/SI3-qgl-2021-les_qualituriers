@@ -128,7 +128,7 @@ public class Boat {
 
     public void setSailors(List<Marin> sailors) {
         this.sailors = sailors;
-        this.foreman.setSailors(sailors);
+        //this.foreman.setSailors(sailors);
     }
 
     @JsonIgnore

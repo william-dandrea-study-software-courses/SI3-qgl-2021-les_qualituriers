@@ -7,5 +7,5 @@ import java.util.List;
 
 public abstract class Mechanic {
 
-    public abstract void Execute(List<Action> actions, Race race);
+    public abstract void execute(List<Action> actions, Race race);
 }

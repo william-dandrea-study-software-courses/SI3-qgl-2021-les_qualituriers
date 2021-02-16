@@ -110,9 +110,10 @@ public class TurnBoat {
 
 
         // Intern properties
-        double differenceOfAngle = generateDifferenceOfAngle(false);
+        double differenceOfAngle = finalOrientationBoat;
 
 
+        System.out.println("NTM :" + differenceOfAngle);
 
         // Si l'angle est nul, alors nous avons pas besoin de tourner
         if (differenceOfAngle == 0.0) {
@@ -156,11 +157,14 @@ public class TurnBoat {
         // condition si on est autour de 0
         if (smallestEcart/2 >= angle &&  -smallestEcart/2 <= angle) {
 
+            int min = Math.min(sailorsOnOarAtBabord.size(), sailorsOnOarAtTribord.size());
 
-            Optional<BabordTribordAngle> finalRepartitionTemp = possibleAngles.stream().filter(eachAngle -> eachAngle.getTribord() == eachAngle.getBabord() && eachAngle.getBabord() == numberOfOars/2).findAny();
+            finalRepartition = new BabordTribordAngle(min, min, 0);
+
+            /*Optional<BabordTribordAngle> finalRepartitionTemp = possibleAngles.stream().filter(eachAngle -> eachAngle.getTribord() == eachAngle.getBabord() && eachAngle.getBabord() == numberOfOars/2).findAny();
             if (finalRepartitionTemp.isPresent()){
                 finalRepartition = finalRepartitionTemp.get();
-            }
+            }*/
 
         } else {
 
@@ -807,12 +811,9 @@ public class TurnBoat {
     }
 
 
-
-
-
-
-
-
+    public List<Marin> getSailors() {
+        return sailors;
+    }
 
     public List<Marin> getSailorsOnOar() {
         return sailorsOnOar;

@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.render;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.TurnBoat;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
@@ -35,6 +36,10 @@ public class ThirdRender extends Render{
     @Override
     public String nextRound(RoundInfo round) throws JsonProcessingException {
 
+        for (Marin sailor: gameInfo.getSailors()) {
+            System.out.println(sailor);
+        }
+
         gameInfo.getShip().setTransform(round.getShip().getPosition());
         gameInfo.getShip().setEntities(round.getShip().getEntities());
 
@@ -63,30 +68,31 @@ public class ThirdRender extends Render{
 
 
 
-
-
-
-
         //if (!Collisions.isColliding(checkpointsShape, boatShape)) {
         if (Math.abs(distanceRestanteX) >= checkPointSize && Math.abs(distanceRestanteY) >= checkPointSize) {
 
-
             // Calculer l'angle
             double angle = gameInfo.getShip().getPosition().getAngleToSee(currentCheckPoint.getPosition());
+            System.out.println("Angle : " + angle);
 
             if (angle == 0.0) {
+                System.out.println("yo");
                 //finalsActions = gameInfo.getShip().moveBoatToAPoint(currentCheckPoint.getPosition());
                 TurnBoat turnBoat = new TurnBoat(angle, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
                 finalsActions = turnBoat.moveBoatInLine();
+                gameInfo.getShip().setSailors(turnBoat.getSailors());
             } else {
                 TurnBoat turnBoat = new TurnBoat(angle, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
                 finalsActions = turnBoat.turnBoat();
+                gameInfo.getShip().setSailors(turnBoat.getSailors());
                 System.out.println("Salut");
             }
             // verifier si on a atteint le checkpoint : si oui : si ya plus de checpoints apres s'arreter, sinon prendre le nouveau checkpoint
 
+            for (Marin sailor: gameInfo.getSailors()) {
+                System.out.println(sailor);
+            }
         }
-
 
         return om.writeValueAsString(finalsActions);
     }
