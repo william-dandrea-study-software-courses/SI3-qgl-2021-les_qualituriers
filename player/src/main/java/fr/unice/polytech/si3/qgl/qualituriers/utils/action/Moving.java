@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
@@ -15,6 +16,7 @@ public class Moving extends Action {
     private int distanceX;
     private int distanceY;
 
+    @JsonCreator
     public Moving(@JsonProperty("sailorId") int sailorId, @JsonProperty("xdistance") int distanceX, @JsonProperty("ydistance") int distanceY) {
         super(Actions.MOVING, sailorId);
         this.distanceX = distanceX;

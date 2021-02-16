@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Oar extends Action {
 
+    @JsonCreator
     public Oar(@JsonProperty("sailorId") int sailorId) {
         super(Actions.OAR, sailorId);
     }
