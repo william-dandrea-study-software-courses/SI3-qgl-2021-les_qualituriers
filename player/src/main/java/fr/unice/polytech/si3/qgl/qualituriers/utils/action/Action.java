@@ -15,8 +15,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = Void.class)
 @JsonSubTypes({
-        @JsonSubTypes.Type(name = "oar", value = Oar.class),
-        @JsonSubTypes.Type(name = "moving", value = Moving.class)
+        @JsonSubTypes.Type(name = "OAR", value = Oar.class),
+        @JsonSubTypes.Type(name = "MOVING", value = Moving.class)
 })
 public abstract class Action {
 
