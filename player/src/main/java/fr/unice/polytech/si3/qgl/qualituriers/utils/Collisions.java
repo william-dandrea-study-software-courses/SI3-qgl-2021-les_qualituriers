@@ -46,10 +46,10 @@ public class Collisions {
             return isCirclesCollidingEachOther(shape1.convertTo(Shapes.CIRCLE), shape2.convertTo(Shapes.CIRCLE));
         } else if(shape1.getShape().getType() == Shapes.CIRCLE) {
             // shape1 circle
-            return isPolygonCollidingWithCircle(shape1.convertTo(Shapes.POLYGON), shape2.convertTo(Shapes.CIRCLE));
+            return isPolygonCollidingWithCircle(shape2.convertTo(Shapes.POLYGON), shape1.convertTo(Shapes.CIRCLE));
         } else if(shape2.getShape().getType() == Shapes.CIRCLE) {
             // shape2 circle
-            return isPolygonCollidingWithCircle(shape2.convertTo(Shapes.POLYGON), shape1.convertTo(Shapes.CIRCLE));
+            return isPolygonCollidingWithCircle(shape1.convertTo(Shapes.POLYGON), shape2.convertTo(Shapes.CIRCLE));
         } else {
             // 2 polygons
             return isPolygonsCollidingEachOther(shape1.convertTo(Shapes.POLYGON), shape2.convertTo(Shapes.POLYGON));
