@@ -43,7 +43,7 @@ public class SerializerTest {
     @Test
     public void serializeOar() {
         Oar oar = new Oar(3);
-        this.serialize(oar, "{\"type\":\"OAR\",\"sailorId\":3}");
+        this.serialize(oar, "{\"sailorId\":3,\"type\":\"OAR\"}");
     }
 
     @Test
