@@ -78,7 +78,6 @@ public class TurnBoat {
     public List<Action> moveBoatInLine() {
 
 
-
         // On regarde combien on a de marin a droite et a gauche
         if (sailorsOnOarAtBabord.size() > 0 && sailorsOnOarAtTribord.size() > 0) {
             // Si on a assez de marin de chaque côté on a juste a avancer
