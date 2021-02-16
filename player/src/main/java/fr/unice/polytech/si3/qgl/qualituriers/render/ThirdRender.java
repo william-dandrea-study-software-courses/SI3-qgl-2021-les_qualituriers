@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.PositionableShape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
@@ -36,9 +37,7 @@ public class ThirdRender extends Render{
     @Override
     public String nextRound(RoundInfo round) throws JsonProcessingException {
 
-        for (Marin sailor: gameInfo.getSailors()) {
-            System.out.println(sailor);
-        }
+
 
         gameInfo.getShip().setTransform(round.getShip().getPosition());
         gameInfo.getShip().setEntities(round.getShip().getEntities());
@@ -52,10 +51,8 @@ public class ThirdRender extends Render{
         double distanceRestanteX = currentCheckPoint.getPosition().getX() - gameInfo.getShip().getPosition().getX();
         double distanceRestanteY = currentCheckPoint.getPosition().getY() - gameInfo.getShip().getPosition().getY();
 
-        System.out.println(distanceRestanteX);
-        System.out.println(distanceRestanteY);
-        System.out.println(gameInfo.getShip().getPosition().getOrientation());
 
+        System.out.println("Distance restante : " + Math.sqrt(distanceRestanteX * distanceRestanteX + distanceRestanteY * distanceRestanteY));
 
         //double angle = Math.atan(distanceRestanteY/distanceRestanteX) + gameInfo.getShip().getTransform().getOrientation();
 
@@ -63,20 +60,17 @@ public class ThirdRender extends Render{
         if (currentCheckPoint.getShape() instanceof Circle) {
             checkPointSize = (((Circle) currentCheckPoint.getShape()).getRadius()) / 2;
         }
-        System.out.println(checkPointSize);
+
+        if (Math.sqrt(distanceRestanteX * distanceRestanteX + distanceRestanteY * distanceRestanteY) >= checkPointSize) {
 
 
-
-
-        //if (!Collisions.isColliding(checkpointsShape, boatShape)) {
-        if (Math.abs(distanceRestanteX) >= checkPointSize && Math.abs(distanceRestanteY) >= checkPointSize) {
 
             // Calculer l'angle
             double angle = gameInfo.getShip().getPosition().getAngleToSee(currentCheckPoint.getPosition());
             System.out.println("Angle : " + angle);
 
             if (angle == 0.0) {
-                System.out.println("yo");
+
                 //finalsActions = gameInfo.getShip().moveBoatToAPoint(currentCheckPoint.getPosition());
                 TurnBoat turnBoat = new TurnBoat(angle, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
                 finalsActions = turnBoat.moveBoatInLine();
@@ -85,15 +79,14 @@ public class ThirdRender extends Render{
                 TurnBoat turnBoat = new TurnBoat(angle, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
                 finalsActions = turnBoat.turnBoat();
                 gameInfo.getShip().setSailors(turnBoat.getSailors());
-                System.out.println("Salut");
+
             }
             // verifier si on a atteint le checkpoint : si oui : si ya plus de checpoints apres s'arreter, sinon prendre le nouveau checkpoint
 
-            for (Marin sailor: gameInfo.getSailors()) {
-                System.out.println(sailor);
-            }
+
         }
 
+        System.out.println(finalsActions.toString());
         return om.writeValueAsString(finalsActions);
     }
 }
