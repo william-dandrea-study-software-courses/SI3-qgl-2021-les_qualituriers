@@ -11,13 +11,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Wind {
 
-    private double orientation;
-    private double strength;
+    private final double orientation;
+    private final double strength;
 
     @JsonCreator
     public Wind(@JsonProperty("orientation") double orientation, @JsonProperty("strength") double strength) {
         this.orientation = orientation;
         this.strength = strength;
+    }
+
+    public double getOrientation() {
+        return orientation;
+    }
+
+    public double getStrength() {
+        return strength;
     }
 
     @Override

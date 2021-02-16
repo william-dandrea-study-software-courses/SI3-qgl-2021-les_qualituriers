@@ -11,6 +11,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
 
 import javax.naming.NameNotFoundException;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +23,9 @@ public class OarMechanic extends Mechanic {
         int left = 0;
         int right = 0;
 
-        OarBoatEntity[] usedoar = (OarBoatEntity[])actions.stream().filter(a -> a.getType() == Actions.OAR).map(action -> {
+        List<OarBoatEntity> usedoar = new ArrayList<>();
+
+        actions.stream().filter(a -> a.getType() == Actions.OAR).map(action -> {
 
             var sailorOpt = Arrays.stream(race.getSailors()).filter(m -> m.getId() == action.getSailorId()).findAny();
             if(sailorOpt.isEmpty()) throw new SailorNotFoundException(action.getSailorId());
@@ -35,7 +38,8 @@ public class OarMechanic extends Mechanic {
             var oar = (OarBoatEntity)oarOpt.get();
 
             return oar;
-        }).toArray();
+        }).forEach(usedoar::add);
+
         for(var oar : usedoar) {
             if(oar.isLeftOar()) left++;
             else right++;

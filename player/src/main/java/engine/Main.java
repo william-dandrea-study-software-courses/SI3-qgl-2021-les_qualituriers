@@ -13,6 +13,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.OarBoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
@@ -83,7 +84,7 @@ public class Main {
         List<Action> actionsDone = new ArrayList<>();
 
         do {
-            RoundInfo rInfo = new RoundInfo(race.getBoat(), null, new VisibleDeckEntity[] {});
+            RoundInfo rInfo = new RoundInfo(race.getBoat(), new Wind(0, 0), new VisibleDeckEntity[] {});
             var roundString = om.writeValueAsString(rInfo);
 
             var actionString = cockpit.nextRound(roundString);
