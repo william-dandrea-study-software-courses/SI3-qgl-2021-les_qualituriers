@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.render;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.TurnBoat;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
@@ -11,6 +12,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.PositionableShape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Turn;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 import java.util.ArrayList;
@@ -45,9 +47,31 @@ public class ThirdRender extends Render{
         PositionableShape<Shape> boatShape = new PositionableShape<>(gameInfo.getShip().getShape(), gameInfo.getShip().getTransform());
 
 
+        double distanceRestanteX = currentCheckPoint.getPosition().getX() - gameInfo.getShip().getTransform().getX();
+        double distanceRestanteY = currentCheckPoint.getPosition().getY() - gameInfo.getShip().getTransform().getY();
+
+        System.out.println(distanceRestanteX);
+        System.out.println(distanceRestanteY);
+        System.out.println(gameInfo.getShip().getTransform().getOrientation());
 
 
-        if (!Collisions.isColliding(checkpointsShape, boatShape)) {
+        //double angle = Math.atan(distanceRestanteY/distanceRestanteX) + gameInfo.getShip().getTransform().getOrientation();
+
+        double checkPointSize = 40;
+        if (currentCheckPoint.getShape() instanceof Circle) {
+            checkPointSize = (((Circle) currentCheckPoint.getShape()).getRadius()) / 2;
+        }
+        System.out.println(checkPointSize);
+
+
+
+
+
+
+
+
+        //if (!Collisions.isColliding(checkpointsShape, boatShape)) {
+        if (Math.abs(distanceRestanteX) >= checkPointSize && Math.abs(distanceRestanteY) >= checkPointSize) {
 
 
             // Calculer l'angle
