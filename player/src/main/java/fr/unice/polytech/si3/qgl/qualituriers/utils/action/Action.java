@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+
 /**
  * @author Alexandre Arcil
  * @author CLODONG Yann

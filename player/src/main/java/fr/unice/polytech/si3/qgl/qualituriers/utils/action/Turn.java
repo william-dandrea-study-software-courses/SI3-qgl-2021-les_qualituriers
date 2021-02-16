@@ -29,4 +29,12 @@ public class Turn extends Action {
         var castedObj = (Turn)obj;
         return super.equals(obj) && castedObj.rotation == rotation;
     }
+
+    @Override
+    public String toString() {
+        return "Turn{" +
+                "sailorId=" + sailorId +
+                ", type='" + type + "', rotation=" + rotation +
+                "}";
+    }
 }
