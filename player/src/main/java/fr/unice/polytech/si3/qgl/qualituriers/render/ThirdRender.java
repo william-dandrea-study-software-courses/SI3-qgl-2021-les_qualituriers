@@ -44,7 +44,6 @@ public class ThirdRender extends Render{
         if (!Collisions.isColliding(checkpointsShape, boatShape)) {
 
 
-
             // Calculer l'angle
             double angle = gameInfo.getShip().getTransform().getAngleToSee(currentCheckPoint.getPosition());
 
