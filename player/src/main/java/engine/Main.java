@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import engine.graphics.Renderer;
 import engine.mechanics.MovingMechanic;
 import engine.mechanics.OarMechanic;
 import engine.mechanics.Mechanic;
@@ -28,6 +29,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
@@ -65,7 +67,7 @@ public class Main {
         });
     }
 
-    static void RunRace(Race race) throws JsonProcessingException {
+    static void RunRace(Race race) throws JsonProcessingException, InterruptedException {
         ObjectMapper om = new ObjectMapper();
         SimpleModule module = new SimpleModule();
 
@@ -81,6 +83,8 @@ public class Main {
 
         Action[] actionsDone;
 
+        Renderer renderer = new Renderer(race);
+
         do {
             RoundInfo rInfo = new RoundInfo(race.getBoat(), null, new VisibleDeckEntity[] {});
             var roundString = om.writeValueAsString(rInfo);
@@ -94,14 +98,16 @@ public class Main {
                 m.execute(finalActionsDone, race);
             });
 
-            System.out.println(race.getBoat().getPosition());
+            renderer.draw();
+
+            TimeUnit.MICROSECONDS.sleep(500);
 
         } while(actionsDone.length != 0);
         //      Run game
         //      Execute action
     }
 
-    public static void main(String... args) throws JsonProcessingException {
+    public static void main(String... args) throws JsonProcessingException, InterruptedException {
         RunRace(createRace());
 
     }
