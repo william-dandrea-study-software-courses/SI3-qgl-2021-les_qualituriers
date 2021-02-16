@@ -84,15 +84,22 @@ public class Main {
         do {
             RoundInfo rInfo = new RoundInfo(race.getBoat(), null, new VisibleDeckEntity[] {});
             var roundString = om.writeValueAsString(rInfo);
-            System.out.println(roundString);
 
             var actionString = cockpit.nextRound(roundString);
 
             actionsDone = om.readValue(actionString, List.class);
-            System.out.println(actionString);
 
             List<Action> finalActionsDone = actionsDone;
-            Arrays.stream(race.getMechanics()).forEach(m -> m.Execute(finalActionsDone, race));
+            Arrays.stream(race.getMechanics()).forEach(m -> {
+                try {
+                    m.Execute(finalActionsDone, race);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            System.out.println(race.getBoat().getPosition());
+
         } while(actionsDone.size() != 0);
         //      Run game
         //      Execute action
@@ -100,9 +107,6 @@ public class Main {
 
     public static void main(String... args) throws JsonProcessingException {
         RunRace(createRace());
-        BoatEntity entity = new OarBoatEntity(3, 3);
-        ObjectMapper om = new ObjectMapper();
-        System.out.println(om.writeValueAsString(entity));
 
     }
 }
