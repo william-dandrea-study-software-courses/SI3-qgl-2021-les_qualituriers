@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -77,6 +78,7 @@ public class Transform extends Point {
      * Location
      * @return location
      */
+    @JsonIgnore
     public Point getPoint() {
         return new Point(this.getX(), this.getY());
     }

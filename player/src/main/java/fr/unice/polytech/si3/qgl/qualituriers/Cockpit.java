@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.render.RenderTest;
 import fr.unice.polytech.si3.qgl.qualituriers.render.SecondRender;
 import fr.unice.polytech.si3.qgl.qualituriers.render.ThirdRender;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class Cockpit implements ICockpit {
 
-	ThirdRender render;
+	RenderTest render;
 	private ObjectMapper om;
 
 	public void initGame(String game) {
@@ -24,7 +25,7 @@ public class Cockpit implements ICockpit {
 		try {
 			GameInfo gameInfo = om.readValue(game, GameInfo.class);
 
-			this.render = new ThirdRender(gameInfo);
+			this.render = new RenderTest(gameInfo);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

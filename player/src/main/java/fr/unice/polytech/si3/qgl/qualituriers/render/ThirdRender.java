@@ -2,16 +2,13 @@ package fr.unice.polytech.si3.qgl.qualituriers.render;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.TurnBoat;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.PositionableShape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Turn;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
@@ -38,21 +35,21 @@ public class ThirdRender extends Render{
     @Override
     public String nextRound(RoundInfo round) throws JsonProcessingException {
 
-        gameInfo.getShip().setTransform(round.getShip().getTransform());
+        gameInfo.getShip().setTransform(round.getShip().getPosition());
         gameInfo.getShip().setEntities(round.getShip().getEntities());
 
         List<Action> finalsActions = new ArrayList<>();
 
         PositionableShape<Shape> checkpointsShape = new PositionableShape<>(currentCheckPoint.getShape(), currentCheckPoint.getPosition());
-        PositionableShape<Shape> boatShape = new PositionableShape<>(gameInfo.getShip().getShape(), gameInfo.getShip().getTransform());
+        PositionableShape<Shape> boatShape = new PositionableShape<>(gameInfo.getShip().getShape(), gameInfo.getShip().getPosition());
 
 
-        double distanceRestanteX = currentCheckPoint.getPosition().getX() - gameInfo.getShip().getTransform().getX();
-        double distanceRestanteY = currentCheckPoint.getPosition().getY() - gameInfo.getShip().getTransform().getY();
+        double distanceRestanteX = currentCheckPoint.getPosition().getX() - gameInfo.getShip().getPosition().getX();
+        double distanceRestanteY = currentCheckPoint.getPosition().getY() - gameInfo.getShip().getPosition().getY();
 
         System.out.println(distanceRestanteX);
         System.out.println(distanceRestanteY);
-        System.out.println(gameInfo.getShip().getTransform().getOrientation());
+        System.out.println(gameInfo.getShip().getPosition().getOrientation());
 
 
         //double angle = Math.atan(distanceRestanteY/distanceRestanteX) + gameInfo.getShip().getTransform().getOrientation();
@@ -75,7 +72,7 @@ public class ThirdRender extends Render{
 
 
             // Calculer l'angle
-            double angle = gameInfo.getShip().getTransform().getAngleToSee(currentCheckPoint.getPosition());
+            double angle = gameInfo.getShip().getPosition().getAngleToSee(currentCheckPoint.getPosition());
 
             if (angle == 0.0) {
                 //finalsActions = gameInfo.getShip().moveBoatToAPoint(currentCheckPoint.getPosition());

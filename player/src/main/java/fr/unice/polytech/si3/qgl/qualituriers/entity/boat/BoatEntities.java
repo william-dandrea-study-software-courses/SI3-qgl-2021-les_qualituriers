@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Correspond aux entités dans le bateau. Chaque enum contient le type ainsi que la classe qui le représente.
  *
@@ -7,12 +9,13 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
  * @author CLODONG Yann
  */
 public enum BoatEntities {
-    OAR("OAR", OarBoatEntity.class),
-    SAIL("SAIL", SailBoatEntity.class),
-    RUDDER("RUDDER", RudderBoatEntity.class),
-    WATCH("WATCH", WatchBoatEntity.class),
-    CANON("CANON", CanonBoatEntity.class);
+    OAR("oar", OarBoatEntity.class),
+    SAIL("sail", SailBoatEntity.class),
+    RUDDER("rudder", RudderBoatEntity.class),
+    WATCH("watch", WatchBoatEntity.class),
+    CANON("cannon", CanonBoatEntity.class);
 
+    @JsonIgnore
     private final String type;
     private final Class<? extends BoatEntity> entity;
 
@@ -21,6 +24,7 @@ public enum BoatEntities {
         this.entity = entity;
     }
 
+    @JsonIgnore
     public String getType() {
         return type;
     }

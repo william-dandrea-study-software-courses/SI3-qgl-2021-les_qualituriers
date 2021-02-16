@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -37,6 +38,7 @@ public abstract class Shape {
      */
     public abstract boolean isIn(Point position);
 
+    @JsonIgnore
     public Shapes getType() {
         return type;
     }

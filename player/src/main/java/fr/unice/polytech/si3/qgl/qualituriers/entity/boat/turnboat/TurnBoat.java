@@ -747,7 +747,7 @@ public class TurnBoat {
 
 
         boatEntities = Arrays.asList(boat.getEntities().clone());
-        positionBoat = boat.getTransform();
+        positionBoat = boat.getPosition();
 
         if (!boatEntities.contains(null)) {
             List<BoatEntity> listOfOars = boatEntities.stream().filter(boatEntity -> boatEntity.getType().equals(BoatEntities.OAR)).collect(Collectors.toList());

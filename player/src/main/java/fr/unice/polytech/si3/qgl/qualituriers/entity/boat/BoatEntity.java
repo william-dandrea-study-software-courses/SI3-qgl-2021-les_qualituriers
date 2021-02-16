@@ -13,7 +13,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
  * @author CLODONG Yann
  */
 
-
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = Void.class)
 @JsonSubTypes({
         @JsonSubTypes.Type(name = "oar", value = OarBoatEntity.class),
@@ -28,7 +27,7 @@ public abstract class BoatEntity {
     protected int x;
     protected int y;
 
-    public BoatEntity(@JsonProperty("type") BoatEntities type, @JsonProperty("x") int x, @JsonProperty("y") int y) {
+    public BoatEntity(BoatEntities type, @JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.type = type;
         this.x = x;
         this.y = y;

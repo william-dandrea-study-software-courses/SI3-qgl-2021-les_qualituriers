@@ -5,12 +5,9 @@ import engine.exceptions.SailorNotFoundException;
 import engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.OarBoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
 
-import javax.naming.NameNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,9 +42,9 @@ public class OarMechanic extends Mechanic {
             else right++;
         }
         var dtheta = (right - left) * Math.PI / 6;
-        race.getBoat().getTransform().rotate(dtheta);
+        race.getBoat().getPosition().rotate(dtheta);
 
-        race.getBoat().getTransform().translate(race.getBoat().getTransform().right().scalar(Math.min(left, right) * maxSpeed));
+        race.getBoat().getPosition().translate(race.getBoat().getPosition().right().scalar(Math.min(left, right) * maxSpeed));
 
         //Point bendCenter =
     }

@@ -8,12 +8,10 @@ import engine.mechanics.MovingMechanic;
 import engine.mechanics.OarMechanic;
 import engine.mechanics.Mechanic;
 import engine.races.Race;
+import engine.serializers.BoatEntitySerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.OarBoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
@@ -71,9 +69,10 @@ public class Main {
     static void RunRace(Race race) throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();
         SimpleModule module = new SimpleModule();
+        module.addSerializer(BoatEntities.class, new BoatEntitySerializer());
         module.addDeserializer(Action.class, new Deserializer());
-        om.registerModule(module);
 
+        om.registerModule(module);
 
 
         // Init game

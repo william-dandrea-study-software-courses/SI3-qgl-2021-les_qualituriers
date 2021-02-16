@@ -117,7 +117,7 @@ public class Boat {
 
     public String getName() { return name; }
     public int getLife() { return life; }
-    public Transform getTransform() { return transform; }
+    public Transform getPosition() { return transform; }
     public Deck getDeck() { return deck; }
     public BoatEntity[] getEntities() { return entities; }
     public List<Action> getActionsToDo() { return actionsToDo; }

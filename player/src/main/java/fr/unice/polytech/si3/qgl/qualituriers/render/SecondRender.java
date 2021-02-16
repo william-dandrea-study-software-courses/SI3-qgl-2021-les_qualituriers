@@ -2,15 +2,12 @@ package fr.unice.polytech.si3.qgl.qualituriers.render;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 
-import javax.xml.crypto.NoSuchMechanismException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,7 +42,7 @@ public class SecondRender extends Render {
      */
     public double getAngleToRotate() {
         var checkpoint = checkpoints[nextCheckpoint];
-        return gameInfo.getShip().getTransform().getAngleToSee(checkpoint.getPosition());
+        return gameInfo.getShip().getPosition().getAngleToSee(checkpoint.getPosition());
     }
 
 
@@ -54,7 +51,7 @@ public class SecondRender extends Render {
         // Don't forget to change nextCheckpoint when it's reached
 
         // EN premier, nous allons affecter les nouvelles bonns valeurs au bateau
-        gameInfo.getShip().setTransform(round.getShip().getTransform());
+        gameInfo.getShip().setTransform(round.getShip().getPosition());
         gameInfo.getShip().setEntities(round.getShip().getEntities());
 
 

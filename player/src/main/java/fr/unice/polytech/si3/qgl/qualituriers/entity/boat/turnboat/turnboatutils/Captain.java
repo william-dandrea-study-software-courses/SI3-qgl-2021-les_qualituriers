@@ -22,7 +22,7 @@ public class Captain {
     }
 
     private void setSpeed() {
-        double dist = boat.getTransform().getPoint().substract(target).length();
+        double dist = boat.getPosition().getPoint().substract(target).length();
         double distRal = 3;
         if(dist > distRal) dist = distRal;
 
@@ -30,7 +30,7 @@ public class Captain {
     }
 
     private void setBend() {
-        double angle = boat.getTransform().getAngleToSee(target);
+        double angle = boat.getPosition().getAngleToSee(target);
         double bend = 0;
 
         if(Math.abs(angle) > Math.PI / 2) {
