@@ -36,6 +36,9 @@ public class ThirdRender extends Render{
     @Override
     public String nextRound(RoundInfo round) throws JsonProcessingException {
 
+        gameInfo.getShip().setTransform(round.getShip().getTransform());
+        gameInfo.getShip().setEntities(round.getShip().getEntities());
+
         List<Action> finalsActions = new ArrayList<>();
 
         PositionableShape<Shape> checkpointsShape = new PositionableShape<>(currentCheckPoint.getShape(), currentCheckPoint.getPosition());
@@ -52,18 +55,15 @@ public class ThirdRender extends Render{
 
             if (angle == 0.0) {
                 //finalsActions = gameInfo.getShip().moveBoatToAPoint(currentCheckPoint.getPosition());
-                finalsActions = gameInfo.getShip().moveBoatInLine();
+                TurnBoat turnBoat = new TurnBoat(angle, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
+                finalsActions =turnBoat.moveBoatInLine();
             } else {
-                finalsActions = gameInfo.getShip().turnBoat(angle);
+                TurnBoat turnBoat = new TurnBoat(angle, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
+                finalsActions =turnBoat.turnBoat();
             }
             // verifier si on a atteint le checkpoint : si oui : si ya plus de checpoints apres s'arreter, sinon prendre le nouveau checkpoint
 
         }
-
-
-
-
-
 
 
         return om.writeValueAsString(finalsActions);

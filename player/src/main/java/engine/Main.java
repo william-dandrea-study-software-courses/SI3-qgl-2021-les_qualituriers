@@ -80,7 +80,6 @@ public class Main {
         var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1);
 
 
-
         Cockpit cockpit = new Cockpit();
         var ignitionString = om.writeValueAsString(gameInfo);
         cockpit.initGame(ignitionString);

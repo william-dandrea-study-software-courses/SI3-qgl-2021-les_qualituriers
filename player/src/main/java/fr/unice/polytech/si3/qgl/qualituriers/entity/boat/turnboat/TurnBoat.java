@@ -79,7 +79,6 @@ public class TurnBoat {
 
 
 
-
         // On regarde combien on a de marin a droite et a gauche
         if (sailorsOnOarAtBabord.size() > 0 && sailorsOnOarAtTribord.size() > 0) {
             // Si on a assez de marin de chaque côté on a juste a avancer
@@ -109,8 +108,11 @@ public class TurnBoat {
 
 
 
+
         // Intern properties
         double differenceOfAngle = generateDifferenceOfAngle(false);
+
+
 
         // Si l'angle est nul, alors nous avons pas besoin de tourner
         if (differenceOfAngle == 0.0) {
@@ -121,17 +123,19 @@ public class TurnBoat {
         possibleAngles = generateListOfPossibleAngles(0);
 
         if (differenceOfAngle <= -Math.PI / 2) {
+
             finalDispositionOfOars = selectTheGoodAngle(-Math.PI / 2);
         } else if (differenceOfAngle >= Math.PI / 2) {
             finalDispositionOfOars = selectTheGoodAngle(Math.PI / 2);
+
         } else {
             finalDispositionOfOars = selectTheGoodAngle(differenceOfAngle);
+
         }
 
 
-
-
         oar(finalDispositionOfOars.getBabord(), finalDispositionOfOars.getTribord());
+
 
 
 
@@ -144,7 +148,7 @@ public class TurnBoat {
         possibleAngles = generateListOfPossibleAngles(0);
 
 
-        BabordTribordAngle finalRepartition = new BabordTribordAngle(0,0,0);
+        BabordTribordAngle finalRepartition = new BabordTribordAngle(1,1,0);
         double smallestEcart = Math.PI / numberOfOars;
 
 
@@ -152,14 +156,18 @@ public class TurnBoat {
         // condition si on est autour de 0
         if (smallestEcart/2 >= angle &&  -smallestEcart/2 <= angle) {
 
+
             Optional<BabordTribordAngle> finalRepartitionTemp = possibleAngles.stream().filter(eachAngle -> eachAngle.getTribord() == eachAngle.getBabord() && eachAngle.getBabord() == numberOfOars/2).findAny();
             if (finalRepartitionTemp.isPresent()){
                 finalRepartition = finalRepartitionTemp.get();
             }
 
         } else {
+
             for (BabordTribordAngle eachAngle : possibleAngles) {
                 if (angle > eachAngle.getAngle() - (smallestEcart/2) && angle <= eachAngle.getAngle() + (smallestEcart/2) ) {
+
+
                     finalRepartition = generateIdealRepartitionOfOars(eachAngle.getAngle());
                     break;
                 }
@@ -179,6 +187,8 @@ public class TurnBoat {
      * @return la meilleure dispositions des rames pour entamer une rotation
      */
     BabordTribordAngle generateIdealRepartitionOfOars(double angle) {
+
+
 
 
         List<BabordTribordAngle> idealsRepartitionOfOars = possibleAngles.stream().filter( eachAngle -> eachAngle.getAngle() - ECART_DOUBLE <= angle && eachAngle.getAngle() + ECART_DOUBLE >= angle).collect(Collectors.toList());
@@ -674,22 +684,28 @@ public class TurnBoat {
 
         for (Marin sailor: sailors) {
 
-            for(BoatEntity rightEntity : listOfOarsAtTribord) {
-                if (rightEntity.getX() == sailor.getX() && rightEntity.getY() == sailor.getY()) {
+            if (listOfOarsAtTribord != null) {
+                for(BoatEntity rightEntity : listOfOarsAtTribord) {
+                    if (rightEntity.getX() == sailor.getX() && rightEntity.getY() == sailor.getY()) {
 
-                    sailorsOnOarAtTribord.add(sailor);
-                    sailorsOnOar.add(sailor);
+                        sailorsOnOarAtTribord.add(sailor);
+                        sailorsOnOar.add(sailor);
+                    }
                 }
             }
 
 
-            for(BoatEntity leftEntity : listOfOarsAtBabord) {
-                if (leftEntity.getX() == sailor.getX() && leftEntity.getY() == sailor.getY()) {
+            if (listOfOarsAtBabord != null ) {
+                for(BoatEntity leftEntity : listOfOarsAtBabord) {
+                    if (leftEntity.getX() == sailor.getX() && leftEntity.getY() == sailor.getY()) {
 
-                    sailorsOnOarAtBabord.add(sailor);
-                    sailorsOnOar.add(sailor);
+                        sailorsOnOarAtBabord.add(sailor);
+                        sailorsOnOar.add(sailor);
+                    }
                 }
             }
+
+
         }
     }
 
@@ -736,6 +752,8 @@ public class TurnBoat {
         if (!boatEntities.contains(null)) {
             List<BoatEntity> listOfOars = boatEntities.stream().filter(boatEntity -> boatEntity.getType().equals(BoatEntities.OAR)).collect(Collectors.toList());
             numberOfOars = listOfOars.size();
+
+
 
             listOfOarsAtBabord = listOfOars.stream().filter(boatEntity -> boatEntity.getY() == 0).collect(Collectors.toList());
             listOfOarsAtTribord = listOfOars.stream().filter(boatEntity -> boatEntity.getY() == boat.getDeck().getWidth()-1).collect(Collectors.toList());

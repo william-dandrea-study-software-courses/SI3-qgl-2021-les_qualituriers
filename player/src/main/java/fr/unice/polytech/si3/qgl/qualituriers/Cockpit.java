@@ -18,7 +18,7 @@ public class Cockpit implements ICockpit {
 	private ObjectMapper om;
 
 	public void initGame(String game) {
-		System.out.println("Game : " + game);
+		//System.out.println("Game : " + game);
 		this.om = new ObjectMapper();
 		this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		try {
@@ -31,7 +31,7 @@ public class Cockpit implements ICockpit {
 	}
 
 	public String nextRound(String round) {
-		System.out.println("Round : " + round);
+		//System.out.println("Round : " + round);
 		if(this.render != null) {
 			try {
 				RoundInfo roundInfo = om.readValue(round, RoundInfo.class);
