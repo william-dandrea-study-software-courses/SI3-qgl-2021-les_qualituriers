@@ -60,7 +60,7 @@ public class Main {
     }
 
     static Race createRace() {
-        var goal = new RegattaGoal(new CheckPoint[] { new CheckPoint(new Transform(new Point(-100, 10), 0), new Circle(5))} );
+        var goal = new RegattaGoal(new CheckPoint[] { new CheckPoint(new Transform(new Point(1000, -200), 0), new Circle(40))} );
         return new Race(goal, createBoat(), createSailors(), new Mechanic[] {
                 new MovingMechanic(),
                 new OarMechanic()
@@ -85,6 +85,7 @@ public class Main {
 
         Renderer renderer = new Renderer(race);
 
+        int compteurMax = 100;
         do {
             RoundInfo rInfo = new RoundInfo(race.getBoat(), null, new VisibleDeckEntity[] {});
             var roundString = om.writeValueAsString(rInfo);
@@ -100,9 +101,10 @@ public class Main {
 
             renderer.draw();
 
-            TimeUnit.MICROSECONDS.sleep(500);
+            TimeUnit.MILLISECONDS.sleep(50);
+            compteurMax--;
 
-        } while(actionsDone.length != 0);
+        } while(actionsDone.length != 0 && compteurMax >=0);
         //      Run game
         //      Execute action
     }

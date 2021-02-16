@@ -112,7 +112,6 @@ public class TurnBoat {
         double differenceOfAngle = finalOrientationBoat;
 
 
-        System.out.println("NTM :" + differenceOfAngle);
 
         // Si l'angle est nul, alors nous avons pas besoin de tourner
         if (differenceOfAngle == 0.0) {
