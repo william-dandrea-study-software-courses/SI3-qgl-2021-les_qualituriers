@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -19,6 +20,7 @@ public class OarBoatEntity extends BoatEntity {
      * la rame est-elle une rame droite du bateau ?
      * @return true si la rame est une rame droite du bateau
      */
+    @JsonIgnore
     public boolean isRightOar() {
         return y != 0;
     }
@@ -27,6 +29,7 @@ public class OarBoatEntity extends BoatEntity {
      * la rame est-elle une rame gauche du bateau ?
      * @return true si la rame est une rame gauche du bateau
      */
+    @JsonIgnore
     public boolean isLeftOar() {
         return y == 0;
     }

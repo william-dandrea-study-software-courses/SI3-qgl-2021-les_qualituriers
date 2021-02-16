@@ -85,15 +85,17 @@ public class Main {
         cockpit.initGame(ignitionString);
         // Loop
 
-        List<Action> actionsDone = new ArrayList<>();
+        List<Action> actionsDone;
 
         do {
-            RoundInfo rInfo = new RoundInfo(race.getBoat(), new Wind(0, 0), new VisibleDeckEntity[] {});
+            RoundInfo rInfo = new RoundInfo(race.getBoat(), null, new VisibleDeckEntity[] {});
             var roundString = om.writeValueAsString(rInfo);
+            System.out.println(roundString);
 
             var actionString = cockpit.nextRound(roundString);
 
             actionsDone = om.readValue(actionString, List.class);
+            System.out.println(actionString);
 
             List<Action> finalActionsDone = actionsDone;
             Arrays.stream(race.getMechanics()).forEach(m -> m.Execute(finalActionsDone, race));

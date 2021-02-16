@@ -80,10 +80,11 @@ public class ThirdRender extends Render{
             if (angle == 0.0) {
                 //finalsActions = gameInfo.getShip().moveBoatToAPoint(currentCheckPoint.getPosition());
                 TurnBoat turnBoat = new TurnBoat(angle, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
-                finalsActions =turnBoat.moveBoatInLine();
+                finalsActions = turnBoat.moveBoatInLine();
             } else {
                 TurnBoat turnBoat = new TurnBoat(angle, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
-                finalsActions =turnBoat.turnBoat();
+                finalsActions = turnBoat.turnBoat();
+                System.out.println("Salut");
             }
             // verifier si on a atteint le checkpoint : si oui : si ya plus de checpoints apres s'arreter, sinon prendre le nouveau checkpoint
 
