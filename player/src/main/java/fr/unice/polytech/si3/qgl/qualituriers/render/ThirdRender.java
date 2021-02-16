@@ -41,6 +41,9 @@ public class ThirdRender extends Render{
         PositionableShape<Shape> checkpointsShape = new PositionableShape<>(currentCheckPoint.getShape(), currentCheckPoint.getPosition());
         PositionableShape<Shape> boatShape = new PositionableShape<>(gameInfo.getShip().getShape(), gameInfo.getShip().getTransform());
 
+
+
+
         if (!Collisions.isColliding(checkpointsShape, boatShape)) {
 
 

@@ -73,4 +73,12 @@ public class Segment {
         // Check opposite sign
         return endDistToDroite * startDistToDroite < 0;
     }
+
+    @Override
+    public String toString() {
+        return "Segment{" +
+                "start=" + start +
+                ", end=" + end +
+                '}';
+    }
 }

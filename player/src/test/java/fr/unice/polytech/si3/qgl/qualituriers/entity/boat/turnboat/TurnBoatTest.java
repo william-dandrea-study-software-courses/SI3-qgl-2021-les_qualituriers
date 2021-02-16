@@ -72,6 +72,37 @@ class TurnBoatTest {
 
     }
 
+
+    @Test
+    void moveBoatInLineTest() {
+
+        Deck actualDeck = new Deck(2,4);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,1){},
+                new BoatEntity(BoatEntities.OAR, 1,0){},
+                new BoatEntity(BoatEntities.OAR, 1,1){},
+                new BoatEntity(BoatEntities.OAR, 3,0){},
+                new BoatEntity(BoatEntities.OAR, 3,1){},
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,2,0, "marin1")); // babord
+            add(new Marin(2,2,1, "marin2")); // tribord
+
+        }};
+
+        TurnBoat turnBoat = new TurnBoat(Math.PI/6, actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.moveBoatInLine();
+
+        System.out.println(actions);
+
+
+
+    }
+
     @Test
     void turnBoatTestReturnActionsWithTheGoodAmountOfSailorsOnEachSide() {
 

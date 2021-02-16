@@ -74,6 +74,37 @@ public class TurnBoat {
     }
 
 
+
+    public List<Action> moveBoatInLine() {
+
+
+
+
+        // On regarde combien on a de marin a droite et a gauche
+        if (sailorsOnOarAtBabord.size() > 0 && sailorsOnOarAtTribord.size() > 0) {
+            // Si on a assez de marin de chaque côté on a juste a avancer
+            for (int i = 0; i < Math.min(sailorsOnOarAtBabord.size(),sailorsOnOarAtTribord.size()); i++) {
+
+                actionsToDo.add(new Oar(sailorsOnOarAtTribord.get(i).getId()));
+                actionsToDo.add(new Oar(sailorsOnOarAtBabord.get(i).getId()));
+
+            }
+
+            return actionsToDo;
+        } else {
+
+
+            moveSailorsOnOarWithFreeSailors(new BabordTribordAngle(1,1,0));
+            return actionsToDo;
+
+        }
+
+
+
+
+    }
+
+
     public List<Action> turnBoat() {
 
 
@@ -216,8 +247,7 @@ public class TurnBoat {
                 if (anyDisposition) {
                     // Si nous n'avons pas suffisamment de marin a gauche et a droite mais suffisamment de marins libres
 
-                    System.out.println("On est la : actuellement -> " + numberOfSailorOnOarAtBabord + " : " + numberOfSailorOnOarAtTribord);
-                    System.out.println(repartition);
+
 
                     // On compte combien de marin il nous manque du bon coté
                     // On regarde si on peut enlever des marins qui sont sur des rames l'autre coté et les bouger du bon coté tout en respectant la disposition
@@ -233,12 +263,10 @@ public class TurnBoat {
                         if (numberOfSailorOnOarAtTribord <= repartition.getTribord()) {
 
                             // On va bouger un marin de babord vers tribord
-                            System.out.println("On va bouger un marin de babord vers tribord");
 
 
                             // On a le droit de déplacer seulement un certain nombre de marin pour respecter la repartition
                             int numberOfSailorWeCanMoveFromBabordToTribord = numberOfSailorOnOarAtBabord - repartition.getBabord();
-                            System.out.println("1 : " + numberOfSailorWeCanMoveFromBabordToTribord);
 
 
 
@@ -291,13 +319,10 @@ public class TurnBoat {
                         if (numberOfSailorOnOarAtBabord <= repartition.getBabord()) {
 
                             // On va bouger un marin de tribord vers babord
-                            System.out.println("On va bouger un marin de tribord vers babord");
-
 
 
                             // On a le droit de déplacer seulement un certain nombre de marin pour respecter la repartition
                             int numberOfSailorWeCanMoveFromTribordToBabord = numberOfSailorOnOarAtTribord - repartition.getTribord();
-                            System.out.println("2 : " + numberOfSailorWeCanMoveFromTribordToBabord);
 
 
 

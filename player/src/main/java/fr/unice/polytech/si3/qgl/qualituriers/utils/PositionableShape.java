@@ -41,6 +41,7 @@ public class PositionableShape<T extends Shape> {
      * @return Une forme du bon type
      */
     public <T2 extends Shape> PositionableShape<T2> convertTo(Shapes shape) {
+
         if(shape != this.shape.getType()) throw new ClassCastException(this.shape.getType() + " can't be converted to " + shape);
         return new PositionableShape<>((T2)this.shape, transform);
     }
@@ -60,5 +61,14 @@ public class PositionableShape<T extends Shape> {
      */
     public boolean isIn(Point pt) {
         return shape.isIn(pt.substract(transform.getPoint()).rotate(-transform.getOrientation()));
+    }
+
+
+    @Override
+    public String toString() {
+        return "PositionableShape{" +
+                "transform=" + transform +
+                ", shape=" + shape +
+                '}';
     }
 }

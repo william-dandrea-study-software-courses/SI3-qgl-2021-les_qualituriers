@@ -29,6 +29,10 @@ public class MoveBoat extends Boat{
         generateListSailorsOnOar();
         List<Action> actionList = new ArrayList<>();
 
+        System.out.println(getSailorsOnOarAtBabord().toString());
+        System.out.println(getSailorsOnOarAtTribord().toString());
+
+
         // On regarde combien on a de marin a droite et a gauche
         if (getSailorsOnOarAtBabord().size() > 0 && getSailorsOnOarAtTribord().size() > 0) {
             // Si on a assez de marin de chaque côté on a juste a avancer

@@ -89,8 +89,8 @@ public class Boat {
     }
 
     public List<Action> moveBoatInLine() {
-        MoveBoat moveBoat = new MoveBoat(getLife(), getTransform(), getName(),getDeck(),getEntities(),getShape());
-        return moveBoat.moveBoatInLine();
+        TurnBoat turnBoat = new TurnBoat(0.0, this, getSailors());
+        return turnBoat.moveBoatInLine();
     }
 
     public List<Action> turnBoat(double angleWeWantToTurn) {

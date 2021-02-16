@@ -1,6 +1,7 @@
 package engine;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import engine.mechanics.MovingMechanic;
@@ -25,6 +26,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.action.*;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.serialization.Deserializer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,19 +69,25 @@ public class Main {
         });
     }
 
-    static void RunRace(Race race) throws JsonProcessingException {
+    static void RunRace(Race race) throws IOException {
         ObjectMapper om = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Action.class, new Deserializer());
         om.registerModule(module);
 
 
+
+
+
         // Init game
         var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1);
 
+
         Cockpit cockpit = new Cockpit();
-        var ignitionString = om.writeValueAsString(gameInfo);
-        cockpit.initGame(ignitionString);
+        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/initGame.json");
+        JsonNode inputNode = om.readTree(from);
+        cockpit.initGame(inputNode.toString());
+
         // Loop
 
         List<Action> actionsDone = new ArrayList<>();
@@ -98,7 +107,7 @@ public class Main {
         //      Execute action
     }
 
-    public static void main(String... args) throws JsonProcessingException {
+    public static void main(String... args) throws IOException {
         RunRace(createRace());
     }
 }
