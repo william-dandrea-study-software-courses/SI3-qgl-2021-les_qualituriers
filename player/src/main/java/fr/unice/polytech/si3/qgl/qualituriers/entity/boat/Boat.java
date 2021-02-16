@@ -40,17 +40,11 @@ public class Boat {
     private Captain captain;
     @JsonIgnore
     private Foreman foreman;
-    private List<Marin> sailors;
+
+    List<Marin> sailors;
 
 
-    // Interne a la methode
-    private List<BoatEntity> listOfOars;
-    private int numberOfOars;
-    private List<BoatEntity> listOfOarsAtBabord;
-    private List<BoatEntity> listOfOarsAtTribord;
-    private List<Marin> sailorsOnOarAtTribord;
-    private List<Marin> sailorsOnOarAtBabord;
-    private List<Marin> sailorsOnOar;
+
 
     @JsonCreator
     public Boat(@JsonProperty("life") int life, @JsonProperty("position") Transform position,
@@ -64,25 +58,9 @@ public class Boat {
         this.shape = shape;
         this.actionsToDo = new ArrayList<>();
 
-        numberOfOars = 0;
 
-        sailors = new ArrayList<>();
-        sailorsOnOar = new ArrayList<>();
-        sailorsOnOarAtTribord = new ArrayList<>();
-        sailorsOnOarAtBabord = new ArrayList<>();
-        listOfOarsAtBabord = new ArrayList<>();
-        listOfOarsAtTribord = new ArrayList<>();
-        listOfOars = new ArrayList<>();
-        sailorsOnOarAtTribord = new ArrayList<>();
-        sailorsOnOarAtBabord = new ArrayList<>();
-        sailorsOnOar = new ArrayList<>();
 
-        List<BoatEntity> listOfOars = Arrays.stream(entities).collect(Collectors.toList()).stream().filter(boatEntity -> boatEntity.getType().equals(BoatEntities.OAR)).collect(Collectors.toList());
-        numberOfOars = listOfOars.size();
-        listOfOarsAtBabord = listOfOars.stream().filter(boatEntity -> boatEntity.getY() == 0).collect(Collectors.toList());
-        listOfOarsAtTribord = listOfOars.stream().filter(boatEntity -> boatEntity.getY() == getDeck().getWidth()-1).collect(Collectors.toList());
 
-        generateListSailorsOnOar();
 
         //this.captain = new Captain(this);
         //this.foreman = new Foreman(this);
@@ -111,7 +89,7 @@ public class Boat {
 
         List<Action> actions = new ArrayList<>();
 
-        for(var sailor : sailors) {
+        for(var sailor : getSailors()) {
             actions.addAll(sailor.actionDoneDuringTurn());
         }
 
@@ -124,38 +102,7 @@ public class Boat {
 
 
 
-    /**
-     * Cette méthode va actualiser les variables sailorsOnOar / sailorsOnOarAtBabord / sailorsOnOarAtTribord en
-     * recherchant le nombre de marin qui sont actuellement positionnés sur les rames
-     */
-    void generateListSailorsOnOar() {
 
-        if (!listOfOarsAtBabord.isEmpty()) { listOfOarsAtBabord.clear(); }
-        if (!listOfOarsAtTribord.isEmpty()) { listOfOarsAtTribord.clear(); }
-        if (!listOfOars.isEmpty()) { listOfOars.clear(); }
-
-
-
-        for (Marin sailor: sailors) {
-
-            for(BoatEntity rightEntity : listOfOarsAtTribord) {
-                if (rightEntity.getX() == sailor.getX() && rightEntity.getY() == sailor.getY()) {
-
-                    sailorsOnOarAtTribord.add(sailor);
-                    sailorsOnOar.add(sailor);
-                }
-            }
-
-
-            for(BoatEntity leftEntity : listOfOarsAtBabord) {
-                if (leftEntity.getX() == sailor.getX() && leftEntity.getY() == sailor.getY()) {
-
-                    sailorsOnOarAtBabord.add(sailor);
-                    sailorsOnOar.add(sailor);
-                }
-            }
-        }
-    }
 
 
 
@@ -197,31 +144,6 @@ public class Boat {
     public Captain getCaptain() { return captain; }
 
 
-    public List<BoatEntity> getListOfOars() {
-        return listOfOars;
-    }
 
-    public int getNumberOfOars() {
-        return numberOfOars;
-    }
 
-    public List<BoatEntity> getListOfOarsAtBabord() {
-        return listOfOarsAtBabord;
-    }
-
-    public List<BoatEntity> getListOfOarsAtTribord() {
-        return listOfOarsAtTribord;
-    }
-
-    public List<Marin> getSailorsOnOarAtTribord() {
-        return sailorsOnOarAtTribord;
-    }
-
-    public List<Marin> getSailorsOnOarAtBabord() {
-        return sailorsOnOarAtBabord;
-    }
-
-    public List<Marin> getSailorsOnOar() {
-        return sailorsOnOar;
-    }
 }

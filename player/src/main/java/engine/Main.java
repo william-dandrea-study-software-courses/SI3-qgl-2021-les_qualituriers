@@ -27,7 +27,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.action.serialization.Deseria
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -69,7 +68,7 @@ public class Main {
         });
     }
 
-    static void RunRace(Race race) throws IOException {
+    static void RunRace(Race race) throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Action.class, new Deserializer());
@@ -77,17 +76,14 @@ public class Main {
 
 
 
-
-
         // Init game
         var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1);
 
 
-        Cockpit cockpit = new Cockpit();
-        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/initGame.json");
-        JsonNode inputNode = om.readTree(from);
-        cockpit.initGame(inputNode.toString());
 
+        Cockpit cockpit = new Cockpit();
+        var ignitionString = om.writeValueAsString(gameInfo);
+        cockpit.initGame(ignitionString);
         // Loop
 
         List<Action> actionsDone = new ArrayList<>();
@@ -107,7 +103,7 @@ public class Main {
         //      Execute action
     }
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) throws JsonProcessingException {
         RunRace(createRace());
     }
 }
