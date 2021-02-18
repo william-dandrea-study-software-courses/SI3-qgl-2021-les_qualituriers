@@ -38,6 +38,15 @@ public class Polygon extends Shape {
         return vertices;
     }
 
+    public Point[] getVertices(Transform transform) {
+        List<Point> pts = new ArrayList<>();
+        for(var vertice : vertices) {
+            pts.add(transform.getPoint().add(vertice.rotate(orientation + transform.getOrientation())));
+        }
+
+        return pts.toArray(new Point[0]);
+    }
+
     /**
      * Calcul les segments du polygon dans sont propre repère : relatif au transform de la shape
      * @return La liste des segments

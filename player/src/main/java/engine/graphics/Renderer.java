@@ -1,12 +1,16 @@
 package engine.graphics;
 
 import engine.races.Race;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class Renderer {
 
+    private boolean isFirstDraw = true;
     private final JFrame frame;
     private final MyCanvas canvas;
 
@@ -24,15 +28,27 @@ public class Renderer {
 
         boatR = new BoatRenderer(race);
         checkR = new CheckpointRenderer(race);
+
+        canvas.ajustWindows(java.util.List.of(boatR.getBounds(), checkR.getBounds()));
+
+        //canvas.ajustWindows(java.util.List.of(new Rectangle2D.Double(150, 150, 1, 1), new Rectangle2D.Double(-1, -1, 1, 1)));
     }
 
     private void clear() {
         canvas.getGraphics().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        var g = canvas.getGraphics();
+        g.setColor(Color.cyan);
+        g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
     public void draw() {
         clear();
+
         boatR.render(canvas);
         checkR.draw(canvas);
+    }
+
+    public void close() {
+        frame.dispose();
     }
 }
