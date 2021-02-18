@@ -1,7 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.render;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
@@ -27,12 +26,8 @@ public class SecondRender extends Render {
     private int nextCheckpoint = 0;
     private boolean firstRound = true;
 
-    private ObjectMapper om;
-
     public SecondRender(GameInfo gameInfo) {
         super(gameInfo);
-        om = new ObjectMapper();
-
         var goal = (RegattaGoal)gameInfo.getGoal();
         checkpoints = goal.getCheckPoints();
     }
@@ -47,7 +42,7 @@ public class SecondRender extends Render {
 
 
     @Override
-    public String nextRound(RoundInfo round) throws JsonProcessingException {
+    public List<Action> nextRound(RoundInfo round) throws JsonProcessingException {
         // Don't forget to change nextCheckpoint when it's reached
 
         // EN premier, nous allons affecter les nouvelles bonns valeurs au bateau
@@ -78,7 +73,7 @@ public class SecondRender extends Render {
 
 
 
-        return om.writeValueAsString(actions);
+        return actions;
     }
 
 }

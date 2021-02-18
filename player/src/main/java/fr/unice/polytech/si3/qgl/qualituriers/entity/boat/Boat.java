@@ -3,18 +3,12 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.TurnBoat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.*;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
-import org.w3c.dom.ls.LSOutput;
 
 import java.util.*;
 import java.util.stream.Collectors;
