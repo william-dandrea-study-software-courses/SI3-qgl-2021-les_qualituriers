@@ -48,9 +48,12 @@ public class Foreman {
      */
     public void setSailors(Collection<Marin> sailors) {
         for(var post: posts.entrySet()) {
-            if(post.getKey().getType() == BoatEntities.OAR)
-                unAssignSailorToOar((OarBoatEntity)post.getKey());
+            if(post.getKey().getType() == BoatEntities.OAR) {
+                var oar = (OarBoatEntity) post.getKey();
+                unAssignSailorToOar(oar);
+            }
         }
+
         availableSailors = new ArrayList<>(sailors);
         int humanSpeedCapacity = availableSailors.size() / 2;
         if(humanSpeedCapacity < maxSpeed)
@@ -87,6 +90,7 @@ public class Foreman {
 
     public void decide() {
         Optional<OarBoatEntity> oar;
+
 
         // fired oarsman if the side is too fast
         while(getNumberOfLeftOarsman() < getNumberLeftRowingSailors() && (oar = getFilteredOar(true, false)).isPresent())
@@ -131,8 +135,8 @@ public class Foreman {
         if(posts.get(oar) == null) return;
         posts.get(oar).unAssign();
         posts.get(oar).pause();
-        posts.remove(oar);
         availableSailors.add(posts.get(oar));
+        posts.replace(oar, null);
     }
 
     Marin getSailorAtPost(BoatEntity post) {
