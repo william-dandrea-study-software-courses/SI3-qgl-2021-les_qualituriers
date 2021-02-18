@@ -36,11 +36,11 @@ public class CheckpointRenderer {
                 if(neo < old) return neo;
                 else return old;
             });
-            double maxx = Arrays.stream(g.getCheckPoints()).map(p -> p.getPosition().getX()).reduce(Double.MIN_VALUE, (old, neo) -> {
+            double maxx = Arrays.stream(g.getCheckPoints()).map(p -> p.getPosition().getX()).reduce(-Double.MAX_VALUE, (old, neo) -> {
                 if(neo > old) return neo;
                 else return old;
             });
-            double maxy = Arrays.stream(g.getCheckPoints()).map(p -> p.getPosition().getY()).reduce(Double.MIN_VALUE, (old, neo) -> {
+            double maxy = Arrays.stream(g.getCheckPoints()).map(p -> p.getPosition().getY()).reduce(-Double.MAX_VALUE, (old, neo) -> {
                 if(neo > old) return neo;
                 else return old;
             });

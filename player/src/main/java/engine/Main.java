@@ -60,7 +60,7 @@ public class Main {
     }
 
     static Race createRace() {
-        var goal = new RegattaGoal(new CheckPoint[] { new CheckPoint(new Transform(new Point(1000, -200), 0), new Circle(40))} );
+        var goal = new RegattaGoal(new CheckPoint[] { new CheckPoint(new Transform(new Point(500, -200), 0), new Circle(40))} );
         return new Race(goal, createBoat(), createSailors(), new Mechanic[] {
                 new MovingMechanic(),
                 new OarMechanic()

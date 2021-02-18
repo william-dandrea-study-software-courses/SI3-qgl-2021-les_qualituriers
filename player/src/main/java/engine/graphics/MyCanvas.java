@@ -22,7 +22,7 @@ public class MyCanvas extends Canvas {
     }
 
     private void setCameraPosition(Point pt) {
-        offset = new Point(pt.getX() - getWidth() / 2, pt.getY() - getHeight() / 2);
+        offset = pt;
     }
 
     private int ajustToScale(double n) {
@@ -30,7 +30,9 @@ public class MyCanvas extends Canvas {
     }
 
     private Point getScreenPosition(Point pt) {
-        return new Point(ajustToScale(pt.getX()), ajustToScale(pt.getY())).substract(offset);
+        pt = pt.substract(offset);
+        pt = new Point(pt.getX(), -pt.getY());
+        return pt.add(new Point(getWidth() / 2, getHeight() / 2));
     }
 
     public void ajustWindows(java.util.List<Rectangle2D> bounds) {
@@ -51,17 +53,15 @@ public class MyCanvas extends Canvas {
             else return old;
         });
 
-
-
         var dx = maxx - minx;
         var dy = maxy - miny;
 
-        var x = dx / 2;
-        var y = dy / 2;
+        var x = (minx + maxx) / 2;
+        var y = (miny + maxy) / 2;
 
         scale = Math.min(Math.abs(getWidth() / dx), Math.abs(getHeight() / dy)) - 0.2;
 
-        setCameraPosition(new Point(x, y).scalar(scale));
+        setCameraPosition(new Point(x, y));
     }
 
     public void drawPin(Point position, Color color) {

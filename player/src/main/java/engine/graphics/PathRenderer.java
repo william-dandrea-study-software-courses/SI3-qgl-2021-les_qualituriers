@@ -2,7 +2,8 @@ package engine.graphics;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,18 @@ public class PathRenderer {
         for(int i = 1; i < waypoint.size(); i++) {
             canvas.drawLine(waypoint.get(i - 1), waypoint.get(i), new Color(96, 96, 255));
         }
+    }
+
+    public Rectangle2D.Double getBounds() {
+        if(waypoint.size() == 0)
+            return null;
+
+        var minX = waypoint.stream().mapToDouble(Point::getX).min().getAsDouble();
+        var maxX = waypoint.stream().mapToDouble(Point::getX).max().getAsDouble();
+        var minY = waypoint.stream().mapToDouble(Point::getY).min().getAsDouble();
+        var maxY = waypoint.stream().mapToDouble(Point::getY).max().getAsDouble();
+
+        return new Rectangle2D.Double(minX, minY, maxX - minX, maxY - minY);
     }
 
 }

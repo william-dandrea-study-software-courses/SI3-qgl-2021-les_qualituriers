@@ -14,7 +14,7 @@ public class BoatRenderer {
     }
 
     Rectangle2D.Double getBounds() {
-        return new Rectangle2D.Double(race.getBoat().getPosition().getX(), race.getBoat().getPosition().getY(), 1, 1);
+        return new Rectangle2D.Double(race.getBoat().getPosition().getX(), race.getBoat().getPosition().getY(), 0, 0);
     }
 
     void render(MyCanvas canvas) {
