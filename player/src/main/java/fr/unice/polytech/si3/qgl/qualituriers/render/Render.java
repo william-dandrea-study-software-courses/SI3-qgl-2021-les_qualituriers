@@ -3,6 +3,9 @@ package fr.unice.polytech.si3.qgl.qualituriers.render;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+
+import java.util.List;
 
 /**
  * Représente un rendu.
@@ -22,8 +25,7 @@ public abstract class Render {
      * Appelé à chaque tour de jeu, il faut décider des actions à faire.
      * @param round Les informations donné par le moteur de jeu
      * @return L'object qui sera envoyé comme réponse
-     * TODO: changer le type de retour ? Object est très imprécis et sujet à problème
      */
-    public abstract String nextRound(RoundInfo round) throws JsonProcessingException;
+    public abstract List<Action> nextRound(RoundInfo round) throws JsonProcessingException;
 
 }

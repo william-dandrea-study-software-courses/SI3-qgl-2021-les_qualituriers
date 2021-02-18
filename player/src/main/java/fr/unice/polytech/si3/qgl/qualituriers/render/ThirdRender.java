@@ -1,15 +1,12 @@
 package fr.unice.polytech.si3.qgl.qualituriers.render;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.TurnBoat;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.PositionableShape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
@@ -21,22 +18,17 @@ import java.util.List;
 
 public class ThirdRender extends Render{
 
-
-
     private CheckPoint[] listCheckPoint;
     private CheckPoint currentCheckPoint;
-    private ObjectMapper om;
 
     public ThirdRender(GameInfo gameInfo) {
         super(gameInfo);
-
-        om = new ObjectMapper();
         listCheckPoint = ((RegattaGoal) gameInfo.getGoal()).getCheckPoints();
         currentCheckPoint = listCheckPoint[0];
     }
 
     @Override
-    public String nextRound(RoundInfo round) throws JsonProcessingException {
+    public List<Action> nextRound(RoundInfo round) throws JsonProcessingException {
 
 
 
@@ -70,7 +62,7 @@ public class ThirdRender extends Render{
 
         if (Collisions.isColliding(checkpointsShape, boatShape)) {
             System.out.println("FINIIIIIIIIII");
-            return "[]";
+            return finalsActions;
         }
 
         if (distanceRestante >= checkPointSize) {
@@ -130,14 +122,14 @@ public class ThirdRender extends Render{
             // verifier si on a atteint le checkpoint : si oui : si ya plus de checpoints apres s'arreter, sinon prendre le nouveau checkpoint
 
             System.out.println(finalsActions.toString());
-            return om.writeValueAsString(finalsActions);
+            return finalsActions;
 
         }
 
 
         System.out.println(finalsActions.toString());
 
-        return "[]";
+        return finalsActions;
 
     }
 }
