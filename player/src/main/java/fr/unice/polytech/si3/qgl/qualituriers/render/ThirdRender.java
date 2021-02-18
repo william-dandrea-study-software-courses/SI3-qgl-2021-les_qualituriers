@@ -38,10 +38,10 @@ public class ThirdRender extends Render{
     @Override
     public String nextRound(RoundInfo round) throws JsonProcessingException {
 
-
-
         gameInfo.getShip().setTransform(round.getShip().getPosition());
         gameInfo.getShip().setEntities(round.getShip().getEntities());
+
+
 
         List<Action> finalsActions = new ArrayList<>();
 
@@ -60,84 +60,15 @@ public class ThirdRender extends Render{
         System.out.println("Distance restante : " + distanceRestante);
         System.out.println("======================================================================================================");
 
-        //double angle = Math.atan(distanceRestanteY/distanceRestanteX) + gameInfo.getShip().getTransform().getOrientation();
 
-        double checkPointSize = 40;
-        if (currentCheckPoint.getShape() instanceof Circle) {
-            checkPointSize = (((Circle) currentCheckPoint.getShape()).getRadius()) / 2;
-        }
+        gameInfo.getShip().setSailors(Arrays.asList(gameInfo.getSailors().clone()));
+        gameInfo.getShip().getCaptain().goTo(((RegattaGoal) gameInfo.getGoal()).getCheckPoints()[0].getPosition());
 
-
-        if (Collisions.isColliding(checkpointsShape, boatShape)) {
-            System.out.println("FINIIIIIIIIII");
-            return "[]";
-        }
-
-        if (distanceRestante >= checkPointSize) {
+        return om.writeValueAsString(gameInfo.getShip().playTurn());
 
 
-            // Calculer l'angle
-            double angle = gameInfo.getShip().getPosition().getAngleToSee(currentCheckPoint.getPosition());
-            System.out.println("Angle : " + angle);
-
-            if (distanceRestante <= 145) {
-
-                if (angle <= 0) {
-                    if (distanceRestante <= 80) {
-                        System.out.println("PRESQUE");
-                        TurnBoat turnBoat = new TurnBoat(Math.PI/6, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
-                        finalsActions = turnBoat.turnBoat();
-                        gameInfo.getShip().setSailors(turnBoat.getSailors());
-                    } else {
-                        System.out.println("PRESQUE");
-                        TurnBoat turnBoat = new TurnBoat(2*Math.PI/6, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
-                        finalsActions = turnBoat.turnBoat();
-                        gameInfo.getShip().setSailors(turnBoat.getSailors());
-                    }
-
-                } else {
-                    if (distanceRestante <= 80) {
-                        System.out.println("PRESQUE");
-                        TurnBoat turnBoat = new TurnBoat(-Math.PI/6, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
-                        finalsActions = turnBoat.turnBoat();
-                        gameInfo.getShip().setSailors(turnBoat.getSailors());
-                    } else {
-                        System.out.println("PRESQUE");
-                        TurnBoat turnBoat = new TurnBoat(-2*Math.PI/6, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
-                        finalsActions = turnBoat.turnBoat();
-                        gameInfo.getShip().setSailors(turnBoat.getSailors());
-                    }
-
-                }
-
-            } else {
-                if (angle == 0.0) {
-
-                    //finalsActions = gameInfo.getShip().moveBoatToAPoint(currentCheckPoint.getPosition());
-                    TurnBoat turnBoat = new TurnBoat(angle, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
-                    finalsActions = turnBoat.moveBoatInLine();
-                    gameInfo.getShip().setSailors(turnBoat.getSailors());
-                } else {
-                    TurnBoat turnBoat = new TurnBoat(angle, gameInfo.getShip(), Arrays.asList(gameInfo.getSailors()));
-                    finalsActions = turnBoat.turnBoat();
-                    gameInfo.getShip().setSailors(turnBoat.getSailors());
-
-                }
-                // verifier si o
-            }
 
 
-            // verifier si on a atteint le checkpoint : si oui : si ya plus de checpoints apres s'arreter, sinon prendre le nouveau checkpoint
-
-            System.out.println(finalsActions.toString());
-            return om.writeValueAsString(finalsActions);
-
-        }
-
-
-        System.out.println(finalsActions.toString());
-
-        return "[]";
 
     }
 }

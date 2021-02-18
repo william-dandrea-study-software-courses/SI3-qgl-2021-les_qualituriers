@@ -36,6 +36,9 @@ public class Foreman {
             }
         }
 
+        availableSailors = new ArrayList<>();
+
+
         maxSpeed = Math.min(rightOars.size(), leftOars.size());
     }
 

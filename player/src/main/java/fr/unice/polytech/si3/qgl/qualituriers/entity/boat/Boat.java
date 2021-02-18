@@ -59,11 +59,8 @@ public class Boat {
         this.actionsToDo = new ArrayList<>();
 
 
-
-
-
-        //this.captain = new Captain(this);
-        //this.foreman = new Foreman(this);
+        this.captain = new Captain(this);
+        this.foreman = new Foreman(this);
     }
 
     public List<Action> moveBoatInLine() {
@@ -128,7 +125,7 @@ public class Boat {
 
     public void setSailors(List<Marin> sailors) {
         this.sailors = sailors;
-        //this.foreman.setSailors(sailors);
+        this.foreman.setSailors(sailors);
     }
 
     @JsonIgnore
