@@ -102,6 +102,9 @@ public class Marin {
 
         Point dist = Moving.clamp(dest.substract(pos));
 
+        x += (int)dist.getX();
+        y += (int)dist.getY();
+
         return new Moving(id, (int)dist.getX(), (int)dist.getY());
     }
 

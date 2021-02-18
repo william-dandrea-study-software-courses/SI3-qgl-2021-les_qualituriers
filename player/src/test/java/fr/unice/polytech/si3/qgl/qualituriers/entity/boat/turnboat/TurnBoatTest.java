@@ -1304,5 +1304,43 @@ class TurnBoatTest {
 
 
 
+    @Test
+    void generateTestAngleBizarre() {
+
+        Deck actualDeck = new Deck(2,4);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,1){},
+                new BoatEntity(BoatEntities.OAR, 1,0){},
+                new BoatEntity(BoatEntities.OAR, 1,1){},
+                new BoatEntity(BoatEntities.OAR, 3,0){},
+                new BoatEntity(BoatEntities.OAR, 3,1){},
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,0,0, "marin1"));
+            add(new Marin(2,0,1, "marin2"));
+            add(new Marin(3,2,0, "marin3"));
+            add(new Marin(4,2,1, "marin4"));
+        }};
+
+
+        TurnBoat turnBoat = new TurnBoat(2*((Math.PI / 6) / 3), actualBoat, actualListSailors);
+        List<Action> actions = turnBoat.turnBoat();
+
+        System.out.println(actions);
+        //assertEquals(-Math.PI / 4, finalRepartition.getAngle());
+    }
+
+
+
+
+
+
+
+
+
 
 }

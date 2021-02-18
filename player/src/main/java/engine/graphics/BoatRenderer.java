@@ -1,8 +1,10 @@
 package engine.graphics;
 
 import engine.races.Race;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.PositionableShape;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class BoatRenderer {
 
@@ -11,7 +13,13 @@ public class BoatRenderer {
         this.race = race;
     }
 
+    Rectangle2D.Double getBounds() {
+        return new Rectangle2D.Double(race.getBoat().getPosition().getX(), race.getBoat().getPosition().getY(), 1, 1);
+    }
+
     void render(MyCanvas canvas) {
-        canvas.drawPin(race.getBoat().getPosition().getPoint(), Color.BLUE);
+
+        //canvas.drawShape(new PositionableShape<>(race.getBoat().getShape(), race.getBoat().getPosition()), Color.BLUE);
+        canvas.drawPin(race.getBoat().getPosition(), Color.BLUE);
     }
 }
