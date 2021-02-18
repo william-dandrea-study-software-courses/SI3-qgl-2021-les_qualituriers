@@ -14,8 +14,10 @@ public class Renderer {
     private final JFrame frame;
     private final MyCanvas canvas;
 
+    private final Race race;
     private final BoatRenderer boatR;
     private final CheckpointRenderer checkR;
+    private final PathRenderer path;
 
     public Renderer(Race race) {
         frame = new JFrame();
@@ -26,8 +28,10 @@ public class Renderer {
         frame.add(canvas);
         frame.setVisible(true);
 
+        this.race = race;
         boatR = new BoatRenderer(race);
         checkR = new CheckpointRenderer(race);
+        path = new PathRenderer(canvas);
 
         canvas.ajustWindows(java.util.List.of(boatR.getBounds(), checkR.getBounds()));
 
@@ -43,9 +47,10 @@ public class Renderer {
 
     public void draw() {
         clear();
-
-        boatR.render(canvas);
+        path.addWaypoint(race.getBoat().getPosition().getPoint());
         checkR.draw(canvas);
+        path.draw();
+        boatR.render(canvas);
     }
 
     public void close() {

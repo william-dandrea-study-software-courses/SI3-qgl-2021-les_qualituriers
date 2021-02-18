@@ -1,7 +1,6 @@
 package engine.graphics;
 
-import java.awt.Canvas;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
@@ -109,5 +108,17 @@ public class MyCanvas extends Canvas {
                 drawPolygon(shape.convertTo(Shapes.POLYGON), color);
                 break;
         }
+    }
+
+    public void drawLine(Point start, Point end, Color color) {
+        var g = (Graphics2D)getGraphics();
+        g.setColor(color);
+
+        var s = getScreenPosition(start);
+        var e = getScreenPosition(end);
+
+        g.setStroke(new BasicStroke(3));
+
+        g.drawLine((int)s.getX(), (int)s.getY(), (int)e.getX(), (int)e.getY());
     }
 }
