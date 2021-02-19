@@ -177,6 +177,7 @@ public class TurnBoat {
         }
 
 
+
         return finalRepartition;
     }
 
@@ -257,7 +258,7 @@ public class TurnBoat {
 
                 // TODO : refactorer cette méthode mais faire très attentions a l'actualisation des lists listOfOarsAtTribordWithAnySailorsOnIt et listOfOarsAtBabordWithAnySailorsOnIt
                 if (anyDisposition) {
-                    // Si nous n'avons pas suffisamment de marin a gauche et a droite mais suffisamment de marins libres
+                    // Si nous n'avons pas suffisamment de marin a gauche et a droite et pas suffisamment de marins libres
 
 
 
@@ -681,8 +682,9 @@ public class TurnBoat {
      */
     private void actualizeListSailorsOnOar() {
 
-
-
+        if (sailorsOnOar != null && !sailorsOnOar.isEmpty()) sailorsOnOar.clear();
+        if (sailorsOnOarAtTribord != null && !sailorsOnOarAtTribord.isEmpty()) sailorsOnOarAtTribord.clear();
+        if (sailorsOnOarAtBabord != null && !sailorsOnOarAtBabord.isEmpty()) sailorsOnOarAtBabord.clear();
 
         for (Marin sailor: sailors) {
 

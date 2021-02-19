@@ -11,7 +11,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Cette classe a pour objectif de décrire un bateau, le bateau pourra bouger mais aussi faire plusieurs actions
@@ -53,8 +52,11 @@ public class Boat {
         this.actionsToDo = new ArrayList<>();
 
 
-        this.captain = new Captain(this);
-        this.foreman = new Foreman(this);
+
+
+
+        //this.captain = new Captain(this);
+        //this.foreman = new Foreman(this);
     }
 
     public List<Action> moveBoatInLine() {
@@ -65,6 +67,13 @@ public class Boat {
     public List<Action> turnBoat(double angleWeWantToTurn) {
         TurnBoat turnBoat = new TurnBoat(angleWeWantToTurn, this, getSailors());
         return turnBoat.turnBoat();
+    }
+
+    public List<Action> moveBoatToAPoint(Transform point) {
+
+
+
+        return null;
     }
 
 
@@ -89,14 +98,6 @@ public class Boat {
 
 
 
-
-
-
-
-
-
-
-
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;
@@ -118,8 +119,8 @@ public class Boat {
     public void setEntities(BoatEntity[] entities) { this.entities = entities; }
 
     public void setSailors(List<Marin> sailors) {
-        this.sailors = sailors;
-        this.foreman.setSailors(sailors);
+        //this.sailors = sailors;
+        //this.foreman.setSailors(sailors);
     }
 
     @JsonIgnore

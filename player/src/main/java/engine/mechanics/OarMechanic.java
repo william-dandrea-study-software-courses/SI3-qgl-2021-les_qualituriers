@@ -1,7 +1,5 @@
 package engine.mechanics;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import engine.exceptions.SailorAssignmentNotFound;
 import engine.exceptions.SailorNotFoundException;
 import engine.races.Race;
@@ -10,10 +8,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.OarBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

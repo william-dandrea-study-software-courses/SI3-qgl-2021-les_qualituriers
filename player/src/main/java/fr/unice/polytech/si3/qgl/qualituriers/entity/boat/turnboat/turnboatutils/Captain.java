@@ -23,7 +23,7 @@ public class Captain {
 
     private void setSpeed() {
         double dist = boat.getPosition().getPoint().substract(target).length();
-        double distRal = 3;
+        double distRal = 10.0;
         if(dist > distRal) dist = distRal;
 
         boat.getForeman().setSpeed(dist / distRal);
@@ -37,6 +37,8 @@ public class Captain {
             bend = 1;
         } else if(Math.abs(angle) > Math.PI / 4) {
             bend = 0.5f;
+        } else if (Math.abs(angle) > Math.PI / 7) {
+            bend = 0.3f;
         }
         boolean right = angle < 0;
 
