@@ -27,6 +27,9 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
 
+    // "checkpoints":
+    // [{"position":{"x":10.0,"y":-350.0,"orientation":0.0},"shape":{"type":"circle","radius":85.0}},
+    // {"position":{"x":-150.0,"y":1250.0,"orientation":0.0},"shape":{"type":"circle","radius":85.0}}]}
     static Boat createBoat() {
         BoatEntity oar = new OarBoatEntity(0,0);
         BoatEntity oar2 = new OarBoatEntity(1,0);
@@ -54,7 +57,10 @@ public class Main {
     }
 
     static Race createRace() {
-        var goal = new RegattaGoal(new CheckPoint[] { new CheckPoint(new Transform(new Point(500, -200), 0), new Circle(40))} );
+        var goal = new RegattaGoal(new CheckPoint[] {
+                new CheckPoint(new Transform(new Point(10, -350), 0), new Circle(85)),
+                new CheckPoint(new Transform(new Point(-150, 1250), 0), new Circle(85)),
+        });
         return new Race(goal, createBoat(), createSailors(), new Mechanic[] {
                 new MovingMechanic(),
                 new OarMechanic()

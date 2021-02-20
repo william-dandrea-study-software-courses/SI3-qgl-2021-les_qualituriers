@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.TurnBoat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboatsecond.Disposition;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboatsecond.MoveBoatDistanceStrategy;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboatsecond.SortedDispositionDistanceStrategy;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -36,9 +39,6 @@ public class Boat {
 
     List<Marin> sailors;
 
-
-
-
     @JsonCreator
     public Boat(@JsonProperty("life") int life, @JsonProperty("position") Transform position,
                 @JsonProperty("name") String name, @JsonProperty("deck") Deck deck,
@@ -59,22 +59,16 @@ public class Boat {
         //this.foreman = new Foreman(this);
     }
 
-    public List<Action> moveBoatInLine() {
-        TurnBoat turnBoat = new TurnBoat(0.0, this, getSailors());
-        return turnBoat.moveBoatInLine();
+    public List<Action> moveBoatDistanceStrategy(Transform checkPoint) {
+        SortedDispositionDistanceStrategy distanceStrategy = new SortedDispositionDistanceStrategy();
+        List<Disposition> listOfDispositions = distanceStrategy.getIdealDisposition(checkPoint, this);
+        MoveBoatDistanceStrategy moveBoatStrategy = new MoveBoatDistanceStrategy(this, listOfDispositions, sailors.toArray(new Marin[0]));
+        List<Action> actions = moveBoatStrategy.moveBoat();
+        setSailors(Arrays.asList(moveBoatStrategy.getSailors().clone()));
+        return actions;
     }
 
-    public List<Action> turnBoat(double angleWeWantToTurn) {
-        TurnBoat turnBoat = new TurnBoat(angleWeWantToTurn, this, getSailors());
-        return turnBoat.turnBoat();
-    }
 
-    public List<Action> moveBoatToAPoint(Transform point) {
-
-
-
-        return null;
-    }
 
 
 
@@ -119,7 +113,7 @@ public class Boat {
     public void setEntities(BoatEntity[] entities) { this.entities = entities; }
 
     public void setSailors(List<Marin> sailors) {
-        //this.sailors = sailors;
+        this.sailors = sailors;
         //this.foreman.setSailors(sailors);
     }
 

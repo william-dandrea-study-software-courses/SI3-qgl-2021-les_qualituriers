@@ -86,7 +86,45 @@ class MoveBoatDistanceStrategyTest {
         SortedDispositionDistanceStrategy sortedDispositionDistanceStrategy = new SortedDispositionDistanceStrategy();
         var sortList = sortedDispositionDistanceStrategy.getIdealDisposition(new Transform(1000,1000,0), actualBoat);
 
-        System.out.println(sortList);
+        //System.out.println(sortList);
+
+        List<Disposition> ourDisposition = new ArrayList<>() {{add(new Disposition(1,3));}};
+        MoveBoatDistanceStrategy moveBoat = new MoveBoatDistanceStrategy(actualBoat, ourDisposition, actualListSailors.toArray(new Marin[0]));
+        System.out.println(moveBoat.moveBoat());
+    }
+
+    @Test
+    void moveBoatComplex() {
+
+
+
+        Deck actualDeck = new Deck(3,6);
+        BoatEntity[] actualListBoatEntities = {
+                new BoatEntity(BoatEntities.OAR, 0,0){},
+                new BoatEntity(BoatEntities.OAR, 0,2){},
+                new BoatEntity(BoatEntities.OAR, 2,0){},
+                new BoatEntity(BoatEntities.OAR, 2,2){},
+                new BoatEntity(BoatEntities.OAR, 4,0){},
+                new BoatEntity(BoatEntities.OAR, 4,2){},
+        };
+
+        Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
+
+        List<Marin> actualListSailors = new ArrayList<>() {{
+            add(new Marin(1,0,0, "marin1")); // babord
+            add(new Marin(2,0,2, "marin2")); // tribord
+            add(new Marin(3,2,0, "marin3")); // babord
+            add(new Marin(4,3,1, "marin4")); // tribord
+            //add(new Marin(5,4,1, "marin5")); // tribord
+            //add(new Marin(6,4,2, "marin6")); // tribord
+        }};
+
+        SortedDispositionDistanceStrategy sortedDispositionDistanceStrategy = new SortedDispositionDistanceStrategy();
+        var sortList = sortedDispositionDistanceStrategy.getIdealDisposition(new Transform(1000,1000,0), actualBoat);
+
+        //System.out.println(sortList);
+
+        List<Disposition> ourDisposition = new ArrayList<>() {{add(new Disposition(6,0));}};
         MoveBoatDistanceStrategy moveBoat = new MoveBoatDistanceStrategy(actualBoat, sortList, actualListSailors.toArray(new Marin[0]));
         System.out.println(moveBoat.moveBoat());
     }

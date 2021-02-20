@@ -25,6 +25,7 @@ public class Renderer {
 
     public Renderer(Race race) {
         frame = new JFrame();
+        //frame.setSize(600, 480);
         frame.setSize(600, 480);
 
         canvas = new MyCanvas();

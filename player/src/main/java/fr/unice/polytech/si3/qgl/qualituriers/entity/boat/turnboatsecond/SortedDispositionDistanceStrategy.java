@@ -5,12 +5,14 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.OarBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboatsecond.utils.DistanceDisposition;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,6 @@ public class SortedDispositionDistanceStrategy {
         List<Disposition> finalList = new ArrayList<>();
 
         var listOfRepartitions = getIdealRepartition(checkPoint, boat);
-        System.out.println(listOfRepartitions);
         for (DistanceDisposition dispo: listOfRepartitions) {
             finalList.add(new Disposition(dispo.getBabordOar(), dispo.getTribordOar()));
         }
@@ -43,7 +44,7 @@ public class SortedDispositionDistanceStrategy {
         List<BoatEntity> listOar = Arrays.stream(boat.getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.OAR).collect(Collectors.toList());
         int numberOfOars = listOar.size();
 
-        List<DistanceDisposition> idealsRepartition = generateListOfDispositions(numberOfOars, boat.getPosition());
+        List<DistanceDisposition> idealsRepartition = generateListOfDispositions(numberOfOars, boat.getPosition(), checkPoint);
 
         return sortTheDisposition(idealsRepartition, checkPoint);
 
@@ -60,7 +61,7 @@ public class SortedDispositionDistanceStrategy {
      * @return une liste de disposition de rames non triées avec les distances finales du bateau (après avoir actionné
      *         les rames)
      */
-    List<DistanceDisposition> generateListOfDispositions(int numberOfOars, Transform positionBoat) {
+    List<DistanceDisposition> generateListOfDispositions(int numberOfOars, Transform positionBoat, Transform checkPoint) {
 
         List<DistanceDisposition> finalList = new ArrayList<>();
 
@@ -79,8 +80,13 @@ public class SortedDispositionDistanceStrategy {
                     double finalPositionX = distanceWeParcoursX + positionBoat.getX();
                     double finalPositionY = distanceWeParcoursY + positionBoat.getY();
 
+                    double distanceToCheckPoint = Math.sqrt(
+                            ((checkPoint.getX() - finalPositionX) * (checkPoint.getX() - finalPositionX)) +
+                                    ((checkPoint.getY() - finalPositionY) * (checkPoint.getY() - finalPositionY))
+                    );
 
-                    finalList.add(new DistanceDisposition(babord, tribord, new Point(finalPositionX, finalPositionY)));
+
+                    finalList.add(new DistanceDisposition(babord, tribord, new Point(finalPositionX, finalPositionY), distanceToCheckPoint));
                 }
             }
         }
@@ -100,27 +106,8 @@ public class SortedDispositionDistanceStrategy {
      */
     List<DistanceDisposition> sortTheDisposition(List<DistanceDisposition> initialList, Transform checkPoint) {
 
-        DistanceDisposition[] list = new DistanceDisposition[initialList.size()];
-        initialList.toArray(list);
+        return initialList.stream().sorted(Comparator.comparingDouble(DistanceDisposition::getDistanceToCheckPoint)).collect(Collectors.toList());
 
-        for (int i = 0; i < list.length - 1; i++)
-        {
-            int index = i;
-            for (int j = i + 1; j < list.length; j++)
-            {
-                boolean condX = checkPoint.getX() - list[j].getFinalPositionOnTheMap().getX() < checkPoint.getX() - list[index].getFinalPositionOnTheMap().getX();
-                boolean condY = checkPoint.getY() - list[j].getFinalPositionOnTheMap().getY() < checkPoint.getY() - list[index].getFinalPositionOnTheMap().getY();
-                if (condX && condY){
-                    index = j;
-                }
-            }
-
-            DistanceDisposition min = list[index];
-            list[index] = list[i];
-            list[i] = min;
-        }
-
-        return Arrays.asList(list.clone());
     }
 
 }
