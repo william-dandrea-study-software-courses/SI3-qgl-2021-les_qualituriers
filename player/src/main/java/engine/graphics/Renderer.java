@@ -6,8 +6,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import javax.swing.*;
 
 import java.awt.Color;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.Dimension;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 
 
@@ -25,13 +25,49 @@ public class Renderer {
 
     public Renderer(Race race) {
         frame = new JFrame();
-        //frame.setSize(600, 480);
+        frame.setMaximumSize(new Dimension(600, 480));
+        frame.setMinimumSize(new Dimension(600, 480));
         frame.setSize(600, 480);
 
         canvas = new MyCanvas();
         canvas.setLocation(0, 0);
         canvas.setSize(600, 480);
+        canvas.addMouseWheelListener(new MouseWheelListener() {
+            private int old = 0;
+
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                int delta = e.getWheelRotation();
+
+                if(delta >= 0) {
+                    canvas.zoomIn();
+                } else {
+                    canvas.zoomOut();
+                }
+
+                draw();
+
+            }
+        });
+        canvas.addMouseMotionListener(new MouseMotionListener() {
+            private Point start = null;
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if(start == null) start = new Point(e.getX(), e.getY());
+
+                canvas.setOffset(new Point(e.getX(), e.getY()).substract(start).scalar(-1));
+                draw();
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                start = null;
+            }
+        });
+
         canvas.addMouseListener(new MouseListener() {
+
+            private boolean mouseDown = false;
             @Override
             public void mouseClicked(MouseEvent e) {
                 ajustCanvas();
@@ -44,7 +80,6 @@ public class Renderer {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
             }
 
             @Override
@@ -76,7 +111,8 @@ public class Renderer {
     }
 
     private  void ajustCanvas() {
-        canvas.ajustWindows(java.util.List.of(boatR.getBounds(), checkR.getBounds(), path.getBounds()));
+        canvas.ajustWindows(java.util.List.of(boatR.getBounds(), checkR.getBounds()));
+        draw();
     }
 
     private void clear() {

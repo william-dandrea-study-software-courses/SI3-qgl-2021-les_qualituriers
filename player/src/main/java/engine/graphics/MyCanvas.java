@@ -16,8 +16,10 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 public class MyCanvas extends Canvas {
 
     private double scale = 1.0;
+    private double zoom = 1;
     //private double scale = 0.1;
     private Point offset = new Point(-300, -200);
+    private Point displayOffset = new Point(0, 0);
     //private Point offset = new Point(2000, 2000);
 
     public MyCanvas() {
@@ -28,13 +30,20 @@ public class MyCanvas extends Canvas {
     }
 
     private int ajustToScale(double n) {
-        return (int)(n * scale);
+        return (int)(n * scale * zoom);
     }
 
     private Point getScreenPosition(Point pt) {
         pt = pt.substract(offset);
         pt = new Point(pt.getX(), -pt.getY());
+        pt = pt.scalar(zoom * scale);
+        pt = pt.substract(displayOffset);
+
         return pt.add(new Point(getWidth() / 2, getHeight() / 2));
+    }
+
+    public void setOffset(Point offset) {
+        this.displayOffset = offset;
     }
 
     public void ajustWindows(java.util.List<Rectangle2D> bounds) {
@@ -64,6 +73,14 @@ public class MyCanvas extends Canvas {
         scale = Math.min(Math.abs(getWidth() / dx), Math.abs(getHeight() / dy)) - 0.2;
 
         setCameraPosition(new Point(x, y));
+    }
+
+    public void zoomIn() {
+        zoom /= 2;
+    }
+
+    public void zoomOut() {
+        zoom *= 2;
     }
 
     public void drawPin(Point position, Color color) {
