@@ -58,8 +58,17 @@ public class Main {
 
     static Race createRace() {
         var goal = new RegattaGoal(new CheckPoint[] {
-                new CheckPoint(new Transform(new Point(10, -350), 0), new Circle(85)),
-                new CheckPoint(new Transform(new Point(-150, 1250), 0), new Circle(85)),
+                //WEEK3
+                new CheckPoint(new Transform(new Point(10.0, -350.0), 0.0), new Circle(85.0)),
+                new CheckPoint(new Transform(new Point(-150.0, 1250.0), 0.0), new Circle(85.0))
+
+                // WEEK4
+                //new CheckPoint(new Transform(new Point(450.20463847203257, 932.4324324324338), 0), new Circle(100)),
+                //new CheckPoint(new Transform(new Point(1084.5839017735332, -54.05405405405337), 0), new Circle(100)),
+                //new CheckPoint(new Transform(new Point(738.7448840381987, -382.4324324324324), 0), new Circle(50)),
+                //new CheckPoint(new Transform(new Point(477.4897680763976, -54.054054054053665), 0), new Circle(100)),
+                //new CheckPoint(new Transform(new Point(90.9276944065494, -398.6486486486496), 0), new Circle(50)),
+                //new CheckPoint(new Transform(new Point(-199.86357435197826, 1.545430450278218e-13), 0), new Circle(60)),
         });
         return new Race(goal, createBoat(), createSailors(), new Mechanic[] {
                 new MovingMechanic(),
@@ -85,7 +94,7 @@ public class Main {
 
         Renderer renderer = new Renderer(race);
 
-        int compteurMax = 100;
+        int compteurMax = 200;
         do {
             RoundInfo rInfo = new RoundInfo(race.getBoat(), null, new VisibleDeckEntity[] {});
             var roundString = om.writeValueAsString(rInfo);

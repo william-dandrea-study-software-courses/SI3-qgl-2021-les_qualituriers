@@ -207,7 +207,7 @@ class TurnBoatTest {
 
 
         System.out.println(actions);
-        assertEquals(2, actions.stream().filter(action -> action instanceof Oar).count());
+        assertEquals(3, actions.stream().filter(action -> action instanceof Oar).count());
         //assertEquals(1, babordActions.size());
     }
 
