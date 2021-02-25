@@ -6,6 +6,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.CockpitLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,8 +27,8 @@ public class SecondRender extends Render {
     private int nextCheckpoint = 0;
     private boolean firstRound = true;
 
-    public SecondRender(GameInfo gameInfo) {
-        super(gameInfo);
+    public SecondRender(GameInfo gameInfo, CockpitLogger logger) {
+        super(gameInfo, logger);
         var goal = (RegattaGoal)gameInfo.getGoal();
         checkpoints = goal.getCheckPoints();
     }

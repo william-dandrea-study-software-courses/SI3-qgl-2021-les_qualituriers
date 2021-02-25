@@ -6,6 +6,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 
 import java.util.List;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
 
 /**
  * Représente un rendu.
@@ -16,9 +17,11 @@ import java.util.List;
 public abstract class Render {
 
     protected final GameInfo gameInfo;
+    protected final ILogger logger;
 
-    protected Render(GameInfo gameInfo) {
+    public Render(GameInfo gameInfo, ILogger logger) {
         this.gameInfo = gameInfo;
+        this.logger = logger;
     }
 
     /**

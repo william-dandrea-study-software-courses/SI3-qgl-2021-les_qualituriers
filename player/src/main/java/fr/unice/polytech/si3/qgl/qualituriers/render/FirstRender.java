@@ -6,6 +6,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +22,8 @@ import java.util.List;
  */
 public class FirstRender extends Render {
 
-    public FirstRender(GameInfo gameInfo) {
-        super(gameInfo);
+    public FirstRender(GameInfo gameInfo, ILogger logger) {
+        super(gameInfo, logger);
     }
 
     @Override
