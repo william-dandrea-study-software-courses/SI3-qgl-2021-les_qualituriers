@@ -3,6 +3,9 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutil
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.OarBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;

@@ -1,6 +1,6 @@
 package engine.exceptions;
 
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntities;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 public class SailorAssignmentNotFound extends RuntimeException{

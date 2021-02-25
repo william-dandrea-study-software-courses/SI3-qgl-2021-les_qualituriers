@@ -3,10 +3,8 @@ package fr.unice.polytech.si3.qgl.qualituriers.game;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
-import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goals;
 
 import java.util.Arrays;
 

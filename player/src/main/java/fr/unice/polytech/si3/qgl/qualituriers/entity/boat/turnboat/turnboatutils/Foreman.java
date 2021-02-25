@@ -1,6 +1,10 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils;
 
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntities;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.OarBoatEntity;
 
 import java.util.*;
 
