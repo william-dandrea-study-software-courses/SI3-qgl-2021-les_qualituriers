@@ -12,9 +12,7 @@ import engine.serializers.RectangleSerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.OarBoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
@@ -43,14 +41,16 @@ public class Main {
         BoatEntity oar2 = new OarBoatEntity(1,0);
         BoatEntity oar3 = new OarBoatEntity(0,1);
         BoatEntity oar4 = new OarBoatEntity(1,1);
-        BoatEntity oar5 = new OarBoatEntity(3,0);
-        BoatEntity oar6 = new OarBoatEntity(3,1);
+        BoatEntity oar5 = new RudderBoatEntity(2,0);
+        BoatEntity oar6 = new SailBoatEntity(2,1, false);
+        BoatEntity oar7 = new OarBoatEntity(3,0);
+        BoatEntity oar8 = new OarBoatEntity(3,1);
 
         int life = 100;
         Transform transform = new Transform(0,0,0);
         String name = "boatTest1";
         Deck deck = new Deck(2,4);
-        BoatEntity[] entities = {oar6,oar5,oar3,oar4, oar2, oar};
+        BoatEntity[] entities = {oar8, oar7, oar6,oar5,oar3,oar4, oar2, oar};
         Shape shape = new Rectangle(5, 3, 0);
 
         return new Boat(life, transform, name, deck, entities,shape);

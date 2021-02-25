@@ -22,6 +22,10 @@ public class SailBoatEntity extends BoatEntity {
         this.opened = opened;
     }
 
+    public boolean isOpened() {
+        return opened;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;

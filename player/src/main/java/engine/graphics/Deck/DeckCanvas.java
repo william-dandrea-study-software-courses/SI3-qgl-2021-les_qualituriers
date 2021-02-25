@@ -1,6 +1,7 @@
 package engine.graphics.Deck;
 
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.SailBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import java.awt.*;
@@ -44,6 +45,16 @@ public class DeckCanvas extends Canvas {
         switch (entity.getType()) {
             case OAR:
                 img = Icons.OAR.getImage();
+                break;
+            case SAIL:
+                if(((SailBoatEntity) entity).isOpened())
+                    img = Icons.SAIL_OPEN.getImage();
+                else
+                    img = Icons.SAIL_CLOSE.getImage();
+                break;
+            case RUDDER:
+                img = Icons.RUDDER.getImage();
+                break;
         }
         if(img == null) img = Icons.NONE.getImage();
 

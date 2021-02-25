@@ -6,15 +6,19 @@ import java.io.File;
 import java.io.IOException;
 
 public enum Icons {
-    NONE("none.png"),
-    OAR("oar.png");
 
-    private String filename;
+    NONE("none.png"),
+    OAR("oar.png"),
+    RUDDER("rudder.png"),
+    SAIL_CLOSE("sail_close.png"),
+    SAIL_OPEN("sail_open.png");
+
+    private final Image img;
     Icons(String fileName) {
-        this.filename = fileName;
+        this.img = loadImage(fileName);
     }
 
-    public Image getImage() {
+    private Image loadImage(String filename) {
         try {
             var file = new File("player/src/main/resources/icons/" + filename);
             return new ImageIcon(file.getCanonicalPath()).getImage();
@@ -22,4 +26,9 @@ public enum Icons {
             throw new RuntimeException("Erreur interne : au moins un fichier de ressource est manquant");
         }
     }
+
+    public Image getImage() {
+        return this.img;
+    }
+
 }
