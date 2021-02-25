@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.game.goal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Correspond aux objectifs (goals). Chaque enum contient le type ainsi que la class qui le représente.
  *
@@ -20,6 +22,7 @@ public enum Goals {
         this.goal = goal;
     }
 
+    @JsonIgnore
     public String getType() {
         return type;
     }

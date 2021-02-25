@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import org.junit.jupiter.api.Test;
 
 import static fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil.modAngle;
@@ -60,10 +61,10 @@ public class PointTest {
 
     @Test
     void isColinearTest() {
-        assertTrue(new Point(1, 0).isColinearTo(new Point(1, 0)));
-        assertTrue(new Point(1, 0).isColinearTo(new Point(1, Double.MIN_VALUE)));
-        assertFalse(new Point(1, 0).isColinearTo(new Point(0, 1)));
-        assertFalse(new Point(1, 0).isColinearTo(new Point(1, 1)));
+        assertTrue(new Point(1, 0).isCollinearTo(new Point(1, 0)));
+        assertTrue(new Point(1, 0).isCollinearTo(new Point(1, Double.MIN_VALUE)));
+        assertFalse(new Point(1, 0).isCollinearTo(new Point(0, 1)));
+        assertFalse(new Point(1, 0).isCollinearTo(new Point(1, 1)));
     }
 
     @Test
@@ -112,4 +113,77 @@ public class PointTest {
             assertEquals(Math.floor(modAngle(-angle + angle2) * 1000000), Math.floor(dir.angleWith(dir2) * 1000000)); // Take precision
         }
     }
+
+
+    @Test
+    void lengthWithoutSquare() {
+        Point point = new Point(0, 0);
+        Point point1 = new Point(5.3, 0);
+        Point point2 = new Point(0, 5.2);
+        Point point3 = new Point(5.3, 5.2);
+        assertEquals(0, point.lengthWithoutSquare(), Config.EPSILON);
+        assertEquals(28.09, point1.lengthWithoutSquare(), Config.EPSILON);
+        assertEquals(27.04, point2.lengthWithoutSquare(), Config.EPSILON);
+        assertEquals(55.13, point3.lengthWithoutSquare(), Config.EPSILON);
+    }
+
+    @Test
+    public void rotate() {
+        Point point = new Point(1, 0);
+        Point point2 = new Point(2.5, 0);
+        Point rotate1 = point.rotate(Math.PI / 2);
+        Point rotate2 = point.rotate(Math.PI / 6);
+        Point rotate3 = point2.rotate(Math.PI / 6);
+        assertEquals(0, rotate1.getX(), Config.EPSILON);
+        assertEquals(1, rotate1.getY(), Config.EPSILON);
+        assertEquals(Math.sqrt(3)/2, rotate2.getX(), Config.EPSILON);
+        assertEquals(0.5, rotate2.getY(), Config.EPSILON);
+        assertEquals((Math.sqrt(3)/2) * 2.5, rotate3.getX(), Config.EPSILON);
+        assertEquals(0.5 * 2.5, rotate3.getY(), Config.EPSILON);
+    }
+
+    @Test
+    public void rotateOrigin() {
+        Point origin = new Point(5, 10);
+        Point point = new Point(6, 10);
+        Point point2 = new Point(7.5, 10);
+        Point rotate1 = point.rotate(Math.PI / 2, origin);
+        Point rotate2 = point.rotate(Math.PI / 6, origin);
+        Point rotate3 = point2.rotate(Math.PI / 6, origin);
+        assertEquals(5, rotate1.getX(), Config.EPSILON);
+        assertEquals(11, rotate1.getY(), Config.EPSILON);
+        assertEquals(Math.sqrt(3)/2 + 5, rotate2.getX(), Config.EPSILON);
+        assertEquals(10.5, rotate2.getY(), Config.EPSILON);
+        assertEquals((Math.sqrt(3)/2) * 2.5 + 5, rotate3.getX(), Config.EPSILON);
+        assertEquals(0.5 * 2.5 + 10, rotate3.getY(), Config.EPSILON);
+    }
+
+    @Test
+    public void projection() {
+        Point axe = new Point(1, 0);
+        Point axe2 = new Point(0.5, 0.5);
+        Point point = new Point(1, 0).rotate(Math.PI / 4);
+        Point point2 = new Point(2.5, 0).rotate(Math.PI / 2);
+        Point projection = point.projection(axe);
+        Point projection2 = point2.projection(axe2);
+        assertEquals(Math.sqrt(2)/2, projection.getX(), Config.EPSILON);
+        assertEquals(0, projection.getY(), Config.EPSILON);
+        assertEquals(0.5 * 2.5, projection2.getX(), Config.EPSILON);
+        assertEquals(0.5 * 2.5, projection2.getY(), Config.EPSILON);
+    }
+
+    @Test
+    public void distance() {
+        Point point = new Point(1.5, 1.5);
+        Point point1 = new Point(5, 5);
+        assertEquals(4.94974746831, point.distance(point1), Config.EPSILON);
+    }
+
+    @Test
+    public void distanceWithoutSquare() {
+        Point point = new Point(1.5, 1.5);
+        Point point1 = new Point(5, 5);
+        assertEquals(24.5, point.distanceWithoutSquare(point1), Config.EPSILON);
+    }
+
 }

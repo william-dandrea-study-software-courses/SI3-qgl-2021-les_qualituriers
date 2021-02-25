@@ -3,15 +3,13 @@ package engine.graphics.Sea;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
-import java.util.ArrayList;
 import java.util.Objects;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.PositionableShape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Polygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 
 public class MyCanvas extends Canvas {
 
@@ -115,16 +113,13 @@ public class MyCanvas extends Canvas {
         g.fillPolygon(ptsX, ptsY, pts.length);
     }
 
-    public void drawShape(PositionableShape<Shape> shape, Color color) {
+    public void drawShape(PositionableShape<? extends Shape> shape, Color color) {
         switch (shape.getShape().getType()) {
             case CIRCLE:
-                drawCircle(shape.convertTo(Shapes.CIRCLE), color);
+                drawCircle((PositionableShape<Circle>) shape, color);
                 break;
-            case RECTANGLE:
-                drawPolygon(shape.convertToPolygon(), color);
-                break;
-            case POLYGON:
-                drawPolygon(shape.convertTo(Shapes.POLYGON), color);
+            case RECTANGLE: case POLYGON:
+                drawPolygon((PositionableShape<Polygon>) shape, color);
                 break;
         }
     }

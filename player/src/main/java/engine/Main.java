@@ -5,13 +5,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import engine.graphics.Deck.DeckCanvas;
 import engine.graphics.Sea.Sea;
+import engine.graphics.Renderer;
+import engine.mechanics.Mechanic;
 import engine.mechanics.MovingMechanic;
 import engine.mechanics.OarMechanic;
-import engine.mechanics.Mechanic;
 import engine.races.Race;
+import engine.serializers.RectangleSerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.OarBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
@@ -19,8 +24,10 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.*;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -82,7 +89,9 @@ public class Main {
 
 
         ObjectMapper om = new ObjectMapper();
-
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Rectangle.class, new RectangleSerializer());
+        om.registerModule(module);
 
         // Init game
         var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1);

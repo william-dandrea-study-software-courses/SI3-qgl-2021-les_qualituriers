@@ -3,11 +3,12 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 
 import static fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil.modAngle;
 
 /**
- * Cette classe represente un point qui sera utilise pour localiser les elements sur le deck
+ * Cette classe représente un point qui sera utilise pour localiser les elements sur le deck
  *
  * @author williamdandrea
  * @author CLODONG Yann
@@ -87,7 +88,15 @@ public class Point {
      * @return la norme du vecteur
      */
     public double length() {
-        return Math.sqrt(x*x + y*y);
+        return Math.sqrt(this.lengthWithoutSquare());
+    }
+
+    /**
+     * Norme sans la racine carré
+     * @return la norme du vecteur au carré
+     */
+    public double lengthWithoutSquare() {
+        return x*x + y*y;
     }
 
     /**
@@ -113,8 +122,8 @@ public class Point {
      * @param other: 2eme vecteur
      * @return true si les vecteur sont parallèle
      */
-    public boolean isColinearTo(Point other) {
-        return Math.abs(cross(other)) < 2 * Double.MIN_VALUE;
+    public boolean isCollinearTo(Point other) {
+        return Math.abs(cross(other)) < Config.EPSILON;
     }
 
     /**
@@ -129,21 +138,61 @@ public class Point {
     }
 
     /**
-     * Le vecteur que a un angle de angle avec celui-ci
+     * Le vecteur tourné par un angle
      * @param angle: l'Angle
      * @return le nouveau vecteur
      */
     public Point rotate(double angle) {
-        return new Point(getOrientation() + angle).scalar(length());
+        double x = Math.cos(angle) * this.x - Math.sin(angle) * this.y;
+        double y = Math.sin(angle) * this.x + Math.cos(angle) * this.y;
+        return new Point(x, y);
+    }
+
+    /**
+     * Le vecteur tourné par un angle par rapport à un point d'origine
+     * @param angle: l'angle
+     * @return le nouveau vecteur
+     */
+    public Point rotate(double angle, Point origin) {
+        return this.substract(origin).rotate(angle).add(origin);
     }
 
     /**
      * Angle entre 2 vecteurs
-     * @param other, deuxieme vecteur
+     * @param other, deuxième vecteur
      * @return angle tq tq this.rotate(angle) = other
      */
     public double angleWith(Point other) {
         return modAngle(other.getOrientation() - getOrientation());
+    }
+
+    /**
+     * Projection
+     * @param axe L'axe où projeter le point
+     * @return La projection du point sur l'axe
+     */
+    public Point projection(Point axe) {
+        double length = axe.lengthWithoutSquare();
+        double dotProduct = this.scalar(axe);
+        return new Point((dotProduct/length) * axe.getX(), (dotProduct/length) * axe.getY());
+    }
+
+    /**
+     * Distance entre 2 points sans racine carré
+     * @param other L'autre point
+     * @return la distance
+     */
+    public double distanceWithoutSquare(Point other) {
+        return Math.pow((this.x - other.x), 2) + Math.pow((this.y - other.y), 2);
+    }
+
+    /**
+     * Distance entre 2 points
+     * @param other L'autre point
+     * @return la distance
+     */
+    public double distance(Point other) {
+        return Math.sqrt(this.distanceWithoutSquare(other));
     }
 
     @Override
@@ -151,7 +200,8 @@ public class Point {
         if(obj == null) return false;
         if(!(obj instanceof Point)) return false;
         var pobj = (Point)obj;
-        return pobj.x == x && pobj.y == y;
+        return pobj.x - x < Config.EPSILON && pobj.x - x > -Config.EPSILON
+                && pobj.y - y < Config.EPSILON && pobj.y - y > -Config.EPSILON;
     }
 
     @Override

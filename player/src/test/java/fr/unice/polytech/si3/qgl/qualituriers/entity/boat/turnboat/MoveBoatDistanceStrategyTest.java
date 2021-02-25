@@ -10,8 +10,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.MoveBoatDista
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.SortedDispositionDistanceStrategy;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Polygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +30,7 @@ class MoveBoatDistanceStrategyTest {
 
     int defaultLife = 100;
     String defaultName = "defaultBoat";
-    Shape defaultShape = new Shape(Shapes.POLYGON) {
+    Shape defaultShape = new Polygon(0, new Point[] {new Point(0, 0)}) {
         @Override
         public boolean isIn(Point position) {
             return false;

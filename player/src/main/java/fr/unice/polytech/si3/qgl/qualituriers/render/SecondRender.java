@@ -46,7 +46,7 @@ public class SecondRender extends Render {
         // Don't forget to change nextCheckpoint when it's reached
 
         // EN premier, nous allons affecter les nouvelles bonns valeurs au bateau
-        gameInfo.getShip().setTransform(round.getShip().getPosition());
+        gameInfo.getShip().setPosition(round.getShip().getPosition());
         gameInfo.getShip().setEntities(round.getShip().getEntities());
 
 

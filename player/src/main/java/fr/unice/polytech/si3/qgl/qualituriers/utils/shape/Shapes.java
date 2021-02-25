@@ -16,7 +16,6 @@ public enum Shapes {
     private final String type;
     private final Class<? extends Shape> shape;
 
-
     Shapes(String type, Class<? extends Shape> shape) {
         this.type = type;
         this.shape = shape;

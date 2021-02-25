@@ -4,15 +4,20 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.Disposition;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.MoveBoatDistanceStrategy;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.SortedDispositionDistanceStrategy;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.Captain;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.Foreman;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShapeFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Cette classe a pour objectif de décrire un bateau, le bateau pourra bouger mais aussi faire plusieurs actions
@@ -24,17 +29,17 @@ import java.util.*;
 public class Boat {
 
     private int life;
-    private Transform transform;
     private final String name;
     private final Deck deck;
     private BoatEntity[] entities;
-    private final Shape shape;
     private List<Action> actionsToDo;
 
     @JsonIgnore
     private Captain captain;
     @JsonIgnore
     private Foreman foreman;
+    @JsonIgnore
+    private final PositionableShape<? extends Shape> positionableShape;
 
     List<Marin> sailors;
 
@@ -43,17 +48,11 @@ public class Boat {
                 @JsonProperty("name") String name, @JsonProperty("deck") Deck deck,
                 @JsonProperty("entities") BoatEntity[] entities, @JsonProperty("shape") Shape shape) {
         this.life = life;
-        this.transform = position;
         this.name = name;
         this.deck = deck;
         this.entities = entities;
-        this.shape = shape;
         this.actionsToDo = new ArrayList<>();
-
-
-
-
-
+        this.positionableShape = PositionableShapeFactory.getPositionable(shape, position);
         //this.captain = new Captain(this);
         //this.foreman = new Foreman(this);
     }
@@ -102,18 +101,23 @@ public class Boat {
 
     public String getName() { return name; }
     public int getLife() { return life; }
-    public Transform getPosition() { return transform; }
+    public Transform getPosition() { return this.positionableShape.getTransform(); }
     public Deck getDeck() { return deck; }
     public BoatEntity[] getEntities() { return entities; }
     public List<Action> getActionsToDo() { return actionsToDo; }
-    public Shape getShape() { return shape; }
+    public Shape getShape() { return this.positionableShape.getShape(); }
     public void setLife(int life) { this.life = life; }
-    public void setTransform(Transform transform) { this.transform = transform; }
+    public void setPosition(Transform position) { this.positionableShape.setTransform(position);}
     public void setEntities(BoatEntity[] entities) { this.entities = entities; }
 
     public void setSailors(List<Marin> sailors) {
         this.sailors = sailors;
         //this.foreman.setSailors(sailors);
+    }
+
+    @JsonIgnore
+    public PositionableShape<? extends Shape> getPositionableShape() {
+        return positionableShape;
     }
 
     @JsonIgnore

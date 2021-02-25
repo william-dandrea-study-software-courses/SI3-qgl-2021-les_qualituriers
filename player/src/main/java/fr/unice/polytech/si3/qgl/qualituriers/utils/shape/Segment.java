@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.PositionableShape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
 public class Segment {
     private final Point start, end;

@@ -10,7 +10,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
  *
  * @author williamdandrea, Alexandre Arcil, CLODONG Yann
  */
-public class Rectangle extends Shape {
+public class Rectangle extends PolygonAbstract {
 
     private final double width;
     private final double height;
@@ -19,7 +19,12 @@ public class Rectangle extends Shape {
     @JsonCreator
     public Rectangle(@JsonProperty("width") double width, @JsonProperty("height") double height,
                      @JsonProperty("orientation") double orientation) {
-        super(Shapes.RECTANGLE);
+        super(orientation, new Point[] {
+                        new Point(-width / 2, height / 2),
+                        new Point(width / 2, height / 2),
+                        new Point(width / 2, -height / 2),
+                        new Point(-width / 2, -height / 2)
+                }, Shapes.RECTANGLE);
         this.width = width;
         this.height = height;
         this.orientation = orientation;
@@ -32,19 +37,6 @@ public class Rectangle extends Shape {
     public double getHeight() {
         return height;
     }
-
-
-    public Polygon toPolygon() {
-        return new Polygon(orientation, new Point[] {
-                new Point(-width / 2, height / 2),
-                new Point(width / 2, height / 2),
-                new Point(-width / 2, -height / 2),
-                new Point(width / 2, -height / 2)
-        });
-    }
-
-
-
 
     /**
      * Coin en haut à droite du rectangle
