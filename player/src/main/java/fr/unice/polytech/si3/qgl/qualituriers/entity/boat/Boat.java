@@ -10,6 +10,10 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboatsecond.Disposi
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboatsecond.MoveBoatDistanceStrategy;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboatsecond.SortedDispositionDistanceStrategy;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.Disposition;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.MoveBoatDistanceStrategy;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.SortedDispositionDistanceStrategy;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;

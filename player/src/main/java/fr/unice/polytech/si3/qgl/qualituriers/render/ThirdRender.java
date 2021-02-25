@@ -30,6 +30,8 @@ public class ThirdRender extends Render{
     @Override
     public List<Action> nextRound(RoundInfo round) throws JsonProcessingException {
 
+        int numberOfCheckPoints = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints().length;
+
         gameInfo.getShip().setPosition(round.getShip().getPosition());
         gameInfo.getShip().setEntities(round.getShip().getEntities());
         //for (Marin s : gameInfo.getSailors()) { System.out.println(s.toString());}
@@ -59,11 +61,11 @@ public class ThirdRender extends Render{
         CheckPoint checkPoint = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints()[checkPointCounter];
         int checkPointRadius = (int) ((Circle)checkPoint.getShape()).getRadius();
 
-        if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter == 1) {
+        if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter == numberOfCheckPoints - 1) {
             return new ArrayList<>();
         }
 
-        if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter <1) {
+        if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter < numberOfCheckPoints-1) {
         //if (distanceRestante <= checkPointRadius / 2) {
             checkPointCounter++;
             currentCheckPoint = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints()[checkPointCounter];
