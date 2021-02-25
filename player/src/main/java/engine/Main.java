@@ -124,7 +124,7 @@ public class Main {
             renderer.draw();
             deckRenderer.draw();
 
-            TimeUnit.MILLISECONDS.sleep(1000);
+            TimeUnit.MILLISECONDS.sleep(100);
             compteurMax--;
 
         } while(actionsDone.length != 0 && compteurMax >=0);
