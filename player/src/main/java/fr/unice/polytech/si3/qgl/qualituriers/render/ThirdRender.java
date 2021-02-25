@@ -1,13 +1,12 @@
 package fr.unice.polytech.si3.qgl.qualituriers.render;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.PositionableShape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -31,7 +30,7 @@ public class ThirdRender extends Render{
     @Override
     public List<Action> nextRound(RoundInfo round) throws JsonProcessingException {
 
-        gameInfo.getShip().setTransform(round.getShip().getPosition());
+        gameInfo.getShip().setPosition(round.getShip().getPosition());
         gameInfo.getShip().setEntities(round.getShip().getEntities());
         //for (Marin s : gameInfo.getSailors()) { System.out.println(s.toString());}
 
@@ -41,8 +40,8 @@ public class ThirdRender extends Render{
 
         List<Action> finalsActions = new ArrayList<>();
 
-        PositionableShape<Shape> checkpointsShape = new PositionableShape<>(currentCheckPoint.getShape(), currentCheckPoint.getPosition());
-        PositionableShape<Shape> boatShape = new PositionableShape<>(gameInfo.getShip().getShape(), gameInfo.getShip().getPosition());
+        PositionableShape<? extends Shape> checkpointsShape = currentCheckPoint.getPositionableShape();
+        PositionableShape<? extends Shape> boatShape = gameInfo.getShip().getPositionableShape();
 
 
         double distanceRestanteX = currentCheckPoint.getPosition().getX() - gameInfo.getShip().getPosition().getX();
@@ -72,7 +71,7 @@ public class ThirdRender extends Render{
 
 
 
-        List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy((currentCheckPoint.getPosition()));
+        List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy(currentCheckPoint.getPosition());
         System.out.println(actions);
         return actions;
 

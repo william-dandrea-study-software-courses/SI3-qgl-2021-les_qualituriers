@@ -1,8 +1,8 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.PositionableShape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,7 +59,7 @@ public class SegmentTest {
 
     @Test
     void SegmentIntersectWithCircle() {
-        PositionableShape<Circle> circle = new PositionableShape<>(new Circle(3), new Transform(0, 0, 0));
+        PositionableCircle circle = new PositionableCircle(new Circle(3), new Transform(0, 0, 0));
         Segment s = new Segment(new Point(0, 0), new Point(0, 5));
 
         assertTrue(s.intersectWith(circle));
@@ -67,7 +67,7 @@ public class SegmentTest {
 
     @Test
     void TestCircleBetweenEdges() {
-        PositionableShape<Circle> circle = new PositionableShape<>(new Circle(3), new Transform(0, 0, 0));
+        PositionableCircle circle = new PositionableCircle(new Circle(3), new Transform(0, 0, 0));
         Segment s = new Segment(new Point(2, -4), new Point(2, 4));
 
         assertTrue(s.intersectWith(circle));
@@ -75,14 +75,14 @@ public class SegmentTest {
 
     @Test
     void TestNotCollidInside() {
-        PositionableShape<Circle> circle = new PositionableShape<>(new Circle(3), new Transform(0, 0, 0));
+        PositionableCircle circle = new PositionableCircle(new Circle(3), new Transform(0, 0, 0));
         Segment s = new Segment(new Point(0, 0), new Point(0, 2));
 
         assertFalse(s.intersectWith(circle));
     }
     @Test
     void TestNotCollidOutside() {
-        PositionableShape<Circle> circle = new PositionableShape<>(new Circle(3), new Transform(0, 0, 0));
+        PositionableCircle circle = new PositionableCircle(new Circle(3), new Transform(0, 0, 0));
         Segment s = new Segment(new Point(0, 4), new Point(0, 5));
 
         assertFalse(s.intersectWith(circle));

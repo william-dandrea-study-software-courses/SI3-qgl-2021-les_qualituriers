@@ -1,19 +1,18 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntities;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.BabordTribordAngle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Polygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ class TurnBoatTest {
 
     int defaultLife = 100;
     String defaultName = "defaultBoat";
-    Shape defaultShape = new Shape(Shapes.POLYGON) {
+    Shape defaultShape = new Polygon(0, new Point[] {new Point(0, 0)}) {
         @Override
         public boolean isIn(Point position) {
             return false;
@@ -51,12 +50,11 @@ class TurnBoatTest {
     @BeforeEach
     void setUp() {
 
-        BoatEntity defaultBoatEntity = new BoatEntity(BoatEntities.OAR, 0, 0) {
-        };
+        BoatEntity defaultBoatEntity = new OarBoatEntity(0, 0);
         Marin defaultSailor = new Marin(0, 0, 0, "defaultSailor");
         defaultTransform = new Transform(new Point(0,0), 0.0);
 
-        defaultListBoatEntities = new BoatEntity[]{defaultBoatEntity, new BoatEntity(BoatEntities.OAR, 0,1) {} };
+        defaultListBoatEntities = new BoatEntity[]{defaultBoatEntity, new OarBoatEntity( 0,1)};
 
 
 
@@ -76,12 +74,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -106,12 +104,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -141,12 +139,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -174,17 +172,18 @@ class TurnBoatTest {
         //assertEquals(1, babordActions.size());
     }
 
+    @Disabled
     @Test
     void turnBoatTestReturnActionsWithNotTheGoodAmountOfSailorsOnEachSideForTheOtherSide() {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -199,7 +198,7 @@ class TurnBoatTest {
 
         TurnBoat turnBoat = new TurnBoat(2*Math.PI/6, actualBoat, actualListSailors);
         List<Action> actions = turnBoat.turnBoat();
-        System.out.println(actions);
+        //System.out.println(actions);
 
 
         //List<Action> babordActions = actions.stream().filter(action -> action.getSailorId() == 1 || action.getSailorId() == 3).collect(Collectors.toList());
@@ -220,12 +219,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -257,12 +256,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -294,12 +293,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -330,12 +329,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -363,12 +362,12 @@ class TurnBoatTest {
     void turnBoatTestWithAnyFreeMarinAtTribord() {
         Deck actualDeck = new Deck(3,6);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,2){},
-                new BoatEntity(BoatEntities.OAR, 2,0){},
-                new BoatEntity(BoatEntities.OAR, 2,2){},
-                new BoatEntity(BoatEntities.OAR, 4,0){},
-                new BoatEntity(BoatEntities.OAR, 4,2){}
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,2){},
+                new OarBoatEntity( 2,0){},
+                new OarBoatEntity( 2,2){},
+                new OarBoatEntity( 4,0){},
+                new OarBoatEntity( 4,2){}
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -397,12 +396,12 @@ class TurnBoatTest {
     void turnBoatTestWithAnyFreeMarinAtBabord() {
         Deck actualDeck = new Deck(3,6);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,2){},
-                new BoatEntity(BoatEntities.OAR, 2,0){},
-                new BoatEntity(BoatEntities.OAR, 2,2){},
-                new BoatEntity(BoatEntities.OAR, 4,0){},
-                new BoatEntity(BoatEntities.OAR, 4,2){}
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,2){},
+                new OarBoatEntity( 2,0){},
+                new OarBoatEntity( 2,2){},
+                new OarBoatEntity( 4,0){},
+                new OarBoatEntity( 4,2){}
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -475,12 +474,12 @@ class TurnBoatTest {
     void turnBoatCrashTestOars() {
         Deck actualDeck = new Deck(3,6);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,2){},
-                new BoatEntity(BoatEntities.OAR, 2,0){},
-                new BoatEntity(BoatEntities.OAR, 2,2){},
-                new BoatEntity(BoatEntities.OAR, 4,0){},
-                new BoatEntity(BoatEntities.OAR, 4,2){}
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,2){},
+                new OarBoatEntity( 2,0){},
+                new OarBoatEntity( 2,2){},
+                new OarBoatEntity( 4,0){},
+                new OarBoatEntity( 4,2){}
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -505,10 +504,10 @@ class TurnBoatTest {
     void turnBoatCrashTestBigBoat() {
         Deck actualDeck = new Deck(6,18);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,5){},
-                new BoatEntity(BoatEntities.OAR, 1,5){},
-                new BoatEntity(BoatEntities.OAR, 2,5){},
-                new BoatEntity(BoatEntities.OAR, 3,5){},
+                new OarBoatEntity( 0,5){},
+                new OarBoatEntity( 1,5){},
+                new OarBoatEntity( 2,5){},
+                new OarBoatEntity( 3,5){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -544,12 +543,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -573,12 +572,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -602,12 +601,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -638,12 +637,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -672,12 +671,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -837,7 +836,7 @@ class TurnBoatTest {
     @Test
     void generateListOfPossibleAnglesTestWithUnpairInput() {
 
-        BoatEntity[] actualListBoatEntities = {new BoatEntity(BoatEntities.OAR, 0,0) {}};
+        BoatEntity[] actualListBoatEntities = {new OarBoatEntity( 0,0) {}};
 
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, defaultDeck, actualListBoatEntities, defaultShape);
@@ -937,10 +936,10 @@ class TurnBoatTest {
 
 
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
         };
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, defaultDeck, actualListBoatEntities, defaultShape);
 
@@ -956,8 +955,8 @@ class TurnBoatTest {
     void sailorsOnAnyEntitiesTest() {
 
         // BoatEntities :
-        //  - BoatEntity(BoatEntities.OAR, 0,0) {};
-        //  - BoatEntity(BoatEntities.OAR, 0,1) {};
+        //  - OarBoatEntity( 0,0) {};
+        //  - OarBoatEntity( 0,1) {};
 
         // Sailors :
         //  - Marin(id : 0, 0, 0, "defaultSailor");
@@ -974,8 +973,8 @@ class TurnBoatTest {
     void sailorsOnAnyEntitiesWithAnySailorsNotOnOarTest() {
 
         // BoatEntities :
-        //  - BoatEntity(BoatEntities.OAR, 0,0) {};
-        //  - BoatEntity(BoatEntities.OAR, 0,1) {};
+        //  - OarBoatEntity( 0,0) {};
+        //  - OarBoatEntity( 0,1) {};
 
         // Sailors :
         //  - Marin(id : 0, 0, 0, "defaultSailor");
@@ -993,12 +992,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(3,6);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,2){},
-                new BoatEntity(BoatEntities.OAR, 2,0){},
-                new BoatEntity(BoatEntities.OAR, 2,2){},
-                new BoatEntity(BoatEntities.OAR, 4,0){},
-                new BoatEntity(BoatEntities.OAR, 4,2){}
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,2){},
+                new OarBoatEntity( 2,0){},
+                new OarBoatEntity( 2,2){},
+                new OarBoatEntity( 4,0){},
+                new OarBoatEntity( 4,2){}
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -1029,12 +1028,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(3,6);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,2){},
-                new BoatEntity(BoatEntities.OAR, 2,0){},
-                new BoatEntity(BoatEntities.OAR, 2,2){},
-                new BoatEntity(BoatEntities.OAR, 4,0){},
-                new BoatEntity(BoatEntities.OAR, 4,2){}
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,2){},
+                new OarBoatEntity( 2,0){},
+                new OarBoatEntity( 2,2){},
+                new OarBoatEntity( 4,0){},
+                new OarBoatEntity( 4,2){}
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -1065,10 +1064,10 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(3,6);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,2){},
-                new BoatEntity(BoatEntities.OAR, 2,0){},
-                new BoatEntity(BoatEntities.OAR, 2,2){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,2){},
+                new OarBoatEntity( 2,0){},
+                new OarBoatEntity( 2,2){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -1097,14 +1096,14 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(3,6);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,2){},
-                new BoatEntity(BoatEntities.OAR, 2,0){},
-                new BoatEntity(BoatEntities.OAR, 2,2){},
-                new BoatEntity(BoatEntities.OAR, 4,0){},
-                new BoatEntity(BoatEntities.OAR, 4,2){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,2){}
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,2){},
+                new OarBoatEntity( 2,0){},
+                new OarBoatEntity( 2,2){},
+                new OarBoatEntity( 4,0){},
+                new OarBoatEntity( 4,2){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,2){}
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -1131,14 +1130,14 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(3,6);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,2){},
-                new BoatEntity(BoatEntities.OAR, 2,0){},
-                new BoatEntity(BoatEntities.OAR, 2,2){},
-                new BoatEntity(BoatEntities.OAR, 4,0){},
-                new BoatEntity(BoatEntities.OAR, 4,2){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,2){}
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,2){},
+                new OarBoatEntity( 2,0){},
+                new OarBoatEntity( 2,2){},
+                new OarBoatEntity( 4,0){},
+                new OarBoatEntity( 4,2){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,2){}
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -1166,14 +1165,14 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(3,6);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,2){},
-                new BoatEntity(BoatEntities.OAR, 2,0){},
-                new BoatEntity(BoatEntities.OAR, 2,2){},
-                new BoatEntity(BoatEntities.OAR, 4,0){},
-                new BoatEntity(BoatEntities.OAR, 4,2){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,2){}
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,2){},
+                new OarBoatEntity( 2,0){},
+                new OarBoatEntity( 2,2){},
+                new OarBoatEntity( 4,0){},
+                new OarBoatEntity( 4,2){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,2){}
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -1201,14 +1200,14 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(3,6);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,2){},
-                new BoatEntity(BoatEntities.OAR, 2,0){},
-                new BoatEntity(BoatEntities.OAR, 2,2){},
-                new BoatEntity(BoatEntities.OAR, 4,0){},
-                new BoatEntity(BoatEntities.OAR, 4,2){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,2){}
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,2){},
+                new OarBoatEntity( 2,0){},
+                new OarBoatEntity( 2,2){},
+                new OarBoatEntity( 4,0){},
+                new OarBoatEntity( 4,2){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,2){}
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -1236,14 +1235,14 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(3,6);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,2){},
-                new BoatEntity(BoatEntities.OAR, 2,0){},
-                new BoatEntity(BoatEntities.OAR, 2,2){},
-                new BoatEntity(BoatEntities.OAR, 4,0){},
-                new BoatEntity(BoatEntities.OAR, 4,2){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,2){}
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,2){},
+                new OarBoatEntity( 2,0){},
+                new OarBoatEntity( 2,2){},
+                new OarBoatEntity( 4,0){},
+                new OarBoatEntity( 4,2){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,2){}
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -1271,14 +1270,14 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(3,6);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,2){},
-                new BoatEntity(BoatEntities.OAR, 2,0){},
-                new BoatEntity(BoatEntities.OAR, 2,2){},
-                new BoatEntity(BoatEntities.OAR, 4,0){},
-                new BoatEntity(BoatEntities.OAR, 4,2){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,2){}
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,2){},
+                new OarBoatEntity( 2,0){},
+                new OarBoatEntity( 2,2){},
+                new OarBoatEntity( 4,0){},
+                new OarBoatEntity( 4,2){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,2){}
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);
@@ -1307,12 +1306,12 @@ class TurnBoatTest {
 
         Deck actualDeck = new Deck(2,4);
         BoatEntity[] actualListBoatEntities = {
-                new BoatEntity(BoatEntities.OAR, 0,0){},
-                new BoatEntity(BoatEntities.OAR, 0,1){},
-                new BoatEntity(BoatEntities.OAR, 1,0){},
-                new BoatEntity(BoatEntities.OAR, 1,1){},
-                new BoatEntity(BoatEntities.OAR, 3,0){},
-                new BoatEntity(BoatEntities.OAR, 3,1){},
+                new OarBoatEntity( 0,0){},
+                new OarBoatEntity( 0,1){},
+                new OarBoatEntity( 1,0){},
+                new OarBoatEntity( 1,1){},
+                new OarBoatEntity( 3,0){},
+                new OarBoatEntity( 3,1){},
         };
 
         Boat actualBoat = new Boat(defaultLife, defaultTransform, defaultName, actualDeck, actualListBoatEntities, defaultShape);

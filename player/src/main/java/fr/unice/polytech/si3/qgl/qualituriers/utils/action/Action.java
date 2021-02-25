@@ -1,13 +1,8 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Polygon;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 
 /**
  * @author Alexandre Arcil

@@ -47,6 +47,6 @@ public class OarMechanic extends Mechanic {
         var dy = vitesse * Math.sin(angle);
         var p = new Point(dx + race.getBoat().getPosition().getX(), dy + race.getBoat().getPosition().getY());
 
-        race.getBoat().setTransform(new Transform(p, angle));
+        race.getBoat().setPosition(new Transform(p, angle));
     }
 }

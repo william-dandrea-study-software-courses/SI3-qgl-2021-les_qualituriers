@@ -1,8 +1,8 @@
 package fr.unice.polytech.si3.qgl.qualituriers.game.goal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 
 /**
  * @author Alexandre Arcil
@@ -21,6 +21,7 @@ public class Goal {
         this.mode = mode;
     }
 
+    @JsonIgnore
     public Goals getMode() {
         return mode;
     }

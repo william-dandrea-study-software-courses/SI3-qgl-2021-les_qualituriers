@@ -4,9 +4,7 @@ import engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import javax.swing.*;
-
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 
@@ -28,6 +26,7 @@ public class Renderer {
         frame.setMaximumSize(new Dimension(600, 480));
         frame.setMinimumSize(new Dimension(600, 480));
         frame.setSize(600, 480);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         canvas = new MyCanvas();
         canvas.setLocation(0, 0);

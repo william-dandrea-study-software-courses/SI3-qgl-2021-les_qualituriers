@@ -6,7 +6,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,9 +59,9 @@ class MoveBoatTest {
     }
 
 
-    @Test
+    /*@Test
     void moveBoatTestNormal() {
 
-    }
+    }*/
 
 }
