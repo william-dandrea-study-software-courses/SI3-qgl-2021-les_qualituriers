@@ -4,6 +4,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.Disposition;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
@@ -40,7 +41,7 @@ public class MoveBoatDistanceStrategy {
 
     }
 
-    public Marin[] getSailors() { return sailors.toArray(new Marin[0]); }
+    public Marin[] getSailors() { return (Marin[]) sailors.toArray(new Marin[0]); }
 
     public List<Action> moveBoat() {
 
@@ -87,7 +88,7 @@ public class MoveBoatDistanceStrategy {
 
         for (Disposition disposition : listOfDispositions) {
 
-            List<Point> forbiddenPointsToMove = getListOfSailorsOnOars().stream().map(sailor -> new Point(sailor.getX(), sailor.getY())).collect(Collectors.toList());
+            List<Point> fordiddenPointsToMove = getListOfSailorsOnOars().stream().map(sailor -> new Point(sailor.getX(), sailor.getY())).collect(Collectors.toList());
 
             int missingNumberOfSailorsOnOarAtBabord = disposition.getBabordOar() - getListOfSailorsOnBabordOars().size();
             if (missingNumberOfSailorsOnOarAtBabord > 0) {
@@ -95,13 +96,27 @@ public class MoveBoatDistanceStrategy {
                 if (getListOfSailorsOnAnyOar().size() >= missingNumberOfSailorsOnOarAtBabord) {
 
                     for (Marin marinLibre : getListOfSailorsOnAnyOar()) {
+                        List<Point> availablePoints = new ArrayList<>();
 
-                        Optional<Point> oarWeWillMove = this.oarToMove(forbiddenPointsToMove);
+                        for (Point ramePoint : getListOfBabordOars().stream().map(oar -> new Point(oar.getX(), oar.getY())).collect(Collectors.toList())) {
+                            boolean canGoToThisPoint = true;
+                            for (Point forbiddenPoint : fordiddenPointsToMove) {
+                                if (forbiddenPoint.getX() == ramePoint.getX() && forbiddenPoint.getY() == ramePoint.getY()) {
+                                    canGoToThisPoint = false;
+                                    break;
+                                }
+                            }
+                            if (canGoToThisPoint) availablePoints.add(ramePoint);
+                        }
+
+
+                        Optional<Point> oarWeWillMove = availablePoints.stream().findAny();
+
 
                         if (oarWeWillMove.isPresent()) {
                             finalListAction.add(generateMovingAction(marinLibre.getId(), marinLibre.getX(), marinLibre.getY(), (int) oarWeWillMove.get().getX(), (int) oarWeWillMove.get().getY()));
                             marinLibre.setX((int) oarWeWillMove.get().getX()); marinLibre.setY((int) oarWeWillMove.get().getY());
-                            forbiddenPointsToMove.add(new Point(marinLibre.getX(), marinLibre.getY()));
+                            fordiddenPointsToMove.add(new Point(marinLibre.getX(), marinLibre.getY()));
                         }
                     }
                 }
@@ -109,13 +124,25 @@ public class MoveBoatDistanceStrategy {
                 if (getListOfSailorsOnTribordOars().size() - disposition.getTribordOar() > 0) {
                     for (int i = 0; i < getListOfSailorsOnTribordOars().size() - disposition.getTribordOar(); i++) {
 
-                        Optional<Point> oarWeWillMove = this.oarToMove(forbiddenPointsToMove);
+                        List<Point> availablePoints = new ArrayList<>();
+                        for (Point ramePoint : getListOfBabordOars().stream().map(oar -> new Point(oar.getX(), oar.getY())).collect(Collectors.toList())) {
+                            boolean canGoToThisPoint = true;
+                            for (Point forbiddenPoint : fordiddenPointsToMove) {
+                                if (forbiddenPoint.getX() == ramePoint.getX() && forbiddenPoint.getY() == ramePoint.getY()) {
+                                    canGoToThisPoint = false;
+                                    break;
+                                }
+                            }
+                            if (canGoToThisPoint) availablePoints.add(ramePoint);
+                        }
+
+                        Optional<Point> oarWeWillMove = availablePoints.stream().findAny();
                         Optional<Marin> marin = getListOfSailorsOnBabordOars().stream().findAny();
 
                         if (marin.isPresent() && oarWeWillMove.isPresent()) {
                             finalListAction.add(generateMovingAction(marin.get().getId(), marin.get().getX(), marin.get().getY(), (int)oarWeWillMove.get().getX(), (int)oarWeWillMove.get().getY()));
                             marin.get().setX((int) oarWeWillMove.get().getX()); marin.get().setY((int)oarWeWillMove.get().getY());
-                            forbiddenPointsToMove.add(new Point(marin.get().getX(), marin.get().getY()));
+                            fordiddenPointsToMove.add(new Point(marin.get().getX(), marin.get().getY()));
 
                         }
                     }
@@ -131,7 +158,22 @@ public class MoveBoatDistanceStrategy {
                 if (getListOfSailorsOnAnyOar().size() >= missingNumberOfSailorsOnOarAtTribord) {
                     for (Marin marinLibre : getListOfSailorsOnAnyOar()) {
 
-                        Optional<Point> oarWeWillMove = this.oarToMove(forbiddenPointsToMove);
+                        List<Point> availablePoints = new ArrayList<>();
+
+                        for (Point ramePoint : getListOfTribordOars().stream().map(oar -> new Point(oar.getX(), oar.getY())).collect(Collectors.toList())) {
+                            boolean canGoToThisPoint = true;
+                            for (Point forbiddenPoint : fordiddenPointsToMove) {
+                                if (forbiddenPoint.getX() == ramePoint.getX() && forbiddenPoint.getY() == ramePoint.getY()) {
+                                    canGoToThisPoint = false;
+                                    break;
+                                }
+                            }
+                            if (canGoToThisPoint) availablePoints.add(ramePoint);
+                        }
+
+
+
+                        Optional<Point> oarWeWillMove = availablePoints.stream().findAny();
 
                         if (oarWeWillMove.isPresent()) {
 
@@ -139,7 +181,7 @@ public class MoveBoatDistanceStrategy {
                             //sailors.remove(marinLibre);
                             marinLibre.setX((int) oarWeWillMove.get().getX()); marinLibre.setY((int) oarWeWillMove.get().getY());
                             //sailors.add(marinLibre);
-                            forbiddenPointsToMove.add(new Point(marinLibre.getX(), marinLibre.getY()));
+                            fordiddenPointsToMove.add(new Point(marinLibre.getX(), marinLibre.getY()));
 
                         }
                     }
@@ -151,13 +193,28 @@ public class MoveBoatDistanceStrategy {
 
                     for (int i = 0; i < getListOfSailorsOnBabordOars().size() - disposition.getBabordOar(); i++) {
 
-                        Optional<Point> oarWeWillMove = this.oarToMove(forbiddenPointsToMove);
+                        List<Point> availablePoints = new ArrayList<>();
+                        for (Point ramePoint : getListOfTribordOars().stream().map(oar -> new Point(oar.getX(), oar.getY())).collect(Collectors.toList())) {
+                            boolean canGoToThisPoint = true;
+                            for (Point forbiddenPoint : fordiddenPointsToMove) {
+                                if (forbiddenPoint.getX() == ramePoint.getX() && forbiddenPoint.getY() == ramePoint.getY()) {
+                                    canGoToThisPoint = false;
+                                    break;
+                                }
+                            }
+                            if (canGoToThisPoint) availablePoints.add(ramePoint);
+                        }
+
+
+
+
+                        Optional<Point> oarWeWillMove = availablePoints.stream().findAny();
                         Optional<Marin> marin = getListOfSailorsOnBabordOars().stream().findAny();
 
                         if (marin.isPresent() && oarWeWillMove.isPresent()) {
                             finalListAction.add(generateMovingAction(marin.get().getId(), marin.get().getX(), marin.get().getY(), (int)oarWeWillMove.get().getX(), (int)oarWeWillMove.get().getY()));
                             marin.get().setX((int) oarWeWillMove.get().getX()); marin.get().setY((int)oarWeWillMove.get().getY());
-                            forbiddenPointsToMove.add(new Point(marin.get().getX(), marin.get().getY()));
+                            fordiddenPointsToMove.add(new Point(marin.get().getX(), marin.get().getY()));
                         }
                     }
                 }
@@ -179,24 +236,17 @@ public class MoveBoatDistanceStrategy {
             finalListAction.clear();
         }
 
-        return new ArrayList<>();
+        return null;
 
     }
 
-    private Optional<Point> oarToMove(List<Point> forbiddenPointsToMove) {
-        List<Point> availablePoints = new ArrayList<>();
-        for (Point ramePoint : getListOfTribordOars().stream().map(oar -> new Point(oar.getX(), oar.getY())).collect(Collectors.toList())) {
-            boolean canGoToThisPoint = true;
-            for (Point forbiddenPoint : forbiddenPointsToMove) {
-                if (forbiddenPoint.getX() == ramePoint.getX() && forbiddenPoint.getY() == ramePoint.getY()) {
-                    canGoToThisPoint = false;
-                    break;
-                }
-            }
-            if (canGoToThisPoint) availablePoints.add(ramePoint);
-        }
-        return availablePoints.stream().findAny();
-    }
+
+
+
+
+
+
+
 
     void actualizeAll() {
 
