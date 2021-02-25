@@ -3,8 +3,7 @@ package engine.serializers;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntities;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntities;
 
 import java.io.IOException;
 

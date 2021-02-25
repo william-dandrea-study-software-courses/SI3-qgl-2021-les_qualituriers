@@ -1,14 +1,9 @@
 package engine.graphics.Deck;
 
-import engine.graphics.Sea.MyCanvas;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 
 import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
-import java.util.Collection;
 
 public class Deck {
     private final JFrame frame;

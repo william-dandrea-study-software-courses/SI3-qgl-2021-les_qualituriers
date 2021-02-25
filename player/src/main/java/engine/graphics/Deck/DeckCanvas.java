@@ -1,6 +1,6 @@
 package engine.graphics.Deck;
 
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import java.awt.*;

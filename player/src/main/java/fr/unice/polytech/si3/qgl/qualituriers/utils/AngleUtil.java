@@ -8,6 +8,16 @@ public class AngleUtil {
     private AngleUtil() {}
 
     /**
+     * Calcul la différence entre 2 angles
+     * @param angleFinal l'angle final
+     * @param angleInit l'angle initial
+     * @return la différence entre 2 angles
+     */
+    public static double differenceBetweenTwoAngle(double angleInit, double angleFinal) {
+        return modAngle(angleFinal- angleInit);
+    }
+
+    /**
      * Ramène n'importe quel angle dans l'intervalle ]-π, π]
      * @param angle: angle
      * @return Angle

@@ -2,7 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat;
 
 public class Disposition {
 
-    private final int  babordOar;
+    private final int babordOar;
     private final int tribordOar;
 
     public Disposition(int babordOar, int tribordOar) {

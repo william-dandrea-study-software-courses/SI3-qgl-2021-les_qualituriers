@@ -2,7 +2,7 @@ package engine.races;
 
 import engine.mechanics.Mechanic;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
 
 public class Race {
