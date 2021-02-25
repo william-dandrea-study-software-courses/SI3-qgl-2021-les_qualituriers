@@ -1,11 +1,9 @@
-package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboatsecond;
+package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat;
 
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.OarBoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboatsecond.utils.DistanceDisposition;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.DistanceDisposition;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 

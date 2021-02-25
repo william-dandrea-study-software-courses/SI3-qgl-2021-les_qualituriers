@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboatsecond.utils;
+package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 

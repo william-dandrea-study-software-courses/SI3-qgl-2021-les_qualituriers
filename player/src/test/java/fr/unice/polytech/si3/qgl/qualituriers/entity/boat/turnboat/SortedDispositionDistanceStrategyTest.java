@@ -1,5 +1,6 @@
-package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboatsecond;
+package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat;
 
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.SortedDispositionDistanceStrategy;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import org.junit.jupiter.api.BeforeEach;
