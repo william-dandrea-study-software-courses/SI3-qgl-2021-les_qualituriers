@@ -1,4 +1,4 @@
-package engine.graphics;
+package engine.graphics.Sea;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

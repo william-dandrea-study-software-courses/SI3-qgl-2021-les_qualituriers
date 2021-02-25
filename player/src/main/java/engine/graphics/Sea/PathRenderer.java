@@ -1,4 +1,4 @@
-package engine.graphics;
+package engine.graphics.Sea;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 

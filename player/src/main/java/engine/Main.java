@@ -3,7 +3,8 @@ package engine;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import engine.graphics.Renderer;
+import engine.graphics.Deck.DeckCanvas;
+import engine.graphics.Sea.Sea;
 import engine.mechanics.MovingMechanic;
 import engine.mechanics.OarMechanic;
 import engine.mechanics.Mechanic;
@@ -21,6 +22,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.*;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -51,7 +53,7 @@ public class Main {
 
         Marin sailor1 = new Marin(1,0,1,"sailor1");
         Marin sailor2 = new Marin(2,1,0,"sailor2");
-        Marin sailor3 = new Marin(3,0,1,"sailor3");
+        Marin sailor3 = new Marin(3,0,0,"sailor3");
         Marin sailor4 = new Marin(4,1,1,"sailor4");
         return new Marin[] {sailor4, sailor3,sailor2,sailor1};
     }
@@ -77,8 +79,9 @@ public class Main {
     }
 
     static void RunRace(Race race) throws JsonProcessingException, InterruptedException {
+
+
         ObjectMapper om = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
 
 
         // Init game
@@ -92,7 +95,8 @@ public class Main {
 
         Action[] actionsDone;
 
-        Renderer renderer = new Renderer(race);
+        Sea renderer = new Sea(race);
+        engine.graphics.Deck.Deck deckRenderer = new engine.graphics.Deck.Deck(race.getBoat(), createSailors());
 
         int compteurMax = 200;
         do {
@@ -107,10 +111,12 @@ public class Main {
             Arrays.stream(race.getMechanics()).forEach(m -> {
                 m.execute(finalActionsDone, race);
             });
+            deckRenderer.setSailor(race.getSailors());
 
             renderer.draw();
+            deckRenderer.draw();
 
-            TimeUnit.MILLISECONDS.sleep(50);
+            TimeUnit.MILLISECONDS.sleep(1000);
             compteurMax--;
 
         } while(actionsDone.length != 0 && compteurMax >=0);
@@ -118,7 +124,8 @@ public class Main {
         //      Execute action
     }
 
-    public static void main(String... args) throws JsonProcessingException, InterruptedException {
+    public static void main(String... args) throws IOException, InterruptedException {
+
         RunRace(createRace());
 
     }

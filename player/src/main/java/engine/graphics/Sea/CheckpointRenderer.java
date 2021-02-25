@@ -1,4 +1,4 @@
-package engine.graphics;
+package engine.graphics.Sea;
 
 import engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;

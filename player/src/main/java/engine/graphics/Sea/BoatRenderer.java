@@ -1,7 +1,6 @@
-package engine.graphics;
+package engine.graphics.Sea;
 
 import engine.races.Race;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.PositionableShape;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

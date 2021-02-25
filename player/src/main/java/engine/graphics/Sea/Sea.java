@@ -1,4 +1,4 @@
-package engine.graphics;
+package engine.graphics.Sea;
 
 import engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
@@ -8,10 +8,9 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.*;
-import java.awt.geom.Rectangle2D;
 
 
-public class Renderer {
+public class Sea {
 
     private final JFrame frame;
     private final MyCanvas canvas;
@@ -21,9 +20,7 @@ public class Renderer {
     private final CheckpointRenderer checkR;
     private final PathRenderer path;
 
-    private final Rectangle2D.Double bb;
-
-    public Renderer(Race race) {
+    public Sea(Race race) {
         frame = new JFrame();
         frame.setMaximumSize(new Dimension(600, 480));
         frame.setMinimumSize(new Dimension(600, 480));
@@ -32,9 +29,9 @@ public class Renderer {
         canvas = new MyCanvas();
         canvas.setLocation(0, 0);
         canvas.setSize(600, 480);
-        canvas.addMouseWheelListener(new MouseWheelListener() {
-            private int old = 0;
 
+
+        canvas.addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 int delta = e.getWheelRotation();
@@ -64,10 +61,8 @@ public class Renderer {
                 start = null;
             }
         });
-
         canvas.addMouseListener(new MouseListener() {
 
-            private boolean mouseDown = false;
             @Override
             public void mouseClicked(MouseEvent e) {
                 ajustCanvas();
@@ -92,6 +87,7 @@ public class Renderer {
 
             }
         });
+
         frame.add(canvas);
 
         frame.setVisible(true);
@@ -101,8 +97,6 @@ public class Renderer {
         checkR = new CheckpointRenderer(race);
         path = new PathRenderer(canvas);
 
-
-        bb = boatR.getBounds();
 
         path.addWaypoint(race.getBoat().getPosition().getPoint());
 
