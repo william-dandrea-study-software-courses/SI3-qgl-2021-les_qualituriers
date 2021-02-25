@@ -2,8 +2,9 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+
+import java.util.Objects;
 
 /**
  * Cette classe représente un element rond qui pourra être utiliser pour les différents obstacles
@@ -35,6 +36,11 @@ public class Circle extends Shape {
         if(!(obj instanceof Circle)) return false;
         var castedObj = (Circle)obj;
         return castedObj.radius == radius;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(radius);
     }
 
     @Override

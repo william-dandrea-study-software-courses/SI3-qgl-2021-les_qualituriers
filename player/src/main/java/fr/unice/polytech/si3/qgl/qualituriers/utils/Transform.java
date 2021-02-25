@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 /**
  * Une position est en sorte un point avec une dirrection, qui permet au bateau de savoir ou il peut avancer et ou il ne peux pas
  *
@@ -37,6 +39,12 @@ public class Transform extends Point {
         return super.equals(obj) && castedObj.orientation == orientation;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), orientation);
+    }
+
+    @Override
     public double getOrientation() {
         return orientation;
     }
@@ -105,6 +113,7 @@ public class Transform extends Point {
      * @param deltaAngle: angle
      * @return Position qui a tourner de deltaAngle
      */
+    @Override
     public Transform rotate(double deltaAngle) {
         return new Transform(this.getX(), this.getY(), orientation + deltaAngle);
     }

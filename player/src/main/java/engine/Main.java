@@ -3,9 +3,7 @@ package engine;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import engine.graphics.Deck.DeckCanvas;
 import engine.graphics.Sea.Sea;
-import engine.graphics.Renderer;
 import engine.mechanics.Mechanic;
 import engine.mechanics.MovingMechanic;
 import engine.mechanics.OarMechanic;
@@ -30,6 +28,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;

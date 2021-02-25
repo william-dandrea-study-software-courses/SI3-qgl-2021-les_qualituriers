@@ -17,7 +17,7 @@ public abstract class Render {
 
     protected final GameInfo gameInfo;
 
-    public Render(GameInfo gameInfo) {
+    protected Render(GameInfo gameInfo) {
         this.gameInfo = gameInfo;
     }
 

@@ -3,6 +3,8 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 /**
  * Cette classe représente l'élément Voile qui sera placé dans un bateau
  *
@@ -26,5 +28,10 @@ public class SailBoatEntity extends BoatEntity {
         if(!(obj instanceof SailBoatEntity)) return false;
         var castedObj = (SailBoatEntity)obj;
         return super.equals(obj) && castedObj.opened == opened;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), opened);
     }
 }

@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class Collisions {
 
+    private Collisions() {}
+
     /**
      * Teste si les formes sont en contact
      * @param shape1 La première forme

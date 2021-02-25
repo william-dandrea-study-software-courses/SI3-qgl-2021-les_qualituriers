@@ -3,6 +3,8 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.deck;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 /**
  * Cette classe represente le vent qui sera present sur le deck
  *
@@ -34,5 +36,10 @@ public class Wind {
         if(!(obj instanceof Wind)) return false;
         var castedObj = (Wind)obj;
         return castedObj.orientation == orientation && castedObj.strength == strength;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(orientation, strength);
     }
 }

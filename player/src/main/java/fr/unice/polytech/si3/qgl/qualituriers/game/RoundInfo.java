@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Cette classe represente la prochaine action du jeu
@@ -48,5 +48,12 @@ public class RoundInfo {
         if(!(obj instanceof RoundInfo)) return false;
         var castedObj = (RoundInfo)obj;
         return castedObj.ship.equals(ship) && castedObj.wind.equals(wind) && Arrays.equals(castedObj.visibleEntities, visibleEntities);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(ship, wind);
+        result = 31 * result + Arrays.hashCode(visibleEntities);
+        return result;
     }
 }

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 
+import java.util.Objects;
+
 /**
  * Cette classe représente un element rectangulaire qui pourra être utiliser pour les différents obstacles
  *
@@ -68,7 +70,7 @@ public class Rectangle extends PolygonAbstract {
      * Coin en bas à droite du rectangle
      * @return Position du coin
      */
-    public Point DownRight() {
+    public Point downRight() {
         Transform pos = new Transform(0, 0, orientation);
         return  pos.getPoint()                          // position
                 .add(                               // +
@@ -118,8 +120,9 @@ public class Rectangle extends PolygonAbstract {
         return castedObj.width == width && castedObj.height == height && castedObj.orientation == orientation;
     }
 
-
-    public double getOrientation() {
-        return orientation;
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), width, height, orientation);
     }
+
 }

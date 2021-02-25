@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
+import java.util.Objects;
+
 /**
  * Cette classe représente la perturbation courant qui déviera le bateau
  *
@@ -28,5 +30,10 @@ public class StreamVisibleDeckEntity extends VisibleDeckEntity{
         if(!(obj instanceof StreamVisibleDeckEntity)) return false;
         var castedObj = (StreamVisibleDeckEntity)obj;
         return super.equals(obj) && castedObj.strength == strength;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(strength);
     }
 }

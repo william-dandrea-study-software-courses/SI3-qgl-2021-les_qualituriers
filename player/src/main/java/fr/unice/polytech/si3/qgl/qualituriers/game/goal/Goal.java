@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.util.Objects;
+
 /**
  * @author Alexandre Arcil
  * @author CLODONG Yann
@@ -32,5 +34,10 @@ public class Goal {
         if(!(obj instanceof Goal)) return false;
         var castedObj = (Goal)obj;
         return castedObj.mode == mode;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mode);
     }
 }

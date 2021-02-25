@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
+import java.util.Objects;
+
 
 /**
  * Cette classe représente les elements commun aux différentes perturbations visibles que nous aurons sur le deck
@@ -24,7 +26,7 @@ public abstract class VisibleDeckEntity {
     protected Transform position;
     protected Shape shape;
 
-    public VisibleDeckEntity(VisibleDeckEntities type, Transform position, Shape shape) {
+    protected VisibleDeckEntity(VisibleDeckEntities type, Transform position, Shape shape) {
         this.type = type;
         this.position = position;
         this.shape = shape;
@@ -36,5 +38,10 @@ public abstract class VisibleDeckEntity {
         if(!(obj instanceof VisibleDeckEntity)) return false;
         var castedObj = (VisibleDeckEntity)obj;
         return castedObj.position.equals(position) && castedObj.shape.equals(shape) && castedObj.type == type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, position, shape);
     }
 }

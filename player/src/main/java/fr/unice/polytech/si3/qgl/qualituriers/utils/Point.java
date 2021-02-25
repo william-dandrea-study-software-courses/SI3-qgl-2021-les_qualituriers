@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.Config;
 
+import java.util.Objects;
+
 import static fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil.modAngle;
 
 /**
@@ -143,9 +145,9 @@ public class Point {
      * @return le nouveau vecteur
      */
     public Point rotate(double angle) {
-        double x = Math.cos(angle) * this.x - Math.sin(angle) * this.y;
-        double y = Math.sin(angle) * this.x + Math.cos(angle) * this.y;
-        return new Point(x, y);
+        double xRotate = Math.cos(angle) * this.x - Math.sin(angle) * this.y;
+        double yRotate = Math.sin(angle) * this.x + Math.cos(angle) * this.y;
+        return new Point(xRotate, yRotate);
     }
 
     /**
@@ -202,6 +204,11 @@ public class Point {
         var pobj = (Point)obj;
         return pobj.x - x < Config.EPSILON && pobj.x - x > -Config.EPSILON
                 && pobj.y - y < Config.EPSILON && pobj.y - y > -Config.EPSILON;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
     @Override

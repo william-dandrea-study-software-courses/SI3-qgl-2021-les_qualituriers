@@ -1,7 +1,8 @@
 package fr.unice.polytech.si3.qgl.qualituriers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+
+import java.util.Objects;
 
 /**
  * Le deck represente le plateau de jeu, dans notre cas, le deck represente la mer
@@ -13,8 +14,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 
 public class Deck {
 
-    private int width;
-    private int length;
+    private final int width;
+    private final int length;
 
     public Deck(@JsonProperty("width") int width,@JsonProperty("length") int length) {
         this.width = width;
@@ -35,5 +36,10 @@ public class Deck {
         if(!(obj instanceof Deck)) return false;
         var castedObj = (Deck)obj;
         return castedObj.width == width && castedObj.length == length;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(width, length);
     }
 }

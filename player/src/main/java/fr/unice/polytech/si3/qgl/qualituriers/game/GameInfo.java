@@ -3,12 +3,11 @@ package fr.unice.polytech.si3.qgl.qualituriers.game;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
-import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goals;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Cette class a pour but d'initialiser le jeu et de permettre de pouvoir faire des actions plus tard sur le jeu
@@ -68,5 +67,12 @@ public class GameInfo {
 
     public void setShipCount(int shipCount) {
         this.shipCount = shipCount;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(goal, ship, shipCount);
+        result = 31 * result + Arrays.hashCode(sailors);
+        return result;
     }
 }

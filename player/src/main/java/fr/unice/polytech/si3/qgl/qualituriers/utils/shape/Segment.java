@@ -4,9 +4,11 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
 public class Segment {
-    private final Point start, end;
 
-    public Segment(Point start, Point end) {
+    private final Point start;
+    private final Point end;
+
+    protected Segment(Point start, Point end) {
         this.start = start;
         this.end = end;
     }

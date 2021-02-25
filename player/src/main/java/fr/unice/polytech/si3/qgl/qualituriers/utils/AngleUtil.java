@@ -5,6 +5,8 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils;
  */
 public class AngleUtil {
 
+    private AngleUtil() {}
+
     /**
      * Ramène n'importe quel angle dans l'intervalle ]-π, π]
      * @param angle: angle

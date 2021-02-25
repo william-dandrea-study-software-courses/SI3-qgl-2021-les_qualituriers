@@ -7,6 +7,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 public class PositionableShapeFactory {
 
+    private PositionableShapeFactory() {}
+
     /**
      * Donne la bonne instance de PositionableShape suivant shape.
      * @param shape Une forme

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
+import java.util.Objects;
+
 /**
  * Cette classe représente la perturbation autre bateau qui sera un obstacle pour notre bateau
  *
@@ -29,5 +31,10 @@ public class EnemyVisibleDeckEntity extends VisibleDeckEntity {
         if(!(obj instanceof EnemyVisibleDeckEntity)) return false;
         var castedObj = (EnemyVisibleDeckEntity)obj;
         return super.equals(obj) && castedObj.life == life;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(life);
     }
 }

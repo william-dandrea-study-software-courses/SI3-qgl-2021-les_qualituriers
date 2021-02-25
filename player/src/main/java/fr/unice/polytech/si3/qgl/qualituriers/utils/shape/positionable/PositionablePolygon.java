@@ -17,26 +17,7 @@ public class PositionablePolygon extends PositionableShape<PolygonAbstract> {
         super(shape, transform);
         this.points = new Point[shape.getSegments().size()];
         this.setTransform(transform);
-        //System.arraycopy(shape.getVertices(), 0, this.points, 0, shape.getVertices().length);
-
     }
-
-    /*private Point calculCenter(Point[] points) {
-        double A = 0;
-        double x = 0;
-        double y = 0;
-        for (int i = 0; i < points.length - 1; i++) {
-            Point point = this.points[i];
-            Point nextPoint = this.points[i + 1];
-            A += point.getX() * nextPoint.getY() - nextPoint.getX() * point.getY();
-            x += (point.getX() + nextPoint.getX()) * (point.getX() * nextPoint.getY() - nextPoint.getX() * point.getY());
-            y += (point.getY() + nextPoint.getY()) * (point.getX() * nextPoint.getY() - nextPoint.getX() * point.getY());
-        }
-        A *= 0.5D;
-        x *= 1 / (6 * A);
-        y *= 1 / (6 * A);
-        return new Point(x, y);
-    }*/
 
     @Override
     public Point[] getPoints() {
@@ -70,15 +51,6 @@ public class PositionablePolygon extends PositionableShape<PolygonAbstract> {
             this.points[i] = this.getShape().getVertices()[i]
                     .add(transform.getPoint())
                     .rotate(transform.getOrientation(), transform.getPoint());
-        /*Point center = transform.getPoint();*//*this.calculCenter(this.points);*//*
-        for (int i = 0; i < this.points.length; i++)
-            this.points[i] = this.points[i].rotate(transform.getOrientation(), center);*/
-        /*Point center = transform.getPoint();
-        for (int i = 0; i < this.points.length; i++) {
-            this.points[i] = this.points[i]
-                    .add(transform.getPoint())
-                    .rotate(transform.getOrientation(), center);
-        }*/
     }
 
     @Override

@@ -3,9 +3,10 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+
+import java.util.Objects;
 
 /**
  * @author Alexandre Arcil
@@ -62,19 +63,6 @@ public class Moving extends Action {
 
     /**
      * Cette méthode dit si on peut se déplacer sur le pont du bateau, d'un maximum de 5 cases
-     * @param xInit
-     * @param yInit
-     * @param xFinal
-     * @param yFinal
-     * @return
-     */
-    public static boolean canMove(int xInit, int yInit, int xFinal, int yFinal) {
-        // TODO : 'implementer dans MOVING de cockpitMethods
-        return canMove(new Point(xFinal - xInit, yFinal - yInit));
-    }
-
-    /**
-     * Cette méthode dit si on peut se déplacer sur le pont du bateau, d'un maximum de 5 cases
      * @param direction: la direction normée du déplacement du marin
      * @return true si le marin peux bouger suivant cette direction en 1 tour
      */
@@ -106,13 +94,13 @@ public class Moving extends Action {
             int dirX = direction.getX() > 0 ? 1 : -1;
             var multiplier = (double)Config.MAX_MOVING_CASES_MARIN / Math.abs(direction.getX());
 
-            return new Point(Config.MAX_MOVING_CASES_MARIN * dirX, multiplier * direction.getY());
+            return new Point((double) Config.MAX_MOVING_CASES_MARIN * dirX, multiplier * direction.getY());
         } else {
             // clamp y to 5
             int dirY = direction.getY() > 0 ? 1 : -1;
             var multiplier = (double)Config.MAX_MOVING_CASES_MARIN / Math.abs(direction.getY());
 
-            return new Point(multiplier * direction.getX(), Config.MAX_MOVING_CASES_MARIN * dirY);
+            return new Point(multiplier * direction.getX(), (double) Config.MAX_MOVING_CASES_MARIN * dirY);
         }
     }
 
@@ -132,5 +120,10 @@ public class Moving extends Action {
                 ", type=" + type +
                 ", sailorId=" + sailorId +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), distanceX, distanceY);
     }
 }

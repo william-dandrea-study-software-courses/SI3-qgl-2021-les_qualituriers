@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.util.Objects;
+
 /**
  * @author Alexandre Arcil
  * @author CLODONG Yann
@@ -18,7 +20,7 @@ public abstract class Action {
     protected Actions type;
     protected int sailorId;
 
-    public Action(@JsonProperty("type") Actions type, @JsonProperty("sailorId") int sailorId) {
+    protected Action(@JsonProperty("type") Actions type, @JsonProperty("sailorId") int sailorId) {
         this.type = type;
         this.sailorId = sailorId;
     }
@@ -43,6 +45,11 @@ public abstract class Action {
         if(!(obj instanceof Action)) return false;
         var castedObj = (Action)obj;
         return castedObj.type == type && castedObj.sailorId == sailorId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, sailorId);
     }
 
     @Override

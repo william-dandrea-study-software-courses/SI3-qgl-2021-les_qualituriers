@@ -7,8 +7,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.Disposition;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.MoveBoatDistanceStrategy;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.SortedDispositionDistanceStrategy;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.Captain;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.Foreman;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -18,6 +16,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.Positiona
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Cette classe a pour objectif de décrire un bateau, le bateau pourra bouger mais aussi faire plusieurs actions
@@ -32,12 +31,8 @@ public class Boat {
     private final String name;
     private final Deck deck;
     private BoatEntity[] entities;
-    private List<Action> actionsToDo;
+    private final List<Action> actionsToDo;
 
-    @JsonIgnore
-    private Captain captain;
-    @JsonIgnore
-    private Foreman foreman;
     @JsonIgnore
     private final PositionableShape<? extends Shape> positionableShape;
 
@@ -53,8 +48,6 @@ public class Boat {
         this.entities = entities;
         this.actionsToDo = new ArrayList<>();
         this.positionableShape = PositionableShapeFactory.getPositionable(shape, position);
-        //this.captain = new Captain(this);
-        //this.foreman = new Foreman(this);
     }
 
     public List<Action> moveBoatDistanceStrategy(Transform checkPoint) {
@@ -66,30 +59,6 @@ public class Boat {
         return actions;
     }
 
-
-
-
-
-
-    /**
-     * Donne la liste d'action a chaque tour permettant d'achever l'objectif fixe au capitaine
-     * @return La liste d'action.
-     */
-    public List<Action> playTurn() {
-        captain.decide();
-        foreman.decide();
-
-        List<Action> actions = new ArrayList<>();
-
-        for(var sailor : getSailors()) {
-            actions.addAll(sailor.actionDoneDuringTurn());
-        }
-
-        return actions;
-    }
-
-
-
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;
@@ -98,13 +67,18 @@ public class Boat {
         return castedObj.name.equals(name);
     }
 
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(life, name, deck, actionsToDo, positionableShape, sailors);
+        result = 31 * result + Arrays.hashCode(entities);
+        return result;
+    }
 
     public String getName() { return name; }
     public int getLife() { return life; }
     public Transform getPosition() { return this.positionableShape.getTransform(); }
     public Deck getDeck() { return deck; }
     public BoatEntity[] getEntities() { return entities; }
-    public List<Action> getActionsToDo() { return actionsToDo; }
     public Shape getShape() { return this.positionableShape.getShape(); }
     public void setLife(int life) { this.life = life; }
     public void setPosition(Transform position) { this.positionableShape.setTransform(position);}
@@ -112,7 +86,6 @@ public class Boat {
 
     public void setSailors(List<Marin> sailors) {
         this.sailors = sailors;
-        //this.foreman.setSailors(sailors);
     }
 
     @JsonIgnore
@@ -125,14 +98,5 @@ public class Boat {
         if(sailors == null) return new ArrayList<>();
         return List.copyOf(sailors);
     }
-
-    @JsonIgnore
-    public Foreman getForeman() { return foreman; }
-
-    @JsonIgnore
-    public Captain getCaptain() { return captain; }
-
-
-
 
 }

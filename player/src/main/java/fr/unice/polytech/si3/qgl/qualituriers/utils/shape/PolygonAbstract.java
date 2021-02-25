@@ -6,6 +6,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Cette classe représente un polygone qui pourra être utiliser pour représenter un bateau car un polygone à une
@@ -19,7 +20,7 @@ public abstract class PolygonAbstract extends Shape {
     private final double orientation;
     private final Point[] vertices;
 
-    public PolygonAbstract(double orientation, Point[] vertices, Shapes shape) {
+    protected PolygonAbstract(double orientation, Point[] vertices, Shapes shape) {
         super(shape);
         this.orientation = orientation;
         this.vertices = vertices;
@@ -105,5 +106,12 @@ public abstract class PolygonAbstract extends Shape {
         if(!(obj instanceof PolygonAbstract)) return false;
         var castedObj = (PolygonAbstract)obj;
         return Arrays.equals(castedObj.vertices, vertices) && castedObj.orientation == orientation;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(orientation);
+        result = 31 * result + Arrays.hashCode(vertices);
+        return result;
     }
 }

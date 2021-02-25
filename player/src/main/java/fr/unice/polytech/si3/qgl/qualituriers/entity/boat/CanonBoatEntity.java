@@ -3,6 +3,8 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 /**
  * Cette classe représente l'élément Canon qui sera placé dans un bateau
  *
@@ -28,5 +30,10 @@ public class CanonBoatEntity extends BoatEntity {
         if(!(obj instanceof CanonBoatEntity)) return false;
         var castedObj = (CanonBoatEntity)obj;
         return super.equals(obj) && castedObj.loaded == loaded && castedObj.angle == angle;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), loaded, angle);
     }
 }
