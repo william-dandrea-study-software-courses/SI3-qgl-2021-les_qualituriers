@@ -6,6 +6,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
@@ -21,8 +22,8 @@ public class ThirdRender extends Render{
     private CheckPoint currentCheckPoint;
     private int checkPointCounter = 0;
 
-    public ThirdRender(GameInfo gameInfo) {
-        super(gameInfo);
+    public ThirdRender(GameInfo gameInfo, ILogger logger) {
+        super(gameInfo, logger);
         listCheckPoint = ((RegattaGoal) gameInfo.getGoal()).getCheckPoints();
         currentCheckPoint = listCheckPoint[0];
     }
@@ -73,7 +74,7 @@ public class ThirdRender extends Render{
 
 
 
-        List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy(currentCheckPoint.getPosition());
+        List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy(currentCheckPoint.getPosition(), this.logger);
         System.out.println(actions);
         return actions;
 

@@ -74,8 +74,12 @@ class CockpitTest {
         assertNotNull(cockpit.render);
     }
 
+    @Disabled //Aucun intérêt
     @Test
-    void nextRoundEmpty() {
+    void nextRoundEmpty() throws IOException {
+        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/ParserInInitExempleGithub.JSON");
+        JsonNode inputNode = om.readTree(from);
+        cockpit.initGame(inputNode.toString());
         assertEquals("[]", this.cockpit.nextRound("{}"));
     }
 

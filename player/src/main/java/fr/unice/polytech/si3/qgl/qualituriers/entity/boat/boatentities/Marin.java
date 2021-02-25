@@ -1,14 +1,8 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**

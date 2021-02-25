@@ -21,7 +21,7 @@ public abstract class Shape {
 
     protected Shapes type;
 
-    public Shape(@JsonProperty("type") Shapes type) {
+    protected Shape(@JsonProperty("type") Shapes type) {
         this.type = type;
     }
 

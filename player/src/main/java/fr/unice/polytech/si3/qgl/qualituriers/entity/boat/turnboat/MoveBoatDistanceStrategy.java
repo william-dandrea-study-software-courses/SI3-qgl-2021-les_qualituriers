@@ -1,14 +1,14 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat;
 
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.Disposition;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,12 +41,12 @@ public class MoveBoatDistanceStrategy {
 
     }
 
-    public Marin[] getSailors() { return (Marin[]) sailors.toArray(new Marin[0]); }
+    public Marin[] getSailors() { return sailors.toArray(new Marin[0]); }
 
-    public List<Action> moveBoat() {
+    public List<Action> moveBoat(ILogger logger) {
 
         List<Action> finalsAction = new ArrayList<>();
-        List<Action> movingAction = moveBoatIntern();
+        List<Action> movingAction = moveBoatIntern(logger);
 
         if (movingAction != null) {
             List<Action> oarAction = oarSailors(finalDisposition);
@@ -80,7 +80,7 @@ public class MoveBoatDistanceStrategy {
     }
 
 
-    private List<Action> moveBoatIntern() {
+    private List<Action> moveBoatIntern(ILogger logger) {
 
         System.out.println("IDEAL : " + listOfDispositions.get(0));
 
@@ -236,7 +236,7 @@ public class MoveBoatDistanceStrategy {
             finalListAction.clear();
         }
 
-        return null;
+        return new ArrayList<>();
 
     }
 

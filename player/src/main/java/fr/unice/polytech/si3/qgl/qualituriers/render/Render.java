@@ -19,7 +19,7 @@ public abstract class Render {
     protected final GameInfo gameInfo;
     protected final ILogger logger;
 
-    public Render(GameInfo gameInfo, ILogger logger) {
+    protected Render(GameInfo gameInfo, ILogger logger) {
         this.gameInfo = gameInfo;
         this.logger = logger;
     }

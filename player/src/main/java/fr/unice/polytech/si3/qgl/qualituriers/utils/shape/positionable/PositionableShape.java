@@ -11,7 +11,7 @@ public abstract class PositionableShape<T extends Shape> {
     private final T shape;
     private Transform transform;
 
-    public PositionableShape(T shape, Transform transform) {
+    protected PositionableShape(T shape, Transform transform) {
         this.shape = shape;
         this.transform = transform;
     }

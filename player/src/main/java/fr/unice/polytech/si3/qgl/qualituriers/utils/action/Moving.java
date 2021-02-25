@@ -67,7 +67,7 @@ public class Moving extends Action {
      * @return true si le marin peux bouger suivant cette direction en 1 tour
      */
     public static boolean canMove(Point direction) {
-        if(!isPointInt(direction)) throw  new RuntimeException("The direction is not an integer : the sailors can only be on an integer position");
+        if(!isPointInt(direction)) throw  new IllegalArgumentException("The direction is not an integer : the sailors can only be on an integer position");
         return Math.abs(direction.getX()) <= Config.MAX_MOVING_CASES_MARIN && Math.abs(direction.getY()) <= Config.MAX_MOVING_CASES_MARIN;
     }
 

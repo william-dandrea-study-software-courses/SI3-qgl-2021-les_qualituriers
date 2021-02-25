@@ -1,7 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 
 /**
  * Cette classe décrit permet de renseigner les différentes valeurs donné par l'énoncé, notamment les formules des vitesses,
@@ -36,7 +35,7 @@ public class Config {
      */
     public static double linearSpeedOar(int totalOarsOnTheBoat, int activeOars) {
         if (totalOarsOnTheBoat > 0 && activeOars > 0 && activeOars <= totalOarsOnTheBoat) {
-            return (double) 165 * activeOars / totalOarsOnTheBoat;
+            return 165 * activeOars / (double) totalOarsOnTheBoat;
         } throw new IllegalArgumentException((activeOars > totalOarsOnTheBoat)?"On ne peux pas avoir un nombre de rames actives supérieur au nombre de rames total ":"On ne peux pas avoir de valeurs nulles");
     }
 

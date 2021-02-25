@@ -7,6 +7,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntit
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.CockpitLogger;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Polygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +25,8 @@ class MoveBoatDistanceStrategyTest {
     private BoatEntity[] defaultListBoatEntities;
     private Boat defaultBoat;
     private Deck defaultDeck;
+
+    private ILogger logger;
 
 
     int defaultLife = 100;
@@ -54,6 +58,7 @@ class MoveBoatDistanceStrategyTest {
 
         defaultBoat = new Boat(defaultLife, defaultTransform, defaultName, defaultDeck, defaultListBoatEntities, defaultShape);
 
+        this.logger = new CockpitLogger();
 
     }
 
@@ -88,7 +93,7 @@ class MoveBoatDistanceStrategyTest {
 
         List<Disposition> ourDisposition = new ArrayList<>() {{add(new Disposition(1,3));}};
         MoveBoatDistanceStrategy moveBoat = new MoveBoatDistanceStrategy(actualBoat, ourDisposition, actualListSailors.toArray(new Marin[0]));
-        System.out.println(moveBoat.moveBoat());
+        System.out.println(moveBoat.moveBoat(this.logger));
     }
 
     @Test
@@ -124,6 +129,6 @@ class MoveBoatDistanceStrategyTest {
 
         List<Disposition> ourDisposition = new ArrayList<>() {{add(new Disposition(6,0));}};
         MoveBoatDistanceStrategy moveBoat = new MoveBoatDistanceStrategy(actualBoat, sortList, actualListSailors.toArray(new Marin[0]));
-        System.out.println(moveBoat.moveBoat());
+        System.out.println(moveBoat.moveBoat(this.logger));
     }
 }
