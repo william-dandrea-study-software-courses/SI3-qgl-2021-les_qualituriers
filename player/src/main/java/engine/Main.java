@@ -122,9 +122,9 @@ public class Main {
             deckRenderer.setSailor(race.getSailors());
 
             renderer.draw();
-            deckRenderer.draw();
+            //deckRenderer.draw();
 
-            TimeUnit.MILLISECONDS.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(800);
             compteurMax--;
 
         } while(actionsDone.length != 0 && compteurMax >=0);
