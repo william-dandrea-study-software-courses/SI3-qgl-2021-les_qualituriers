@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class InitSailorsPlace {
+public class InitSailorsPlaceOnOars {
 
     private Boat boat;
     private List<Marin> sailors;
@@ -22,7 +22,7 @@ public class InitSailorsPlace {
     private int maxMovingBoatX;
     private int maxMovingBoatY;
 
-    public InitSailorsPlace(Boat boat, List<Marin> sailors) {
+    public InitSailorsPlaceOnOars(Boat boat, List<Marin> sailors) {
         this.boat = boat;
         this.sailors = sailors;
 

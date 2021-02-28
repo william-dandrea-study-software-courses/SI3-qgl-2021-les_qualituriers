@@ -2,16 +2,15 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.OarBoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
+
 import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil.*;
+
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -19,9 +18,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InitSailorsPlaceTest {
+class InitSailorsPlaceOnOarsTest {
 
     private Boat defaultBoat;
+    private Boat completeBoat;
     private List<Marin> defaultSailors;
 
     @BeforeEach
@@ -71,13 +71,44 @@ class InitSailorsPlaceTest {
             add(new Marin(17, 3, 2, "marin17"));
             add(new Marin(18, 3, 3, "marin18"));
         }};
+
+
+
+
+
+        String completeBoatName = "defaultName";
+        Deck completeBoatDeck = new Deck(5, 12);
+        BoatEntity[] completeBoatEntities = {
+                new OarBoatEntity(2, 0),
+                new OarBoatEntity(3, 0),
+                new OarBoatEntity(4, 0),
+                new OarBoatEntity(5, 0),
+                new OarBoatEntity(6, 0),
+                new OarBoatEntity(7, 0),
+                new OarBoatEntity(8, 0),
+                new OarBoatEntity(9, 0),
+                new OarBoatEntity(2, 4),
+                new OarBoatEntity(3, 4),
+                new OarBoatEntity(4, 4),
+                new OarBoatEntity(5, 4),
+                new OarBoatEntity(6, 4),
+                new OarBoatEntity(7, 4),
+                new OarBoatEntity(8, 4),
+                new OarBoatEntity(9, 4),
+                new RudderBoatEntity(11,2),
+                new SailBoatEntity(6,2, false),
+
+        };
+        Shape completeBoatShape = new Rectangle(5, 12, 0);
+        completeBoat = new Boat(defaultLife, defaultTransform, completeBoatName, completeBoatDeck, completeBoatEntities, completeBoatShape);
+
     }
 
     @Test
     void initSailorsPlaceSailor0() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
         System.out.println(finalListOfActions);
         System.out.println(defaultSailors);
@@ -93,8 +124,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor1() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -106,8 +137,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor2() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -120,8 +151,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor3() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -134,8 +165,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor4() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -148,8 +179,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor5() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -163,8 +194,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor6() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -177,8 +208,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor7() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -191,8 +222,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor8() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
         assertEquals(6, getSailorByHisID(defaultSailors, 8).get().getX());
         assertEquals(2, getSailorByHisID(defaultSailors, 8).get().getY());
@@ -203,8 +234,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor9() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -217,8 +248,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor10() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -231,8 +262,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor11() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -245,8 +276,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor12() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -259,8 +290,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor13() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -273,8 +304,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor14() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -287,8 +318,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor15() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -300,8 +331,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor16() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -314,8 +345,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor17() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -329,8 +360,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailor18() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
 
@@ -342,8 +373,8 @@ class InitSailorsPlaceTest {
     @Test
     void initSailorsPlaceSailorAll() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
         assertEquals(5, getSailorByHisID(defaultSailors, 0).get().getX());
@@ -405,22 +436,109 @@ class InitSailorsPlaceTest {
 
     }
 
-
-
     @Test
     void initSailorsPlaceSailor2Rounds() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
         System.out.println(finalListOfActions);
         System.out.println(defaultSailors);
 
-        List<Action> finalListOfActions2 = initSailorsPlace.initSailorsPlace();
+        List<Action> finalListOfActions2 = initSailorsPlaceOnOars.initSailorsPlace();
         System.out.println(finalListOfActions2);
         System.out.println(defaultSailors);
 
         System.out.println(getListOfSailorsOnOars(defaultSailors, defaultBoat).size());
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Test
+    void initSailorsPlaceSailorWithCompleteBoat() {
+
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
+        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
+        finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
+
+        System.out.println(defaultSailors);
+
+        assertEquals(5, getSailorByHisID(defaultSailors, 0).get().getX());
+        assertEquals(4, getSailorByHisID(defaultSailors, 0).get().getY());
+
+        assertEquals(5, getSailorByHisID(defaultSailors, 1).get().getX());
+        assertEquals(0, getSailorByHisID(defaultSailors, 1).get().getY());
+
+        assertEquals(4, getSailorByHisID(defaultSailors, 2).get().getX());
+        assertEquals(4, getSailorByHisID(defaultSailors, 2).get().getY());
+
+        assertEquals(4, getSailorByHisID(defaultSailors, 3).get().getX());
+        assertEquals(0, getSailorByHisID(defaultSailors, 3).get().getY());
+
+        assertEquals(3, getSailorByHisID(defaultSailors, 4).get().getX());
+        assertEquals(4, getSailorByHisID(defaultSailors, 4).get().getY());
+
+        assertEquals(6, getSailorByHisID(defaultSailors, 5).get().getX());
+        assertEquals(4, getSailorByHisID(defaultSailors, 5).get().getY());
+
+        assertEquals(6, getSailorByHisID(defaultSailors, 6).get().getX());
+        assertEquals(0, getSailorByHisID(defaultSailors, 6).get().getY());
+
+        assertEquals(6, getSailorByHisID(defaultSailors, 7).get().getX());
+        assertEquals(3, getSailorByHisID(defaultSailors, 7).get().getY());
+
+        assertEquals(6, getSailorByHisID(defaultSailors, 8).get().getX());
+        assertEquals(2, getSailorByHisID(defaultSailors, 8).get().getY());
+
+        assertEquals(6, getSailorByHisID(defaultSailors, 9).get().getX());
+        assertEquals(1, getSailorByHisID(defaultSailors, 9).get().getY());
+
+        assertEquals(2, getSailorByHisID(defaultSailors, 10).get().getX());
+        assertEquals(0, getSailorByHisID(defaultSailors, 10).get().getY());
+
+        assertEquals(7, getSailorByHisID(defaultSailors, 11).get().getX());
+        assertEquals(4, getSailorByHisID(defaultSailors, 11).get().getY());
+
+        assertEquals(7, getSailorByHisID(defaultSailors, 12).get().getX());
+        assertEquals(0, getSailorByHisID(defaultSailors, 12).get().getY());
+
+        assertEquals(7, getSailorByHisID(defaultSailors, 13).get().getX());
+        assertEquals(3, getSailorByHisID(defaultSailors, 13).get().getY());
+
+        assertEquals(2, getSailorByHisID(defaultSailors, 14).get().getX());
+        assertEquals(4, getSailorByHisID(defaultSailors, 14).get().getY());
+
+        assertEquals(3, getSailorByHisID(defaultSailors, 15).get().getX());
+        assertEquals(0, getSailorByHisID(defaultSailors, 15).get().getY());
+
+        assertEquals(8, getSailorByHisID(defaultSailors, 16).get().getX());
+        assertEquals(4, getSailorByHisID(defaultSailors, 16).get().getY());
+
+        assertEquals(8, getSailorByHisID(defaultSailors, 17).get().getX());
+        assertEquals(0, getSailorByHisID(defaultSailors, 17).get().getY());
+
+        assertEquals(8, getSailorByHisID(defaultSailors, 18).get().getX());
+        assertEquals(3, getSailorByHisID(defaultSailors, 18).get().getY());
 
     }
 }

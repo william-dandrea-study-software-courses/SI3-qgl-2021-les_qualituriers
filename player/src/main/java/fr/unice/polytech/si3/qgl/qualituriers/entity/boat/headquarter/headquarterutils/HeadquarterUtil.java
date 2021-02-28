@@ -49,6 +49,24 @@ public class HeadquarterUtil {
         return Optional.of(new Moving(sailorId, finalX - initialX, finalY - initialY));
     }
 
+    /**
+     * Cette méthode return la voile qui est situé sur le bateau
+     * @param boat le bateau ou l'on veut trouver la voile
+     * @return la voile qui est situé sur le bateau
+     */
+    public static Optional<BoatEntity> getSail(Boat boat) {
+        return Arrays.stream(boat.getEntities()).filter(oar -> oar.getType() == BoatEntities.SAIL).findFirst();
+    }
+
+    /**
+     * Cette méthode return le gouvernail qui est situé sur le bateau
+     * @param boat le bateau ou l'on veut trouver le gouvernail
+     * @return le gouvernail qui est situé sur le bateau
+     */
+    public static Optional<BoatEntity> getRudder(Boat boat) {
+        return Arrays.stream(boat.getEntities()).filter(oar -> oar.getType() == BoatEntities.RUDDER).findFirst();
+    }
+
 
     /**
      * Cette méthode return la liste totale des rames sur le bateau

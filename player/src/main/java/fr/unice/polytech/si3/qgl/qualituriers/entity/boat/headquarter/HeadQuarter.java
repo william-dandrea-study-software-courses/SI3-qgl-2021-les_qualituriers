@@ -3,8 +3,8 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter;
 
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.InitSailorsPlace;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.InitSailorsPlaceOnOars;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.InitSailorsPlaceOnRudder;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 
@@ -42,8 +42,14 @@ public class HeadQuarter {
 
 
     private List<Action> initSailorsPlace(Boat methodBoat, List<Marin> methodSailors) {
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(methodBoat, methodSailors);
-        initSailorsPlace.initSailorsPlace();
+
+        // Le get(0) st provisoire pour l'instant, une stratégie sera faite pour trouver le marin optimal
+        InitSailorsPlaceOnRudder initSailorsPlaceOnRudder = new InitSailorsPlaceOnRudder(methodBoat, sailors.get(0));
+        initSailorsPlaceOnRudder.initSailorsPlaceOnRudder();
+
+        // Une fois initSailorsPlaceOnRudder fait, on retirera dans le initSailorsPlaceOnOars la marin qui a été affecté au rudder
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(methodBoat, methodSailors);
+        initSailorsPlaceOnOars.initSailorsPlace();
 
         return null;
     }

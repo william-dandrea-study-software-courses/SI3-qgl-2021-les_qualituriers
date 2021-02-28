@@ -5,7 +5,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.OarBoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.InitSailorsPlace;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.InitSailorsPlaceOnOars;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -14,8 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class HeadQuarterTest {
 
@@ -56,9 +54,9 @@ class HeadQuarterTest {
     @Test
     void playTurn() {
 
-        InitSailorsPlace initSailorsPlace = new InitSailorsPlace(defaultBoat, defaultSailors);
-        initSailorsPlace.initSailorsPlace();
-        initSailorsPlace.initSailorsPlace();
+        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
+        initSailorsPlaceOnOars.initSailorsPlace();
+        initSailorsPlaceOnOars.initSailorsPlace();
 
 
     }
