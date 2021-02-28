@@ -119,7 +119,7 @@ public class Moving extends Action {
                 ", distanceY=" + distanceY +
                 ", type=" + type +
                 ", sailorId=" + sailorId +
-                '}';
+                '}' + '\n';
     }
 
     @Override

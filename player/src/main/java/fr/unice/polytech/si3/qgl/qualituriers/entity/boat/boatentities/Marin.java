@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import java.util.Objects;
@@ -53,6 +54,12 @@ public class Marin {
         this.y = y;
     }
 
+    public void setPosition(int x, int y) { this.x = x; this.y = y;}
+
+    public boolean canMoveTo(int xFinal, int yFinal) {
+        return (xFinal - x <= Config.MAX_MOVING_CASES_MARIN) && ((yFinal - y <= Config.MAX_MOVING_CASES_MARIN));
+    }
+
     @Override
     public String toString() {
         return "Marin{" +
@@ -60,7 +67,7 @@ public class Marin {
                 ", x=" + x +
                 ", y=" + y +
                 ", name='" + name + '\'' +
-                '}';
+                '}' + '\n';
     }
 
     @Override

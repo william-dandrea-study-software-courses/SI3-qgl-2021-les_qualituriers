@@ -140,10 +140,5 @@ class HeadquarterUtilTest {
         assertEquals(0, HeadquarterUtil.getListOfOarWithAnySailorsOnIt(defaultSailors, crashBoat).size());
     }
 
-    @Test
-    void displayTheBoatConfigurationTest() throws InterruptedException {
-        HeadquarterUtil.displayTheBoatConfiguration(defaultSailors, defaultBoat);
 
-
-    }
 }

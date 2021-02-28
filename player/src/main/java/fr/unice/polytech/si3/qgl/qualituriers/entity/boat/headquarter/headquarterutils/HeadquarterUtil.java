@@ -172,11 +172,18 @@ public class HeadquarterUtil {
     }
 
 
+    /**
+     * Cette méthode renvoie le marin grâce à son ID
+     * @param sailors la liste des marins
+     * @param sailorID l'id du marin que l'on cherche
+     * @return le marin qui a l'id que l'on cherche
+     */
+    public static Optional<Marin> getSailorByHisID(List<Marin> sailors, int sailorID) {
+        return sailors.stream().filter(sailor -> sailor.getId() == sailorID).findAny();
+    }
 
-    public static void displayTheBoatConfiguration(List<Marin> sailors, Boat boat) throws InterruptedException {
-        //engine.graphics.Deck.Deck deckRenderer = new engine.graphics.Deck.Deck(boat, sailors.toArray(new Marin[0]));
-        //deckRenderer.draw();
-        //TimeUnit.MILLISECONDS.sleep(1000);
+    public static Optional<Marin> getSailorByHisPosition(List<Marin> sailors, int x, int y) {
+        return sailors.stream().filter(sailor -> sailor.getX() == x && sailor.getY() == y).findAny();
     }
 
 
