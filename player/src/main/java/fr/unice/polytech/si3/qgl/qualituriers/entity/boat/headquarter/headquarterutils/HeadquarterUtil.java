@@ -5,10 +5,14 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.exceptions.MaxAngleRudderException;
 import fr.unice.polytech.si3.qgl.qualituriers.exceptions.MovingSailorException;
+import fr.unice.polytech.si3.qgl.qualituriers.exceptions.SailorCantOarException;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.nonexit.Aim;
 
 
 import javax.swing.*;
@@ -49,6 +53,26 @@ public class HeadquarterUtil {
         return Optional.of(new Moving(sailorId, finalX - initialX, finalY - initialY));
     }
 
+    public static Optional<Action> generateRudder(int sailorId, double angle) {
+        if (angle > Config.MAX_ANGLE_FOR_RUDDER + Config.EPSILON || angle < -Config.MAX_ANGLE_FOR_RUDDER - Config.EPSILON) {
+            throw new MaxAngleRudderException(angle);
+        }
+
+        return Optional.of(new Aim(sailorId, angle));
+    }
+
+
+
+    public static Optional<Action> generateOar(int sailorId, List<Marin> sailors, Boat boat) {
+
+        if (getListOfSailorsOnOars(sailors, boat).stream().noneMatch(marin -> marin.getId() == sailorId)) {
+            throw new SailorCantOarException(sailorId);
+        }
+
+
+        return Optional.of(new Oar(sailorId));
+    }
+
     /**
      * Cette méthode return la voile qui est situé sur le bateau
      * @param boat le bateau ou l'on veut trouver la voile
@@ -65,6 +89,17 @@ public class HeadquarterUtil {
      */
     public static Optional<BoatEntity> getRudder(Boat boat) {
         return Arrays.stream(boat.getEntities()).filter(oar -> oar.getType() == BoatEntities.RUDDER).findFirst();
+    }
+
+
+    public static Optional<Marin> getSailorOnRudder(Boat boat, List<Marin> sailors) {
+
+        if (getRudder(boat).isPresent()) {
+
+            return sailors.stream().filter(marin -> marin.getX() == getRudder(boat).get().getX() && marin.getY() == getRudder(boat).get().getY()).findAny();
+
+        }
+        return Optional.empty();
     }
 
 

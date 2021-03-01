@@ -477,68 +477,15 @@ class InitSailorsPlaceOnOarsTest {
     @Test
     void initSailorsPlaceSailorWithCompleteBoat() {
 
+        // new RudderBoatEntity(11,2),
+        // new SailBoatEntity(6,2, false),
+
         InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
         List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
         finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
-        System.out.println(defaultSailors);
-
-        assertEquals(5, getSailorByHisID(defaultSailors, 0).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 0).get().getY());
-
-        assertEquals(5, getSailorByHisID(defaultSailors, 1).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 1).get().getY());
-
-        assertEquals(4, getSailorByHisID(defaultSailors, 2).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 2).get().getY());
-
-        assertEquals(4, getSailorByHisID(defaultSailors, 3).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 3).get().getY());
-
-        assertEquals(3, getSailorByHisID(defaultSailors, 4).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 4).get().getY());
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 5).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 5).get().getY());
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 6).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 6).get().getY());
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 7).get().getX());
-        assertEquals(3, getSailorByHisID(defaultSailors, 7).get().getY());
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 8).get().getX());
-        assertEquals(2, getSailorByHisID(defaultSailors, 8).get().getY());
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 9).get().getX());
-        assertEquals(1, getSailorByHisID(defaultSailors, 9).get().getY());
-
-        assertEquals(2, getSailorByHisID(defaultSailors, 10).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 10).get().getY());
-
-        assertEquals(7, getSailorByHisID(defaultSailors, 11).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 11).get().getY());
-
-        assertEquals(7, getSailorByHisID(defaultSailors, 12).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 12).get().getY());
-
-        assertEquals(7, getSailorByHisID(defaultSailors, 13).get().getX());
-        assertEquals(3, getSailorByHisID(defaultSailors, 13).get().getY());
-
-        assertEquals(2, getSailorByHisID(defaultSailors, 14).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 14).get().getY());
-
-        assertEquals(3, getSailorByHisID(defaultSailors, 15).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 15).get().getY());
-
-        assertEquals(8, getSailorByHisID(defaultSailors, 16).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 16).get().getY());
-
-        assertEquals(8, getSailorByHisID(defaultSailors, 17).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 17).get().getY());
-
-        assertEquals(8, getSailorByHisID(defaultSailors, 18).get().getX());
-        assertEquals(3, getSailorByHisID(defaultSailors, 18).get().getY());
-
+        //System.out.println(defaultSailors);
+        assertTrue(defaultSailors.stream().noneMatch(sailor -> sailor.getX() == 11 &&  sailor.getY() == 2));
+        assertTrue(defaultSailors.stream().noneMatch(sailor -> sailor.getX() == 6 &&  sailor.getY() == 2));
     }
 }

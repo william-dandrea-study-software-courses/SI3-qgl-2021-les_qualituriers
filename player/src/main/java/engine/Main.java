@@ -21,6 +21,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -30,55 +31,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class Main {
+
+
 
     // "checkpoints":
     // [{"position":{"x":10.0,"y":-350.0,"orientation":0.0},"shape":{"type":"circle","radius":85.0}},
     // {"position":{"x":-150.0,"y":1250.0,"orientation":0.0},"shape":{"type":"circle","radius":85.0}}]}
     static Boat createBoat() {
-        BoatEntity oar = new OarBoatEntity(0,0);
-        BoatEntity oar2 = new OarBoatEntity(1,0);
-        BoatEntity oar3 = new OarBoatEntity(0,1);
-        BoatEntity oar4 = new OarBoatEntity(1,1);
-        BoatEntity oar5 = new RudderBoatEntity(2,0);
-        BoatEntity oar6 = new SailBoatEntity(2,1, false);
-        BoatEntity oar7 = new OarBoatEntity(3,0);
-        BoatEntity oar8 = new OarBoatEntity(3,1);
 
-        int life = 100;
-        Transform transform = new Transform(0,0,0);
-        String name = "boatTest1";
-        Deck deck = new Deck(2,4);
-        BoatEntity[] entities = {oar8, oar7, oar6,oar5,oar3,oar4, oar2, oar};
-        Shape shape = new Rectangle(5, 3, 0);
-
-        return new Boat(life, transform, name, deck, entities,shape);
+        return TurnConfig.boat;
     }
     static Marin[] createSailors() {
 
-        Marin sailor1 = new Marin(1,0,1,"sailor1");
-        Marin sailor2 = new Marin(2,1,0,"sailor2");
-        Marin sailor3 = new Marin(3,0,0,"sailor3");
-        Marin sailor4 = new Marin(4,1,1,"sailor4");
-        return new Marin[] {sailor4, sailor3,sailor2,sailor1};
+        return TurnConfig.boatSailors.toArray(new Marin[0]);
     }
 
     static Race createRace() {
-        var goal = new RegattaGoal(new CheckPoint[] {
-                //WEEK3
-                //new CheckPoint(new Transform(new Point(10.0, -350.0), 0.0), new Circle(85.0)),
-                //new CheckPoint(new Transform(new Point(-150.0, 1250.0), 0.0), new Circle(85.0))
 
-                // WEEK4
-                new CheckPoint(new Transform(new Point(450.20463847203257, 932.4324324324338), 0), new Circle(100)),
-                new CheckPoint(new Transform(new Point(1084.5839017735332, -54.05405405405337), 0), new Circle(100)),
-                new CheckPoint(new Transform(new Point(738.7448840381987, -382.4324324324324), 0), new Circle(50)),
-                new CheckPoint(new Transform(new Point(477.4897680763976, -54.054054054053665), 0), new Circle(100)),
-                new CheckPoint(new Transform(new Point(90.9276944065494, -398.6486486486496), 0), new Circle(50)),
-                new CheckPoint(new Transform(new Point(-199.86357435197826, 1.545430450278218e-13), 0), new Circle(60)),
-        });
-        return new Race(goal, createBoat(), createSailors(), new Mechanic[] {
+        return new Race(TurnConfig.goal, createBoat(), createSailors(), new Mechanic[] {
                 new MovingMechanic(),
                 new OarMechanic()
         });
@@ -116,15 +89,19 @@ public class Main {
             actionsDone = om.readValue(actionString, Action[].class);
 
             List<Action> finalActionsDone = List.of(actionsDone);
-            Arrays.stream(race.getMechanics()).forEach(m -> {
-                m.execute(finalActionsDone, race);
-            });
+
+
+
+            Arrays.stream(race.getMechanics()).forEach(m -> {m.execute(finalActionsDone, race);});
+
+
+
             deckRenderer.setSailor(race.getSailors());
 
             renderer.draw();
             //deckRenderer.draw();
 
-            TimeUnit.MILLISECONDS.sleep(800);
+            TimeUnit.MILLISECONDS.sleep(200);
             compteurMax--;
 
         } while(actionsDone.length != 0 && compteurMax >=0);

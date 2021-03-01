@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarter;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.Disposition;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.MoveBoatDistanceStrategy;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.SortedDispositionDistanceStrategy;
@@ -59,6 +60,16 @@ public class Boat {
         MoveBoatDistanceStrategy moveBoatStrategy = new MoveBoatDistanceStrategy(this, listOfDispositions, sailors.toArray(new Marin[0]));
         List<Action> actions = moveBoatStrategy.moveBoat(logger);
         setSailors(Arrays.asList(moveBoatStrategy.getSailors().clone()));
+        return actions;
+    }
+
+    public List<Action> moveBoatDistanceStrategy2(Transform checkPoint,  ILogger logger) {
+
+        HeadQuarter headQuarter = new HeadQuarter(this, getSailors(), checkPoint);
+        List<Action> actions = headQuarter.playTurn();
+        setSailors(headQuarter.getSailors());
+
+
         return actions;
     }
 

@@ -14,6 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * Cette classe va, en debut de partie, aller positionner tout les marins en entrée sur des rames
+ * Si il n'y a pas de rames disponible ou que les rames sont trop loin, alors cette classe va aller faire déplacer les marins
+ * Au plus proche des rames afin que, au prochain tour, les marins puissent aller sur les rames
+ * @author williamdandrea
+ */
 public class InitSailorsPlaceOnOars {
 
     private Boat boat;
@@ -31,6 +38,12 @@ public class InitSailorsPlaceOnOars {
 
     }
 
+
+    /**
+     * Cette méthode va générer la liste d'action nécessaire pour aller mettre les marins sur les rames, si pas de
+     * rames dispo, alors ca va déplacer les marins le plus loin possible de leur position
+     * @return la liste d'action a faire pour mettre les marins au meilleur endroit
+     */
     public List<Action> initSailorsPlace() {
         List<Action> finalListOfActions = new ArrayList<>();
         List<Integer> sailorWeMoves = new ArrayList<>();
@@ -62,6 +75,13 @@ public class InitSailorsPlaceOnOars {
     }
 
 
+    /**
+     * Cette méthode génére la meilleure action possible (PS : la meilleur case du bateau) ou déplacer le marin
+     * => de préférence, on le déplace sur une rame
+     * => si pas de rames dispo dans son rayon de deplacement, on bouge le marin le plus loin possible
+     * @param marin le amrin que l'on souhaite déplacer
+     * @return la meilleure action a faire
+     */
     private Optional<Action> getTheBestPositionForMovingTheSailor(Marin marin) {
 
         int positionNotOnAnOarX = 0;

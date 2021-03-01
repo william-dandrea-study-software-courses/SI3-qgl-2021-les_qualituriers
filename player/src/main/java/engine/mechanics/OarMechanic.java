@@ -21,13 +21,20 @@ public class OarMechanic extends Mechanic {
         int left = 0;
         int right = 0;
 
+        System.out.println("===> " + Arrays.toString(race.getSailors()));
+
         for(var action : actions) {
             if(action instanceof Oar) {
                 var sailorOpt = Arrays.stream(race.getSailors()).filter(m -> m.getId() == action.getSailorId()).findAny();
                 if(sailorOpt.isEmpty()) throw new SailorNotFoundException(action.getSailorId());
                 var sailor = sailorOpt.get();
 
-                var oarOpt = Arrays.stream(race.getBoat().getEntities()).filter(a -> a.getType() == BoatEntities.OAR && a.getPosition().equals(sailor.getPosition())).findAny();
+                System.out.println(action);
+                var oarOpt = Arrays
+                        .stream(race.getBoat().getEntities())
+                        .filter(a -> a.getType() == BoatEntities.OAR)
+                        .filter(a -> a.getPosition().equals(sailor.getPosition()))
+                        .findAny();
                 if(oarOpt.isEmpty()) throw new SailorAssignmentNotFound(sailor.getId(), sailor.getPosition(), BoatEntities.OAR);
                 var oar = (OarBoatEntity)oarOpt.get();
 

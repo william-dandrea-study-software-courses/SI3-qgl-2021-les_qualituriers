@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.nonexit.Aim;
 
 import java.util.Objects;
 
@@ -13,7 +14,9 @@ import java.util.Objects;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = Void.class)
 @JsonSubTypes({
         @JsonSubTypes.Type(name = "OAR", value = Oar.class),
-        @JsonSubTypes.Type(name = "MOVING", value = Moving.class)
+        @JsonSubTypes.Type(name = "MOVING", value = Moving.class),
+        @JsonSubTypes.Type(name = "AIM", value = Aim.class)
+
 })
 public abstract class Action {
 

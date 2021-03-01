@@ -4,6 +4,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InitSailorsPlaceOnRudder {
@@ -21,6 +22,6 @@ public class InitSailorsPlaceOnRudder {
      * @return la liste des actions a faire pour que le marin donné en paramètre aille sur la case rudder du bateau
      */
     public List<Action> initSailorsPlaceOnRudder() {
-        return null;
+        return new ArrayList<>();
     }
 }

@@ -141,4 +141,10 @@ class HeadquarterUtilTest {
     }
 
 
+    @Test
+    void generateOarTest() {
+        assertTrue(HeadquarterUtil.generateOar(1, defaultSailors, defaultBoat).isPresent());
+    }
+
+
 }
