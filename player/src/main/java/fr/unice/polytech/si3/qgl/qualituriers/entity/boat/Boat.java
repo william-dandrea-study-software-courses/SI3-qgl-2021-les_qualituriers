@@ -7,9 +7,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarter;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.Disposition;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.MoveBoatDistanceStrategy;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.SortedDispositionDistanceStrategy;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
@@ -55,12 +52,12 @@ public class Boat {
     }
 
     public List<Action> moveBoatDistanceStrategy(Transform checkPoint, ILogger logger) {
-        SortedDispositionDistanceStrategy distanceStrategy = new SortedDispositionDistanceStrategy();
+        /*SortedDispositionDistanceStrategy distanceStrategy = new SortedDispositionDistanceStrategy();
         List<Disposition> listOfDispositions = distanceStrategy.getIdealDisposition(checkPoint, this);
         MoveBoatDistanceStrategy moveBoatStrategy = new MoveBoatDistanceStrategy(this, listOfDispositions, sailors.toArray(new Marin[0]));
         List<Action> actions = moveBoatStrategy.moveBoat(logger);
-        setSailors(Arrays.asList(moveBoatStrategy.getSailors().clone()));
-        return actions;
+        setSailors(Arrays.asList(moveBoatStrategy.getSailors().clone()));*/
+        return new ArrayList<>();
     }
 
     public List<Action> moveBoatDistanceStrategy2(Transform checkPoint,  ILogger logger) {
