@@ -14,7 +14,7 @@ public class MovingMechanic extends Mechanic {
 
         for (Action action : actions) {
 
-            boolean breaking = false;
+            //boolean breaking = false;
             if (action instanceof Moving) {
 
                 int id = action.getSailorId();
@@ -26,15 +26,15 @@ public class MovingMechanic extends Mechanic {
                     if (sailor.getId() == id) {
                         sailor.setX(sailor.getX() + distanceX);
                         sailor.setY(sailor.getY() + distanceY);
-                        breaking = true;
+                        //breaking = true;
                         break;
                     }
                 }
             }
-
+            /*
             if (breaking) {
                 break;
-            }
+            }*/
         }
     }
 }

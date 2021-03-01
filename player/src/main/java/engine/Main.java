@@ -92,14 +92,16 @@ public class Main {
 
 
 
-            Arrays.stream(race.getMechanics()).forEach(m -> {m.execute(finalActionsDone, race);});
+            Arrays.stream(race.getMechanics()).forEach(m -> {
+                m.execute(finalActionsDone, race);
+            });
 
 
 
             deckRenderer.setSailor(race.getSailors());
 
             renderer.draw();
-            //deckRenderer.draw();
+            deckRenderer.draw();
 
             TimeUnit.MILLISECONDS.sleep(200);
             compteurMax--;
