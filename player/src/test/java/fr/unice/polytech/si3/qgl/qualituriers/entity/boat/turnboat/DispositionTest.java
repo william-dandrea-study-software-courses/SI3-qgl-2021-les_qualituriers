@@ -1,15 +1,8 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat;
 
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutils.DistanceDisposition;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 public class DispositionTest {
 
-    @Test
+    /*@Test
     public void testGetter() {
         Disposition disposition = new Disposition(1, 2);
         assertEquals(1, disposition.getBabordOar());
@@ -45,6 +38,6 @@ public class DispositionTest {
         assertNotEquals(new DistanceDisposition(1, 2, new Point(5, 8), 5).hashCode(), disposition.hashCode());
         assertNotEquals(new DistanceDisposition(1, 4, new Point(3, 4), 5).hashCode(), disposition.hashCode());
         assertNotEquals(new DistanceDisposition(2, 2, new Point(3, 4), 5).hashCode(), disposition.hashCode());
-    }
+    }*/
 
 }

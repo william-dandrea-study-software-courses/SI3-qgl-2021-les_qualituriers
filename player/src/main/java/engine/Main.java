@@ -4,34 +4,24 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import engine.graphics.Sea.Sea;
-import engine.mechanics.Mechanic;
-import engine.mechanics.MovingMechanic;
-import engine.mechanics.OarMechanic;
+import engine.mechanics.*;
 import engine.races.Race;
 import engine.serializers.RectangleSerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
-import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
-import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -51,9 +41,11 @@ public class Main {
 
     static Race createRace() {
 
-        return new Race(TurnConfig.goal, createBoat(), createSailors(), new Mechanic[] {
+        return new Race(TurnConfig.goal, createBoat(), createSailors(), generateWind(), new Mechanic[] {
                 new MovingMechanic(),
-                new OarMechanic()
+                new OarMechanic(),
+                new LiftMechanic(),
+                new RudderMechanic()
         });
     }
 
@@ -81,10 +73,13 @@ public class Main {
 
         int compteurMax = 200;
         do {
-            RoundInfo rInfo = new RoundInfo(race.getBoat(), null, new VisibleDeckEntity[] {});
+            Wind wind = generateWind();
+            RoundInfo rInfo = new RoundInfo(race.getBoat(), wind, new VisibleDeckEntity[] {});
             var roundString = om.writeValueAsString(rInfo);
 
             var actionString = cockpit.nextRound(roundString);
+
+            race.setWind(wind);
 
             actionsDone = om.readValue(actionString, Action[].class);
 
@@ -92,16 +87,14 @@ public class Main {
 
 
 
-            Arrays.stream(race.getMechanics()).forEach(m -> {
-                m.execute(finalActionsDone, race);
-            });
+            Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
 
 
 
             deckRenderer.setSailor(race.getSailors());
 
             renderer.draw();
-            //deckRenderer.draw();
+            deckRenderer.draw();
 
             TimeUnit.MILLISECONDS.sleep(200);
             compteurMax--;
@@ -110,6 +103,18 @@ public class Main {
         System.out.println(cockpit.getLogs());
         //      Run game
         //      Execute action
+    }
+
+    private static Wind generateWind() {
+        if(TurnConfig.random.nextDouble() >= TurnConfig.noWind) {
+            double orientation = TurnConfig.random.nextDouble() * Math.PI; //Techniquement, elle peut être de 0, mais on ne va pas le prendre en compte
+            if(TurnConfig.random.nextBoolean())
+                orientation *= -1;
+            orientation = AngleUtil.modAngle(orientation);
+            double strength = TurnConfig.random.nextDouble() * (TurnConfig.maxStrength - TurnConfig.minStrength) + TurnConfig.minStrength;
+            return new Wind(orientation, strength);
+        } else
+            return null;
     }
 
     public static void main(String... args) throws IOException, InterruptedException {

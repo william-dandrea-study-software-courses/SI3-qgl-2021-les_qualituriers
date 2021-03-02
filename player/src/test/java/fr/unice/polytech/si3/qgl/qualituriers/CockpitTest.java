@@ -4,13 +4,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
-import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfoTest;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
-import fr.unice.polytech.si3.qgl.qualituriers.render.ThirdRender;
+import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
@@ -28,7 +27,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CockpitTest {
 
@@ -106,7 +106,7 @@ class CockpitTest {
         File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/nextRound1.json");
         RoundInfo roundInfo = om.readValue(from, RoundInfo.class);
         cockpit.initGame(this.initGame.toString());
-        cockpit.render = mock(ThirdRender.class);
+        cockpit.render = mock(TempoRender.class);
         when(cockpit.render.nextRound(roundInfo)).thenReturn(null);
         assertEquals("[]", this.cockpit.nextRound(this.nextRound.toString()));
     }
@@ -123,7 +123,7 @@ class CockpitTest {
     public void nextRoundNotGoodReturn() throws IOException {
         File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/nextRound1.json");
         cockpit.initGame(this.initGame.toString());
-        cockpit.render = mock(ThirdRender.class);
+        cockpit.render = mock(TempoRender.class);
         RoundInfo roundInfo = om.readValue(from, RoundInfo.class);
         Moving moving = new Moving(1, 1, 1);
         when(cockpit.render.nextRound(roundInfo)).thenReturn(Collections.singletonList(moving));

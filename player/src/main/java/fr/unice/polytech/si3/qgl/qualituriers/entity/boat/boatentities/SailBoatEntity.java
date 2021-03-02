@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class SailBoatEntity extends BoatEntity {
 
-    private final boolean opened;
+    private boolean opened;
 
     @JsonCreator
     public SailBoatEntity(@JsonProperty("x") int x, @JsonProperty("y") int y, @JsonProperty("opened") boolean opened) {
@@ -24,6 +24,10 @@ public class SailBoatEntity extends BoatEntity {
 
     public boolean isOpened() {
         return opened;
+    }
+
+    public void setOpened(boolean opened) {
+        this.opened = opened;
     }
 
     @Override

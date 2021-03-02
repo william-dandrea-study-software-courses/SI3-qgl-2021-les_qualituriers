@@ -2,9 +2,7 @@ package engine;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.OarBoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
@@ -15,11 +13,13 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class TurnConfig {
 
 
     public static final BoatEntity[] boatEntities = {
+            new RudderBoatEntity(0, 4),
             new OarBoatEntity(2, 0),
             new OarBoatEntity(3, 0),
             new OarBoatEntity(4, 0),
@@ -43,7 +43,9 @@ public class TurnConfig {
     private static final Transform boatTransform = new Transform(0,0,0);
 
     private static final String boatName = "superFregate";
+
     private static final Deck boatDeck = new Deck(5, 12);
+
     public static final List<Marin> boatSailors = new ArrayList<>() {{
         add(new Marin(0, 0, 0, "marin0"));
         add(new Marin(1, 0, 1, "marin1"));
@@ -81,6 +83,21 @@ public class TurnConfig {
             new CheckPoint(new Transform(new Point(-199.86357435197826, 1.545430450278218e-13), 0), new Circle(60)),
     });
 
+    public static final Random random = new Random();
+
+    /**
+     * Probabilité de ne pas avoir de vent durant un tour
+     */
+    public static final double noWind = 0.4;
+
+    /**
+     * La force maximal du vent
+     */
+    public static final double maxStrength = 20;
+    /**
+     * La force minimal du vent
+     */
+    public static final double minStrength = 1;
 
 
 }
