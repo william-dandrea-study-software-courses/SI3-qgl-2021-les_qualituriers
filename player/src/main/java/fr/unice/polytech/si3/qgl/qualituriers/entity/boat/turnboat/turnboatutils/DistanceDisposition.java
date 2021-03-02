@@ -2,6 +2,8 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.turnboat.turnboatutil
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
+import java.util.Objects;
+
 public class DistanceDisposition {
 
 
@@ -43,5 +45,18 @@ public class DistanceDisposition {
                 ", finalPositionOnTheMapX=" + finalPositionOnTheMapX +
                 ", distanceToTheBoat=" + distanceToCheckPoint +
                 '}' + '\n';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DistanceDisposition that = (DistanceDisposition) o;
+        return babordOar == that.babordOar && tribordOar == that.tribordOar && Double.compare(that.distanceToCheckPoint, distanceToCheckPoint) == 0 && Objects.equals(finalPositionOnTheMapX, that.finalPositionOnTheMapX);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(babordOar, tribordOar, finalPositionOnTheMapX, distanceToCheckPoint);
     }
 }

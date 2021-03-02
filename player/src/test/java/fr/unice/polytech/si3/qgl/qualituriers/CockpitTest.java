@@ -1,14 +1,20 @@
 package fr.unice.polytech.si3.qgl.qualituriers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfoTest;
+import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
+import fr.unice.polytech.si3.qgl.qualituriers.render.ThirdRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,19 +24,28 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class CockpitTest {
 
     Cockpit cockpit;
     ObjectMapper om;
+    JsonNode initGame;
+    JsonNode nextRound;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         this.cockpit = new Cockpit();
         this.om = new ObjectMapper();
         this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/ParserInInitExempleGithub.JSON");
+        this.initGame = om.readTree(from);
+        File from2 = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/nextRound1.json");
+        this.nextRound = om.readTree(from2);
     }
 
 
@@ -67,20 +82,57 @@ class CockpitTest {
     }
 
     @Test
-    public void initGameRenderNotNull() throws IOException {
-        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/ParserInInitExempleGithub.JSON");
-        JsonNode inputNode = om.readTree(from);
-        cockpit.initGame(inputNode.toString());
+    public void initGameRenderNotNull() {
+        cockpit.initGame(this.initGame.toString());
         assertNotNull(cockpit.render);
     }
 
-    @Disabled //Aucun intérêt
     @Test
-    void nextRoundEmpty() throws IOException {
-        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/ParserInInitExempleGithub.JSON");
-        JsonNode inputNode = om.readTree(from);
-        cockpit.initGame(inputNode.toString());
-        assertEquals("[]", this.cockpit.nextRound("{}"));
+    public void initGameCrash() {
+        cockpit.initGame("{\"goal\":\"mode\":\"test\"}");
+        assertTrue(cockpit.getLogs().contains("com.fasterxml.jackson.core.JsonParseException: Unexpected character (':' (code 58)): was expecting comma to separate Object entries\n" +
+                " at [Source: (String)\"{\"goal\":\"mode\":\"test\"}\"; line: 1, column: 16]"));
+    }
+
+    @Test
+    void nextRoundRenderNull() {
+        cockpit.initGame(this.initGame.toString());
+        cockpit.render = null;
+        assertEquals("[]", this.cockpit.nextRound(this.nextRound.toString()));
+    }
+
+    @Test
+    void nextRoundRenderNoAction() throws IOException {
+        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/nextRound1.json");
+        RoundInfo roundInfo = om.readValue(from, RoundInfo.class);
+        cockpit.initGame(this.initGame.toString());
+        cockpit.render = mock(ThirdRender.class);
+        when(cockpit.render.nextRound(roundInfo)).thenReturn(null);
+        assertEquals("[]", this.cockpit.nextRound(this.nextRound.toString()));
+    }
+
+    @Test
+    public void nextRoundCrash() {
+        cockpit.initGame(this.initGame.toString());
+        this.cockpit.nextRound("{\"ship\":\"type\":\"ship\"}");
+        assertTrue(cockpit.getLogs().contains("com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot construct instance of `fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('type')\n" +
+                " at [Source: (String)\"{\"ship\":\"type\":\"ship\"}\"; line: 1, column: 9] (through reference chain: fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo[\"ship\"])"));
+    }
+
+    @Test
+    public void nextRoundNotGoodReturn() throws IOException {
+        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/nextRound1.json");
+        cockpit.initGame(this.initGame.toString());
+        cockpit.render = mock(ThirdRender.class);
+        RoundInfo roundInfo = om.readValue(from, RoundInfo.class);
+        Moving moving = new Moving(1, 1, 1);
+        when(cockpit.render.nextRound(roundInfo)).thenReturn(Collections.singletonList(moving));
+        String result = this.cockpit.nextRound(this.nextRound.toString());
+        assertNotNull(result);
+        assertDoesNotThrow(() -> this.om.readValue(result, new TypeReference<List<Action>>(){}));
+        List<Action> list = this.om.readValue(result, new TypeReference<List<Action>>(){});
+        assertEquals(1, list.size());
+        assertEquals(moving, list.get(0));
     }
 
     @Disabled

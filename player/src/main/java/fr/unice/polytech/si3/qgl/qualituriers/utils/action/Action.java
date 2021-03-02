@@ -30,7 +30,7 @@ public abstract class Action {
     }
 
     public void setSailorId(int sailorId) {
-        //TODO: contrainte: doit être un id doit marin existant
+        //TODO: contrainte: doit être un id d'un marin existant
         this.sailorId = sailorId;
     }
 

@@ -1,7 +1,9 @@
-package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
+package fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,7 +60,40 @@ public class PositionablePolygonTest {
                 new Point(0, 6).normalized(),
                 new Point(2, 0).normalized()
         );
-        assertTrue(points.containsAll(this.polygon.axis(this.circle)));
+        assertEquals(this.polygon.axis(this.circle), points);
+    }
+
+    @Test
+    public void setTransform() {
+        double angle = Math.PI / 4;
+        Transform transform = new Transform(2, 1, angle);
+        Point[] points = new Point[] {new Point(-1, 2).rotate(angle, transform), new Point(5, 2).rotate(angle, transform),
+                new Point(5, 0).rotate(angle, transform), new Point(-1, 0).rotate(angle, transform)};
+        this.polygon.setTransform(transform);
+        assertEquals(transform, this.polygon.getTransform());
+        assertArrayEquals(points, this.polygon.getPoints());
+    }
+
+    @Test
+    public void testEquals() {
+        PositionablePolygon polygon1 = new PositionablePolygon(new Rectangle(6, 2, 0), transform);
+        PositionablePolygon polygon2 = new PositionablePolygon(new Rectangle(6, 2, 0), new Transform(-1, 6 , 0));
+        PositionablePolygon polygon3 = new PositionablePolygon(new Rectangle(6, 2, Math.PI), transform);
+        assertEquals(polygon1, this.polygon);
+        assertNotEquals(polygon2, this.polygon);
+        assertNotEquals(polygon3, this.polygon);
+        assertNotEquals(polygon, null);
+        assertNotEquals(polygon, "test");
+    }
+
+    @Test
+    public void testHashcode() {
+        PositionablePolygon polygon1 = new PositionablePolygon(new Rectangle(6, 2, 0), transform);
+        PositionablePolygon polygon2 = new PositionablePolygon(new Rectangle(6, 2, 0), new Transform(-1, 6 , 0));
+        PositionablePolygon polygon3 = new PositionablePolygon(new Rectangle(6, 2, Math.PI), transform);
+        assertEquals(polygon1.hashCode(), this.polygon.hashCode());
+        assertNotEquals(polygon2.hashCode(), this.polygon.hashCode());
+        assertNotEquals(polygon3.hashCode(), this.polygon.hashCode());
     }
 
 }

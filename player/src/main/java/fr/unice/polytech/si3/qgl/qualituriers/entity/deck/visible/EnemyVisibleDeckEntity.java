@@ -35,6 +35,6 @@ public class EnemyVisibleDeckEntity extends VisibleDeckEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(life);
+        return Objects.hash(super.hashCode(), life);
     }
 }

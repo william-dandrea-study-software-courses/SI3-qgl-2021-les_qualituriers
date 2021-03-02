@@ -30,7 +30,7 @@ public class Collisions {
         //On supprime celle qui sont colinéaires
         removeCollinear(axes);
 
-        //On projecte chaque point sur un axe. S'il existe un espace entre les 2 figures projetées,
+        //On projette chaque point sur un axe. S'il existe un espace entre les 2 figures projetées,
         // alors c'est qu'elles ne sont pas en collisions
         for (Point axe : axes) {
             double[] project = minMaxPoint(shape1.project(axe), axe);

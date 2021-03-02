@@ -41,7 +41,7 @@ public class Cockpit implements ICockpit {
 				if (actions != null)
 					return om.writeValueAsString(actions);
 			} catch (JsonProcessingException e) {
-				e.printStackTrace();
+				this.logger.log(e.toString());
 			}
 		}
 		this.logger.log("Reposez-vous.");

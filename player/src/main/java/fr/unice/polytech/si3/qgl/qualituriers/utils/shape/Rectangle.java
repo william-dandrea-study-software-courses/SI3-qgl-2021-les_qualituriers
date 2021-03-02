@@ -16,7 +16,6 @@ public class Rectangle extends PolygonAbstract {
 
     private final double width;
     private final double height;
-    private final double orientation;
 
     @JsonCreator
     public Rectangle(@JsonProperty("width") double width, @JsonProperty("height") double height,
@@ -29,7 +28,6 @@ public class Rectangle extends PolygonAbstract {
                 }, Shapes.RECTANGLE);
         this.width = width;
         this.height = height;
-        this.orientation = orientation;
     }
 
     public double getWidth() {
@@ -44,53 +42,53 @@ public class Rectangle extends PolygonAbstract {
      * Coin en haut à droite du rectangle
      * @return Position du coin
      */
-    public Point upRight() {
-        Transform pos = new Transform(0, 0, orientation);
+    /*public Point upRight() {
+        Transform pos = new Transform(0, 0, this.getOrientation());
         return  pos.getPoint()                          // position
                 .add(                               // +
                         pos.up().scalar(height / 2)             // up * h / 2
                                 .add(                               // +
                                         pos.right().scalar(width / 2)  ));      // right * w / 2
-    }
+    }*/
 
     /**
      * Coin en haut à gauche du rectangle
      * @return Position du coin
      */
-    public Point upLeft() {
-        Transform pos = new Transform(0, 0, orientation);
+    /*public Point upLeft() {
+        Transform pos = new Transform(0, 0, this.getOrientation());
         return  pos.getPoint()                          // position
                 .add(                               // +
                         pos.up().scalar(height / 2)             // up * h / 2
                                 .add(                               // +
                                         pos.left().scalar(width / 2)  ));      // left * w / 2
-    }
+    }*/
 
     /**
      * Coin en bas à droite du rectangle
      * @return Position du coin
      */
-    public Point downRight() {
-        Transform pos = new Transform(0, 0, orientation);
+    /*public Point downRight() {
+        Transform pos = new Transform(0, 0, this.getOrientation());
         return  pos.getPoint()                          // position
                 .add(                               // +
                         pos.down().scalar(height / 2)             // down * h / 2
                                 .add(                               // +
                                         pos.right().scalar(width / 2)  ));      // right * w / 2
-    }
+    }*/
 
     /**
      * Coin en bas à gauche du rectangle
      * @return Position du coin
      */
-    public Point downLeft() {
-        Transform pos = new Transform(0, 0, orientation);
+    /*public Point downLeft() {
+        Transform pos = new Transform(0, 0, this.getOrientation());
         return  pos.getPoint()                          // position
                 .add(                               // +
                         pos.down().scalar(height / 2)             // down * h / 2
                                 .add(                               // +
                                         pos.left().scalar(width / 2)  ));      // left * w / 2
-    }
+    }*/
 
 
 
@@ -103,7 +101,7 @@ public class Rectangle extends PolygonAbstract {
 
     @Override
     public boolean isIn(Point position) {
-        var orr = position.getOrientation() - orientation;
+        var orr = position.getOrientation() - this.getOrientation();
         var orthoPosition = new Point(orr).scalar(position.length());
 
         return orthoPosition.getX() >= 0 &&
@@ -113,16 +111,17 @@ public class Rectangle extends PolygonAbstract {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null) return false;
-        if(!(obj instanceof Rectangle)) return false;
-        var castedObj = (Rectangle)obj;
-        return castedObj.width == width && castedObj.height == height && castedObj.orientation == orientation;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Rectangle rectangle = (Rectangle) o;
+        return Double.compare(rectangle.width, width) == 0 && Double.compare(rectangle.height, height) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), width, height, orientation);
+        return Objects.hash(super.hashCode(), width, height);
     }
 
 }

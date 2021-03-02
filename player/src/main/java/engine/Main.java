@@ -128,6 +128,7 @@ public class Main {
             compteurMax--;
 
         } while(actionsDone.length != 0 && compteurMax >=0);
+        System.out.println(cockpit.getLogs());
         //      Run game
         //      Execute action
     }

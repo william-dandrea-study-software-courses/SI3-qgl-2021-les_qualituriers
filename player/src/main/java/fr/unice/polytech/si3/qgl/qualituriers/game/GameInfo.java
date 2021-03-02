@@ -47,14 +47,12 @@ public class GameInfo {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null) return false;
-        if(!(obj instanceof GameInfo)) return false;
-        var castedObj = (GameInfo)obj;
-        return castedObj.goal.equals(goal) &&
-                castedObj.ship.equals(ship) &&
-                castedObj.shipCount == shipCount &&
-                Arrays.equals(castedObj.sailors, sailors);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameInfo gameInfo = (GameInfo) o;
+        return shipCount == gameInfo.shipCount && Objects.equals(goal, gameInfo.goal)
+                && Objects.equals(ship, gameInfo.ship) && Arrays.equals(sailors, gameInfo.sailors);
     }
 
     public void setShip(Boat ship) {

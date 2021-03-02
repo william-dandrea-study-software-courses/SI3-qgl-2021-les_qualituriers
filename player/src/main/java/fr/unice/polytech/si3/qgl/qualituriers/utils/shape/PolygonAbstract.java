@@ -74,7 +74,7 @@ public abstract class PolygonAbstract extends Shape {
      * @param transform le transform de la forme
      * @return La liste des segments
      */
-    public List<Segment> getSegments(Transform transform) {
+    /*public List<Segment> getSegments(Transform transform) {
         List<Segment> segments = new ArrayList<>();
 
         // Create segment for each vertice and his neighboors
@@ -91,7 +91,7 @@ public abstract class PolygonAbstract extends Shape {
         segments.add(new Segment(lastAPos, firstAPos));
 
         return segments;
-    }
+    }*/
 
 
     @Override

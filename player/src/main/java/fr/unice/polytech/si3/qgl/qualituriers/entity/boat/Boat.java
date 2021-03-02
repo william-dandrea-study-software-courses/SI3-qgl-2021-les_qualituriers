@@ -16,10 +16,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShapeFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Cette classe a pour objectif de décrire un bateau, le bateau pourra bouger mais aussi faire plusieurs actions
@@ -63,11 +60,13 @@ public class Boat {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null) return false;
-        if(!(obj instanceof Boat)) return false;
-        var castedObj = (Boat)obj;
-        return castedObj.name.equals(name);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Boat boat = (Boat) o;
+        return life == boat.life && Objects.equals(name, boat.name) && Objects.equals(deck, boat.deck)
+                && Arrays.equals(entities, boat.entities) && Objects.equals(actionsToDo, boat.actionsToDo)
+                && Objects.equals(positionableShape, boat.positionableShape) && Objects.equals(sailors, boat.sailors);
     }
 
     @Override
@@ -98,7 +97,7 @@ public class Boat {
 
     @JsonIgnore
     public List<Marin> getSailors() {
-        if(sailors == null) return new ArrayList<>();
+        if(sailors == null) return Collections.emptyList();
         return List.copyOf(sailors);
     }
 

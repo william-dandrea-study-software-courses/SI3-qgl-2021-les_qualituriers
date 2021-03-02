@@ -34,7 +34,7 @@ public class Config {
      * @return la vitesse linéaire du bateau
      */
     public static double linearSpeedOar(int totalOarsOnTheBoat, int activeOars) {
-        if (totalOarsOnTheBoat > 0 && activeOars > 0 && activeOars <= totalOarsOnTheBoat) {
+        if (activeOars > 0 && activeOars <= totalOarsOnTheBoat) {
             return 165 * activeOars / (double) totalOarsOnTheBoat;
         } throw new IllegalArgumentException((activeOars > totalOarsOnTheBoat)?"On ne peux pas avoir un nombre de rames actives supérieur au nombre de rames total ":"On ne peux pas avoir de valeurs nulles");
     }
@@ -52,7 +52,7 @@ public class Config {
     public static double linearSpeedWind(int numberOfOpenSails, int totalSailsOnBoat, double windSpeed, double orientationBoat, double orientationWind) {
 
         if (numberOfOpenSails <= totalSailsOnBoat) {
-            double value = (double) (numberOfOpenSails / totalSailsOnBoat) * windSpeed;
+            double value = (numberOfOpenSails / (double) totalSailsOnBoat) * windSpeed;
             value = value * Math.cos(AngleUtil.differenceBetweenTwoAngle(orientationWind, orientationBoat));
             return value;
         } throw new IllegalArgumentException("Vous devez entrez un nombre de rame valide \n numberOfOpenSails " + numberOfOpenSails + "\n totalSailsOnBoat " + totalSailsOnBoat );

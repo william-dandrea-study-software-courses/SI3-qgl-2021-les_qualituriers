@@ -1,6 +1,5 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
-import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
@@ -8,22 +7,24 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.Positiona
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+//Note: pas de test dans le cas où "project[1] = project2[0]" car pas réussi à trouver de cas
 public class CollisionsTest {
 
     @Test
     void TestCirclesCollisions() {
-        PositionableShape<Circle> cicle1 = new PositionableCircle(new Circle(5), new Transform(0, 0, 0));
-        PositionableShape<Circle> cicle2 = new PositionableCircle(new Circle(10), new Transform(14, 0, 0));
-        PositionableShape<Circle> cicle3 = new PositionableCircle(new Circle(10), new Transform(15, 0, 0));
+        PositionableShape<Circle> circle1 = new PositionableCircle(new Circle(5), new Transform(0, 0, 0));
+        PositionableShape<Circle> circle2 = new PositionableCircle(new Circle(10), new Transform(14, 0, 0));
+        PositionableShape<Circle> circle3 = new PositionableCircle(new Circle(10), new Transform(15, 0, 0));
 
-        assertTrue(Collisions.isColliding(cicle1, cicle2));
-        assertFalse(Collisions.isColliding(cicle1, cicle3));
+        assertTrue(Collisions.isColliding(circle1, circle2));
+        assertFalse(Collisions.isColliding(circle1, circle3));
     }
 
     @Test
-    void RectangleCollidiong() {
+    void RectangleColliding() {
         PositionablePolygon rect1 = new PositionablePolygon(new Rectangle(3, 3, 0), new Transform(0, 0, 0));
         PositionablePolygon rect2 = new PositionablePolygon(new Rectangle(3, 3, 0), new Transform(2, 2, 0));
 
@@ -39,7 +40,7 @@ public class CollisionsTest {
     }
 
     @Test
-    void RectangleDontCollid() {
+    void RectangleDontCollide() {
         PositionablePolygon rect1 = new PositionablePolygon(new Rectangle(3, 3, 0), new Transform(0, 0, 0));
         PositionablePolygon rect2 = new PositionablePolygon(new Rectangle(3, 3, 0), new Transform(0, 9, Math.PI / 4));
         assertFalse(Collisions.isColliding(rect1, rect2));

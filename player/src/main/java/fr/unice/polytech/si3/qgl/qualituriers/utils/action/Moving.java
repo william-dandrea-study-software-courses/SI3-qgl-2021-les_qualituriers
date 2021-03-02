@@ -24,12 +24,6 @@ public class Moving extends Action {
         this.distanceY = distanceY;
     }
 
-    public Moving(int sailorId, Point direction) {
-        super(Actions.MOVING, sailorId);
-        this.distanceY = (int)direction.getX();
-        this.distanceX = (int)direction.getY();
-    }
-
     @JsonProperty("xdistance")
     public int getDistanceX() {
         return distanceX;
@@ -50,26 +44,26 @@ public class Moving extends Action {
         this.distanceY = distanceY;
     }
 
-    @JsonIgnore
+    /*@JsonIgnore
     public Point getDirection() {
         return new Point(distanceX, distanceY);
-    }
+    }*/
 
-    private static boolean isPointInt(Point pt) {
+    /*private static boolean isPointInt(Point pt) {
         double dx = pt.getX() - (int)pt.getX();
         double dy = pt.getY() - (int)pt.getY();
         return dx == 0 && dy == 0;
-    }
+    }*/
 
     /**
      * Cette méthode dit si on peut se déplacer sur le pont du bateau, d'un maximum de 5 cases
      * @param direction: la direction normée du déplacement du marin
      * @return true si le marin peux bouger suivant cette direction en 1 tour
      */
-    public static boolean canMove(Point direction) {
+    /*public static boolean canMove(Point direction) {
         if(!isPointInt(direction)) throw  new IllegalArgumentException("The direction is not an integer : the sailors can only be on an integer position");
         return Math.abs(direction.getX()) <= Config.MAX_MOVING_CASES_MARIN && Math.abs(direction.getY()) <= Config.MAX_MOVING_CASES_MARIN;
-    }
+    }*/
 
     /**
      * Cette méthode dit si on peut se déplacer sur le pont du bateau, d'un maximum de 5 cases
@@ -77,8 +71,17 @@ public class Moving extends Action {
      * @param to où veux aller le marin
      * @return true si le marin peux bouger de la position from vers la position to en 1 tour
      */
-    public static boolean canMove(Point from, Point to) {
+    /*public static boolean canMove(Point from, Point to) {
         return canMove(to.substract(from));
+    }*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Moving moving = (Moving) o;
+        return distanceX == moving.distanceX && distanceY == moving.distanceY;
     }
 
     /**
@@ -86,7 +89,7 @@ public class Moving extends Action {
      * @param direction la direction selon laquelle le marin doit se déplacer
      * @return La direction réduite.
      */
-    public static Point clamp(Point direction) {
+    /*public static Point clamp(Point direction) {
         if(canMove(direction))
             return direction;
         if(Math.abs(direction.getX()) > Math.abs(direction.getY())) {
@@ -102,15 +105,9 @@ public class Moving extends Action {
 
             return new Point(multiplier * direction.getX(), (double) Config.MAX_MOVING_CASES_MARIN * dirY);
         }
-    }
+    }*/
 
-    @Override
-    public boolean equals(Object obj) {
-        if(obj == null) return false;
-        if(!(obj instanceof Moving)) return false;
-        var castedObj = (Moving)obj;
-        return super.equals(obj) && castedObj.distanceX == distanceX && castedObj.distanceY == distanceY;
-    }
+
 
     @Override
     public String toString() {

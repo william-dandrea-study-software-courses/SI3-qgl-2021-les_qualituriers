@@ -116,7 +116,7 @@ public class Point {
      * @return true si les deux vecteurs sont perpendiculaire
      */
     public boolean isNormalTo(Point other) {
-        return Math.abs(scalar(other)) < 2 * Double.MIN_VALUE;
+        return Math.abs(scalar(other)) < Config.EPSILON;
     }
 
     /**

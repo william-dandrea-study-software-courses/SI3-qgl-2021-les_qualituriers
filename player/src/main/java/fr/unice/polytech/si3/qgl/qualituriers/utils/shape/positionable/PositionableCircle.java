@@ -63,12 +63,15 @@ public class PositionableCircle extends PositionableShape<Circle> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         PositionableCircle that = (PositionableCircle) o;
         return Arrays.equals(points, that.points);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(points);
+        int result = super.hashCode();
+        result = 31 * result + Arrays.hashCode(points);
+        return result;
     }
 }

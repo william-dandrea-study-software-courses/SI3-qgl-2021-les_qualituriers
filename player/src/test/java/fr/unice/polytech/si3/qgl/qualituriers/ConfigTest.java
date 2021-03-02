@@ -14,6 +14,8 @@ class ConfigTest {
     @Test
     void linearSpeedOarWithClassicValue() {
         assertEquals(27.5, Config.linearSpeedOar(6,1));
+        assertEquals(165, Config.linearSpeedOar(1, 1));
+        assertEquals(110, Config.linearSpeedOar(3, 2));
     }
 
     @Test
@@ -23,6 +25,24 @@ class ConfigTest {
         assertThrows(IllegalArgumentException.class, () ->  Config.linearSpeedOar(-6,0));
         assertThrows(IllegalArgumentException.class, () ->  Config.linearSpeedOar(6,0));
         assertThrows(IllegalArgumentException.class, () ->  Config.linearSpeedOar(6,-0));
+
+        try {
+            Config.linearSpeedOar(0, 0);
+        } catch (Exception e) {
+            assertEquals("On ne peux pas avoir de valeurs nulles", e.getMessage());
+        }
+
+        try {
+            Config.linearSpeedOar(0, 1);
+        } catch (Exception e) {
+            assertEquals("On ne peux pas avoir un nombre de rames actives supérieur au nombre de rames total ", e.getMessage());
+        }
+
+        try {
+            Config.linearSpeedOar(1, 0);
+        } catch (Exception e) {
+            assertEquals("On ne peux pas avoir de valeurs nulles", e.getMessage());
+        }
     }
 
     @Test
@@ -33,6 +53,7 @@ class ConfigTest {
         assertEquals(50, Config.linearSpeedWind(1,1,50,Math.PI/2, Math.PI/2), Config.EPSILON);
         // Vent de dos
         assertEquals(-50, Config.linearSpeedWind(1,1,50,-Math.PI/2, Math.PI/2), Config.EPSILON);
+        assertEquals(-25, Config.linearSpeedWind(2,4,50,-Math.PI/2, Math.PI/2), Config.EPSILON);
     }
 
     @Test

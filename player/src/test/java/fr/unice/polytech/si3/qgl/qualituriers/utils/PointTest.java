@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil.modAngle;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author CLODONG Yann
@@ -54,7 +55,7 @@ public class PointTest {
     @Test
     void isNormalTest() {
         assertTrue(new Point(1, 0).isNormalTo(new Point(0, 1)));
-        assertFalse(new Point(1, 0).isNormalTo(new Point(3 * Double.MIN_VALUE, 1)));
+        assertFalse(new Point(1, 0).isNormalTo(new Point(2 * Config.EPSILON, 1)));
         assertFalse(new Point(1, 0).isNormalTo(new Point(1, 1)));
         assertTrue(new Point(1, 1).isNormalTo(new Point(1, -1)));
     }
@@ -62,7 +63,7 @@ public class PointTest {
     @Test
     void isColinearTest() {
         assertTrue(new Point(1, 0).isCollinearTo(new Point(1, 0)));
-        assertTrue(new Point(1, 0).isCollinearTo(new Point(1, Double.MIN_VALUE)));
+        assertTrue(new Point(1, 0).isCollinearTo(new Point(1, Config.EPSILON * 0.9)));
         assertFalse(new Point(1, 0).isCollinearTo(new Point(0, 1)));
         assertFalse(new Point(1, 0).isCollinearTo(new Point(1, 1)));
     }
@@ -83,15 +84,6 @@ public class PointTest {
 
         p = new Point(1, -1);
         assertEquals(-Math.PI / 4, p.getOrientation());
-    }
-
-    @Test
-    void RandomAngleOrientationTest() {
-        for(int i = 0; i < 10; i++) {
-            double angle = Math.random() * 2 * Math.PI - Math.PI;
-            Point dir = new Point(angle);
-            assertEquals(Math.floor(angle * 1000000), Math.floor(dir.getOrientation() * 1000000)); // Take precision
-        }
     }
 
     @Test
@@ -131,15 +123,19 @@ public class PointTest {
     public void rotate() {
         Point point = new Point(1, 0);
         Point point2 = new Point(2.5, 0);
+        Point point3 = new Point(2, 2.5);
         Point rotate1 = point.rotate(Math.PI / 2);
         Point rotate2 = point.rotate(Math.PI / 6);
         Point rotate3 = point2.rotate(Math.PI / 6);
+        Point rotate4 = point3.rotate(Math.PI / 2);
         assertEquals(0, rotate1.getX(), Config.EPSILON);
         assertEquals(1, rotate1.getY(), Config.EPSILON);
         assertEquals(Math.sqrt(3)/2, rotate2.getX(), Config.EPSILON);
         assertEquals(0.5, rotate2.getY(), Config.EPSILON);
         assertEquals((Math.sqrt(3)/2) * 2.5, rotate3.getX(), Config.EPSILON);
         assertEquals(0.5 * 2.5, rotate3.getY(), Config.EPSILON);
+        assertEquals(-2.5, rotate4.getX(), Config.EPSILON);
+        assertEquals(2.0, rotate4.getY(), Config.EPSILON);
     }
 
     @Test
@@ -184,6 +180,30 @@ public class PointTest {
         Point point = new Point(1.5, 1.5);
         Point point1 = new Point(5, 5);
         assertEquals(24.5, point.distanceWithoutSquare(point1), Config.EPSILON);
+    }
+
+    @Test
+    public void testEquals() {
+        Point point = new Point(1.5, 1.5);
+        Point point1 = new Point(1.5, 1.5);
+        Point point2 = new Point(1.5, 2.5);
+        Point point3 = new Point(2.5, 1.5);
+        assertEquals(point, point1);
+        assertNotEquals(point, point2);
+        assertNotEquals(point, point3);
+        assertNotEquals(point, null);
+        assertNotEquals(point, "test");
+    }
+
+    @Test
+    public void testHashcode() {
+        Point point = new Point(1.5, 1.5);
+        Point point1 = new Point(1.5, 1.5);
+        Point point2 = new Point(1.5, 2.5);
+        Point point3 = new Point(2.5, 1.5);
+        assertEquals(point.hashCode(), point1.hashCode());
+        assertNotEquals(point.hashCode(), point2.hashCode());
+        assertNotEquals(point.hashCode(), point3.hashCode());
     }
 
 }

@@ -22,11 +22,12 @@ public class RegattaGoal extends Goal {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null) return false;
-        if(!(obj instanceof RegattaGoal)) return false;
-        var castedObj = (RegattaGoal)obj;
-        return Arrays.equals(checkPoints, castedObj.checkPoints);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        RegattaGoal goal = (RegattaGoal) o;
+        return Arrays.equals(checkPoints, goal.checkPoints);
     }
 
     @Override

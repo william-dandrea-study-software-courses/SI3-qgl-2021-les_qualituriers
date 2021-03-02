@@ -21,7 +21,7 @@ public class PositionableShapeFactory {
                 return new PositionableCircle((Circle) shape, transform);
             case RECTANGLE: case POLYGON:
                 return new PositionablePolygon((PolygonAbstract) shape, transform);
-            default:
+            default: //Dans quel cas on arrive ici ? testé: == null -> NPE
                 return null;
         }
     }

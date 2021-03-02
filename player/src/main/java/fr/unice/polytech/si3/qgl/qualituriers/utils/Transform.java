@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
 /**
- * Une position est en sorte un point avec une dirrection, qui permet au bateau de savoir ou il peut avancer et ou il ne peux pas
+ * Une position est en sorte un point avec une direction, qui permet au bateau de savoir ou il peut avancer et ou il ne peux pas
  *
  * @author williamdandrea
  * @author CLODONG Yann

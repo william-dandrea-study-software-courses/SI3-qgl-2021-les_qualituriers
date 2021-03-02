@@ -5,6 +5,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class PositionableShape<T extends Shape> {
 
@@ -53,9 +54,9 @@ public abstract class PositionableShape<T extends Shape> {
      * @param pt le point
      * @return true si le point est dans la forme, false sinon
      */
-    public boolean isIn(Point pt) {
+    /*public boolean isIn(Point pt) {
         return shape.isIn(pt.substract(transform.getPoint()).rotate(-transform.getOrientation()));
-    }
+    }*/
 
 
     @Override
@@ -64,5 +65,18 @@ public abstract class PositionableShape<T extends Shape> {
                 "transform=" + transform +
                 ", shape=" + shape +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PositionableShape<?> that = (PositionableShape<?>) o;
+        return Objects.equals(shape, that.shape) && Objects.equals(transform, that.transform);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(shape, transform);
     }
 }

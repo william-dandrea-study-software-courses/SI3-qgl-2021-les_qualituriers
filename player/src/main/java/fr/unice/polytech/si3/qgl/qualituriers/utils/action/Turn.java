@@ -16,7 +16,7 @@ public class Turn extends Action {
     }
 
     public void setRotation(double rotation) {
-        if(-Math.PI/4 <= this.rotation && this.rotation <= Math.PI/4)
+        if(-Math.PI/4 <= rotation && rotation <= Math.PI/4)
             this.rotation = rotation;
     }
 

@@ -15,7 +15,7 @@ import java.util.Objects;
         @JsonSubTypes.Type(name = "REGATTA", value = RegattaGoal.class),
         @JsonSubTypes.Type(name = "BATTLE", value = BattleGoal.class)
 })
-public class Goal {
+public abstract class Goal {
 
     protected Goals mode;
 

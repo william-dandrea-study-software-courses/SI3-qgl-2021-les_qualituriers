@@ -34,6 +34,6 @@ public class StreamVisibleDeckEntity extends VisibleDeckEntity{
 
     @Override
     public int hashCode() {
-        return Objects.hash(strength);
+        return Objects.hash(super.hashCode(), strength);
     }
 }

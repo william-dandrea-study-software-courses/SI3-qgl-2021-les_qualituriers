@@ -22,7 +22,7 @@ public class Aim extends Action {
     }
 
     public void setAngle(double angle) {
-        if(-Math.PI/4 <= this.angle && this.angle <= Math.PI/4)
+        if(-Math.PI/4 <= angle && angle <= Math.PI/4)
             this.angle = angle;
     }
 
