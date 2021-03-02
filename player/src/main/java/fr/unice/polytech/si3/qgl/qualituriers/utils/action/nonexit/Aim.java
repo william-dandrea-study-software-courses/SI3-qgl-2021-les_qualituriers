@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action.nonexit;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
 
@@ -12,7 +14,8 @@ public class Aim extends Action {
 
     private double angle;
 
-    public Aim(int sailorId, double angle) {
+    @JsonCreator
+    public Aim(@JsonProperty("sailorId")int sailorId, @JsonProperty("angle")double angle) {
         super(Actions.AIM, sailorId);
         this.angle = angle;
     }
@@ -38,5 +41,14 @@ public class Aim extends Action {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), angle);
+    }
+
+    @Override
+    public String toString() {
+        return "Aim{" +
+                "angle=" + angle +
+                ", type=" + type +
+                ", sailorId=" + sailorId +
+                '}';
     }
 }

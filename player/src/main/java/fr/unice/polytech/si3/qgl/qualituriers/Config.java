@@ -14,6 +14,9 @@ public class Config {
 
     public static final int MAX_MOVING_CASES_MARIN = 5;
 
+    public static final double MAX_ANGLE_FOR_RUDDER = Math.PI / 4;
+    public static final double MAX_ANGLE_TURN_FOR_SAILORS = Math.PI/2;
+
     /**
      * Epsilon pour comparer des valeurs flottantes
      */
