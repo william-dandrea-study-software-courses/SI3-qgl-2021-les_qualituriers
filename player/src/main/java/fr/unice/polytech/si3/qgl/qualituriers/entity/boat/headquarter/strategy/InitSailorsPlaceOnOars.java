@@ -104,7 +104,7 @@ public class InitSailorsPlaceOnOars {
                         Optional<BoatEntity> potentialOar = HeadquarterUtil.getListOfOarWithAnySailorsOnIt(sailors, boat).stream().filter(oar -> oar.getX() == emplacementPotentielMarinX && oar.getY() == emplacementPotentielMarinY).findAny();
                         Optional<Point> potentialPoint = HeadquarterUtil.getListOfPlaceWithAnyEntitiesOnIt(boat).stream().filter(point -> point.getX() == emplacementPotentielMarinX && point.getY() == emplacementPotentielMarinY).findAny();
 
-                        if (potentialOar.isPresent() && marin.canMoveTo(potentialOar.get().getX(), potentialOar.get().getY())) {
+                        if (potentialOar.isPresent() && marin.canMoveTo(potentialOar.get().getX(), potentialOar.get().getY(), boat)) {
                             Optional<Action> movingAction = HeadquarterUtil.generateMovingAction(marin.getId(), marin.getX(), marin.getY(), potentialOar.get().getX(), potentialOar.get().getY());
 
                             if (movingAction.isPresent()) {
@@ -113,7 +113,7 @@ public class InitSailorsPlaceOnOars {
                             }
                         }
 
-                        if (potentialPoint.isPresent() && !farthestPoint && marin.canMoveTo((int) potentialPoint.get().getX(), (int) potentialPoint.get().getY())) {
+                        if (potentialPoint.isPresent() && !farthestPoint && marin.canMoveTo((int) potentialPoint.get().getX(), (int) potentialPoint.get().getY(), boat )) {
 
                             positionNotOnAnOarX = (int) potentialPoint.get().getX();
                             positionNotOnAnOarY = (int) potentialPoint.get().getY();
@@ -134,7 +134,7 @@ public class InitSailorsPlaceOnOars {
                         Optional<BoatEntity> potentialOar = HeadquarterUtil.getListOfOarWithAnySailorsOnIt(sailors, boat).stream().filter(oar -> oar.getX() == emplacementPotentielMarinX && oar.getY() == emplacementPotentielMarinY).findAny();
                         Optional<Point> potentialPoint = HeadquarterUtil.getListOfPlaceWithAnyEntitiesOnIt(boat).stream().filter(point -> point.getX() == emplacementPotentielMarinX && point.getY() == emplacementPotentielMarinY).findAny();
 
-                        if (potentialOar.isPresent() && marin.canMoveTo(potentialOar.get().getX(), potentialOar.get().getY())) {
+                        if (potentialOar.isPresent() && marin.canMoveTo(potentialOar.get().getX(), potentialOar.get().getY(), boat)) {
                             Optional<Action> movingAction = HeadquarterUtil.generateMovingAction(marin.getId(), marin.getX(), marin.getY(), potentialOar.get().getX(), potentialOar.get().getY());
 
                             if (movingAction.isPresent()) {
@@ -143,7 +143,7 @@ public class InitSailorsPlaceOnOars {
                             }
                         }
 
-                        if (potentialPoint.isPresent() && !farthestPoint && marin.canMoveTo((int) potentialPoint.get().getX(), (int) potentialPoint.get().getY())) {
+                        if (potentialPoint.isPresent() && !farthestPoint && marin.canMoveTo((int) potentialPoint.get().getX(), (int) potentialPoint.get().getY(), boat)) {
 
                             positionNotOnAnOarX = (int) potentialPoint.get().getX();
                             positionNotOnAnOarY = (int) potentialPoint.get().getY();

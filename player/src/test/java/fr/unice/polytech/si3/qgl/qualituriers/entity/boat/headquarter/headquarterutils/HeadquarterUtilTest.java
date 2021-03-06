@@ -1,10 +1,12 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils;
 
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.OarBoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.RudderBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.exceptions.MovingSailorException;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
@@ -28,14 +30,20 @@ class HeadquarterUtilTest {
     private List<Marin> defaultSailors;
     private List<Marin> crashSailors;
 
+    private int defaultLife;
+    private Transform defaultTransform;
+    private String defaultName;
+    private Deck defaultDeck;
+    private Shape defaultShape;
+
 
     @BeforeEach
     void setUp() {
 
-        int defaultLife = 100;
-        Transform defaultTransform = new Transform(0,0,0);
-        String defaultName = "defaultName";
-        Deck defaultDeck = new Deck(5,12);
+        defaultLife = 100;
+        defaultTransform = new Transform(0,0,0);
+        defaultName = "defaultName";
+        defaultDeck = new Deck(5,12);
         BoatEntity[] defaultEntities = {
                 new OarBoatEntity(2,0),
                 new OarBoatEntity(3,0),
@@ -50,7 +58,8 @@ class HeadquarterUtilTest {
         };
         BoatEntity[] crashEntities = {};
 
-        Shape defaultShape = new Rectangle(5,12,0);
+        defaultShape = new Rectangle(5,12,0);
+
         defaultBoat = new Boat(defaultLife, defaultTransform,defaultName,defaultDeck,defaultEntities,defaultShape);
         crashBoat = new Boat(defaultLife, defaultTransform,defaultName,defaultDeck,crashEntities,defaultShape);
 
@@ -80,6 +89,12 @@ class HeadquarterUtilTest {
         assertThrows(MovingSailorException.class, () -> HeadquarterUtil.generateMovingAction(1, 0,0,6,6));
         assertThrows(MovingSailorException.class, () -> HeadquarterUtil.generateMovingAction(1, -5,-5,1,1));
 
+    }
+
+    @Test
+    void placeIsFreeTest() {
+        assertTrue(HeadquarterUtil.placeIsFree(new Point(4,0), defaultSailors, defaultBoat));
+        assertFalse(HeadquarterUtil.placeIsFree(new Point(3,2), defaultSailors, defaultBoat));
     }
 
     @Test
@@ -145,6 +160,85 @@ class HeadquarterUtilTest {
     void generateOarTest() {
         assertTrue(HeadquarterUtil.generateOar(1, defaultSailors, defaultBoat).isPresent());
     }
+
+
+    @Test
+    void getSailorOnRudderTest() {
+
+        BoatEntity[] rudderEntities = {
+                new OarBoatEntity(2,0),
+                new OarBoatEntity(3,0),
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(2,4),
+                new OarBoatEntity(3,4),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,4),
+                new RudderBoatEntity(12, 3)
+        };
+
+        List<Marin> rudderSailors = new ArrayList<>() {{
+            add(new Marin(1,2,0,"marin1"));
+            add(new Marin(2,3,0,"marin2"));
+            add(new Marin(3,2,4,"marin3"));
+            add(new Marin(4,3,4,"marin4"));
+            add(new Marin(5,2,2,"marin5"));
+            add(new Marin(6,3,2,"marin6"));
+            add(new Marin(6,12,3,"marin6"));
+        }};
+
+        Boat rudderBoat = new Boat(defaultLife, defaultTransform,defaultName,defaultDeck,rudderEntities,defaultShape);
+
+        var marin = HeadquarterUtil.getSailorOnRudder(rudderBoat, rudderSailors);
+
+        assertTrue(marin.isPresent());
+        assertEquals(new Marin(6,12,3,"marin6"), marin.get());
+    }
+
+    @Test
+    void getRudderTest() {
+
+        BoatEntity[] rudderEntities = {
+                new OarBoatEntity(2,0),
+                new OarBoatEntity(3,0),
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(2,4),
+                new OarBoatEntity(3,4),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,4),
+                new RudderBoatEntity(12, 3)
+        };
+
+        List<Marin> rudderSailors = new ArrayList<>() {{
+            add(new Marin(1,2,0,"marin1"));
+            add(new Marin(2,3,0,"marin2"));
+            add(new Marin(3,2,4,"marin3"));
+            add(new Marin(4,3,4,"marin4"));
+            add(new Marin(5,2,2,"marin5"));
+            add(new Marin(6,3,2,"marin6"));
+            add(new Marin(6,12,3,"marin6"));
+        }};
+
+        Boat rudderBoat = new Boat(defaultLife, defaultTransform,defaultName,defaultDeck,rudderEntities,defaultShape);
+
+        var rudder = HeadquarterUtil.getRudder(rudderBoat);
+
+        assertTrue(rudder.isPresent());
+        assertEquals(new RudderBoatEntity(12, 3), rudder.get());
+    }
+
+
+    @Test
+    void distanceBetweenTwoPointsTest() {
+        assertEquals(Math.sqrt(8), HeadquarterUtil.distanceBetweenTwoPoints(new Point(1,1), new Point(3,3)), Config.EPSILON);
+    }
+
+
 
 
 }

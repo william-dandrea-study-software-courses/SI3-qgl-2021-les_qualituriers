@@ -73,6 +73,26 @@ public class HeadquarterUtil {
         return Optional.of(new Oar(sailorId));
     }
 
+
+    public static boolean placeIsFree(Point position,List<Marin> sailors, Boat boat) {
+
+        for (Marin sailor: sailors) {
+            if (sailor.getX() == position.getX() && sailor.getY() == position.getY())
+                return false;
+        }
+
+        return true;
+
+    }
+
+    public static boolean placeIsNotAnBoatEntity(Point position, Boat boat) {
+
+        return Arrays.stream(boat.getEntities()).noneMatch(entity -> entity.getX() == (int) position.getX() && entity.getY() == (int) position.getY());
+
+    }
+
+
+
     /**
      * Cette méthode return la voile qui est situé sur le bateau
      * @param boat le bateau ou l'on veut trouver la voile
@@ -239,6 +259,14 @@ public class HeadquarterUtil {
         return sailors.stream().filter(sailor -> sailor.getX() == x && sailor.getY() == y).findAny();
     }
 
+
+
+
+    public static double distanceBetweenTwoPoints(Point pointA, Point pointB) {
+
+        return Math.sqrt((pointB.getY() - pointA.getY()) * (pointB.getY() - pointA.getY()) + (pointB.getX() - pointA.getX()) * (pointB.getX() - pointA.getX()));
+
+    }
 
 
 
