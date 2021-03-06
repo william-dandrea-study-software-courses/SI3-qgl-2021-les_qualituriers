@@ -70,7 +70,7 @@ public class OarTheGoodAmountOfSailors {
             List<Marin> listOfBabordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat);
             List<Marin> listOfTribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat);
 
-            int numberOfSailors = Math.max(listOfTribordSailors.size(), listOfBabordSailors.size());
+            int numberOfSailors = Math.min(listOfTribordSailors.size(), listOfBabordSailors.size());
 
             for (int marin = 0; marin < numberOfSailors; marin++) {
 

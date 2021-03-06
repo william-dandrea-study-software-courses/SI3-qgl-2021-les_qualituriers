@@ -19,7 +19,7 @@ public class TurnConfig {
 
 
     public static final BoatEntity[] boatEntities = {
-            new RudderBoatEntity(0, 4),
+            new RudderBoatEntity(12, 2),
             new OarBoatEntity(2, 0),
             new OarBoatEntity(3, 0),
             new OarBoatEntity(4, 0),

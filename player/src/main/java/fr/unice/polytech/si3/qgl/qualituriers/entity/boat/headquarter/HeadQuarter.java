@@ -85,7 +85,7 @@ public class HeadQuarter {
 
         List<Action> actionList = new ArrayList<>();
         // Le get(0) st provisoire pour l'instant, une stratégie sera faite pour trouver le marin optimal
-        InitSailorsPlaceOnRudder initSailorsPlaceOnRudder = new InitSailorsPlaceOnRudder(methodBoat, sailorForRudder);
+        InitSailorsPlaceOnRudder initSailorsPlaceOnRudder = new InitSailorsPlaceOnRudder(methodBoat, sailorForRudder.getId(), sailors);
         actionList.addAll(initSailorsPlaceOnRudder.initSailorsPlaceOnRudder());
 
         // Une fois initSailorsPlaceOnRudder fait, on retirera dans le initSailorsPlaceOnOars la marin qui a été affecté au rudder
