@@ -58,13 +58,14 @@ public class HeadQuarter {
         // Maintenant on va faire fonctioner le rudder
         double angleRudder = generateAngleRudder(boat, goal);
         Optional<Marin> sailorOnRudderOp = HeadquarterUtil.getSailorOnRudder(boat,sailors);
+
+
         if (sailorOnRudderOp.isPresent()) {
             Optional<Action> actionOptional = HeadquarterUtil.generateRudder(sailorOnRudderOp.get().getId(), angleRudder);
             if (actionOptional.isPresent()) {
                 finalListOfActions.add(actionOptional.get());
             }
         }
-
 
 
         return finalListOfActions;
@@ -83,8 +84,10 @@ public class HeadQuarter {
      */
     private List<Action> initSailorsPlace(Boat methodBoat, List<Marin> sailorsForOar, Marin sailorForRudder) {
 
+
         List<Action> actionList = new ArrayList<>();
         // Le get(0) st provisoire pour l'instant, une stratégie sera faite pour trouver le marin optimal
+
         InitSailorsPlaceOnRudder initSailorsPlaceOnRudder = new InitSailorsPlaceOnRudder(methodBoat, sailorForRudder.getId(), sailors);
         actionList.addAll(initSailorsPlaceOnRudder.initSailorsPlaceOnRudder());
 
@@ -132,6 +135,9 @@ public class HeadQuarter {
         OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(methodBoat, methodSailors, differenceOfSailors);
         return oarTheGoodAmountOfSailors.oarTheGoodAmountOfSailors();
     }
+
+
+
 
 
     public List<Marin> getSailors() {

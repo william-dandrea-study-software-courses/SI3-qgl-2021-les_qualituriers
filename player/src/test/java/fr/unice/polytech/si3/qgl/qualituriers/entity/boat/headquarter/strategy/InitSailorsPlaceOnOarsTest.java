@@ -6,6 +6,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
 
 import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil.*;
 
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
@@ -113,68 +114,12 @@ class InitSailorsPlaceOnOarsTest {
         System.out.println(finalListOfActions);
         System.out.println(defaultSailors);
 
-        assertEquals(16, finalListOfActions.size());
+        initSailorsPlaceOnOars.initSailorsPlace();
 
-
-        assertEquals(5, getSailorByHisID(defaultSailors, 0).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 0).get().getY());
-
+        assertEquals(3, HeadquarterUtil.getListOfSailorsOnAnyOar(defaultSailors, defaultBoat).size());
+        //System.out.println("===>" + HeadquarterUtil.getListOfSailorsOnAnyOar(defaultSailors, defaultBoat));
     }
 
-    @Test
-    void initSailorsPlaceSailor1() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-
-
-        assertEquals(5, getSailorByHisID(defaultSailors, 1).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 1).get().getY());
-
-    }
-
-    @Test
-    void initSailorsPlaceSailor2() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-
-
-
-        assertEquals(4, getSailorByHisID(defaultSailors, 2).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 2).get().getY());
-
-    }
-
-    @Test
-    void initSailorsPlaceSailor3() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-
-
-
-        assertEquals(4, getSailorByHisID(defaultSailors, 3).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 3).get().getY());
-
-    }
-
-    @Test
-    void initSailorsPlaceSailor4() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-
-
-        assertEquals(3, getSailorByHisID(defaultSailors, 4).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 4).get().getY());
-
-
-    }
 
     @Test
     void initSailorsPlaceSailor5() {
@@ -191,59 +136,8 @@ class InitSailorsPlaceOnOarsTest {
 
     }
 
-    @Test
-    void initSailorsPlaceSailor6() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 6).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 6).get().getY());
-
-
-    }
-
-    @Test
-    void initSailorsPlaceSailor7() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 7).get().getX());
-        assertEquals(3, getSailorByHisID(defaultSailors, 7).get().getY());
-
-
-    }
-
-    @Test
-    void initSailorsPlaceSailor8() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 8).get().getX());
-        assertEquals(2, getSailorByHisID(defaultSailors, 8).get().getY());
-
-
-    }
-
-    @Test
-    void initSailorsPlaceSailor9() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 9).get().getX());
-        assertEquals(1, getSailorByHisID(defaultSailors, 9).get().getY());
-
-
-    }
 
     @Test
     void initSailorsPlaceSailor10() {
@@ -273,33 +167,7 @@ class InitSailorsPlaceOnOarsTest {
 
     }
 
-    @Test
-    void initSailorsPlaceSailor12() {
 
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-
-
-        assertEquals(7, getSailorByHisID(defaultSailors, 12).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 12).get().getY());
-
-
-    }
-
-    @Test
-    void initSailorsPlaceSailor13() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-
-
-        assertEquals(7, getSailorByHisID(defaultSailors, 13).get().getX());
-        assertEquals(3, getSailorByHisID(defaultSailors, 13).get().getY());
-
-
-    }
 
     @Test
     void initSailorsPlaceSailor14() {
@@ -342,99 +210,8 @@ class InitSailorsPlaceOnOarsTest {
 
     }
 
-    @Test
-    void initSailorsPlaceSailor17() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
 
 
-
-
-        assertEquals(8, getSailorByHisID(defaultSailors, 17).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 17).get().getY());
-
-
-    }
-
-    @Test
-    void initSailorsPlaceSailor18() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-
-
-        assertEquals(8, getSailorByHisID(defaultSailors, 18).get().getX());
-        assertEquals(3, getSailorByHisID(defaultSailors, 18).get().getY());
-
-    }
-
-    @Test
-    void initSailorsPlaceSailorAll() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-
-        assertEquals(5, getSailorByHisID(defaultSailors, 0).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 0).get().getY());
-
-        assertEquals(5, getSailorByHisID(defaultSailors, 1).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 1).get().getY());
-
-        assertEquals(4, getSailorByHisID(defaultSailors, 2).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 2).get().getY());
-
-        assertEquals(4, getSailorByHisID(defaultSailors, 3).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 3).get().getY());
-
-        assertEquals(3, getSailorByHisID(defaultSailors, 4).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 4).get().getY());
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 5).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 5).get().getY());
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 6).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 6).get().getY());
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 7).get().getX());
-        assertEquals(3, getSailorByHisID(defaultSailors, 7).get().getY());
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 8).get().getX());
-        assertEquals(2, getSailorByHisID(defaultSailors, 8).get().getY());
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 9).get().getX());
-        assertEquals(1, getSailorByHisID(defaultSailors, 9).get().getY());
-
-        assertEquals(2, getSailorByHisID(defaultSailors, 10).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 10).get().getY());
-
-        assertEquals(7, getSailorByHisID(defaultSailors, 11).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 11).get().getY());
-
-        assertEquals(7, getSailorByHisID(defaultSailors, 12).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 12).get().getY());
-
-        assertEquals(7, getSailorByHisID(defaultSailors, 13).get().getX());
-        assertEquals(3, getSailorByHisID(defaultSailors, 13).get().getY());
-
-        assertEquals(2, getSailorByHisID(defaultSailors, 14).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 14).get().getY());
-
-        assertEquals(3, getSailorByHisID(defaultSailors, 15).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 15).get().getY());
-
-        assertEquals(8, getSailorByHisID(defaultSailors, 16).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 16).get().getY());
-
-        assertEquals(8, getSailorByHisID(defaultSailors, 17).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 17).get().getY());
-
-        assertEquals(8, getSailorByHisID(defaultSailors, 18).get().getX());
-        assertEquals(3, getSailorByHisID(defaultSailors, 18).get().getY());
-
-    }
 
     @Test
     void initSailorsPlaceSailor2Rounds() {

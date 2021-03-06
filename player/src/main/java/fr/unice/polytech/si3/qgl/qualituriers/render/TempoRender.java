@@ -77,7 +77,7 @@ public class TempoRender extends Render {
 
         List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(currentCheckPoint.getPosition(), this.logger);
         System.out.println(actions);
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+        //System.out.println(Arrays.toString(gameInfo.getSailors()));
         return actions;
 
         //return gameInfo.getShip().playTurn();

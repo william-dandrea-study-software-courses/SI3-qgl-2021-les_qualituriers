@@ -4,15 +4,14 @@ import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.BoatPathFinding;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 /**
@@ -28,6 +27,7 @@ public class InitSailorsPlaceOnOars {
 
     private int maxMovingBoatX;
     private int maxMovingBoatY;
+    private List<BoatEntity> oarWeMoves;
 
     public InitSailorsPlaceOnOars(Boat boat, List<Marin> sailors) {
         this.boat = boat;
@@ -35,6 +35,7 @@ public class InitSailorsPlaceOnOars {
 
         maxMovingBoatX = Math.min(boat.getDeck().getLength(), Config.MAX_MOVING_CASES_MARIN);
         maxMovingBoatY = Math.min(boat.getDeck().getWidth(), Config.MAX_MOVING_CASES_MARIN);
+        oarWeMoves = new ArrayList<>();
 
     }
 
@@ -60,7 +61,7 @@ public class InitSailorsPlaceOnOars {
                     Marin marin = marinOptional.get();
 
                     if (HeadquarterUtil.getListOfSailorsOnOars(sailors, boat).stream().noneMatch(sailor -> sailor.getId() == marin.getId())) {
-                        Optional<Action> action = getTheBestPositionForMovingTheSailor(marin);
+                        Optional<Action> action = getTheBestPositionForMovingTheSailorWithPathFindingClass(marin);
                         if (action.isPresent()) {
                             finalListOfActions.add(action.get());
                             sailorWeMoves.add(marin.getId());
@@ -73,6 +74,61 @@ public class InitSailorsPlaceOnOars {
 
         return finalListOfActions;
     }
+
+
+
+
+
+
+
+    private Optional<Action>  getTheBestPositionForMovingTheSailorWithPathFindingClass(Marin marin) {
+
+        Optional<Action> finalAction = Optional.empty();
+        Optional<Point> bestPosition = Optional.empty();
+
+
+        double distanceBetweenOarAndSailor = 0;
+        for (BoatEntity oar : HeadquarterUtil.getListOfOarWithAnySailorsOnIt(sailors, boat)) {
+
+            double currentDistance = HeadquarterUtil.distanceBetweenTwoPoints(oar.getPosition(), marin.getPosition());
+            if (marin.canMoveTo(oar.getX(), oar.getY(), boat) && currentDistance >= distanceBetweenOarAndSailor) {
+                bestPosition = Optional.of(new Point(oar.getX(), oar.getY()));
+            }
+        }
+
+        if (bestPosition.isPresent()) {
+            Optional<Action> actionOp= HeadquarterUtil.generateMovingAction(marin.getId(), marin.getX(), marin.getY(), (int) bestPosition.get().getX(), (int) bestPosition.get().getY());
+            if (actionOp.isPresent()){
+                marin.setPosition((int) bestPosition.get().getX(), (int) bestPosition.get().getY());
+                return actionOp;
+            }
+        }
+
+
+        Optional<BoatEntity> positionPotentialOp = HeadquarterUtil.getTheFarthestOarFromAPosition(marin.getPosition(), boat, sailors, oarWeMoves);
+
+
+
+        if (positionPotentialOp.isPresent()) {
+            oarWeMoves.add(positionPotentialOp.get());
+            BoatPathFinding boatPathFinding = new BoatPathFinding(sailors,boat, marin.getId(), positionPotentialOp.get().getPosition());
+            Point positionFinale = boatPathFinding.generateClosestPoint();
+
+            Optional<Action> actionOp= HeadquarterUtil.generateMovingAction(marin.getId(), marin.getX(), marin.getY(), (int) positionFinale.getX(), (int) positionFinale.getY());
+            if (actionOp.isPresent()){
+                marin.setPosition((int) positionFinale.getX(), (int) positionFinale.getY());
+                return actionOp;
+            }
+
+        }
+
+        return finalAction;
+    }
+
+
+
+
+
 
 
     /**

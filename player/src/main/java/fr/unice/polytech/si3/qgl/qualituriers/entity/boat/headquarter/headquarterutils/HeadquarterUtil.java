@@ -260,6 +260,26 @@ public class HeadquarterUtil {
     }
 
 
+    public static Optional<BoatEntity> getTheFarthestOarFromAPosition(Point position, Boat boat, List<Marin> sailors, List<BoatEntity> oarsWeExclude) {
+
+        double distanceMin = 0;
+        Optional<BoatEntity> finalOar = Optional.empty();
+
+        for (BoatEntity oar : getListOfOarWithAnySailorsOnIt(sailors, boat)) {
+
+            double currentDistance = distanceBetweenTwoPoints(position, oar.getPosition());
+
+            if (currentDistance >= distanceMin && !oarsWeExclude.contains(oar)) {
+                distanceMin = currentDistance;
+                finalOar = Optional.of(oar);
+            }
+
+        }
+        return finalOar;
+
+    }
+
+
 
 
     public static double distanceBetweenTwoPoints(Point pointA, Point pointB) {
