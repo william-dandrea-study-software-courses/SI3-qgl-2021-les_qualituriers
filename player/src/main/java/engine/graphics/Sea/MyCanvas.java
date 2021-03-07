@@ -14,7 +14,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 public class MyCanvas extends Canvas {
 
     private double scale = 1.0;
-    private double zoom = 1;
+    private double zoom = 0.5;
     //private double scale = 0.1;
     private Point offset = new Point(-300, -200);
     private Point displayOffset = new Point(0, 0);

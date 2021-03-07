@@ -71,7 +71,7 @@ public class Main {
         Sea renderer = new Sea(race);
         engine.graphics.Deck.Deck deckRenderer = new engine.graphics.Deck.Deck(race.getBoat(), createSailors());
 
-        int compteurMax = 200;
+        int compteurMax = 500;
         do {
             Wind wind = generateWind();
             RoundInfo rInfo = new RoundInfo(race.getBoat(), wind, new VisibleDeckEntity[] {});
@@ -82,6 +82,8 @@ public class Main {
             race.setWind(wind);
 
             actionsDone = om.readValue(actionString, Action[].class);
+
+
 
             List<Action> finalActionsDone = List.of(actionsDone);
 

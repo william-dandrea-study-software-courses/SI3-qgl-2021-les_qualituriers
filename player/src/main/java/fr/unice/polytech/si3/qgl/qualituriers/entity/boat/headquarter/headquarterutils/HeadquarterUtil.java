@@ -12,6 +12,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Turn;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.nonexit.Aim;
 
 
@@ -58,7 +59,7 @@ public class HeadquarterUtil {
             throw new MaxAngleRudderException(angle);
         }
 
-        return Optional.of(new Aim(sailorId, angle));
+        return Optional.of(new Turn(sailorId, angle));
     }
 
 
