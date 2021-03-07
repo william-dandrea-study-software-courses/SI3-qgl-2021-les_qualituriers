@@ -1,5 +1,8 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.Objects;
 
 /**
@@ -10,7 +13,7 @@ public class Turn extends Action {
 
     private double rotation;
 
-    public Turn(int sailorId, double rotation) {
+    public Turn(@JsonProperty("sailorId") int sailorId, @JsonProperty("rotation") double rotation) {
         super(Actions.TURN, sailorId);
         this.rotation = rotation;
     }

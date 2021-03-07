@@ -1,6 +1,7 @@
 package engine;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import engine.graphics.Sea.Sea;
@@ -82,8 +83,6 @@ public class Main {
             race.setWind(wind);
 
             actionsDone = om.readValue(actionString, Action[].class);
-
-
 
             List<Action> finalActionsDone = List.of(actionsDone);
 
