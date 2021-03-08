@@ -35,6 +35,8 @@ public class Main {
 
         return TurnConfig.boat;
     }
+
+
     static Marin[] createSailors() {
 
         return TurnConfig.boatSailors.toArray(new Marin[0]);
@@ -95,7 +97,7 @@ public class Main {
             deckRenderer.setSailor(race.getSailors());
 
             renderer.draw();
-            //deckRenderer.draw();
+            deckRenderer.draw();
 
             TimeUnit.MILLISECONDS.sleep(200);
             compteurMax--;
