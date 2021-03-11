@@ -76,9 +76,10 @@ public class InitSailorsPlaceOnRudder {
         if (rudder.canMoveTo((int) point.getX(),(int) point.getY(), boat)) {
             Optional<Action> movingAction = HeadquarterUtil.generateMovingAction(rudder.getId(), rudder.getX(), rudder.getY(), (int) point.getX(), (int) point.getY());
             if (movingAction.isPresent()) {
-                Action actionToAdd = movingAction.get();
                 rudder.setPosition((int) point.getX(), (int) point.getY());
-                return new ArrayList<>(){{add(actionToAdd);}};
+                List<Action> actions = new ArrayList<>();
+                actions.add(movingAction.get());
+                return actions;
             }
         }
 

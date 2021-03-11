@@ -25,6 +25,8 @@ import java.util.stream.Stream;
 
 public class HeadquarterUtil {
 
+    private HeadquarterUtil() {}
+
 
     /**
      * Cette méthode genère une action moving grâce a deux points distants, un point de depart, et un point d'arrivée
@@ -152,7 +154,8 @@ public class HeadquarterUtil {
         for (int eachX = 0; eachX < boat.getDeck().getLength(); eachX++) {
             for (int eachY = 0; eachY < boat.getDeck().getWidth(); eachY++) {
 
-                int finalEachX = eachX; int finalEachY = eachY;
+                int finalEachX = eachX;
+                int finalEachY = eachY;
                 if (Arrays.stream(boat.getEntities()).noneMatch(entity -> entity.getX() == finalEachX && entity.getY() == finalEachY)) {
                     finalListOfPositions.add(new Point(eachX, eachY));
                 }

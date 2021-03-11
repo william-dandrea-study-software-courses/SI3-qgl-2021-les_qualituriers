@@ -59,7 +59,7 @@ public class Marin {
 
     public boolean canMoveTo(int xFinal, int yFinal, Boat boat) {
 
-        return (xFinal - x <= Config.MAX_MOVING_CASES_MARIN) && ((yFinal - y <= Config.MAX_MOVING_CASES_MARIN))
+        return (xFinal - x <= Config.MAX_MOVING_CASES_MARIN) && (yFinal - y <= Config.MAX_MOVING_CASES_MARIN)
                 && xFinal <= boat.getDeck().getLength()-1 && xFinal >= 0
                 && yFinal  <= boat.getDeck().getWidth()-1 && yFinal >= 0;
     }

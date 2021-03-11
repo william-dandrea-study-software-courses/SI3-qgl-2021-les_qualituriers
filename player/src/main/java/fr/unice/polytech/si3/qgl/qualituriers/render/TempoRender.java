@@ -34,10 +34,8 @@ public class TempoRender extends Render {
 
         gameInfo.getShip().setPosition(round.getShip().getPosition());
         gameInfo.getShip().setEntities(round.getShip().getEntities());
-        //for (Marin s : gameInfo.getSailors()) { System.out.println(s.toString());}
 
         gameInfo.getShip().setSailors(Arrays.asList(gameInfo.getSailors()));
-        //for (Marin s : gameInfo.getShip().getSailors()) { System.out.println(" => " +s.toString());}
 
 
 
@@ -64,7 +62,6 @@ public class TempoRender extends Render {
         }
 
         if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter < numberOfCheckPoints-1) {
-            //if (distanceRestante <= checkPointRadius / 2) {
             checkPointCounter++;
             currentCheckPoint = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints()[checkPointCounter];
         }
@@ -73,12 +70,6 @@ public class TempoRender extends Render {
 
         List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(currentCheckPoint.getPosition(), this.logger);
         System.out.println(actions);
-        //System.out.println(Arrays.toString(gameInfo.getSailors()));
         return actions;
-
-        //return gameInfo.getShip().playTurn();
-
-
-
     }
 }

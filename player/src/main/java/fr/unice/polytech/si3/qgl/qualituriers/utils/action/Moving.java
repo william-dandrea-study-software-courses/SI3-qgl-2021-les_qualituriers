@@ -44,37 +44,6 @@ public class Moving extends Action {
         this.distanceY = distanceY;
     }
 
-    /*@JsonIgnore
-    public Point getDirection() {
-        return new Point(distanceX, distanceY);
-    }*/
-
-    /*private static boolean isPointInt(Point pt) {
-        double dx = pt.getX() - (int)pt.getX();
-        double dy = pt.getY() - (int)pt.getY();
-        return dx == 0 && dy == 0;
-    }*/
-
-    /**
-     * Cette méthode dit si on peut se déplacer sur le pont du bateau, d'un maximum de 5 cases
-     * @param direction: la direction normée du déplacement du marin
-     * @return true si le marin peux bouger suivant cette direction en 1 tour
-     */
-    /*public static boolean canMove(Point direction) {
-        if(!isPointInt(direction)) throw  new IllegalArgumentException("The direction is not an integer : the sailors can only be on an integer position");
-        return Math.abs(direction.getX()) <= Config.MAX_MOVING_CASES_MARIN && Math.abs(direction.getY()) <= Config.MAX_MOVING_CASES_MARIN;
-    }*/
-
-    /**
-     * Cette méthode dit si on peut se déplacer sur le pont du bateau, d'un maximum de 5 cases
-     * @param from d'où part le marin
-     * @param to où veux aller le marin
-     * @return true si le marin peux bouger de la position from vers la position to en 1 tour
-     */
-    /*public static boolean canMove(Point from, Point to) {
-        return canMove(to.substract(from));
-    }*/
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -83,31 +52,6 @@ public class Moving extends Action {
         Moving moving = (Moving) o;
         return distanceX == moving.distanceX && distanceY == moving.distanceY;
     }
-
-    /**
-     * Réduit la norme de la direction pour que le marin puisse s'y déplacer
-     * @param direction la direction selon laquelle le marin doit se déplacer
-     * @return La direction réduite.
-     */
-    /*public static Point clamp(Point direction) {
-        if(canMove(direction))
-            return direction;
-        if(Math.abs(direction.getX()) > Math.abs(direction.getY())) {
-            // clamp x to 5
-            int dirX = direction.getX() > 0 ? 1 : -1;
-            var multiplier = (double)Config.MAX_MOVING_CASES_MARIN / Math.abs(direction.getX());
-
-            return new Point((double) Config.MAX_MOVING_CASES_MARIN * dirX, multiplier * direction.getY());
-        } else {
-            // clamp y to 5
-            int dirY = direction.getY() > 0 ? 1 : -1;
-            var multiplier = (double)Config.MAX_MOVING_CASES_MARIN / Math.abs(direction.getY());
-
-            return new Point(multiplier * direction.getX(), (double) Config.MAX_MOVING_CASES_MARIN * dirY);
-        }
-    }*/
-
-
 
     @Override
     public String toString() {

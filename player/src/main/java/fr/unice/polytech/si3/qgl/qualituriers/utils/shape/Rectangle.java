@@ -38,67 +38,6 @@ public class Rectangle extends PolygonAbstract {
         return height;
     }
 
-    /**
-     * Coin en haut à droite du rectangle
-     * @return Position du coin
-     */
-    /*public Point upRight() {
-        Transform pos = new Transform(0, 0, this.getOrientation());
-        return  pos.getPoint()                          // position
-                .add(                               // +
-                        pos.up().scalar(height / 2)             // up * h / 2
-                                .add(                               // +
-                                        pos.right().scalar(width / 2)  ));      // right * w / 2
-    }*/
-
-    /**
-     * Coin en haut à gauche du rectangle
-     * @return Position du coin
-     */
-    /*public Point upLeft() {
-        Transform pos = new Transform(0, 0, this.getOrientation());
-        return  pos.getPoint()                          // position
-                .add(                               // +
-                        pos.up().scalar(height / 2)             // up * h / 2
-                                .add(                               // +
-                                        pos.left().scalar(width / 2)  ));      // left * w / 2
-    }*/
-
-    /**
-     * Coin en bas à droite du rectangle
-     * @return Position du coin
-     */
-    /*public Point downRight() {
-        Transform pos = new Transform(0, 0, this.getOrientation());
-        return  pos.getPoint()                          // position
-                .add(                               // +
-                        pos.down().scalar(height / 2)             // down * h / 2
-                                .add(                               // +
-                                        pos.right().scalar(width / 2)  ));      // right * w / 2
-    }*/
-
-    /**
-     * Coin en bas à gauche du rectangle
-     * @return Position du coin
-     */
-    /*public Point downLeft() {
-        Transform pos = new Transform(0, 0, this.getOrientation());
-        return  pos.getPoint()                          // position
-                .add(                               // +
-                        pos.down().scalar(height / 2)             // down * h / 2
-                                .add(                               // +
-                                        pos.left().scalar(width / 2)  ));      // left * w / 2
-    }*/
-
-
-
-
-
-
-
-
-
-
     @Override
     public boolean isIn(Point position) {
         var orr = position.getOrientation() - this.getOrientation();

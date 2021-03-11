@@ -101,9 +101,10 @@ public class Main {
 
             TimeUnit.MILLISECONDS.sleep(200);
             compteurMax--;
+            System.out.println(cockpit.getLogs());
+            cockpit.getLogs().clear();
 
         } while(actionsDone.length != 0 && compteurMax >=0);
-        System.out.println(cockpit.getLogs());
         //      Run game
         //      Execute action
     }
