@@ -13,6 +13,7 @@ public class MainPathfinding {
         pathfinders = new ArrayList<>();
 
         pathfinders.add(new AvoidObstacles());
+        pathfinders.add(new OrderedCheckpoints());
         // Add your pathfinders here
 
         pathfinders.sort(Comparator.comparingInt(IPathfinder::getPriorityRank));
