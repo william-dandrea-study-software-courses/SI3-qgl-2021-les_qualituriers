@@ -93,7 +93,7 @@ public class Collisions {
      * @param margin: Marge de suretée
      * @return true si le chemin est obstrué, false sinon
      */
-    private static boolean Raycast(Point start, Point end, PositionableCircle shape, double margin) {
+    public static boolean raycast(Point start, Point end, PositionableCircle shape, double margin) {
         var shapeWithMargin = new PositionableCircle(new Circle(shape.getShape().getRadius() + margin), shape.getTransform());
         Segment segment = new Segment(start, end);
         return segment.intersectWith(shapeWithMargin);
