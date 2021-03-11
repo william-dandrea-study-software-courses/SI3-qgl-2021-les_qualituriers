@@ -16,6 +16,9 @@ public class MyCanvas extends Canvas {
     private double scale = 1.0;
     private double zoom = 0.5;
     //private double scale = 0.1;
+
+    private Point target = new Point(0, 0);
+
     private Point offset = new Point(-300, -200);
     private Point displayOffset = new Point(0, 0);
     //private Point offset = new Point(2000, 2000);
@@ -35,13 +38,26 @@ public class MyCanvas extends Canvas {
         pt = pt.substract(offset);
         pt = new Point(pt.getX(), -pt.getY());
         pt = pt.scalar(zoom * scale);
-        pt = pt.substract(displayOffset);
+
 
         return pt.add(new Point(getWidth() / 2, getHeight() / 2));
     }
 
     public void setOffset(Point offset) {
-        this.displayOffset = offset;
+        offset = new Point(offset.getX(), offset.getY());
+        this.offset = offset.scalar(1 / (zoom * scale));
+    }
+
+    public void moveOffsetOf(Point delta) {
+        this.displayOffset = this.displayOffset.add(delta);
+    }
+
+    public double getTotalZoom() {
+        return zoom * scale;
+    }
+
+    public Point getDisplayOffset() {
+        return offset.scalar(zoom * scale);
     }
 
     public void ajustWindows(java.util.List<Rectangle2D> bounds) {
@@ -68,13 +84,14 @@ public class MyCanvas extends Canvas {
         var x = (minx + maxx) / 2;
         var y = (miny + maxy) / 2;
 
-        scale = Math.min(Math.abs(getWidth() / dx), Math.abs(getHeight() / dy)) - 0.2;
+        //scale = Math.min(Math.abs(getWidth() / dx), Math.abs(getHeight() / dy)) - 0.2;
 
         setCameraPosition(new Point(x, y));
     }
 
     public void zoomIn() {
         zoom /= 2;
+        //offset = offset.substract(new Point(getWidth() / 2, getHeight() / 2).scalar(zoom));
     }
 
     public void zoomOut() {
