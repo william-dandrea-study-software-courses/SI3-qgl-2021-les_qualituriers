@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
@@ -29,6 +30,11 @@ class MoveBoatTest {
         @Override
         public boolean isIn(Point position) {
             return false;
+        }
+
+        @Override
+        public PositionableCircle getCircumscribed() {
+            return null;
         }
     };
 

@@ -66,6 +66,6 @@ public class Rectangle extends PolygonAbstract {
 
     @Override
     public PositionableCircle getCircumscribed() {
-        return new PositionableCircle(new Circle(new Point(width, height).length() / 2), Transform.ZERO);
+        return new PositionableCircle(new Circle(new Point(width / 2, height / 2).length()), Transform.ZERO);
     }
 }
