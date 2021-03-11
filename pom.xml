@@ -11,5 +11,6 @@
   <modules>
     <module>player</module>
     <module>tooling</module>
+      <module>engine</module>
   </modules>
 </project>
