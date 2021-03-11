@@ -8,7 +8,7 @@ public class Segment {
     private final Point start;
     private final Point end;
 
-    protected Segment(Point start, Point end) {
+    public Segment(Point start, Point end) {
         this.start = start;
         this.end = end;
     }

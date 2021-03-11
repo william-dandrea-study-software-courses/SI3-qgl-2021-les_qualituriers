@@ -129,4 +129,16 @@ public class Transform extends Point {
         var dir = location.substract(getPoint());
         return direction().angleWith(dir);
     }
+
+
+    /**
+     * Retourne le Transform (relatif a this) dans le repere global.
+     * @param transform: transform
+     * @return transform global
+     */
+    public Transform getInParentLandmark(Transform transform) {
+        var orientation = AngleUtil.modAngle(transform.orientation + this.orientation);
+        var position = getPoint().add(transform.getPoint().rotate(orientation));
+        return new Transform(position, orientation);
+    }
 }
