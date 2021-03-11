@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 
 import java.util.Objects;
 
@@ -63,4 +64,8 @@ public class Rectangle extends PolygonAbstract {
         return Objects.hash(super.hashCode(), width, height);
     }
 
+    @Override
+    public PositionableCircle getCircumscribed() {
+        return new PositionableCircle(new Circle(new Point(width, height).length() / 2), Transform.ZERO);
+    }
 }

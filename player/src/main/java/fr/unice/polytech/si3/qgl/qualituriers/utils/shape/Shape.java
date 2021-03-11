@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 
 /**
  * Cette classe represente un element commun aux formes des obestacles
@@ -38,10 +39,13 @@ public abstract class Shape {
      */
     public abstract boolean isIn(Point position);
 
+    public abstract PositionableCircle getCircumscribed();
+
     @JsonIgnore
     public Shapes getType() {
         return type;
     }
+
 
 
 }
