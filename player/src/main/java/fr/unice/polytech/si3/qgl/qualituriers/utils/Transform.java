@@ -14,6 +14,7 @@ import java.util.Objects;
  */
 
 public class Transform extends Point {
+    public static final Transform ZERO = new Transform(new Point(0, 0), 0);
 
     private final double orientation;
 
