@@ -84,7 +84,7 @@ public class MyCanvas extends Canvas {
         var x = (minx + maxx) / 2;
         var y = (miny + maxy) / 2;
 
-        //scale = Math.min(Math.abs(getWidth() / dx), Math.abs(getHeight() / dy)) - 0.2;
+        scale = Math.min(Math.abs(getWidth() / dx), Math.abs(getHeight() / dy));
 
         setCameraPosition(new Point(x, y));
     }
