@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
-import fr.unice.polytech.si3.qgl.qualituriers.render.ThirdRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.CockpitLogger;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;

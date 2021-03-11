@@ -48,14 +48,7 @@ public class Boat {
         this.positionableShape = PositionableShapeFactory.getPositionable(shape, position);
     }
 
-    public List<Action> moveBoatDistanceStrategy(Transform checkPoint, ILogger logger) {
-        /*SortedDispositionDistanceStrategy distanceStrategy = new SortedDispositionDistanceStrategy();
-        List<Disposition> listOfDispositions = distanceStrategy.getIdealDisposition(checkPoint, this);
-        MoveBoatDistanceStrategy moveBoatStrategy = new MoveBoatDistanceStrategy(this, listOfDispositions, sailors.toArray(new Marin[0]));
-        List<Action> actions = moveBoatStrategy.moveBoat(logger);
-        setSailors(Arrays.asList(moveBoatStrategy.getSailors().clone()));*/
-        return new ArrayList<>();
-    }
+
 
     public List<Action> moveBoatDistanceStrategy2(Transform checkPoint,  ILogger logger) {
 

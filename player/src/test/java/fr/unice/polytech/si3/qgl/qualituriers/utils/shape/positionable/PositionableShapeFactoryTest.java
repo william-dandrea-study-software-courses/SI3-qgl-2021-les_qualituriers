@@ -3,11 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShapeFactory;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;

@@ -14,9 +14,9 @@ import java.util.Optional;
 
 public class InitSailorsPlaceOnRudder {
 
-    private Boat boat;
+    private final Boat boat;
     private Marin rudder;
-    private List<Marin> sailors;
+    private final List<Marin> sailors;
 
     public InitSailorsPlaceOnRudder(Boat boat, int rudderId, List<Marin> sailors) {
         this.boat = boat;
@@ -76,9 +76,9 @@ public class InitSailorsPlaceOnRudder {
         if (rudder.canMoveTo((int) point.getX(),(int) point.getY(), boat)) {
             Optional<Action> movingAction = HeadquarterUtil.generateMovingAction(rudder.getId(), rudder.getX(), rudder.getY(), (int) point.getX(), (int) point.getY());
             if (movingAction.isPresent()) {
+                Action actionToAdd = movingAction.get();
                 rudder.setPosition((int) point.getX(), (int) point.getY());
-                List<Action> actions = new ArrayList<>(){{add(movingAction.get());}};
-                return actions;
+                return new ArrayList<>(){{add(actionToAdd);}};
             }
         }
 

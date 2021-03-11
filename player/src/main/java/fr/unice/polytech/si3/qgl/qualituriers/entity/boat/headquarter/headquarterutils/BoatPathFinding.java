@@ -10,14 +10,14 @@ import java.util.List;
 
 public class BoatPathFinding {
 
-    private List<Marin> sailors;
-    private Boat boat;
+    private final List<Marin> sailors;
+    private final Boat boat;
     private Marin sailorWeWantToMove;
-    private Point destination;
+    private final Point destination;
 
-    private static int minX = 0;
+    private static final int minX = 0;
     private static int maxX;
-    private static int minY = 0;
+    private static final int minY = 0;
     private static int maxY;
 
     public BoatPathFinding(List<Marin> sailors, Boat boat, int idSailorWeWantToMove, Point destination) {
@@ -39,7 +39,7 @@ public class BoatPathFinding {
         //System.out.println("On souhaite bouger le marin en " + sailorWeWantToMove.getPosition() + " sur la case : " + idealDestination );
 
 
-        if (sailorWeWantToMove.canMoveTo((int) idealDestination.getX(), (int) idealDestination.getY(), boat) && HeadquarterUtil.placeIsFree(idealDestination, sailors,boat) && HeadquarterUtil.placeIsNotAnBoatEntity(idealDestination, boat)) {
+        if (sailorWeWantToMove.canMoveTo((int) idealDestination.getX(), (int) idealDestination.getY(), boat) && HeadquarterUtil.placeIsFree(idealDestination, sailors) && HeadquarterUtil.placeIsNotAnBoatEntity(idealDestination, boat)) {
             return idealDestination;
         }
 
@@ -53,15 +53,14 @@ public class BoatPathFinding {
         for (Point point : movingCoefficients) {
 
             Point destination = sailorWeWantToMove.getPosition();
-            Point depart = idealDestination;
 
-            int positionX = (int) ((destination.getX() - depart.getX() >= 0) ? (depart.getX() + point.getX()) : (depart.getX() - point.getX()));
-            int positionY = (int) ((destination.getY() - depart.getY() >= 0) ? (depart.getY() + point.getY()) : (depart.getY() - point.getY()));
+            int positionX = (int) ((destination.getX() - idealDestination.getX() >= 0) ? (idealDestination.getX() + point.getX()) : (idealDestination.getX() - point.getX()));
+            int positionY = (int) ((destination.getY() - idealDestination.getY() >= 0) ? (idealDestination.getY() + point.getY()) : (idealDestination.getY() - point.getY()));
 
 
             // Si on peut bouger le marin sur cette position, on a la position la plus proche
             if (sailorWeWantToMove.canMoveTo(positionX, positionY, boat)
-                    && HeadquarterUtil.placeIsFree(new Point(positionX, positionY), sailors, boat)
+                    && HeadquarterUtil.placeIsFree(new Point(positionX, positionY), sailors)
                     && HeadquarterUtil.placeIsNotAnBoatEntity(new Point(positionX, positionY), boat)
             ) {
 
@@ -113,7 +112,7 @@ public class BoatPathFinding {
     /**
      * ATTENTION : cet algorithme ne sera pas compréhenssible en le lisant car il représente une suite de valeurs
      * défini a la main, et l'algorithme reproduit cette suite de valeur
-     * @return
+     * @return liste des coefficients de rotation autour d'un point mais que d'un côté
      */
     List<Point> generateTurningAroundPointCoefficients() {
         List<Point> pointListAroundPosition = new ArrayList<>();
@@ -128,12 +127,13 @@ public class BoatPathFinding {
 
             for (int i = 1; i <= start; i++) {
                 if (leftRight == 0) {
-                    pointListAroundPosition.add(new Point(start, i-1));lines++;
+                    pointListAroundPosition.add(new Point(start, i-1));
 
                 } else {
-                    pointListAroundPosition.add(new Point( i-1, start));lines++;
+                    pointListAroundPosition.add(new Point( i-1, start));
 
                 }
+                lines++;
             }
 
             pointListAroundPosition.add(new Point( start, start));lines++;
@@ -142,11 +142,12 @@ public class BoatPathFinding {
 
             for (int i = 1; i <= start; i++) {
                 if (leftRight == 1) {
-                    pointListAroundPosition.add(new Point(start, valueDecrement));lines++;
+                    pointListAroundPosition.add(new Point(start, valueDecrement));
 
                 } else {
-                    pointListAroundPosition.add(new Point( valueDecrement, start));lines++;
+                    pointListAroundPosition.add(new Point( valueDecrement, start));
                 }
+                lines++;
                 valueDecrement--;
             }
 

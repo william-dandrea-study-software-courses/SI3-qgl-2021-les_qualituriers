@@ -13,15 +13,12 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Turn;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.nonexit.Aim;
 
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -75,7 +72,7 @@ public class HeadquarterUtil {
     }
 
 
-    public static boolean placeIsFree(Point position,List<Marin> sailors, Boat boat) {
+    public static boolean placeIsFree(Point position,List<Marin> sailors) {
 
         for (Marin sailor: sailors) {
             if (sailor.getX() == position.getX() && sailor.getY() == position.getY())
@@ -115,12 +112,8 @@ public class HeadquarterUtil {
 
     public static Optional<Marin> getSailorOnRudder(Boat boat, List<Marin> sailors) {
 
-        if (getRudder(boat).isPresent()) {
-
-            return sailors.stream().filter(marin -> marin.getX() == getRudder(boat).get().getX() && marin.getY() == getRudder(boat).get().getY()).findAny();
-
-        }
-        return Optional.empty();
+        Optional<BoatEntity> rudder = getRudder(boat);
+        return rudder.flatMap(boatEntity -> sailors.stream().filter(marin -> marin.getX() == boatEntity.getX() && marin.getY() == boatEntity.getY()).findAny());
     }
 
 
@@ -239,9 +232,9 @@ public class HeadquarterUtil {
         return getListOfOars(boat)
                 .stream()
                 .filter(boatOar ->
-                        !getListOfSailorsOnOars(sailors, boat)
+                        getListOfSailorsOnOars(sailors, boat)
                                 .stream()
-                                .filter(sailorOnOar -> boatOar.getX() == sailorOnOar.getX() && boatOar.getY() == sailorOnOar.getY()).findAny().isPresent())
+                                .noneMatch(sailorOnOar -> boatOar.getX() == sailorOnOar.getX() && boatOar.getY() == sailorOnOar.getY()))
                 .collect(Collectors.toList());
     }
 

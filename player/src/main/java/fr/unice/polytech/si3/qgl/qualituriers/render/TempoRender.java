@@ -8,7 +8,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
@@ -18,13 +17,12 @@ import java.util.List;
 
 public class TempoRender extends Render {
 
-    private CheckPoint[] listCheckPoint;
     private CheckPoint currentCheckPoint;
     private int checkPointCounter = 0;
 
     public TempoRender(GameInfo gameInfo, ILogger logger) {
         super(gameInfo, logger);
-        listCheckPoint = ((RegattaGoal) gameInfo.getGoal()).getCheckPoints();
+        CheckPoint[] listCheckPoint = ((RegattaGoal) gameInfo.getGoal()).getCheckPoints();
         currentCheckPoint = listCheckPoint[0];
     }
 
@@ -42,7 +40,6 @@ public class TempoRender extends Render {
         //for (Marin s : gameInfo.getShip().getSailors()) { System.out.println(" => " +s.toString());}
 
 
-        List<Action> finalsActions = new ArrayList<>();
 
         PositionableShape<? extends Shape> checkpointsShape = currentCheckPoint.getPositionableShape();
         PositionableShape<? extends Shape> boatShape = gameInfo.getShip().getPositionableShape();
@@ -60,8 +57,7 @@ public class TempoRender extends Render {
         System.out.println("======================================================================================================");
 
 
-        CheckPoint checkPoint = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints()[checkPointCounter];
-        int checkPointRadius = (int) ((Circle)checkPoint.getShape()).getRadius();
+
 
         if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter == numberOfCheckPoints - 1) {
             return new ArrayList<>();

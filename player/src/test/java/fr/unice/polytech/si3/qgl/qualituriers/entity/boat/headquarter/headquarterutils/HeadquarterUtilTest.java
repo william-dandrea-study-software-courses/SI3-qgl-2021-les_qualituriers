@@ -13,7 +13,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shapes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -93,8 +92,8 @@ class HeadquarterUtilTest {
 
     @Test
     void placeIsFreeTest() {
-        assertTrue(HeadquarterUtil.placeIsFree(new Point(4,0), defaultSailors, defaultBoat));
-        assertFalse(HeadquarterUtil.placeIsFree(new Point(3,2), defaultSailors, defaultBoat));
+        assertTrue(HeadquarterUtil.placeIsFree(new Point(4,0), defaultSailors));
+        assertFalse(HeadquarterUtil.placeIsFree(new Point(3,2), defaultSailors));
     }
 
     @Test

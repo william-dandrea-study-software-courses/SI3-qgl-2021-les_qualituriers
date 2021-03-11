@@ -97,7 +97,7 @@ public class Main {
             deckRenderer.setSailor(race.getSailors());
 
             renderer.draw();
-            deckRenderer.draw();
+            //deckRenderer.draw();
 
             TimeUnit.MILLISECONDS.sleep(200);
             compteurMax--;

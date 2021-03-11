@@ -2,11 +2,8 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
-
-import java.util.List;
 
 
 /**
@@ -27,8 +24,8 @@ import java.util.List;
  */
 public class DifferenceOfOarsForGoingSomewhere {
 
-    private Boat boat;
-    private Transform finalPoint;
+    private final Boat boat;
+    private final Transform finalPoint;
 
 
     public DifferenceOfOarsForGoingSomewhere(Boat boat, Transform finalPoint) {
@@ -73,8 +70,7 @@ public class DifferenceOfOarsForGoingSomewhere {
 
         // differenceOfSailors = rameActiveTribord - rameActiveBabord
         double differenceOfSailorsDouble = angleBetweenTheBoatAndHisDirection * HeadquarterUtil.getListOfOars(boat).size() / Math.PI;
-        int differenceOfSailors = (int) differenceOfSailorsDouble;
-        return differenceOfSailors;
+        return (int) differenceOfSailorsDouble;
     }
 
 

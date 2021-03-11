@@ -10,13 +10,10 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.I
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.OarTheGoodAmountOfSailors;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Cette classe a pour objectif de controller tout ce qu'il se passe sur le bateau.
@@ -29,8 +26,8 @@ import java.util.stream.Stream;
  */
 public class HeadQuarter {
 
-    private Boat boat;
-    private List<Marin> sailors;
+    private final Boat boat;
+    private final List<Marin> sailors;
     private final Transform goal;
 
     public HeadQuarter(Boat boat, List<Marin> sailors, Transform goal) {
@@ -62,9 +59,7 @@ public class HeadQuarter {
 
         if (sailorOnRudderOp.isPresent()) {
             Optional<Action> actionOptional = HeadquarterUtil.generateRudder(sailorOnRudderOp.get().getId(), angleRudder);
-            if (actionOptional.isPresent()) {
-                finalListOfActions.add(actionOptional.get());
-            }
+            actionOptional.ifPresent(finalListOfActions::add);
         }
 
 

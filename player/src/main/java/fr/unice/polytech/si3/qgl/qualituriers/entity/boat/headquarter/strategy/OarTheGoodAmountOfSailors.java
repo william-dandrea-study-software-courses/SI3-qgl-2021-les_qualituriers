@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public class OarTheGoodAmountOfSailors {
 
-    private Boat boat;
-    private List<Marin> sailors;
+    private final Boat boat;
+    private final List<Marin> sailors;
     private int differenceOfSailors;
 
     public OarTheGoodAmountOfSailors(Boat boat, List<Marin> sailors, int differenceOfSailors) {
