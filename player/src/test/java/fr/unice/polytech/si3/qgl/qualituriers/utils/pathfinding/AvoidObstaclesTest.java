@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class AvoidObstaclesTest {
+    boolean showDetails = false;
     AvoidObstacles pathfinder;
     Boat boat;
 
@@ -52,13 +53,17 @@ public class AvoidObstaclesTest {
         var context = new PathfindingContext(boat, obs, new ArrayList<>());
         context.setToReach(toReach);
 
+        int nodes = 1;
         do {
             context.setToReach(toReach);
             var ch = pathfinder.getNextCheckpoint(context);
             assertFalse(obs.stream().anyMatch(p -> Collisions.raycast(boat.getPosition().getPoint(), ch.getPosition().getPoint(), p.getCircumscribed(), 30)));
             boat.setPosition(ch.getPosition());
+            nodes++;
         } while(!context.getToReach().getPosition().getPoint().equals(toReach.getPosition().getPoint()));
 
+        if(showDetails)
+            System.out.println("Resolved in " + nodes + " node(s).");
 
     }
 }
