@@ -10,12 +10,12 @@ import java.util.List;
 
 public class PathfindingContext {
     private final Boat boat;
-    private final List<PositionableShape<Shape>> obstacles;
+    private final List<PositionableShape<? extends Shape>> obstacles;
 
     private final List<CheckPoint> checkPoints;
     private CheckPoint toReach;
 
-    public PathfindingContext(Boat boat, List<PositionableShape<Shape>> obstacles, List<CheckPoint> checkPoints) {
+    public PathfindingContext(Boat boat, List<PositionableShape<? extends Shape>> obstacles, List<CheckPoint> checkPoints) {
         this.boat = boat;
         this.obstacles = obstacles;
         this.checkPoints = checkPoints;
@@ -29,7 +29,7 @@ public class PathfindingContext {
         return boat;
     }
 
-    List<PositionableShape<Shape>> getObstacles() {
+    List<PositionableShape<? extends Shape>> getObstacles() {
         return obstacles;
     }
 

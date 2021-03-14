@@ -32,32 +32,28 @@ public class AvoidObstacles implements IPathfinder {
 
         if(obstacleToAvoid.isEmpty()) return context.getToReach();
 
-        var circleObs = obstacleToAvoid.get().getCircumscribed();
-        var delta = circleObs.getTransform().getPoint().substract(start).normalized().rotate(Math.PI / 2).scalar(circleObs.getShape().getRadius() + margin);
+        // Obstacle datas
+        var obsRadius = obstacleToAvoid.get().getShape().getRadius();
+        var obsPosition = obstacleToAvoid.get().getTransform().getPoint();
+
+        // Directions
+        var direction = end.substract(start).normalized();
+        var orthoDir = direction.rotate(Math.PI / 2);
+
+        var obsDirection = obsPosition.substract(start);
+        var obsRelativePosition = obsDirection.scalar(orthoDir);
+
+        var oppositeDirection = orthoDir.scalar(-obsRelativePosition).normalized();
 
 
-        // Search the best path
-        var leftPossiblility = circleObs.getTransform().getPoint().add(delta);
-        var rightPossiblility = circleObs.getTransform().getPoint().substract(delta);
+        var nextPosition = direction.scalar(obsDirection.scalar(direction)).add(oppositeDirection.scalar(obsRadius + margin * 2 - Math.abs(obsRelativePosition))).add(start);
 
-        boolean leftWillCollidAgain = context.getObstacles().stream()
-                .map(PositionableShape::getCircumscribed) // Map the obstacle to circles obstacle
-                .anyMatch(p -> Collisions.raycast(leftPossiblility, end, p, margin));
 
-        boolean rightWillCollidAgain = context.getObstacles().stream()
-                .map(PositionableShape::getCircumscribed) // Map the obstacle to circles obstacle
-                .anyMatch(p -> Collisions.raycast(rightPossiblility, end, p, margin));
-
-        Point bestPossibility = null;
-
-        if(!leftWillCollidAgain)
-            bestPossibility = leftPossiblility;
-        else if(!rightWillCollidAgain)
-            bestPossibility = rightPossiblility;
-        else bestPossibility = leftPossiblility;
 
         // check if the new path is blocked or not
-        context.setToReach(new CheckPoint(new Transform(bestPossibility, 0), new Circle(1)));
+        context.setToReach(new CheckPoint(new Transform(nextPosition, 0), new Circle(1)));
+
+
         return getNextCheckpoint(context);
     }
 }

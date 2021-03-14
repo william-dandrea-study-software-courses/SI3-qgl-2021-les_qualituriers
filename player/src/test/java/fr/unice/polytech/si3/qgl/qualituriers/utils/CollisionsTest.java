@@ -61,5 +61,28 @@ public class CollisionsTest {
     }
 
 
+    @Test
+    void RaycastBasicTest() {
+        assertTrue(
+                Collisions.raycast(
+                        Point.ZERO, new Point(1, 0),
+                        new PositionableCircle(new Circle(4.5), new Transform(new Point(5, 0), 0)), 0)
+        );
+        assertFalse(
+                Collisions.raycast(
+                        Point.ZERO, new Point(1, 0),
+                        new PositionableCircle(new Circle(1), new Transform(new Point(5, 0), 0)), 0)
+        );
+    }
+
+    @Test
+    void RaycastInsideTest() {
+        assertTrue(
+                Collisions.raycast(
+                        Point.ZERO, new Point(1, 0),
+                        new PositionableCircle(new Circle(10), new Transform(new Point(5, 0), 0)), 0)
+        );
+    }
+
 
 }

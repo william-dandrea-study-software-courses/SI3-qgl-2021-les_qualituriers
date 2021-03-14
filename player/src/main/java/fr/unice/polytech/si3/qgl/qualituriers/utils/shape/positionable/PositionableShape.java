@@ -58,6 +58,10 @@ public abstract class PositionableShape<T extends Shape> {
         return shape.isIn(pt.substract(transform.getPoint()).rotate(-transform.getOrientation()));
     }*/
 
+
+    /**
+     * @return Le cercle circonscrit de la forme
+     */
     public PositionableCircle getCircumscribed() {
         var c = shape.getCircumscribed();
         return new PositionableCircle(c.getShape(), transform.getInParentLandmark(c.getTransform()));

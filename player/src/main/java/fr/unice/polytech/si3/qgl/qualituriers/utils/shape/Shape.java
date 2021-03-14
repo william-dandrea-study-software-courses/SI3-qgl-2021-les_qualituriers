@@ -39,6 +39,9 @@ public abstract class Shape {
      */
     public abstract boolean isIn(Point position);
 
+    /**
+     * @return Le cercle circonscrit de la forme (dans le repère de celle-ci)
+     */
     public abstract PositionableCircle getCircumscribed();
 
     @JsonIgnore

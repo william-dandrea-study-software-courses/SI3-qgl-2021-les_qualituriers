@@ -94,6 +94,7 @@ public class Collisions {
      * @return true si le chemin est obstrué, false sinon
      */
     public static boolean raycast(Point start, Point end, PositionableCircle shape, double margin) {
+        if(shape.getShape().isIn(start.substract(shape.getTransform().getPoint())) || shape.getShape().isIn((end.substract(shape.getTransform().getPoint())))) return true;
         var shapeWithMargin = new PositionableCircle(new Circle(shape.getShape().getRadius() + margin), shape.getTransform());
         Segment segment = new Segment(start, end);
         return segment.intersectWith(shapeWithMargin);
