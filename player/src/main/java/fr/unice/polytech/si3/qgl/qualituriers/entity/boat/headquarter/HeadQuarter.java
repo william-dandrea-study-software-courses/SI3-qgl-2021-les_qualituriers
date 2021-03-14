@@ -2,14 +2,18 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter;
 
 
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.SailBoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.BoatPathFinding;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.DifferenceOfOarsForGoingSomewhere;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.InitSailorsPlaceOnOars;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.InitSailorsPlaceOnRudder;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.OarTheGoodAmountOfSailors;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.*;
+import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LiftSail;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LowerSail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,7 @@ public class HeadQuarter {
     private final Boat boat;
     private final List<Marin> sailors;
     private final Transform goal;
+    private GameInfo gameInfo;
 
     public HeadQuarter(Boat boat, List<Marin> sailors, Transform goal) {
         this.boat = boat;
@@ -57,9 +62,43 @@ public class HeadQuarter {
         Optional<Marin> sailorOnRudderOp = HeadquarterUtil.getSailorOnRudder(boat,sailors);
 
 
+
+        if (HeadquarterUtil.getSailorOnSail(boat, sailors).isPresent() && sailorOnRudderOp.isEmpty() && !detectWind(boat, goal, sailors, gameInfo)) {
+
+            var sailOnBoat = HeadquarterUtil.getSail(boat);
+            if (sailOnBoat.isPresent()) {
+                if (((SailBoatEntity) sailOnBoat.get()).isOpened()) {
+                    finalListOfActions.add(new LowerSail(HeadquarterUtil.getSailorOnSail(boat, sailors).get().getId()));
+                    HeadquarterUtil.getSail(boat).ifPresent(sail -> ((SailBoatEntity) sail).setOpened(false));
+                } else {
+
+                    var sailorOnSail  = HeadquarterUtil.getSailorOnSail(boat, sailors);
+                    if (sailorOnSail.isPresent()) {
+                        Optional<Action> moveSailGuyOnTheRudder = moveSailGuyOnTheRudder(boat, sailors, sailorOnSail.get());
+                        moveSailGuyOnTheRudder.ifPresent(finalListOfActions::add);
+                    }
+
+                }
+            }
+
+        }
+
         if (sailorOnRudderOp.isPresent()) {
-            Optional<Action> actionOptional = HeadquarterUtil.generateRudder(sailorOnRudderOp.get().getId(), angleRudder);
-            actionOptional.ifPresent(finalListOfActions::add);
+
+            if (detectWind(boat, goal, sailors, gameInfo)) {
+
+                Optional<Action> actionOpMovingRudderGuyOnSail = moveRudderGuyOnTheSail(boat, sailors, sailorForRudder);
+
+                if (actionOpMovingRudderGuyOnSail.isPresent()) {
+                    finalListOfActions.add(actionOpMovingRudderGuyOnSail.get());
+                    finalListOfActions.add(new LiftSail(sailorForRudder.getId()));
+                    HeadquarterUtil.getSail(boat).ifPresent(sail -> ((SailBoatEntity) sail).setOpened(true));
+                }
+
+            } else {
+                Optional<Action> actionOptional = HeadquarterUtil.generateRudder(sailorOnRudderOp.get().getId(), angleRudder);
+                actionOptional.ifPresent(finalListOfActions::add);
+            }
         }
 
 
@@ -129,6 +168,58 @@ public class HeadQuarter {
     private List<Action> oarTheGoodAmountOfSailors(int differenceOfSailors, Boat methodBoat, List<Marin> methodSailors) {
         OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(methodBoat, methodSailors, differenceOfSailors);
         return oarTheGoodAmountOfSailors.oarTheGoodAmountOfSailors();
+    }
+
+
+    /**
+     * Cette méthode permet de détecter si il y a du vent et si il est jusdicieux de faire bouger le marin qui est sur
+     * le gouvernail vers la voile (et l'activer)
+     * @param methodBoat le bateau sur lequel on travaille
+     * @param methodGoal l'objectif a atteindre
+     * @param methodSailors la liste des marins présent sur le bateau
+     * @param methodGameInfo les informations de la partie permettant de récuperer le vent
+     * @return true si il est utile de deplacer un marin sur la voile, false sinon
+     */
+    private boolean detectWind(Boat methodBoat, Transform methodGoal, List<Marin> methodSailors, GameInfo methodGameInfo) {
+
+        WindStrategy windStrategy = new WindStrategy(methodBoat, methodGoal, methodSailors, methodGameInfo);
+        return windStrategy.detectWind();
+
+    }
+
+
+    private Optional<Action> moveRudderGuyOnTheSail(Boat methodBoat, List<Marin> methodSailors, Marin sailorOnRudder) {
+
+        Optional<BoatEntity> sail = HeadquarterUtil.getSail(methodBoat);
+        Optional<Action> actionOp = Optional.empty();
+
+        if (sail.isPresent()) {
+            BoatPathFinding boatPathFinding = new BoatPathFinding(methodSailors, methodBoat, sailorOnRudder.getId(), sail.get().getPosition());
+            Point point = boatPathFinding.generateClosestPoint();
+
+            actionOp = HeadquarterUtil.generateMovingAction(sailorOnRudder.getId(), sailorOnRudder.getX(), sailorOnRudder.getY(), (int) point.getX(), (int) point.getY());
+        }
+
+        return actionOp;
+
+    }
+
+    private Optional<Action> moveSailGuyOnTheRudder(Boat methodBoat, List<Marin> methodSailors, Marin sailorOnSail) {
+
+        Optional<BoatEntity> rudder = HeadquarterUtil.getRudder(methodBoat);
+        Optional<Action> actionOp = Optional.empty();
+
+        if (rudder.isPresent()) {
+            BoatPathFinding boatPathFinding = new BoatPathFinding(methodSailors, methodBoat, sailorOnSail.getId(), rudder.get().getPosition());
+            Point point = boatPathFinding.generateClosestPoint();
+
+            actionOp = HeadquarterUtil.generateMovingAction(sailorOnSail.getId(), sailorOnSail.getX(), sailorOnSail.getY(), (int) point.getX(), (int) point.getY());
+
+        }
+
+
+        return actionOp;
+
     }
 
 

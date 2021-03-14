@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntities;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
 
 import java.util.Arrays;
@@ -20,14 +23,19 @@ public class GameInfo {
     private Boat ship;
     private Marin[] sailors;
     private int shipCount;
+    private Wind wind;
+    private VisibleDeckEntity[] seaEntities;
 
     @JsonCreator
     public GameInfo(@JsonProperty("goal") Goal goal, @JsonProperty("ship") Boat ship,
-                    @JsonProperty("sailors") Marin[] sailors, @JsonProperty("shipCount") int shipCount) {
+                    @JsonProperty("sailors") Marin[] sailors, @JsonProperty("shipCount") int shipCount,
+                    @JsonProperty("wind") Wind wind, @JsonProperty("seaEntities") VisibleDeckEntity[] seaEntities) {
         this.goal = goal;
         this.ship = ship;
         this.sailors = sailors;
         this.shipCount = shipCount;
+        this.wind = wind;
+        this.seaEntities = seaEntities;
     }
 
     public Boat getShip() {
@@ -46,13 +54,22 @@ public class GameInfo {
         return sailors;
     }
 
+    public Wind getWind() {
+        return wind;
+    }
+
+    public VisibleDeckEntity[] getSeaEntities() {
+        return seaEntities;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GameInfo gameInfo = (GameInfo) o;
         return shipCount == gameInfo.shipCount && Objects.equals(goal, gameInfo.goal)
-                && Objects.equals(ship, gameInfo.ship) && Arrays.equals(sailors, gameInfo.sailors);
+                && Objects.equals(ship, gameInfo.ship) && Arrays.equals(sailors, gameInfo.sailors)
+                && Objects.equals(wind, gameInfo.wind) && Arrays.equals(seaEntities, gameInfo.seaEntities);
     }
 
     public void setShip(Boat ship) {
@@ -66,6 +83,8 @@ public class GameInfo {
     public void setShipCount(int shipCount) {
         this.shipCount = shipCount;
     }
+
+
 
     @Override
     public int hashCode() {
