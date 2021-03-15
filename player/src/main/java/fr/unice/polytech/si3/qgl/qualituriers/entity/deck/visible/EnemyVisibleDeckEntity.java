@@ -43,8 +43,7 @@ public class EnemyVisibleDeckEntity extends VisibleDeckEntity {
         return "EnemyVisibleDeckEntity{" +
                 "life=" + life +
                 ", type=" + type +
-                ", position=" + position +
-                ", shape=" + shape +
+                ", positionableShape=" + positionableShape +
                 '}';
     }
 }

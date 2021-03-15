@@ -14,16 +14,24 @@ import java.util.Objects;
 public class MyCanvas extends Canvas {
 
     private double scale = 1.0;
-    private double zoom = 0.5;
-    //private double scale = 0.1;
+    private double zoom = 1.0;
 
     private Point target = new Point(0, 0);
 
     private Point offset = new Point(-300, -200);
     private Point displayOffset = new Point(0, 0);
-    //private Point offset = new Point(2000, 2000);
+    private Point mousePos;
 
     public MyCanvas() {
+        this.mousePos = new Point(0, 0);
+    }
+
+    public void setMousePos(Point mousePos) {
+        this.mousePos = mousePos;
+    }
+
+    public Point getMousePos() {
+        return mousePos;
     }
 
     private void setCameraPosition(Point pt) {
@@ -41,6 +49,15 @@ public class MyCanvas extends Canvas {
 
 
         return pt.add(new Point(getWidth() / 2.0, getHeight() / 2.0));
+    }
+
+    public Point getSeaPosition(Point pt) {
+        pt = pt.add(offset);
+        pt = new Point(pt.getX(), -pt.getY());
+        // 5582 : 2092 -> 183 : 237
+        //pt = pt.add(offset);
+        //pt = pt.scalar()
+        return pt;
     }
 
     public void setOffset(Point offset) {

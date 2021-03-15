@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
@@ -50,6 +51,7 @@ public class Circle extends Shape {
         return position.length() <= radius;
     }
 
+    @JsonIgnore
     @Override
     public PositionableCircle getCircumscribed() {
         return new PositionableCircle(this, Transform.ZERO);

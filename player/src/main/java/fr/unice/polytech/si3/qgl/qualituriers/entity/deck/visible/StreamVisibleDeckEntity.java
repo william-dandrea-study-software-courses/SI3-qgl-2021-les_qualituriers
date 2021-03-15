@@ -46,8 +46,7 @@ public class StreamVisibleDeckEntity extends VisibleDeckEntity{
         return "StreamVisibleDeckEntity{" +
                 "strength=" + strength +
                 ", type=" + type +
-                ", position=" + position +
-                ", shape=" + shape +
+                ", positionableShape=" + positionableShape +
                 '}';
     }
 }

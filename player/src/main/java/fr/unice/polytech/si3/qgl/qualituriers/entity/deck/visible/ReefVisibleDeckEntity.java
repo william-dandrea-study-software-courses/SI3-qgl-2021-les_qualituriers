@@ -17,12 +17,4 @@ public class ReefVisibleDeckEntity extends VisibleDeckEntity {
         super(VisibleDeckEntities.REEF, position, shape);
     }
 
-    @Override
-    public String toString() {
-        return "ReefVisibleDeckEntity{" +
-                "type=" + type +
-                ", position=" + position +
-                ", shape=" + shape +
-                '}';
-    }
 }
