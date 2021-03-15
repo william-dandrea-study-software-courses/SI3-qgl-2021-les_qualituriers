@@ -124,11 +124,9 @@ public class BoatPathFinding {
             for (int i = 1; i <= start; i++) {
                 if (leftRight == 0) {
                     pointListAroundPosition.add(new Point(start, i-1));
-                    pointListAroundPosition.add(new Point(start, i - 1.0));lines++;
 
                 } else {
                     pointListAroundPosition.add(new Point( i-1, start));
-                    pointListAroundPosition.add(new Point( i - 1.0, start));lines++;
 
                 }
                 lines++;
@@ -156,6 +154,7 @@ public class BoatPathFinding {
 
         return pointListAroundPosition;
     }
+
 
 
 
