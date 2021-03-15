@@ -35,10 +35,11 @@ public class HeadQuarter {
     private final Transform goal;
     private GameInfo gameInfo;
 
-    public HeadQuarter(Boat boat, List<Marin> sailors, Transform goal) {
+    public HeadQuarter(Boat boat, List<Marin> sailors, Transform goal, GameInfo gameInfo) {
         this.boat = boat;
         this.sailors = sailors;
         this.goal = goal;
+        this.gameInfo = gameInfo;
     }
 
     public List<Action> playTurn() {

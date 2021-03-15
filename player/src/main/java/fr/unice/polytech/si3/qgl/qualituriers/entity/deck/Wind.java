@@ -42,4 +42,12 @@ public class Wind {
     public int hashCode() {
         return Objects.hash(orientation, strength);
     }
+
+    @Override
+    public String toString() {
+        return "Wind{" +
+                "orientation=" + orientation +
+                ", strength=" + strength +
+                '}';
+    }
 }

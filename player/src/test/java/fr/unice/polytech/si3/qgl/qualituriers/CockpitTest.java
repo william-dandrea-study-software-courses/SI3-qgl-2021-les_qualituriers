@@ -163,6 +163,7 @@ class CockpitTest {
         cockpit.initGame(inputNode.toString());
 
 
+
         String src = "src/test/java/fr/unice/polytech/si3/qgl/qualituriers/jsonfiles/week3/nextRound.json";
 
         System.out.println(cockpit.nextRound(om.readTree(new File(src)).toString()));

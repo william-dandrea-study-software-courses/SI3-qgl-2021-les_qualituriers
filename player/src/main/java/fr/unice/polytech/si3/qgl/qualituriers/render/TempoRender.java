@@ -55,6 +55,8 @@ public class TempoRender extends Render {
         System.out.println("======================================================================================================");
 
 
+        System.out.println("WIND     : " + gameInfo.getWind());
+        System.out.println("ENTITIES : " + gameInfo.getSeaEntities());
 
 
         if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter == numberOfCheckPoints - 1) {

@@ -16,4 +16,13 @@ public class ReefVisibleDeckEntity extends VisibleDeckEntity {
     public ReefVisibleDeckEntity(@JsonProperty("position") Transform position, @JsonProperty("shape") Shape shape) {
         super(VisibleDeckEntities.REEF, position, shape);
     }
+
+    @Override
+    public String toString() {
+        return "ReefVisibleDeckEntity{" +
+                "type=" + type +
+                ", position=" + position +
+                ", shape=" + shape +
+                '}';
+    }
 }

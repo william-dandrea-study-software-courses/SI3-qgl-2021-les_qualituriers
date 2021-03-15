@@ -11,6 +11,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.engine.serializers.RectangleSerial
 import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.DicoSeaEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
@@ -21,6 +22,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -61,7 +63,7 @@ public class Main {
         om.registerModule(module);
 
         // Init game
-        var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1, null, new VisibleDeckEntity[] { });
+        var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1, null, new HashMap<>());
 
 
         Cockpit cockpit = new Cockpit();
