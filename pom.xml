@@ -11,6 +11,6 @@
   <modules>
     <module>player</module>
     <module>tooling</module>
-      <module>fr.unice.polytech.si3.qgl.qualituriers.engine</module>
+    <module>engine</module>
   </modules>
 </project>

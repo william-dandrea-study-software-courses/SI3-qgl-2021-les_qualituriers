@@ -24,6 +24,10 @@ public class StreamVisibleDeckEntity extends VisibleDeckEntity{
         this.strength = strength;
     }
 
+    public double getStrength() {
+        return strength;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;

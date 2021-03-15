@@ -5,13 +5,13 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 
 import javax.swing.*;
 
-public class Deck {
+public class DeckRenderer {
     private final JFrame frame;
     private final DeckCanvas canvas;
     private final Boat boat;
     private Marin[] sailors;
 
-    public Deck(Boat boat, Marin[] sailors) {
+    public DeckRenderer(Boat boat, Marin[] sailors) {
         this.boat = boat;
         this.sailors = sailors;
         frame = new JFrame();
