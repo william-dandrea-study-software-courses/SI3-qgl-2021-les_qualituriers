@@ -48,17 +48,24 @@ public class Sea {
         });
         canvas.addMouseMotionListener(new MouseMotionListener() {
             private Point start = null;
+            private Point startDisplayOffset;
             @Override
             public void mouseDragged(MouseEvent e) {
-                if(start == null) start = new Point(e.getX(), e.getY());
+                if(start == null) {
+                    startDisplayOffset = canvas.getDisplayOffset();
+                    start = new Point(e.getX(), e.getY());
+                }
 
-                canvas.setOffset(new Point(e.getX(), e.getY()).substract(start).scalar(-1));
+                Point d = new Point(e.getX(), e.getY()).substract(start).scalar(-1);
+                d = new Point(d.getX(), -d.getY());
+                canvas.setOffset(startDisplayOffset.add(d));
                 draw();
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
                 start = null;
+                startDisplayOffset = null;
             }
         });
         canvas.addMouseListener(new MouseListener() {

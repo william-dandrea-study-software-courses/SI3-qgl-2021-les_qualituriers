@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +74,17 @@ public abstract class PolygonAbstract extends Shape {
     public boolean isIn(Point position) {
         var pointSegment = new Segment(new Point(0, 0), position);
         return getSegments().stream().noneMatch(pointSegment::intersectWith);
+    }
+
+    @Override
+    public PositionableCircle getCircumscribed() {
+        var vertices = getVertices(Transform.ZERO);
+        var center = Arrays.stream(vertices).reduce(Point.ZERO, Point::add).scalar(1 / (double)vertices.length);
+        var maxDist = Arrays.stream(vertices).mapToDouble(p -> p.substract(center).length()).max();
+
+        if(maxDist.isEmpty()) return new PositionableCircle(new Circle(0), Transform.ZERO);
+
+        return new PositionableCircle(new Circle(maxDist.getAsDouble()), new Transform(center, 0));
     }
 
     @Override

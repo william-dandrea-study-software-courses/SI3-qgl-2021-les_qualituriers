@@ -4,6 +4,11 @@ import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.DicoSeaEntities;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.StreamVisibleDeckEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntities;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.BattleGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
@@ -13,18 +18,33 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameInfoTest {
 
     GameInfo gameInfo;
 
+    private VisibleDeckEntity streamEntity;
+    private Map<Integer, VisibleDeckEntity> seaEntities;
+
     @BeforeEach
     public  void init() {
-        this.gameInfo = new GameInfo(new BattleGoal(),
+
+        streamEntity = new StreamVisibleDeckEntity(new Transform(0,0,0), new Rectangle(1,1,0), 0);
+        seaEntities = Map.ofEntries(Map.entry(0, streamEntity));
+        this.gameInfo = new GameInfo(
+                new BattleGoal(),
                 new Boat(100, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),
                 new Marin[]{new Marin(0, 1, 1, "sdfsdf")},
-                2);
+                2,
+                new Wind(0, 0),
+                seaEntities);
+
     }
 
     @Test
@@ -38,6 +58,7 @@ public class GameInfoTest {
         assertArrayEquals(sailors, this.gameInfo.getSailors());
         this.gameInfo.setShipCount(shipCount);
         assertEquals(shipCount, this.gameInfo.getShipCount());
+
     }
 
     @Test
@@ -45,23 +66,35 @@ public class GameInfoTest {
         GameInfo gameInfo1 = new GameInfo(new BattleGoal(),
                 new Boat(100, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),
                 new Marin[]{new Marin(0, 1, 1, "sdfsdf")},
-                2);
+                2,
+                new Wind(0, 0),
+                seaEntities);
         GameInfo gameInfo2 = new GameInfo(new BattleGoal(),
                 new Boat(100, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),
                 new Marin[]{new Marin(0, 1, 1, "sdfsdf")},
-                3);
+                3,
+                new Wind(0, 0),
+                seaEntities);
+
         GameInfo gameInfo3 = new GameInfo(new BattleGoal(),
                 new Boat(100, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),
                 new Marin[]{new Marin(1, 1, 1, "sdfsdf")},
-                2);
+                2,
+                new Wind(0, 0),
+                seaEntities);
+
         GameInfo gameInfo4 = new GameInfo(new BattleGoal(),
                 new Boat(110, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),
                 new Marin[]{new Marin(0, 1, 1, "sdfsdf")},
-                2);
+                2,
+                new Wind(0, 0),
+                seaEntities);
         GameInfo gameInfo5 = new GameInfo(new RegattaGoal(new CheckPoint[]{new CheckPoint(new Transform(50, 50, 0), new Circle(50))}),
                 new Boat(100, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),
                 new Marin[]{new Marin(0, 1, 1, "sdfsdf")},
-                2);
+                2,
+                new Wind(0, 0),
+                seaEntities);
         assertEquals(gameInfo1, this.gameInfo);
         assertNotEquals(gameInfo2, this.gameInfo);
         assertNotEquals(gameInfo3, this.gameInfo);
@@ -76,23 +109,32 @@ public class GameInfoTest {
         GameInfo gameInfo1 = new GameInfo(new BattleGoal(),
                 new Boat(100, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),
                 new Marin[]{new Marin(0, 1, 1, "sdfsdf")},
-                2);
+                2,
+                new Wind(0, 0),
+                seaEntities);
         GameInfo gameInfo2 = new GameInfo(new BattleGoal(),
                 new Boat(100, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),
                 new Marin[]{new Marin(0, 1, 1, "sdfsdf")},
-                3);
+                3, new Wind(0, 0),
+                seaEntities);
         GameInfo gameInfo3 = new GameInfo(new BattleGoal(),
                 new Boat(100, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),
                 new Marin[]{new Marin(0, 2, 1, "sdfsdf")},
-                2);
+                2,
+                new Wind(0, 0),
+                seaEntities);
         GameInfo gameInfo4 = new GameInfo(new BattleGoal(),
                 new Boat(110, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),
                 new Marin[]{new Marin(0, 1, 1, "sdfsdf")},
-                2);
+                2,
+                new Wind(0, 0),
+                seaEntities);
         GameInfo gameInfo5 = new GameInfo(new RegattaGoal(new CheckPoint[]{new CheckPoint(new Transform(50, 50, 0), new Circle(50))}),
                 new Boat(100, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),
                 new Marin[]{new Marin(0, 1, 1, "sdfsdf")},
-                2);
+                2,
+                new Wind(0, 0),
+                seaEntities);
         assertEquals(gameInfo1.hashCode(), this.gameInfo.hashCode());
         assertNotEquals(gameInfo2.hashCode(), this.gameInfo.hashCode());
         assertNotEquals(gameInfo3.hashCode(), this.gameInfo.hashCode());

@@ -19,4 +19,12 @@ public enum VisibleDeckEntities {
         this.type = type;
         this.visibleDeckEntity = visibleDeckEntity;
     }
+
+    @Override
+    public String toString() {
+        return "VisibleDeckEntities{" +
+                "type='" + type + '\'' +
+                ", visibleDeckEntity=" + visibleDeckEntity +
+                '}';
+    }
 }

@@ -119,6 +119,13 @@ public class HeadquarterUtil {
     }
 
 
+    public static Optional<Marin> getSailorOnSail(Boat boat, List<Marin> sailors) {
+        Optional<BoatEntity> sailer = getSail(boat);
+        return sailer.flatMap(boatEntity -> sailors.stream().filter(marin -> marin.getX() == boatEntity.getX() && marin.getY() == boatEntity.getY()).findAny());
+
+    }
+
+
     /**
      * Cette méthode return la liste totale des rames sur le bateau
      * @param boat le bateau ou l'on veut compter les rames
@@ -283,6 +290,20 @@ public class HeadquarterUtil {
 
         return Math.sqrt((pointB.getY() - pointA.getY()) * (pointB.getY() - pointA.getY()) + (pointB.getX() - pointA.getX()) * (pointB.getX() - pointA.getX()));
 
+    }
+
+
+    /**
+     * Cette méthode retourne l'angle de rotation minimal possible grâce à la formule du cours : PI * <diff rame tribord - rame bâbord> / <nombre total de rames>
+     * @param boat le bateau sur lequel on travaille
+     * @return la valeur de l'angle minimal de rotation
+     */
+    public static double getMinimumAngleOfRotation(Boat boat) {
+        return Math.PI * 1 / getListOfOars(boat).size();
+    }
+
+    public static double getBoatMovingDistanceMaxInOneTurn(Boat boat) {
+        return Config.linearSpeedOar(getListOfOars(boat).size(), getListOfOars(boat).size());
     }
 
 
