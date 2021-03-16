@@ -17,6 +17,7 @@ public class AvoidObstacles implements IPathfinder {
 
     @Override
     public CheckPoint getNextCheckpoint(PathfindingContext context) {
+
         var end = context.getToReach().getPosition();
         var boatRadius = context.getBoat().getPositionableShape().getCircumscribed();
         var start = boatRadius.getTransform().getPoint();
@@ -46,7 +47,7 @@ public class AvoidObstacles implements IPathfinder {
         var oppositeDirection = orthoDir.scalar(-obsRelativePosition).normalized();
 
 
-        var nextPosition = direction.scalar(obsDirection.scalar(direction)).add(oppositeDirection.scalar(obsRadius + margin * 2 - Math.abs(obsRelativePosition))).add(start);
+        var nextPosition = direction.scalar(obsDirection.scalar(direction)).add(oppositeDirection.scalar(obsRadius + margin * 10 - Math.abs(obsRelativePosition))).add(start);
 
 
 

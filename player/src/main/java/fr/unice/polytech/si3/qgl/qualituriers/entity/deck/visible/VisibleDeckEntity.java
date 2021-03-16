@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -26,11 +27,20 @@ import java.util.Objects;
 public abstract class VisibleDeckEntity {
 
     protected VisibleDeckEntities type;
+    @JsonIgnore
     protected PositionableShape<? extends Shape> positionableShape;
 
     protected VisibleDeckEntity(@JsonProperty("type")VisibleDeckEntities type, @JsonProperty("position") Transform position, @JsonProperty("shape") Shape shape) {
         this.type = type;
         this.positionableShape = PositionableShapeFactory.getPositionable(shape, position);
+    }
+
+    public Transform getPosition() {
+        return positionableShape.getTransform();
+    }
+
+    public Shape getShape() {
+        return positionableShape.getShape();
     }
 
     public PositionableShape<? extends Shape> getPositionableShape() {
