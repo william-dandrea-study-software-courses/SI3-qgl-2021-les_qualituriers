@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
@@ -62,6 +63,7 @@ public abstract class PositionableShape<T extends Shape> {
     /**
      * @return Le cercle circonscrit de la forme
      */
+    @JsonIgnore
     public PositionableCircle getCircumscribed() {
         var c = shape.getCircumscribed();
         return new PositionableCircle(c.getShape(), transform.getInParentLandmark(c.getTransform()));
