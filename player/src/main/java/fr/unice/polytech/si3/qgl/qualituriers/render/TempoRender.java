@@ -34,16 +34,87 @@ public class TempoRender extends Render {
     public List<Action> nextRound(RoundInfo round) throws JsonProcessingException {
 
 
-        List<PositionableShape<? extends Shape>> obstacles = new ArrayList<>();
-        for (VisibleDeckEntity entity: gameInfo.getSeaEntities()) {
-            obstacles.add(entity.getPositionableShape());
-        }
-        //var obstacles = Collections.singletonList(Arrays.stream(gameInfo.getSeaEntities()).map(VisibleDeckEntity::getPositionableShape));
-        var checkpoints = Arrays.asList((((RegattaGoal)gameInfo.getGoal()).getCheckPoints()));
+        if (gameInfo.getSeaEntities() != null) {
+            List<PositionableShape<? extends Shape>> obstacles = new ArrayList<>();
+            for (VisibleDeckEntity entity: gameInfo.getSeaEntities()) {
+                obstacles.add(entity.getPositionableShape());
+            }
 
-        MainPathfinding mainPathfinding = new MainPathfinding();
-        PathfindingContext pathfindingContext = new PathfindingContext(gameInfo.getShip(), obstacles,checkpoints);
-        currentCheckPoint = mainPathfinding.getNextCheckpoint(pathfindingContext);
+            var checkpoints = Arrays.asList((((RegattaGoal)gameInfo.getGoal()).getCheckPoints()));
+
+            MainPathfinding mainPathfinding = new MainPathfinding();
+            PathfindingContext pathfindingContext = new PathfindingContext(gameInfo.getShip(), obstacles,checkpoints);
+            currentCheckPoint = mainPathfinding.getNextCheckpoint(pathfindingContext);
+        } else {
+
+            int numberOfCheckPoints = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints().length;
+
+            gameInfo.getShip().setPosition(round.getShip().getPosition());
+            gameInfo.getShip().setEntities(round.getShip().getEntities());
+
+            gameInfo.getShip().setSailors(Arrays.asList(gameInfo.getSailors()));
+
+
+            PositionableShape<? extends Shape> checkpointsShape = currentCheckPoint.getPositionableShape();
+            PositionableShape<? extends Shape> boatShape = gameInfo.getShip().getPositionableShape();
+
+
+            double distanceRestanteX = currentCheckPoint.getPosition().getX() - gameInfo.getShip().getPosition().getX();
+            double distanceRestanteY = currentCheckPoint.getPosition().getY() - gameInfo.getShip().getPosition().getY();
+
+
+            double distanceRestante = Math.sqrt(distanceRestanteX * distanceRestanteX + distanceRestanteY * distanceRestanteY);
+            System.out.println("======================================================================================================");
+            System.out.println(distanceRestanteX);
+            System.out.println(distanceRestanteY);
+            System.out.println("Distance restante : " + distanceRestante);
+            System.out.println("======================================================================================================");
+
+
+            System.out.println("WIND     : " + gameInfo.getWind());
+            System.out.println("ENTITIES : " + Arrays.toString(gameInfo.getSeaEntities()));
+
+
+            if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter == numberOfCheckPoints - 1) {
+                return new ArrayList<>();
+            }
+
+            if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter < numberOfCheckPoints-1) {
+                checkPointCounter++;
+                currentCheckPoint = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints()[checkPointCounter];
+            }
+
+
+            List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(currentCheckPoint.getPosition(), this.gameInfo,this.logger);
+            System.out.println(actions);
+            return actions;
+        }
+
+
+      return new ArrayList<>();
+    }
+
+
+
+
+    /*
+    @Override
+    public List<Action> nextRound(RoundInfo round) throws JsonProcessingException {
+
+
+        if (gameInfo.getSeaEntities() != null) {
+            List<PositionableShape<? extends Shape>> obstacles = new ArrayList<>();
+            for (VisibleDeckEntity entity: gameInfo.getSeaEntities()) {
+                obstacles.add(entity.getPositionableShape());
+            }
+
+            var checkpoints = Arrays.asList((((RegattaGoal)gameInfo.getGoal()).getCheckPoints()));
+
+            MainPathfinding mainPathfinding = new MainPathfinding();
+            PathfindingContext pathfindingContext = new PathfindingContext(gameInfo.getShip(), obstacles,checkpoints);
+            currentCheckPoint = mainPathfinding.getNextCheckpoint(pathfindingContext);
+        }
+
 
         int numberOfCheckPoints = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints().length;
 
@@ -51,7 +122,6 @@ public class TempoRender extends Render {
         gameInfo.getShip().setEntities(round.getShip().getEntities());
 
         gameInfo.getShip().setSailors(Arrays.asList(gameInfo.getSailors()));
-
 
 
         PositionableShape<? extends Shape> checkpointsShape = currentCheckPoint.getPositionableShape();
@@ -89,4 +159,5 @@ public class TempoRender extends Render {
         System.out.println(actions);
         return actions;
     }
+    */
 }
