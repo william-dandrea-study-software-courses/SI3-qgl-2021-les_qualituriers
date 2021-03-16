@@ -49,12 +49,27 @@ public class HeadQuarter {
 
         List<Action> finalListOfActions = new ArrayList<>();
 
-        // En premier lieu, nous allons mettre tout les marins a leur bonne place
-        List<Marin> sailorsForOars = sailors.subList(1, sailors.size());
-        Marin sailorForRudder = sailors.get(0);
 
-        if (HeadquarterUtil.getListOfSailorsOnOars(sailors, boat).size() != sailorsForOars.size() || HeadquarterUtil.getRudder(boat).isEmpty()) {
-            finalListOfActions.addAll(initSailorsPlace(boat, sailorsForOars, sailorForRudder));
+        // En premier lieu, nous allons mettre tout les marins a leur bonne place
+        //List<Marin> sailorsForOars = sailors.subList(1, sailors.size());
+        List<Marin> sailorsForOars = new ArrayList<>();
+        Optional<Marin> sailorForRudder = Optional.empty();
+
+        if (sailors.size() > 4) {
+            sailorForRudder = sailors.stream().findAny();
+        }
+
+        if (sailorForRudder.isPresent()) {
+            for (Marin sailor : sailors) {
+                if (sailor != sailorForRudder.get()) {sailorsForOars.add(sailor);}
+            }
+        } else {
+            sailorsForOars = sailors;
+        }
+
+
+        if (sailorForRudder.isPresent() && (HeadquarterUtil.getListOfSailorsOnOars(sailors, boat).size() != sailorsForOars.size() || HeadquarterUtil.getRudder(boat).isEmpty())) {
+            finalListOfActions.addAll(initSailorsPlace(boat, sailorsForOars, sailorForRudder.get()));
         }
 
         // Maintenant que nous avons initié les rames, nous allons essayer de faire bouger le bateau du bon angle
@@ -87,16 +102,23 @@ public class HeadQuarter {
 
         }
 
-        if (sailorOnRudderOp.isPresent()) {
+        if (sailorOnRudderOp.isPresent() && sailorForRudder.isPresent()) {
 
             if (detectWind(boat, goal, sailors, gameInfo)) {
 
-                Optional<Action> actionOpMovingRudderGuyOnSail = moveRudderGuyOnTheSail(boat, sailors, sailorForRudder);
+                Optional<Action> actionOpMovingRudderGuyOnSail = moveRudderGuyOnTheSail(boat, sailors, sailorForRudder.get());
 
                 if (actionOpMovingRudderGuyOnSail.isPresent()) {
+
                     finalListOfActions.add(actionOpMovingRudderGuyOnSail.get());
-                    finalListOfActions.add(new LiftSail(sailorForRudder.getId()));
-                    HeadquarterUtil.getSail(boat).ifPresent(sail -> ((SailBoatEntity) sail).setOpened(true));
+
+                    Optional<Marin> rudderOp = HeadquarterUtil.getSailorOnSail(boat,sailors);
+
+                    if (rudderOp.isPresent()) {
+                        finalListOfActions.add(new LiftSail(sailorForRudder.get().getId()));
+                        HeadquarterUtil.getSail(boat).ifPresent(sail -> ((SailBoatEntity) sail).setOpened(true));
+                    }
+
                 }
 
             } else {
