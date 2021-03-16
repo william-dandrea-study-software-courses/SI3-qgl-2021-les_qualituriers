@@ -50,7 +50,7 @@ class CockpitTest {
 
 
     @Test
-    public void gameInfoCorrect() throws IOException {
+    void gameInfoCorrect() throws IOException {
         CheckPoint[] checkPoints = new CheckPoint[2];
         checkPoints[0] = new CheckPoint(new Transform(10, 10, 0), new Circle(50));
         checkPoints[1] = new CheckPoint(new Transform(0, 0, 0), new Circle(50));
@@ -82,7 +82,7 @@ class CockpitTest {
     }
 
     @Test
-    public void initGameRenderNotNull() {
+    void initGameRenderNotNull() {
         cockpit.initGame(this.initGame.toString());
         assertNotNull(cockpit.render);
     }
@@ -112,7 +112,7 @@ class CockpitTest {
     }
 
     @Test
-    public void nextRoundCrash() {
+    void nextRoundCrash() {
         cockpit.initGame(this.initGame.toString());
         this.cockpit.nextRound("{\"ship\":\"type\":\"ship\"}");
         assertTrue(cockpit.getLogs().contains("com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot construct instance of `fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('type')\n" +
@@ -120,7 +120,7 @@ class CockpitTest {
     }
 
     @Test
-    public void nextRoundNotGoodReturn() throws IOException {
+    void nextRoundNotGoodReturn() throws IOException {
         File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/nextRound1.json");
         cockpit.initGame(this.initGame.toString());
         cockpit.render = mock(TempoRender.class);
@@ -156,11 +156,13 @@ class CockpitTest {
     }
 
 
+    @Disabled
     @Test @DisplayName("WEEK3")
     void testWeek3() throws IOException {
         File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/jsonfiles/week3/init.json");
         JsonNode inputNode = om.readTree(from);
         cockpit.initGame(inputNode.toString());
+
 
 
         String src = "src/test/java/fr/unice/polytech/si3/qgl/qualituriers/jsonfiles/week3/nextRound.json";

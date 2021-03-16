@@ -3,6 +3,9 @@ package fr.unice.polytech.si3.qgl.qualituriers.engine;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.ReefVisibleDeckEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.StreamVisibleDeckEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
@@ -19,8 +22,8 @@ public class TurnConfig {
 
 
     public static final BoatEntity[] boatEntities = {
-            new RudderBoatEntity(3, 2),
-            new SailBoatEntity(3,1, false),
+            new RudderBoatEntity(3, 5),
+            new SailBoatEntity(2,1, false),
             new OarBoatEntity(1, 3),
             new OarBoatEntity(2, 3),
             new OarBoatEntity(3, 3),
@@ -30,6 +33,11 @@ public class TurnConfig {
             new OarBoatEntity(3, 0),
             new OarBoatEntity(4, 0),
 
+    };
+
+    public static final VisibleDeckEntity[] seaEntities = {
+            new ReefVisibleDeckEntity(new Transform(5000, 0, 0), new Circle(200)),
+            new StreamVisibleDeckEntity(new Transform(4000, 0, Math.PI / 2), new Circle(200), 5)
     };
 
     private static final int boatLife = 100;
@@ -52,7 +60,7 @@ public class TurnConfig {
         add(new Marin(8, 1, 3, "marin8"));
 
         add(new Marin(10, 2, 0, "marin10"));
-        add(new Marin(10, 2, 1, "marin10"));
+        add(new Marin(11, 2, 1, "marin10"));
     }};
 
 
@@ -85,6 +93,16 @@ public class TurnConfig {
      * La force minimal du vent
      */
     public static final double minStrength = 1;
+
+    /**
+     * Champ de vision sans le vigie d'activé
+     */
+    public static final double FIELD_VISION = 1000;
+
+    /**
+     * Champ de vision avec le vigie d'activé
+     */
+    public static final double FIELD_VISION_ENLARGE = 5000;
 
 
 }

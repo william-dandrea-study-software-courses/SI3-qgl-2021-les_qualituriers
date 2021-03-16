@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,35 +70,21 @@ public abstract class PolygonAbstract extends Shape {
         return segments;
     }
 
-    /**
-     * Calcul les segments du polygon dans le repere global
-     * @param transform le transform de la forme
-     * @return La liste des segments
-     */
-    /*public List<Segment> getSegments(Transform transform) {
-        List<Segment> segments = new ArrayList<>();
-
-        // Create segment for each vertice and his neighboors
-        for(int i = 0; i < vertices.length - 1; i++) {
-            var thisAPos = transform.getPoint().add(vertices[i].rotate(transform.getOrientation() + orientation));
-            var afterAPos = transform.getPoint().add(vertices[i + 1].rotate(transform.getOrientation() + orientation));
-
-            segments.add(new Segment(thisAPos, afterAPos));
-        }
-
-        // Close the shape
-        var firstAPos = transform.getPoint().add(vertices[0].rotate(transform.getOrientation() + orientation));
-        var lastAPos = transform.getPoint().add(vertices[vertices.length - 1].rotate(transform.getOrientation() + orientation));
-        segments.add(new Segment(lastAPos, firstAPos));
-
-        return segments;
-    }*/
-
-
     @Override
     public boolean isIn(Point position) {
         var pointSegment = new Segment(new Point(0, 0), position);
         return getSegments().stream().noneMatch(pointSegment::intersectWith);
+    }
+
+    @Override
+    public PositionableCircle getCircumscribed() {
+        var vertices = getVertices(Transform.ZERO);
+        var center = Arrays.stream(vertices).reduce(Point.ZERO, Point::add).scalar(1 / (double)vertices.length);
+        var maxDist = Arrays.stream(vertices).mapToDouble(p -> p.substract(center).length()).max();
+
+        if(maxDist.isEmpty()) return new PositionableCircle(new Circle(0), Transform.ZERO);
+
+        return new PositionableCircle(new Circle(maxDist.getAsDouble()), new Transform(center, 0));
     }
 
     @Override

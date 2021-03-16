@@ -3,26 +3,30 @@ package fr.unice.polytech.si3.qgl.qualituriers.engine;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
-import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Deck.Deck;
+import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Deck.DeckRenderer;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea.Sea;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.*;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.serializers.RectangleSerializer;
+import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.ReefVisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -42,18 +46,17 @@ public class Main {
         return TurnConfig.boatSailors.toArray(new Marin[0]);
     }
 
-     static Race createRace() {
+    static Race createRace() {
 
         return new Race(TurnConfig.goal, createBoat(), createSailors(), generateWind(), new Mechanic[] {
                 new MovingMechanic(),
                 new OarMechanic(),
                 new LiftMechanic(),
                 new RudderMechanic()
-        });
+        }, TurnConfig.seaEntities);
     }
 
     static void RunRace(Race race) throws JsonProcessingException, InterruptedException {
-
 
         ObjectMapper om = new ObjectMapper();
         SimpleModule module = new SimpleModule();
@@ -61,7 +64,7 @@ public class Main {
         om.registerModule(module);
 
         // Init game
-        var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1);
+        var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1, new Wind(Math.PI, 20), null);
 
 
         Cockpit cockpit = new Cockpit();
@@ -72,7 +75,7 @@ public class Main {
         Action[] actionsDone;
 
         Sea renderer = new Sea(race);
-        Deck deckRenderer = new Deck(race.getBoat(), createSailors());
+        DeckRenderer deckRenderer = new DeckRenderer(race.getBoat(), createSailors());
 
         int compteurMax = 500;
         do {
@@ -88,11 +91,9 @@ public class Main {
 
             List<Action> finalActionsDone = List.of(actionsDone);
 
-
-
             Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
 
-
+            collisions(race);
 
             deckRenderer.setSailor(race.getSailors());
 
@@ -101,9 +102,17 @@ public class Main {
 
             TimeUnit.MILLISECONDS.sleep(200);
             compteurMax--;
+            //System.out.println(cockpit.getLogs());
+            cockpit.getLogs().clear();
 
-        } while(actionsDone.length != 0 && compteurMax >=0);
-        System.out.println(cockpit.getLogs());
+        } while(actionsDone.length != 0 && compteurMax >= 0 && race.getBoat().getLife() > 0);
+
+        //Pour pouvoir continuer à faire des trucs
+        while (true) {
+            deckRenderer.setSailor(race.getSailors());
+            renderer.draw();
+            TimeUnit.MILLISECONDS.sleep(20);
+        }
         //      Run game
         //      Execute action
     }
@@ -118,6 +127,16 @@ public class Main {
             return new Wind(orientation, strength);
         } else
             return null;
+    }
+
+    private static void collisions(Race race) {
+        for (ReefVisibleDeckEntity reef : Arrays.stream(race.getEntities())
+                .filter(entity -> entity instanceof ReefVisibleDeckEntity)
+                .map(entity -> (ReefVisibleDeckEntity) entity)
+                .collect(Collectors.toList())) {
+            if(Collisions.isColliding(race.getBoat().getPositionableShape(), reef.getPositionableShape()))
+                race.getBoat().setLife(0);
+        }
     }
 
     public static void main(String... args) throws IOException, InterruptedException {

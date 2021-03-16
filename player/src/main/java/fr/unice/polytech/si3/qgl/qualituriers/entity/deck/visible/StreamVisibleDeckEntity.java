@@ -24,6 +24,10 @@ public class StreamVisibleDeckEntity extends VisibleDeckEntity{
         this.strength = strength;
     }
 
+    public double getStrength() {
+        return strength;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;
@@ -35,5 +39,14 @@ public class StreamVisibleDeckEntity extends VisibleDeckEntity{
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), strength);
+    }
+
+    @Override
+    public String toString() {
+        return "StreamVisibleDeckEntity{" +
+                "strength=" + strength +
+                ", type=" + type +
+                ", positionableShape=" + positionableShape +
+                '}';
     }
 }

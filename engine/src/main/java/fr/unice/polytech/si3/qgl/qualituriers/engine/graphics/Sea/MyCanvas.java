@@ -1,9 +1,9 @@
 package fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Polygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
 import java.awt.*;
@@ -13,14 +13,25 @@ import java.util.Objects;
 
 public class MyCanvas extends Canvas {
 
-    private double scale = 0.1;
+    private double scale = 1.0;
     private double zoom = 1.0;
-    //private double scale = 0.1;
+
+    private Point target = new Point(0, 0);
+
     private Point offset = new Point(-300, -200);
     private Point displayOffset = new Point(0, 0);
-    //private Point offset = new Point(2000, 2000);
+    private Point mousePos;
 
     public MyCanvas() {
+        this.mousePos = new Point(0, 0);
+    }
+
+    public void setMousePos(Point mousePos) {
+        this.mousePos = mousePos;
+    }
+
+    public Point getMousePos() {
+        return mousePos;
     }
 
     private void setCameraPosition(Point pt) {
@@ -31,17 +42,39 @@ public class MyCanvas extends Canvas {
         return (int)(n * scale * zoom);
     }
 
-    private Point getScreenPosition(Point pt) {
+    public Point getScreenPosition(Point pt) {
         pt = pt.substract(offset);
         pt = new Point(pt.getX(), -pt.getY());
         pt = pt.scalar(zoom * scale);
-        pt = pt.substract(displayOffset);
 
-        return pt.add(new Point(getWidth() / 2, getHeight() / 2));
+
+        return pt.add(new Point(getWidth() / 2.0, getHeight() / 2.0));
+    }
+
+    public Point getSeaPosition(Point pt) {
+        pt = pt.add(offset);
+        pt = new Point(pt.getX(), -pt.getY());
+        // 5582 : 2092 -> 183 : 237
+        //pt = pt.add(offset);
+        //pt = pt.scalar()
+        return pt;
     }
 
     public void setOffset(Point offset) {
-        this.displayOffset = offset;
+        offset = new Point(offset.getX(), offset.getY());
+        this.offset = offset.scalar(1 / (zoom * scale));
+    }
+
+    public void moveOffsetOf(Point delta) {
+        this.displayOffset = this.displayOffset.add(delta);
+    }
+
+    public double getTotalZoom() {
+        return zoom * scale;
+    }
+
+    public Point getDisplayOffset() {
+        return offset.scalar(zoom * scale);
     }
 
     public void ajustWindows(java.util.List<Rectangle2D> bounds) {
@@ -68,13 +101,14 @@ public class MyCanvas extends Canvas {
         var x = (minx + maxx) / 2;
         var y = (miny + maxy) / 2;
 
-        scale = Math.min(Math.abs(getWidth() / dx), Math.abs(getHeight() / dy)) - 0.2;
+        scale = Math.min(Math.abs(getWidth() / dx), Math.abs(getHeight() / dy));
 
         setCameraPosition(new Point(x, y));
     }
 
     public void zoomIn() {
         zoom /= 2;
+        //offset = offset.substract(new Point(getWidth() / 2, getHeight() / 2).scalar(zoom));
     }
 
     public void zoomOut() {
@@ -88,7 +122,7 @@ public class MyCanvas extends Canvas {
         g.fillOval((int) getScreenPosition(position).getX() - 5, (int) getScreenPosition(position).getY() - 5, 10, 10);
     }
 
-    public void drawCircle(PositionableShape<Circle> circle, Color color) {
+    public void drawCircle(PositionableCircle circle, Color color) {
         var g = getGraphics();
         g.setColor(color);
         var pos = getScreenPosition(circle.getTransform().getPoint());
@@ -97,7 +131,7 @@ public class MyCanvas extends Canvas {
         g.fillOval((int)pos.getX() - size, (int)pos.getY() - size, 2 * size, 2 * size);
     }
 
-    public void drawPolygon(PositionableShape<Polygon> polygon, Color color) {
+    public void drawPolygon(PositionablePolygon polygon, Color color) {
         var g = getGraphics();
         g.setColor(color);
         var pts = polygon.getShape().getVertices(polygon.getTransform());
@@ -116,10 +150,10 @@ public class MyCanvas extends Canvas {
     public void drawShape(PositionableShape<? extends Shape> shape, Color color) {
         switch (shape.getShape().getType()) {
             case CIRCLE:
-                drawCircle((PositionableShape<Circle>) shape, color);
+                drawCircle((PositionableCircle) shape, color);
                 break;
             case RECTANGLE: case POLYGON:
-                drawPolygon((PositionableShape<Polygon>) shape, color);
+                drawPolygon((PositionablePolygon) shape, color);
                 break;
         }
     }

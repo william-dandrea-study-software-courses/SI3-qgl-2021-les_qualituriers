@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DeckTest {
+class DeckTest {
 
     Deck deck;
 
@@ -15,13 +15,13 @@ public class DeckTest {
     }
 
     @Test
-    public void testGetter() {
+    void testGetter() {
         assertEquals(5, deck.getWidth());
         assertEquals(4, deck.getLength());
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         Deck deck2 = new Deck(5, 4);
         Deck deck3 = new Deck(5, 5);
         Deck deck4 = new Deck(4, 4);
@@ -33,7 +33,7 @@ public class DeckTest {
     }
 
     @Test
-    public void testHashcode() {
+    void testHashcode() {
         Deck deck2 = new Deck(5, 4);
         Deck deck3 = new Deck(5, 5);
         Deck deck4 = new Deck(4, 4);

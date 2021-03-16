@@ -15,19 +15,18 @@ public class BoatPathFinding {
     private Marin sailorWeWantToMove;
     private final Point destination;
 
-    private static final int minX = 0;
-    private static int maxX;
-    private static final int minY = 0;
-    private static int maxY;
+    private static final int MIN_X = 0;
+    private final int maxX;
+    private static final int MIN_Y = 0;
+    private final int maxY;
 
     public BoatPathFinding(List<Marin> sailors, Boat boat, int idSailorWeWantToMove, Point destination) {
         this.sailors = sailors;
         this.boat = boat;
         HeadquarterUtil.getSailorByHisID(sailors, idSailorWeWantToMove).ifPresent(value -> this.sailorWeWantToMove = value);
         this.destination = destination;
-
-        maxX = boat.getDeck().getLength()- 1;
-        maxY = boat.getDeck().getWidth() - 1;
+        this.maxX = boat.getDeck().getLength() - 1;
+        this.maxY = boat.getDeck().getWidth() - 1;
     }
 
 
@@ -35,9 +34,6 @@ public class BoatPathFinding {
 
         // NOUS NOUS METTONS D'ABORD AU PLUS PRÊT DE LA DESTIONATION (RAYON DE 5) ET ENSUITE NOUS TOURNONS AUTOUR
         Point idealDestination = getTheInitialCloserPosition();
-
-        //System.out.println("On souhaite bouger le marin en " + sailorWeWantToMove.getPosition() + " sur la case : " + idealDestination );
-
 
         if (sailorWeWantToMove.canMoveTo((int) idealDestination.getX(), (int) idealDestination.getY(), boat) && HeadquarterUtil.placeIsFree(idealDestination, sailors) && HeadquarterUtil.placeIsNotAnBoatEntity(idealDestination, boat)) {
             return idealDestination;
@@ -52,10 +48,10 @@ public class BoatPathFinding {
 
         for (Point point : movingCoefficients) {
 
-            Point destination = sailorWeWantToMove.getPosition();
+            Point position = sailorWeWantToMove.getPosition();
 
-            int positionX = (int) ((destination.getX() - idealDestination.getX() >= 0) ? (idealDestination.getX() + point.getX()) : (idealDestination.getX() - point.getX()));
-            int positionY = (int) ((destination.getY() - idealDestination.getY() >= 0) ? (idealDestination.getY() + point.getY()) : (idealDestination.getY() - point.getY()));
+            int positionX = (int) ((position.getX() - idealDestination.getX() >= 0) ? (idealDestination.getX() + point.getX()) : (idealDestination.getX() - point.getX()));
+            int positionY = (int) ((position.getY() - idealDestination.getY() >= 0) ? (idealDestination.getY() + point.getY()) : (idealDestination.getY() - point.getY()));
 
 
             // Si on peut bouger le marin sur cette position, on a la position la plus proche
@@ -90,7 +86,7 @@ public class BoatPathFinding {
             if (differenceInitDestX >= 0) {
                 pointFinalX = Math.min(sailorWeWantToMove.getX() + Config.MAX_MOVING_CASES_MARIN, maxX);
             } else {
-                pointFinalX = Math.max(sailorWeWantToMove.getX() - Config.MAX_MOVING_CASES_MARIN, minX);
+                pointFinalX = Math.max(sailorWeWantToMove.getX() - Config.MAX_MOVING_CASES_MARIN, MIN_X);
             }
 
         }
@@ -100,7 +96,7 @@ public class BoatPathFinding {
             if (differenceInitDestY >= 0) {
                 pointFinalY = Math.min(sailorWeWantToMove.getY() + Config.MAX_MOVING_CASES_MARIN, maxY);
             } else {
-                pointFinalY = Math.max(sailorWeWantToMove.getY() - Config.MAX_MOVING_CASES_MARIN, minY);
+                pointFinalY = Math.max(sailorWeWantToMove.getY() - Config.MAX_MOVING_CASES_MARIN, MIN_Y);
             }
 
         }
@@ -158,6 +154,7 @@ public class BoatPathFinding {
 
         return pointListAroundPosition;
     }
+
 
 
 

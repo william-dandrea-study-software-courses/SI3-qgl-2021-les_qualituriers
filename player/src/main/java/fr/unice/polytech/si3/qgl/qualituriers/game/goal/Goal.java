@@ -19,7 +19,7 @@ public abstract class Goal {
 
     protected Goals mode;
 
-    public Goal(Goals mode) {
+    protected Goal(Goals mode) {
         this.mode = mode;
     }
 

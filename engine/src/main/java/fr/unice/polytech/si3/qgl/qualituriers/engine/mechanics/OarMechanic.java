@@ -29,7 +29,6 @@ public class OarMechanic extends Mechanic {
                 if(sailorOpt.isEmpty()) throw new SailorNotFoundException(action.getSailorId());
                 var sailor = sailorOpt.get();
 
-                System.out.println(action);
                 var oarOpt = Arrays
                         .stream(race.getBoat().getEntities())
                         .filter(a -> a.getType() == BoatEntities.OAR)

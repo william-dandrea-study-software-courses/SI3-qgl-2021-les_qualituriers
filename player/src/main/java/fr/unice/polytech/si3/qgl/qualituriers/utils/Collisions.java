@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
 import java.util.ArrayList;
@@ -84,5 +85,18 @@ public class Collisions {
         return minMax;
     }
 
-
+    /**
+     * Determine si la shape intersect avec le chemin
+     * @param start: Debut du chemin
+     * @param end: Fin du chemin
+     * @param shape: Obstacle
+     * @param margin: Marge de suretée
+     * @return true si le chemin est obstrué, false sinon
+     */
+    public static boolean raycast(Point start, Point end, PositionableCircle shape, double margin) {
+        if(shape.getShape().isIn(start.substract(shape.getTransform().getPoint())) || shape.getShape().isIn((end.substract(shape.getTransform().getPoint())))) return true;
+        var shapeWithMargin = new PositionableCircle(new Circle(shape.getShape().getRadius() + margin), shape.getTransform());
+        Segment segment = new Segment(start, end);
+        return segment.intersectWith(shapeWithMargin);
+    }
 }
