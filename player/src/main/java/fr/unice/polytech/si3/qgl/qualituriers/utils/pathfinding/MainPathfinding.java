@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,7 +13,7 @@ public class MainPathfinding {
     public MainPathfinding() {
         pathfinders = new ArrayList<>();
 
-        pathfinders.add(new AvoidObstacles());
+        //pathfinders.add(new AvoidObstacles());
         //pathfinders.add(new OrderedCheckpoints());
         // Add your pathfinders here
 
@@ -26,10 +27,14 @@ public class MainPathfinding {
      */
     public CheckPoint getNextCheckpoint(PathfindingContext context) {
         CheckPoint next = context.getToReach();
-        for(var pathfinder : pathfinders) {
+        if(context.getCheckPoints().size() == 0) return new CheckPoint(context.getBoat().getPosition(), new Circle(200));
+
+        context.setToReach(context.getCheckPoints().get(0));
+        return context.getToReach();
+        /*for(var pathfinder : pathfinders) {
             next = pathfinder.getNextCheckpoint(context);
             context.setToReach(next);
-        }
-        return next;
+        }*/
+        //return next;
     }
 }

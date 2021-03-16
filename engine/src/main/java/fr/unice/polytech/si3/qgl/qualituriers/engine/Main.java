@@ -64,7 +64,7 @@ public class Main {
         om.registerModule(module);
 
         // Init game
-        var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1, new Wind(Math.PI, 20), null);
+        var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1, new Wind(Math.PI, 20), TurnConfig.seaEntities);
 
 
         Cockpit cockpit = new Cockpit();
