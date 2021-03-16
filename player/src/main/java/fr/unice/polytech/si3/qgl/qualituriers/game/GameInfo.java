@@ -24,15 +24,14 @@ public class GameInfo {
     private Marin[] sailors;
     private int shipCount;
     private Wind wind;
-    private Map<Integer, VisibleDeckEntity> seaEntities;
+    private VisibleDeckEntity[] seaEntities;
 
     @JsonCreator
     public GameInfo(@JsonProperty("goal") Goal goal, @JsonProperty("ship") Boat ship,
                     @JsonProperty("sailors") Marin[] sailors, @JsonProperty("shipCount") int shipCount,
-                    @JsonProperty("wind") Wind wind, @JsonProperty("seaEntities") Map<Integer, VisibleDeckEntity> seaEntities) {
+                    @JsonProperty("wind") Wind wind, @JsonProperty("seaEntities") VisibleDeckEntity[] seaEntities) {
         this.goal = goal;
         this.ship = ship;
-        this.ship.setGameInfo(this);
         this.sailors = sailors;
         this.shipCount = shipCount;
         this.wind = wind;
@@ -60,8 +59,17 @@ public class GameInfo {
         return wind;
     }
 
-    public Map<Integer, VisibleDeckEntity> getSeaEntities() {
+    public VisibleDeckEntity[] getSeaEntities() {
         return seaEntities;
+    }
+
+
+    public void setWind(Wind wind) {
+        this.wind = wind;
+    }
+
+    public void setSeaEntities(VisibleDeckEntity[] seaEntities) {
+        this.seaEntities = seaEntities;
     }
 
     @Override

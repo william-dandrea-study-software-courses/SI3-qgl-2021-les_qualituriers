@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.SailBoatE
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.BoatPathFinding;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
@@ -40,6 +41,8 @@ public class HeadQuarter {
         this.sailors = sailors;
         this.goal = goal;
         this.gameInfo = gameInfo;
+
+        predefineElements();
     }
 
     public List<Action> playTurn() {
@@ -220,6 +223,15 @@ public class HeadQuarter {
 
 
         return actionOp;
+
+    }
+
+
+    private void predefineElements() {
+
+        if (this.gameInfo.getWind() == null) {
+            this.gameInfo.setWind(new Wind(0,0));
+        }
 
     }
 

@@ -31,7 +31,6 @@ public class Boat {
     private final Deck deck;
     private BoatEntity[] entities;
     private final List<Action> actionsToDo;
-    private GameInfo gameInfo;
 
     @JsonIgnore
     private final PositionableShape<? extends Shape> positionableShape;
@@ -50,11 +49,9 @@ public class Boat {
         this.positionableShape = PositionableShapeFactory.getPositionable(shape, position);
     }
 
-    public void setGameInfo(GameInfo gameInfo) {
-        this.gameInfo = gameInfo;
-    }
 
-    public List<Action> moveBoatDistanceStrategy2(Transform checkPoint, ILogger logger) {
+
+    public List<Action> moveBoatDistanceStrategy2(Transform checkPoint, GameInfo gameInfo,  ILogger logger) {
 
         HeadQuarter headQuarter = new HeadQuarter(this, getSailors(), checkPoint, gameInfo);
         List<Action> actions = headQuarter.playTurn();

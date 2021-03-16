@@ -49,4 +49,12 @@ public abstract class VisibleDeckEntity {
     public int hashCode() {
         return Objects.hash(type, positionableShape);
     }
+
+    @Override
+    public String toString() {
+        return "VisibleDeckEntity{" +
+                "type=" + type +
+                ", positionableShape=" + positionableShape +
+                '}';
+    }
 }

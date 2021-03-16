@@ -25,13 +25,16 @@ public class GameInfoTest {
     GameInfo gameInfo;
 
     private VisibleDeckEntity streamEntity;
-    private Map<Integer, VisibleDeckEntity> seaEntities;
+    private VisibleDeckEntity[] seaEntities;
 
     @BeforeEach
     public  void init() {
 
         streamEntity = new StreamVisibleDeckEntity(new Transform(0,0,0), new Rectangle(1,1,0), 0);
-        seaEntities = Map.ofEntries(Map.entry(0, streamEntity));
+        seaEntities = new VisibleDeckEntity[] {
+                streamEntity,
+                streamEntity,
+        };
         this.gameInfo = new GameInfo(
                 new BattleGoal(),
                 new Boat(100, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),

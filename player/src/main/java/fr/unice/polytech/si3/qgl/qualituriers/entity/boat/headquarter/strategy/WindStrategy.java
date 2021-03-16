@@ -35,7 +35,11 @@ public class WindStrategy {
         double distanceBetweenBoatAndGoal = HeadquarterUtil.distanceBetweenTwoPoints(goal.getPoint(), boat.getPosition());
         double minimumTolerableDistance = HeadQuarterConfig.coefficientForMovingSailorToSail * HeadquarterUtil.getBoatMovingDistanceMaxInOneTurn(boat);
 
-        double speedWithWind = Config.linearSpeedWind(1,1, gameInfo.getWind().getStrength(), boat.getPosition().getOrientation(), gameInfo.getWind().getOrientation());
+
+        var stregth =  gameInfo.getWind().getStrength();
+        var orientation = boat.getPosition().getOrientation();
+        var windOr = gameInfo.getWind().getOrientation();
+        double speedWithWind = Config.linearSpeedWind(1,1, stregth, orientation, windOr);
 
         if (angleBetweenBoatAndGoal <= minimumTolerableAngle
                 && isSailorOnRudder
