@@ -58,14 +58,13 @@ public class Main {
 
     static void RunRace(Race race) throws JsonProcessingException, InterruptedException {
 
-
         ObjectMapper om = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addSerializer(Rectangle.class, new RectangleSerializer());
         om.registerModule(module);
 
         // Init game
-        var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1, new Wind(Math.PI, 20), TurnConfig.seaEntities);
+        var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1, new Wind(Math.PI, 20), null);
 
 
         Cockpit cockpit = new Cockpit();

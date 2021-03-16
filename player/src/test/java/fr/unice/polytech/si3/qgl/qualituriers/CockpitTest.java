@@ -156,6 +156,7 @@ class CockpitTest {
     }
 
 
+    @Disabled
     @Test @DisplayName("WEEK3")
     void testWeek3() throws IOException {
         File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/jsonfiles/week3/init.json");

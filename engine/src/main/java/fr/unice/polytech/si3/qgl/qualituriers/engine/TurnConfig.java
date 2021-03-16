@@ -22,8 +22,8 @@ public class TurnConfig {
 
 
     public static final BoatEntity[] boatEntities = {
-            new RudderBoatEntity(3, 2),
-            new SailBoatEntity(3,1, false),
+            new RudderBoatEntity(3, 5),
+            new SailBoatEntity(2,1, false),
             new OarBoatEntity(1, 3),
             new OarBoatEntity(2, 3),
             new OarBoatEntity(3, 3),
@@ -60,7 +60,7 @@ public class TurnConfig {
         add(new Marin(8, 1, 3, "marin8"));
 
         add(new Marin(10, 2, 0, "marin10"));
-        add(new Marin(10, 2, 1, "marin10"));
+        add(new Marin(11, 2, 1, "marin10"));
     }};
 
 

@@ -7,6 +7,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarte
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +42,13 @@ public class InitSailorsPlaceOnRudder {
 
             // Si il y a deja un marin sur le gouvernail
             if (HeadquarterUtil.getSailorOnRudder(boat, sailors).isPresent()) {
+
                 return new ArrayList<>();
             }
 
             // Si il n'y a pas de marin sur le gouvernail mais que l'on peut bouger le marin sur le gouvernail
             if (rudder.canMoveTo(boatRudder.getX(), boatRudder.getY(), boat)) {
+
 
                 Optional<Action> movingAction = HeadquarterUtil.generateMovingAction(rudder.getId(), rudder.getX(), rudder.getY(), boatRudder.getX(), boatRudder.getY());
 
@@ -56,6 +59,21 @@ public class InitSailorsPlaceOnRudder {
             } else {
 
                 // On ne peux pas bouger le marin directement sur le gouvernail
+
+                /*
+                for (int i = boat.getDeck().getLength()-1; i <= 0; i++) {
+                    for (int j = boat.getDeck().getWidth()-1; j <= 0; j++) {
+
+                        if (Math.abs(rudder.getX() - i) <= 5 && Math.abs(rudder.getY() - j) <= 5) {
+                            finalListOfActions.add(new Moving(rudder.getId(), i - rudder.getX(),j- rudder.getY()));
+                        }
+                    }
+                }
+
+                System.out.println("ICI");
+
+                 */
+
                 return moveTheSailorTheNearest(boatRudder);
 
             }
