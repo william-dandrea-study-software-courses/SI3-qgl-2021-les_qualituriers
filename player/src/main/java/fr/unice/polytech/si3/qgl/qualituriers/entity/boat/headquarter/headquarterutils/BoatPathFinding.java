@@ -35,7 +35,10 @@ public class BoatPathFinding {
         // NOUS NOUS METTONS D'ABORD AU PLUS PRÊT DE LA DESTIONATION (RAYON DE 5) ET ENSUITE NOUS TOURNONS AUTOUR
         Point idealDestination = getTheInitialCloserPosition();
 
-        if (sailorWeWantToMove.canMoveTo((int) idealDestination.getX(), (int) idealDestination.getY(), boat) && HeadquarterUtil.placeIsFree(idealDestination, sailors) && HeadquarterUtil.placeIsNotAnBoatEntity(idealDestination, boat)) {
+        System.out.println("IDEAL DESTINATION = " + idealDestination.toString());
+
+        if (sailorWeWantToMove.canMoveTo((int) idealDestination.getX(), (int) idealDestination.getY(), boat) && HeadquarterUtil.placeIsFree(idealDestination, sailors)) {
+            System.out.println("We Can");
             return idealDestination;
         }
 

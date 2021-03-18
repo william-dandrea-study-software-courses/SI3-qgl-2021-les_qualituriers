@@ -49,19 +49,15 @@ public class HeadQuarter {
 
         List<Action> finalListOfActions = new ArrayList<>();
 
-
         // En premier lieu, nous allons mettre tout les marins a leur bonne place
         List<Marin> sailorsForOars = sailors.subList(0, sailors.size()-2);
 
         Marin sailorForRudder = sailors.get(sailors.size()-1);
         System.out.println("YOYOOOOOOOOO = > " + sailorForRudder);
 
-
-
-
-
         if ((HeadquarterUtil.getListOfSailorsOnOars(sailors, boat).size() != sailorsForOars.size() || HeadquarterUtil.getRudder(boat).isEmpty())) {
-            finalListOfActions.addAll(initSailorsPlace(boat, sailorsForOars, sailorForRudder));
+            finalListOfActions.addAll(initOarSailorsPlace(boat, sailorsForOars));
+            finalListOfActions.addAll(initRudderSailorPlace(boat, sailorForRudder));
         }
 
         // Maintenant que nous avons initié les rames, nous allons essayer de faire bouger le bateau du bon angle
@@ -88,10 +84,8 @@ public class HeadQuarter {
                         Optional<Action> moveSailGuyOnTheRudder = moveSailGuyOnTheRudder(boat, sailors, sailorOnSail.get());
                         moveSailGuyOnTheRudder.ifPresent(finalListOfActions::add);
                     }
-
                 }
             }
-
         }
 
         if (sailorOnRudderOp.isPresent()) {
@@ -131,23 +125,19 @@ public class HeadQuarter {
      * Le rudder et la voile
      * @param methodBoat le boat
      * @param sailorsForOar les marins qui iront sur les rames
-     * @param sailorForRudder le marin qui ira sur le rudder
      * @return la liste d'action a effectuer pour bien positionner les marins
      */
-    private List<Action> initSailorsPlace(Boat methodBoat, List<Marin> sailorsForOar, Marin sailorForRudder) {
-
-
-        List<Action> actionList = new ArrayList<>();
-        // Le get(0) st provisoire pour l'instant, une stratégie sera faite pour trouver le marin optimal
-
-        InitSailorsPlaceOnRudder initSailorsPlaceOnRudder = new InitSailorsPlaceOnRudder(methodBoat, sailorForRudder.getId(), sailors);
-        actionList.addAll(initSailorsPlaceOnRudder.initSailorsPlaceOnRudder());
+    private List<Action> initOarSailorsPlace(Boat methodBoat, List<Marin> sailorsForOar) {
 
         // Une fois initSailorsPlaceOnRudder fait, on retirera dans le initSailorsPlaceOnOars la marin qui a été affecté au rudder
         InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(methodBoat, sailorsForOar);
-        actionList.addAll(initSailorsPlaceOnOars.initSailorsPlace());
+        return initSailorsPlaceOnOars.initSailorsPlace();
+    }
 
-        return actionList;
+
+    private List<Action> initRudderSailorPlace(Boat methodBoat, Marin sailorForRudder) {
+        InitSailorsPlaceOnRudder initSailorsPlaceOnRudder = new InitSailorsPlaceOnRudder(methodBoat, sailorForRudder.getId(), sailors);
+        return initSailorsPlaceOnRudder.initSailorsPlaceOnRudder();
     }
 
 
@@ -199,11 +189,11 @@ public class HeadQuarter {
      * @return true si il est utile de deplacer un marin sur la voile, false sinon
      */
     private boolean detectWind(Boat methodBoat, Transform methodGoal, List<Marin> methodSailors, GameInfo methodGameInfo) {
-
         WindStrategy windStrategy = new WindStrategy(methodBoat, methodGoal, methodSailors, methodGameInfo);
         return windStrategy.detectWind();
-
     }
+
+
 
 
     private Optional<Action> moveRudderGuyOnTheSail(Boat methodBoat, List<Marin> methodSailors, Marin sailorOnRudder) {
