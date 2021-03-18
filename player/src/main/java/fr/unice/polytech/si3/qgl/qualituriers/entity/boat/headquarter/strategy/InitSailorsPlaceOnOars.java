@@ -8,7 +8,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarte
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
 import java.util.*;
 
@@ -44,7 +43,7 @@ public class InitSailorsPlaceOnOars {
      * @return la liste d'action a faire pour mettre les marins au meilleur endroit
      */
     public List<Action> initSailorsPlace() {
-        List<Action> finalListOfActions = new ArrayList<>();
+
 
 
 
@@ -59,7 +58,7 @@ public class InitSailorsPlaceOnOars {
         int numberOfSailorsAtTribord = sailors.size() - numberOfSailorsAtBabord - listOfSailorsOnTribordOars.size();
 
         List<Marin> listOfSailorsOnAnyOars = HeadquarterUtil.getListOfSailorsOnAnyOar(sailors, boat);
-        finalListOfActions.addAll(moveSailorsIn(numberOfSailorsAtBabord, listOfSailorsOnAnyOars, listOfBabordOarWithAnySailorsOnIt));
+        List<Action> finalListOfActions = new ArrayList<>(moveSailorsIn(numberOfSailorsAtBabord, listOfSailorsOnAnyOars, listOfBabordOarWithAnySailorsOnIt));
         listOfSailorsOnAnyOars = HeadquarterUtil.getListOfSailorsOnAnyOar(sailors, boat);
         finalListOfActions.addAll(moveSailorsIn(numberOfSailorsAtTribord, listOfSailorsOnAnyOars, listOfTribordOarWithAnySailorsOnIt));
 
@@ -73,10 +72,10 @@ public class InitSailorsPlaceOnOars {
      * une liste de marins que l'on soouhaite faire bouger sur listOfEmplacementWhereWeWantSailor (en général, ce sont des
      * marins qui ne sont sur aucune entité). Ensuite, cette méthode génére une liste d'actions pour déplacer les marins
      * sur ces emplacements ou les emplacements les plus proches ou déplacer un marin.
-     * @param numberOfSailors
-     * @param listOfSailorsWeWantToMoveTo
-     * @param listOfEmplacementWhereWeWantSailor
-     * @return
+     * @param numberOfSailors le nombre de déplacement que l'on souhaite faire
+     * @param listOfSailorsWeWantToMoveTo la liste des marins que l'on souhaite faire bouger
+     * @param listOfEmplacementWhereWeWantSailor la liste des emplacements potentiels
+     * @return la liste d'action pour deplacer les marins sur ou au plus pret des mplacemnts que l'on souhaite
      */
      List<Action> moveSailorsIn(int numberOfSailors, List<Marin> listOfSailorsWeWantToMoveTo, List<BoatEntity> listOfEmplacementWhereWeWantSailor) {
 

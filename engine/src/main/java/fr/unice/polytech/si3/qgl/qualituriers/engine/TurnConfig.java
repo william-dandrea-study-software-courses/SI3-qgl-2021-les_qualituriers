@@ -71,12 +71,12 @@ public class TurnConfig {
 
     public static final RegattaGoal goal = new RegattaGoal(new CheckPoint[] {
             // WEEK4
-            new CheckPoint(new Transform(new Point(5582.608695652169, 2092.833876221499), 0), new Circle(100)),
-            new CheckPoint(new Transform(new Point(3869.565217391304, 3737.7850162866466), 0), new Circle(100)),
-            new CheckPoint(new Transform(new Point(1634.7826086956427, 3884.3648208469035), 0), new Circle(100)),
-            new CheckPoint(new Transform(new Point(-400.00000000000085, 1970.684039087947), 0), new Circle(100)),
-            new CheckPoint(new Transform(new Point(5452.173913043472, -57.00325732899084), 0), new Circle(100)),
-            new CheckPoint(new Transform(new Point(7965.21739130434, 2117.2638436482102), 0), new Circle(60)),
+            new CheckPoint(new Transform(new Point(5582.608695652169, 2092.833876221499), 0), new Circle(10)),
+            new CheckPoint(new Transform(new Point(3869.565217391304, 3737.7850162866466), 0), new Circle(10)),
+            new CheckPoint(new Transform(new Point(1634.7826086956427, 3884.3648208469035), 0), new Circle(10)),
+            new CheckPoint(new Transform(new Point(-400.00000000000085, 1970.684039087947), 0), new Circle(10)),
+            new CheckPoint(new Transform(new Point(5452.173913043472, -57.00325732899084), 0), new Circle(10)),
+            new CheckPoint(new Transform(new Point(7965.21739130434, 2117.2638436482102), 0), new Circle(10)),
     });
 
     public static final Random random = new Random();
