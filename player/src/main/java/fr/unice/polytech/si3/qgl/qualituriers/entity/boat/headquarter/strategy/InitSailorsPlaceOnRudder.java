@@ -35,9 +35,11 @@ public class InitSailorsPlaceOnRudder {
 
         Optional<BoatEntity> boatRudderOp = HeadquarterUtil.getRudder(boat);
 
+
         // Si on a un gouvernail
         if (boatRudderOp.isPresent()) {
             BoatEntity boatRudder = boatRudderOp.get();
+
 
 
             // Si il y a deja un marin sur le gouvernail
@@ -60,25 +62,9 @@ public class InitSailorsPlaceOnRudder {
 
                 // On ne peux pas bouger le marin directement sur le gouvernail
 
-                /*
-                for (int i = boat.getDeck().getLength()-1; i <= 0; i++) {
-                    for (int j = boat.getDeck().getWidth()-1; j <= 0; j++) {
-
-                        if (Math.abs(rudder.getX() - i) <= 5 && Math.abs(rudder.getY() - j) <= 5) {
-                            finalListOfActions.add(new Moving(rudder.getId(), i - rudder.getX(),j- rudder.getY()));
-                        }
-                    }
-                }
-
-                System.out.println("ICI");
-
-                 */
-
                 return moveTheSailorTheNearest(boatRudder);
 
             }
-
-
         }
 
         return finalListOfActions;
@@ -88,21 +74,19 @@ public class InitSailorsPlaceOnRudder {
 
     private List<Action> moveTheSailorTheNearest(BoatEntity boatRudder) {
 
+
+
         BoatPathFinding boatPathFinding = new BoatPathFinding(sailors, boat, rudder.getId(), boatRudder.getPosition());
         Point point = boatPathFinding.generateClosestPoint();
 
-        if (rudder.canMoveTo((int) point.getX(),(int) point.getY(), boat)) {
-            Optional<Action> movingAction = HeadquarterUtil.generateMovingAction(rudder.getId(), rudder.getX(), rudder.getY(), (int) point.getX(), (int) point.getY());
-            if (movingAction.isPresent()) {
-                rudder.setPosition((int) point.getX(), (int) point.getY());
-                List<Action> actions = new ArrayList<>();
-                actions.add(movingAction.get());
-                return actions;
-            }
-        }
 
+        Optional<Action> action = HeadquarterUtil.generateMovingAction(rudder.getId(), rudder.getX(), rudder.getY(), (int) point.getX(), (int) point.getY());
 
-        return new ArrayList<>();
+        if (action.isPresent())
+
+            rudder.setPosition((int) point.getX(), (int) point.getY());
+            return new ArrayList<>() {{add(action.get());}};
+
     }
 
 }

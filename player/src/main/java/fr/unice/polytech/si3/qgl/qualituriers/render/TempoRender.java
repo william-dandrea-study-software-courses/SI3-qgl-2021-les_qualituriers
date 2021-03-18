@@ -34,6 +34,7 @@ public class TempoRender extends Render {
 
         System.out.println("Round");
         if (gameInfo.getSeaEntities() != null) {
+            System.out.println("1");
 
             gameInfo.getShip().setPosition(round.getShip().getPosition());
             gameInfo.getShip().setEntities(round.getShip().getEntities());
@@ -57,14 +58,12 @@ public class TempoRender extends Render {
 
             double distanceRestante = Math.sqrt(distanceRestanteX * distanceRestanteX + distanceRestanteY * distanceRestanteY);
             System.out.println("======================================================================================================");
-            System.out.println(distanceRestanteX);
-            System.out.println(distanceRestanteY);
-            System.out.println("Distance restante : " + distanceRestante);
+            System.out.println("| " + distanceRestanteX);
+            System.out.println("| " + distanceRestanteY);
+            System.out.println("| " + "Distance restante : " + distanceRestante);
             System.out.println("======================================================================================================");
 
 
-            System.out.println("WIND     : " + gameInfo.getWind());
-            System.out.println("ENTITIES : " + Arrays.toString(gameInfo.getSeaEntities()));
 
 
             List<PositionableShape<? extends Shape>> obstacles = new ArrayList<>();
@@ -78,11 +77,16 @@ public class TempoRender extends Render {
             PathfindingContext pathfindingContext = new PathfindingContext(gameInfo.getShip(), obstacles,checkpoints);
             currentCheckPoint = mainPathfinding.getNextCheckpoint(pathfindingContext);
 
-            System.out.println(Arrays.toString(gameInfo.getSailors()));
-            return gameInfo.getShip().moveBoatDistanceStrategy2(currentCheckPoint.getPosition(), this.gameInfo,this.logger);
+
+            List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(currentCheckPoint.getPosition(), this.gameInfo,this.logger);
+            System.out.println("| " + actions);
+
+            return actions;
 
 
         } else {
+
+            System.out.println("2");
 
             int numberOfCheckPoints = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints().length;
 
@@ -103,14 +107,12 @@ public class TempoRender extends Render {
 
             double distanceRestante = Math.sqrt(distanceRestanteX * distanceRestanteX + distanceRestanteY * distanceRestanteY);
             System.out.println("======================================================================================================");
-            System.out.println(distanceRestanteX);
-            System.out.println(distanceRestanteY);
-            System.out.println("Distance restante : " + distanceRestante);
+            System.out.println("| " + distanceRestanteX);
+            System.out.println("| " + distanceRestanteY);
+            System.out.println("| " + "Distance restante : " + distanceRestante);
             System.out.println("======================================================================================================");
 
 
-            System.out.println("WIND     : " + gameInfo.getWind());
-            System.out.println("ENTITIES : " + Arrays.toString(gameInfo.getSeaEntities()));
 
 
             if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter == numberOfCheckPoints - 1) {
@@ -124,7 +126,7 @@ public class TempoRender extends Render {
 
 
             List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(currentCheckPoint.getPosition(), this.gameInfo,this.logger);
-            System.out.println(actions);
+            System.out.println("| " + actions);
             return actions;
 
 

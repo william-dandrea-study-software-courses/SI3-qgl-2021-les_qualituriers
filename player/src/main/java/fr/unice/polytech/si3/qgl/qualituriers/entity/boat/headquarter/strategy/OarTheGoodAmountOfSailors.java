@@ -24,6 +24,7 @@ public class OarTheGoodAmountOfSailors {
 
 
     public List<Action> oarTheGoodAmountOfSailors() {
+
         List<Action> finalActions = new ArrayList<>();
         // rame tribord - rame babord > 0 <=> rameTribord > rameBabord
         if (differenceOfSailors > 0 ) {
@@ -69,6 +70,7 @@ public class OarTheGoodAmountOfSailors {
 
             List<Marin> listOfBabordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat);
             List<Marin> listOfTribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat);
+
 
             int numberOfSailors = Math.min(listOfTribordSailors.size(), listOfBabordSailors.size());
 

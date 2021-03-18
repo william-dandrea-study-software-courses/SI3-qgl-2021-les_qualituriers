@@ -8,6 +8,15 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Cette classe permet de trouver le point optimum sur le bateau pour déplacer le marin. On doit appeler generateClosestPoint
+ * pour trouver le point optimum :
+ *     -> Si le marin est sur la place de destination : return la destination ou est le marin
+ *     -> Si le marin peut bouger sur la place de destination : return la place de destination
+ *     -> Si le marin ne peux pas bouger directement sur la place de destination : return la place disponible la plus proche sur le bateau
+ *
+ * @author D'Andrea William
+ */
 public class BoatPathFinding {
 
     private final List<Marin> sailors;
@@ -30,15 +39,24 @@ public class BoatPathFinding {
     }
 
 
+    /**
+     * Cette méthode retourne le point optimum ou se placer
+     * @return -> Si le marin est sur la place de destination : return la destination ou est le marin
+     *         -> Si le marin peut bouger sur la place de destination : return la place de destination
+     *         -> Si le marin ne peux pas bouger directement sur la place de destination : return la place disponible la plus proche sur le bateau
+     */
     public Point generateClosestPoint() {
+
+        if (destination.equals(sailorWeWantToMove.getPosition()))
+            return destination;
 
         // NOUS NOUS METTONS D'ABORD AU PLUS PRÊT DE LA DESTIONATION (RAYON DE 5) ET ENSUITE NOUS TOURNONS AUTOUR
         Point idealDestination = getTheInitialCloserPosition();
 
-        System.out.println("IDEAL DESTINATION = " + idealDestination.toString());
+
+
 
         if (sailorWeWantToMove.canMoveTo((int) idealDestination.getX(), (int) idealDestination.getY(), boat) && HeadquarterUtil.placeIsFree(idealDestination, sailors)) {
-            System.out.println("We Can");
             return idealDestination;
         }
 
@@ -60,7 +78,6 @@ public class BoatPathFinding {
             // Si on peut bouger le marin sur cette position, on a la position la plus proche
             if (sailorWeWantToMove.canMoveTo(positionX, positionY, boat)
                     && HeadquarterUtil.placeIsFree(new Point(positionX, positionY), sailors)
-                    && HeadquarterUtil.placeIsNotAnBoatEntity(new Point(positionX, positionY), boat)
             ) {
 
                 return new Point(positionX, positionY);
@@ -72,9 +89,10 @@ public class BoatPathFinding {
     }
 
 
-
-
-
+    /**
+     * Cette méthode permet de retourner la premiere destionation idéale ou deplacer la marin
+     * @return
+     */
      Point getTheInitialCloserPosition() {
 
         int differenceInitDestX = (int) (destination.getX() - sailorWeWantToMove.getX());
@@ -109,8 +127,8 @@ public class BoatPathFinding {
 
 
     /**
-     * ATTENTION : cet algorithme ne sera pas compréhenssible en le lisant car il représente une suite de valeurs
-     * défini a la main, et l'algorithme reproduit cette suite de valeur
+     * ATTENTION : cet algorithme ne sera pas compréhensible en le lisant car il représente une suite de valeurs
+     * défini a la main, et l'algorithme reproduit cette suite de valeur, il ne faut surtout pas le toucher !
      * @return liste des coefficients de rotation autour d'un point mais que d'un côté
      */
     List<Point> generateTurningAroundPointCoefficients() {

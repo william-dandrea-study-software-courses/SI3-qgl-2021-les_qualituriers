@@ -22,7 +22,7 @@ public class TurnConfig {
 
 
     public static final BoatEntity[] boatEntities = {
-            new RudderBoatEntity(3, 5),
+            new RudderBoatEntity(5, 3),
             new SailBoatEntity(2,1, false),
             new OarBoatEntity(1, 3),
             new OarBoatEntity(2, 3),
@@ -36,7 +36,7 @@ public class TurnConfig {
     };
 
     public static final VisibleDeckEntity[] seaEntities = {
-            new ReefVisibleDeckEntity(new Transform(5000, 1978.827361563518, 0), new Circle(200)),
+            //new ReefVisibleDeckEntity(new Transform(5000, 1978.827361563518, 0), new Circle(200)),
             new StreamVisibleDeckEntity(new Transform(4000, 0, Math.PI / 2), new Circle(200), 5)
     };
 
@@ -54,13 +54,14 @@ public class TurnConfig {
         add(new Marin(2, 0, 2, "marin2"));
         add(new Marin(3, 0, 3, "marin3"));
         add(new Marin(4, 0, 4, "marin4"));
+        add(new Marin(5, 1, 0, "marin4"));
 
-        add(new Marin(6, 1, 1, "marin6"));
+        /*add(new Marin(6, 1, 1, "marin6"));
         add(new Marin(7, 1, 2, "marin7"));
         add(new Marin(8, 1, 3, "marin8"));
 
         add(new Marin(10, 2, 0, "marin10"));
-        add(new Marin(11, 2, 1, "marin10"));
+        add(new Marin(11, 2, 1, "marin11"));*/
     }};
 
 

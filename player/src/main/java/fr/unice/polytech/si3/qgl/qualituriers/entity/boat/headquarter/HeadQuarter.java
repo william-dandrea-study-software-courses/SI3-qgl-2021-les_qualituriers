@@ -53,7 +53,6 @@ public class HeadQuarter {
         List<Marin> sailorsForOars = sailors.subList(0, sailors.size()-2);
 
         Marin sailorForRudder = sailors.get(sailors.size()-1);
-        System.out.println("YOYOOOOOOOOO = > " + sailorForRudder);
 
         if ((HeadquarterUtil.getListOfSailorsOnOars(sailors, boat).size() != sailorsForOars.size() || HeadquarterUtil.getRudder(boat).isEmpty())) {
             finalListOfActions.addAll(initOarSailorsPlace(boat, sailorsForOars));
@@ -62,6 +61,7 @@ public class HeadQuarter {
 
         // Maintenant que nous avons initié les rames, nous allons essayer de faire bouger le bateau du bon angle
         int differenceOfOarsBetweenTribordAndBabord = recoverOarsDifferenceBetweenPortsideAndStarboardForGoingSomewhere(boat, goal); // tribord - babord
+        System.out.println("===> Différence : " + differenceOfOarsBetweenTribordAndBabord);
         finalListOfActions.addAll(oarTheGoodAmountOfSailors(differenceOfOarsBetweenTribordAndBabord, boat, sailors));
 
         // Maintenant on va faire fonctioner le rudder
@@ -71,6 +71,7 @@ public class HeadQuarter {
 
 
         if (HeadquarterUtil.getSailorOnSail(boat, sailors).isPresent() && sailorOnRudderOp.isEmpty() && !detectWind(boat, goal, sailors, gameInfo)) {
+            System.out.println("Yo1");
 
             var sailOnBoat = HeadquarterUtil.getSail(boat);
             if (sailOnBoat.isPresent()) {
@@ -89,6 +90,7 @@ public class HeadQuarter {
         }
 
         if (sailorOnRudderOp.isPresent()) {
+            System.out.println("Yo2");
 
             if (detectWind(boat, goal, sailors, gameInfo)) {
 
@@ -112,6 +114,7 @@ public class HeadQuarter {
                 actionOptional.ifPresent(finalListOfActions::add);
             }
         }
+
 
 
         return finalListOfActions;
