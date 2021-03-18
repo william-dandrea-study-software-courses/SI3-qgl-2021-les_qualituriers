@@ -34,7 +34,7 @@ public class HeadQuarter {
     private final Boat boat;
     private final List<Marin> sailors;
     private final Transform goal;
-    private GameInfo gameInfo;
+    private final GameInfo gameInfo;
 
     public HeadQuarter(Boat boat, List<Marin> sailors, Transform goal, GameInfo gameInfo) {
         this.boat = boat;
@@ -53,7 +53,6 @@ public class HeadQuarter {
         List<Marin> sailorsForOars = sailors.subList(0, sailors.size()-2);
 
         Marin sailorForRudder = sailors.get(sailors.size()-1);
-        System.out.println("YOYOOOOOOOOO = > " + sailorForRudder);
 
         if ((HeadquarterUtil.getListOfSailorsOnOars(sailors, boat).size() != sailorsForOars.size() || HeadquarterUtil.getRudder(boat).isEmpty())) {
             finalListOfActions.addAll(initOarSailorsPlace(boat, sailorsForOars));
@@ -62,7 +61,7 @@ public class HeadQuarter {
 
         // Maintenant que nous avons initié les rames, nous allons essayer de faire bouger le bateau du bon angle
         int differenceOfOarsBetweenTribordAndBabord = recoverOarsDifferenceBetweenPortsideAndStarboardForGoingSomewhere(boat, goal); // tribord - babord
-        finalListOfActions.addAll(oarTheGoodAmountOfSailors(differenceOfOarsBetweenTribordAndBabord, boat, sailors));
+        finalListOfActions.addAll(oarTheGoodAmountOfSailors(differenceOfOarsBetweenTribordAndBabord, boat, sailors, goal));
 
         // Maintenant on va faire fonctioner le rudder
         double angleRudder = generateAngleRudder(boat, goal);
@@ -112,6 +111,7 @@ public class HeadQuarter {
                 actionOptional.ifPresent(finalListOfActions::add);
             }
         }
+
 
 
         return finalListOfActions;
@@ -173,8 +173,8 @@ public class HeadQuarter {
      * @param methodSailors les marins sur le bateau
      * @return la liste d'action a effectuer pour faire avancer le bateau
      */
-    private List<Action> oarTheGoodAmountOfSailors(int differenceOfSailors, Boat methodBoat, List<Marin> methodSailors) {
-        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(methodBoat, methodSailors, differenceOfSailors);
+    private List<Action> oarTheGoodAmountOfSailors(int differenceOfSailors, Boat methodBoat, List<Marin> methodSailors, Transform goal) {
+        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(methodBoat, methodSailors, differenceOfSailors, goal);
         return oarTheGoodAmountOfSailors.oarTheGoodAmountOfSailors();
     }
 

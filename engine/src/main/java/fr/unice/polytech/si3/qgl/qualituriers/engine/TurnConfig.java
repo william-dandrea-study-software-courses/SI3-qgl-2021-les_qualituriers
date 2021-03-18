@@ -22,7 +22,7 @@ public class TurnConfig {
 
 
     public static final BoatEntity[] boatEntities = {
-            new RudderBoatEntity(3, 5),
+            new RudderBoatEntity(5, 3),
             new SailBoatEntity(2,1, false),
             new OarBoatEntity(1, 3),
             new OarBoatEntity(2, 3),
@@ -36,10 +36,8 @@ public class TurnConfig {
     };
 
     public static final VisibleDeckEntity[] seaEntities = {
-            new ReefVisibleDeckEntity(new Transform(3500, 1900, 0), new Circle(200)),
-            new ReefVisibleDeckEntity(new Transform(4500, 1900, 0), new Circle(200)),
-            //new ReefVisibleDeckEntity(new Transform(4000, 1500, 0), new Circle(200)),
-            //new StreamVisibleDeckEntity(new Transform(4000, 0, Math.PI / 2), new Circle(200), 5)
+            //new ReefVisibleDeckEntity(new Transform(5000, 1978.827361563518, 0), new Circle(200)),
+            new StreamVisibleDeckEntity(new Transform(4000, 0, Math.PI / 2), new Circle(200), 5)
     };
 
     private static final int boatLife = 100;
@@ -56,13 +54,14 @@ public class TurnConfig {
         add(new Marin(2, 0, 2, "marin2"));
         add(new Marin(3, 0, 3, "marin3"));
         add(new Marin(4, 0, 4, "marin4"));
+        add(new Marin(5, 1, 0, "marin4"));
 
-        add(new Marin(6, 1, 1, "marin6"));
+        /*add(new Marin(6, 1, 1, "marin6"));
         add(new Marin(7, 1, 2, "marin7"));
         add(new Marin(8, 1, 3, "marin8"));
 
         add(new Marin(10, 2, 0, "marin10"));
-        add(new Marin(11, 2, 1, "marin10"));
+        add(new Marin(11, 2, 1, "marin11"));*/
     }};
 
 
@@ -72,12 +71,12 @@ public class TurnConfig {
 
     public static final RegattaGoal goal = new RegattaGoal(new CheckPoint[] {
             // WEEK4
-            new CheckPoint(new Transform(new Point(5500, 2000), 0), new Circle(100)),
-            new CheckPoint(new Transform(new Point(3869.565217391304, 3737.7850162866466), 0), new Circle(100)),
-            new CheckPoint(new Transform(new Point(1634.7826086956427, 3884.3648208469035), 0), new Circle(100)),
-            new CheckPoint(new Transform(new Point(-400.00000000000085, 1970.684039087947), 0), new Circle(100)),
-            new CheckPoint(new Transform(new Point(5452.173913043472, -57.00325732899084), 0), new Circle(100)),
-            new CheckPoint(new Transform(new Point(7965.21739130434, 2117.2638436482102), 0), new Circle(60)),
+            new CheckPoint(new Transform(new Point(5582.608695652169, 2092.833876221499), 0), new Circle(10)),
+            new CheckPoint(new Transform(new Point(3869.565217391304, 3737.7850162866466), 0), new Circle(10)),
+            new CheckPoint(new Transform(new Point(1634.7826086956427, 3884.3648208469035), 0), new Circle(10)),
+            new CheckPoint(new Transform(new Point(-400.00000000000085, 1970.684039087947), 0), new Circle(10)),
+            new CheckPoint(new Transform(new Point(5452.173913043472, -57.00325732899084), 0), new Circle(10)),
+            new CheckPoint(new Transform(new Point(7965.21739130434, 2117.2638436482102), 0), new Circle(10)),
     });
 
     public static final Random random = new Random();

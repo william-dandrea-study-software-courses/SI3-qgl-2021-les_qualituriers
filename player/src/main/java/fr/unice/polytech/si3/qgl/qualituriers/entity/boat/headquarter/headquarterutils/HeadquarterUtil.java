@@ -73,6 +73,18 @@ public class HeadquarterUtil {
         return Optional.of(new Oar(sailorId));
     }
 
+    /**
+     * cette méthode a pour but de regarder si le marin est sur une boatEntity ou pas
+     * @param boat le bateau en question
+     * @param marin le marin que l'on souhaite saoir si il est sur une oar ou non
+     * @return true si le marin est sur une oar, false sinon
+     */
+    public static boolean sailorIsOnOar(Boat boat, Marin marin) {
+
+        return getListOfOars(boat).contains(marin);
+
+    }
+
 
     public static boolean placeIsFree(Point position,List<Marin> sailors) {
 
@@ -243,6 +255,26 @@ public class HeadquarterUtil {
                 .stream()
                 .filter(boatOar ->
                         getListOfSailorsOnOars(sailors, boat)
+                                .stream()
+                                .noneMatch(sailorOnOar -> boatOar.getX() == sailorOnOar.getX() && boatOar.getY() == sailorOnOar.getY()))
+                .collect(Collectors.toList());
+    }
+
+    public static List<BoatEntity> getListOfBabordOarWithAnySailorsOnIt(List<Marin> sailors, Boat boat) {
+        return getListOfOars(boat)
+                .stream()
+                .filter(boatOar ->
+                        getListOfSailorsOnBabordOars(sailors, boat)
+                                .stream()
+                                .noneMatch(sailorOnOar -> boatOar.getX() == sailorOnOar.getX() && boatOar.getY() == sailorOnOar.getY()))
+                .collect(Collectors.toList());
+    }
+
+    public static List<BoatEntity> getListOfTribordOarWithAnySailorsOnIt(List<Marin> sailors, Boat boat) {
+        return getListOfOars(boat)
+                .stream()
+                .filter(boatOar ->
+                        getListOfSailorsOnTribordOars(sailors, boat)
                                 .stream()
                                 .noneMatch(sailorOnOar -> boatOar.getX() == sailorOnOar.getX() && boatOar.getY() == sailorOnOar.getY()))
                 .collect(Collectors.toList());

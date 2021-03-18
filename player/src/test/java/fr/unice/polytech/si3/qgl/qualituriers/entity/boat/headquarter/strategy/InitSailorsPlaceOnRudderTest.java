@@ -112,6 +112,7 @@ class InitSailorsPlaceOnRudderTest {
 
         InitSailorsPlaceOnRudder initSailorsPlaceOnRudder = new InitSailorsPlaceOnRudder(completeBoat, 18 , defaultSailors);
         initSailorsPlaceOnRudder.initSailorsPlaceOnRudder();
+
         initSailorsPlaceOnRudder.initSailorsPlaceOnRudder();
         assertEquals(new Point(11,2), HeadquarterUtil.getSailorByHisID(defaultSailors, 18).get().getPosition());
     }
