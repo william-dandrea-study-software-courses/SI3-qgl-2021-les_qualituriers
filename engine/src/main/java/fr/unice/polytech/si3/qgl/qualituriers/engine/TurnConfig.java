@@ -36,13 +36,15 @@ public class TurnConfig {
     };
 
     public static final VisibleDeckEntity[] seaEntities = {
-            new ReefVisibleDeckEntity(new Transform(5000, 1978.827361563518, 0), new Circle(200)),
-            new StreamVisibleDeckEntity(new Transform(4000, 0, Math.PI / 2), new Circle(200), 5)
+            new ReefVisibleDeckEntity(new Transform(3500, 1900, 0), new Circle(200)),
+            new ReefVisibleDeckEntity(new Transform(4500, 1900, 0), new Circle(200)),
+            //new ReefVisibleDeckEntity(new Transform(4000, 1500, 0), new Circle(200)),
+            //new StreamVisibleDeckEntity(new Transform(4000, 0, Math.PI / 2), new Circle(200), 5)
     };
 
     private static final int boatLife = 100;
 
-    private static final Transform boatTransform = new Transform(2852.173913043478,1978.827361563518,0);
+    private static final Transform boatTransform = new Transform(3000,2000,0);
 
     private static final String boatName = "superFregate";
 
@@ -70,7 +72,7 @@ public class TurnConfig {
 
     public static final RegattaGoal goal = new RegattaGoal(new CheckPoint[] {
             // WEEK4
-            new CheckPoint(new Transform(new Point(5582.608695652169, 2092.833876221499), 0), new Circle(100)),
+            new CheckPoint(new Transform(new Point(5500, 2000), 0), new Circle(100)),
             new CheckPoint(new Transform(new Point(3869.565217391304, 3737.7850162866466), 0), new Circle(100)),
             new CheckPoint(new Transform(new Point(1634.7826086956427, 3884.3648208469035), 0), new Circle(100)),
             new CheckPoint(new Transform(new Point(-400.00000000000085, 1970.684039087947), 0), new Circle(100)),

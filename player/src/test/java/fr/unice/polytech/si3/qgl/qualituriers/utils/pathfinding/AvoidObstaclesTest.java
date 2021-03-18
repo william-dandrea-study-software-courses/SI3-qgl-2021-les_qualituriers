@@ -50,8 +50,8 @@ public class AvoidObstaclesTest {
     void TestAttemptToReach(Point pt, List<PositionableShape<? extends Shape>> obs) {
         var toReach = new CheckPoint(new Transform(pt, 0), new Circle(50));
 
-        var context = new PathfindingContext(boat, obs, new ArrayList<>());
-        context.setToReach(toReach);
+        var context = new PathfindingContext(boat, obs, toReach);
+        //context.setToReach(toReach);
 
         int nodes = 1;
         do {

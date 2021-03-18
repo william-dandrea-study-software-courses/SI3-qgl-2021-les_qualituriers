@@ -7,18 +7,18 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.Positiona
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class PathfindingContext {
     private final Boat boat;
     private final List<PositionableShape<? extends Shape>> obstacles;
 
-    private final List<CheckPoint> checkPoints;
     private CheckPoint toReach;
 
-    public PathfindingContext(Boat boat, List<PositionableShape<? extends Shape>> obstacles, List<CheckPoint> checkPoints) {
+    public PathfindingContext(Boat boat, List<PositionableShape<? extends Shape>> obstacles, CheckPoint checkPoint) {
         this.boat = boat;
         this.obstacles = obstacles;
-        this.checkPoints = checkPoints;
+        this.toReach = checkPoint;
     }
 
     void setToReach(CheckPoint checkPoint) {
@@ -35,9 +35,5 @@ public class PathfindingContext {
 
     CheckPoint getToReach() {
         return toReach;
-    }
-
-    List<CheckPoint> getCheckPoints() {
-        return checkPoints;
     }
 }

@@ -13,7 +13,7 @@ public class MainPathfinding {
     public MainPathfinding() {
         pathfinders = new ArrayList<>();
 
-        //pathfinders.add(new AvoidObstacles());
+        pathfinders.add(new AvoidObstacles());
         //pathfinders.add(new OrderedCheckpoints());
         // Add your pathfinders here
 
@@ -26,15 +26,10 @@ public class MainPathfinding {
      * @return Checkpoint de la prochaine étape
      */
     public CheckPoint getNextCheckpoint(PathfindingContext context) {
-        CheckPoint next = context.getToReach();
-        if(context.getCheckPoints().size() == 0) return new CheckPoint(context.getBoat().getPosition(), new Circle(200));
-
-        context.setToReach(context.getCheckPoints().get(0));
-        return context.getToReach();
-        /*for(var pathfinder : pathfinders) {
-            next = pathfinder.getNextCheckpoint(context);
-            context.setToReach(next);
-        }*/
-        //return next;
+        for(var pathfinder : pathfinders) {
+            var cp = pathfinder.getNextCheckpoint(context);
+            context.setToReach(cp);
+        }
+        return  context.getToReach();
     }
 }

@@ -19,18 +19,66 @@ import java.util.List;
 
 public class TempoRender extends Render {
 
-    private CheckPoint currentCheckPoint;
-    private int checkPointCounter = 0;
+    //private CheckPoint currentCheckPoint;
+    //private int checkPointCounter = 0;
 
     public TempoRender(GameInfo gameInfo, ILogger logger) {
         super(gameInfo, logger);
         CheckPoint[] listCheckPoint = ((RegattaGoal) gameInfo.getGoal()).getCheckPoints();
-        currentCheckPoint = listCheckPoint[0];
+        //currentCheckPoint = listCheckPoint[0];
     }
+
+    int currentCheckpointIndex = 0;
+    CheckPoint intermediareCheckpoint = null;
+    public List<Action> nextRoundAlternative(RoundInfo round) {
+        // Récupération des checkpoints
+        var checkpoints = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints();
+
+        // Est-ce que tout les checkpoints sont complété ?
+        if(checkpoints.length <= currentCheckpointIndex) return new ArrayList<>();
+
+        // Mise à jour du gameInfo
+        gameInfo.getShip().setPosition(round.getShip().getPosition());
+        gameInfo.getShip().setEntities(round.getShip().getEntities());
+
+        gameInfo.getShip().setSailors(Arrays.asList(gameInfo.getSailors()));
+
+        // Vérification si le checkpoint actuel est validé
+        var currentCheckpoint = checkpoints[currentCheckpointIndex];
+        if(Collisions.isColliding(currentCheckpoint.getPositionableShape(), gameInfo.getShip().getPositionableShape())) {
+            //Mise à jour du nouveau checkpoint
+            currentCheckpointIndex++;
+            if(currentCheckpointIndex >= checkpoints.length) return new ArrayList<>();
+            currentCheckpoint = checkpoints[currentCheckpointIndex];
+        }
+
+        // Mapping of checkpoints to PositionnalShape
+        List<PositionableShape<? extends Shape>> positionableShapes = new ArrayList<>();
+        Arrays.stream(gameInfo.getSeaEntities()).map(VisibleDeckEntity::getPositionableShape).forEach(positionableShapes::add);
+
+        // Recherche de l'itinéraire
+        if(intermediareCheckpoint == null || Collisions.isColliding(intermediareCheckpoint.getPositionableShape(), gameInfo.getShip().getPositionableShape())) {
+            MainPathfinding pathfinding = new MainPathfinding();
+            intermediareCheckpoint = pathfinding.getNextCheckpoint(new PathfindingContext(
+                    gameInfo.getShip(),
+                    positionableShapes,
+                    currentCheckpoint
+            ));
+            int test = 0;
+        }
+
+        // Calcul des action a effectuer pour atteindre l'étape
+        var actions = gameInfo.getShip().moveBoatDistanceStrategy2(intermediareCheckpoint.getPosition(), this.gameInfo,this.logger);
+
+        return actions;
+    }
+
+
 
     @Override
     public List<Action> nextRound(RoundInfo round)  {
-
+        return nextRoundAlternative(round);
+        /*
 
         System.out.println("Round");
         if (gameInfo.getSeaEntities() != null) {
@@ -75,7 +123,7 @@ public class TempoRender extends Render {
             var checkpoints = Arrays.asList((((RegattaGoal)gameInfo.getGoal()).getCheckPoints())).subList(checkPointCounter, Arrays.asList((((RegattaGoal)gameInfo.getGoal()).getCheckPoints())).size());
 
             MainPathfinding mainPathfinding = new MainPathfinding();
-            PathfindingContext pathfindingContext = new PathfindingContext(gameInfo.getShip(), obstacles,checkpoints);
+            PathfindingContext pathfindingContext = new PathfindingContext(gameInfo.getShip(), obstacles.stream(), checkpoints);
             currentCheckPoint = mainPathfinding.getNextCheckpoint(pathfindingContext);
 
             System.out.println(Arrays.toString(gameInfo.getSailors()));
@@ -129,6 +177,7 @@ public class TempoRender extends Render {
 
 
         }
+        */
     }
 
 

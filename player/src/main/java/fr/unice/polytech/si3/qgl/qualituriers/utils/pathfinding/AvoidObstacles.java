@@ -31,29 +31,19 @@ public class AvoidObstacles implements IPathfinder {
                 .filter(p -> Collisions.raycast(start, end, p, margin)) // get the ones who collids
                 .min(Comparator.comparingDouble(p -> p.getTransform().getPoint().substract(start).length())); // get the nearests
 
-        if(obstacleToAvoid.isEmpty()) return context.getToReach();
+        if(obstacleToAvoid.isEmpty())
+            return context.getToReach();
 
         // Obstacle datas
         var obsRadius = obstacleToAvoid.get().getShape().getRadius();
         var obsPosition = obstacleToAvoid.get().getTransform().getPoint();
-
-        // Directions
-        var direction = end.substract(start).normalized();
-        var orthoDir = direction.rotate(Math.PI / 2);
-
-        var obsDirection = obsPosition.substract(start);
-        var obsRelativePosition = obsDirection.scalar(orthoDir);
-
-        var oppositeDirection = orthoDir.scalar(-obsRelativePosition).normalized();
-
-
-        var nextPosition = direction.scalar(obsDirection.scalar(direction)).add(oppositeDirection.scalar(obsRadius + margin * 10 - Math.abs(obsRelativePosition))).add(start);
+        var obsDirection = obsPosition.substract(start).normalized();
 
 
 
-        // check if the new path is blocked or not
-        context.setToReach(new CheckPoint(new Transform(nextPosition, 0), new Circle(1)));
+        var nextPosition = obsPosition.add(obsDirection.rotate(Math.PI / 2).scalar(2 * obsRadius));
 
+        context.setToReach(new CheckPoint(new Transform(nextPosition, 0), new Circle(100)));
 
         return getNextCheckpoint(context);
     }
