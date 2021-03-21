@@ -42,7 +42,7 @@ public class HeadQuarter {
         this.goal = goal;
         this.gameInfo = gameInfo;
 
-        predefineElements();
+        if (this.gameInfo.getWind() == null) { this.gameInfo.setWind(new Wind(0,0)); }
     }
 
     public List<Action> playTurn() {
@@ -111,8 +111,6 @@ public class HeadQuarter {
                 actionOptional.ifPresent(finalListOfActions::add);
             }
         }
-
-
 
         return finalListOfActions;
     }
@@ -231,13 +229,6 @@ public class HeadQuarter {
     }
 
 
-    private void predefineElements() {
-
-        if (this.gameInfo.getWind() == null) {
-            this.gameInfo.setWind(new Wind(0,0));
-        }
-
-    }
 
 
 

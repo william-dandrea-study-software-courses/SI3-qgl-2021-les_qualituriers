@@ -14,7 +14,7 @@ public class OarTheGoodAmountOfSailors {
 
     private final Boat boat;
     private final List<Marin> sailors;
-    private int differenceOfSailors;
+    private final int differenceOfSailors;
     private final Transform goal;
 
     public OarTheGoodAmountOfSailors(Boat boat, List<Marin> sailors, int differenceOfSailors, Transform goal) {
@@ -50,140 +50,48 @@ public class OarTheGoodAmountOfSailors {
     }
 
 
-    int optimumNumberOfActiveOarsToBeOnTheCheckPoint() {
-
-        double distanceBetweenBoatAndCheckPoint = HeadquarterUtil.distanceBetweenTwoPoints(boat.getPosition(), goal);
-        int numberOfOarsOnTheBoat = HeadquarterUtil.getListOfOars(boat).size();
 
 
-        for (int i = 1; i <= numberOfOarsOnTheBoat ; i++) {
 
-            double distanceWithThisAmountOfOars = (double) 165 * i / numberOfOarsOnTheBoat;
-
-            if ( distanceWithThisAmountOfOars >= distanceBetweenBoatAndCheckPoint) {
-                return i;
-            }
-
-        }
-
-        return numberOfOarsOnTheBoat;
-    }
-
-
-    List<Action> generateOarActionWhenDifferenceIsPositive2() {
+    /**
+     * Cette méthode va retourner la liste d'action a faire pour faire bouger le bateau vers la droite, elle va
+     * regarder aussi combien de marin il est optimal de faire ramer et en fera ramer le bon nombre en fonction de ça
+     * @return la liste d'action a faire pour faire avancer le bateau vers la droite
+     */
+    List<Action> generateOarActionWhenDifferenceIsPositive() {
 
         // On doit avoir differenceOfSailors marins de plus a Tribord qu'a babord
-        List<Action> finalActions = new ArrayList<>();
 
-        int numberOfOarsOnTheBoat = HeadquarterUtil.getListOfOars(boat).size();
-
-        List<Marin> listOfBabordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat);
-        List<Marin> listOfTribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat);
-        int numberOfBabordSailorOnOar = listOfBabordSailors.size();
-        int numberOfTribordSailorOnOar = listOfTribordSailors.size();
-
-        int optimumNumberOfOars = optimumNumberOfActiveOarsToBeOnTheCheckPoint();
         int difference = Math.abs(differenceOfSailors);
-
-        int increment = 1;
         int babord = 0;
         int tribord = babord + difference;
 
-        System.out.println("Optimum : " + optimumNumberOfOars);
-
-        while (increment <= numberOfOarsOnTheBoat) {
-
-
-            if (!(babord + tribord < numberOfOarsOnTheBoat
-                    && babord + tribord < optimumNumberOfOars-1
-                    && babord < numberOfBabordSailorOnOar
-                    && tribord < numberOfTribordSailorOnOar
-            )) {
-                break;
-            } else {
-                babord += 1;
-                tribord += 1;
-            }
-
-            increment++;
-        }
+        return generateOarActionWhenDifference(babord, tribord);
+    }
 
 
-        System.out.println(babord);
-        System.out.println(tribord);
+    /**
+     * Cette méthode va retourner la liste d'action a faire pour faire bouger le bateau vers la gauche, elle va
+     * regarder aussi combien de marin il est optimal de faire ramer et en fera ramer le bon nombre en fonction de ça
+     * @return la liste d'action a faire pour faire avancer le bateau vers la gauche
+     */
+    List<Action> generateOarActionWhenDifferenceIsNegative() {
 
+        // On doit avoir differenceOfSailors marins de plus a Tribord qu'a babord
+        int difference = Math.abs(differenceOfSailors);
+        int tribord = 0;
+        int babord = tribord + difference;
 
-
-        for (Marin babordMarin : listOfBabordSailors) {
-            if (babord == 0){
-                break;
-            }
-            babord -= 1;
-
-
-            Optional<Action> action = HeadquarterUtil.generateOar(babordMarin.getId(), sailors, boat);
-            action.ifPresent(finalActions::add);
-        }
-
-        for (Marin tribordMarin : listOfTribordSailors) {
-            if (tribord == 0){
-                break;
-            }
-            tribord -= 1;
-
-
-            Optional<Action> action = HeadquarterUtil.generateOar(tribordMarin.getId(), sailors, boat);
-            action.ifPresent(finalActions::add);
-        }
-
-        return finalActions;
+        return generateOarActionWhenDifference(babord, tribord);
     }
 
 
 
-    private List<Action> generateOarActionWhenDifferenceIsPositive() {
-
-        List<Action> finalActions = new ArrayList<>();
-        List<Marin> listOfTribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat);
-
-        int optimumNumberOfActiveOars = optimumNumberOfActiveOarsToBeOnTheCheckPoint();
-
-        for (Marin marin : listOfTribordSailors) {
-            if (differenceOfSailors > 0) {
-
-                Optional<Action> actionOptional = HeadquarterUtil.generateOar(marin.getId(), sailors, boat);
-                if (actionOptional.isPresent()) {
-                    finalActions.add(actionOptional.get());
-                    differenceOfSailors--;
-                } else {
-                    return finalActions;
-                }
-            }
-        }
-
-        return finalActions;
-    }
-
-    private List<Action> generateOarActionWhenDifferenceIsNegative() {
-
-        List<Action> finalActions = new ArrayList<>();
-        List<Marin> listOfBabordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat);
-
-        for (Marin marin : listOfBabordSailors) {
-            if (differenceOfSailors < 0) {
-
-                Optional<Action> actionOptional = HeadquarterUtil.generateOar(marin.getId(), sailors, boat);
-                if (actionOptional.isPresent()) {
-                    finalActions.add(actionOptional.get());
-                    differenceOfSailors--;
-                } else {
-                    return finalActions;
-                }
-            }
-        }
-        return finalActions;
-    }
-
+    /**
+     * Cette méthode va retourner la liste d'action a faire pour faire bouger le marin en ligne droite, elle va
+     * regarder aussi combien de marin il est optimal de faire ramer et en fera ramer le bon nombre en fonction de ça
+     * @return la liste d'action a faire pour faire avancer le bateau en ligne droite
+     */
     private List<Action> generateOarActionWhenDifferenceIsNull() {
 
         List<Action> finalActions = new ArrayList<>();
@@ -213,6 +121,95 @@ public class OarTheGoodAmountOfSailors {
     }
 
 
+
+    /**
+     * Cette méthode retourne le nombre de marin que l'on doit faire ramer pour arriver pile-poile sur un checkpoint
+     * Si le checkpoint est très loin, on fait ramer tout les marins, si le checkpoint est très proche, cette
+     * méthode renvoie juste le nombre de marin nécessaire pour atterir dans ce checkpoint
+     * @return le nombre de marins a faire ramer pour atteindre un checkpoint
+     */
+    int optimumNumberOfActiveOarsToBeOnTheCheckPoint() {
+
+        double distanceBetweenBoatAndCheckPoint = HeadquarterUtil.distanceBetweenTwoPoints(boat.getPosition(), goal);
+        int numberOfOarsOnTheBoat = HeadquarterUtil.getListOfOars(boat).size();
+
+
+        for (int i = 1; i <= numberOfOarsOnTheBoat ; i++) {
+
+            double distanceWithThisAmountOfOars = (double) 165 * i / numberOfOarsOnTheBoat;
+
+            if ( distanceWithThisAmountOfOars >= distanceBetweenBoatAndCheckPoint) {
+                return i;
+            }
+
+        }
+
+        return numberOfOarsOnTheBoat;
+    }
+
+
+    /**
+     * Cette méthode va générer la liste d'action pour un certain nombre de marin a droite et a gauche, cette méthode va
+     * essayer de faire ramer le plus de marin possible en ayant l'ecart entre babord et tribord
+     * @param babord nombre de marin min a babord
+     * @param tribord nombre de marin min a tribord
+     * @return liste d'action a faire pour avancer
+     */
+    List<Action> generateOarActionWhenDifference(int babord, int tribord) {
+
+        int numberOfOarsOnTheBoat = HeadquarterUtil.getListOfOars(boat).size();
+
+        List<Marin> listOfBabordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat);
+        List<Marin> listOfTribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat);
+
+        int optimumNumberOfOars = optimumNumberOfActiveOarsToBeOnTheCheckPoint();
+
+        int increment = 1;
+
+        while (increment <= numberOfOarsOnTheBoat) {
+
+            if (!(babord + tribord < numberOfOarsOnTheBoat
+                    && babord + tribord < optimumNumberOfOars-1
+                    && babord < listOfBabordSailors.size()
+                    && tribord < listOfTribordSailors.size()
+            )) {
+                break;
+            } else {
+                babord += 1;
+                tribord += 1;
+            }
+
+            increment++;
+        }
+
+        List<Action> finalActions = new ArrayList<>();
+        finalActions.addAll(oarOneSideSailors(tribord, listOfTribordSailors));
+        finalActions.addAll(oarOneSideSailors(babord, listOfBabordSailors));
+
+        return finalActions;
+    }
+
+
+    /**
+     * Cette méthode génére juste n action ramer sur le coté choisi
+     * @param numberOfOarWeWant le nombre de rame active que l'on veut sur un cote
+     * @param listOfSailorsOnThisSide la liste des rames sur ce coté
+     * @return la liste d'action ramer
+     */
+    private List<Action> oarOneSideSailors(int numberOfOarWeWant, List<Marin> listOfSailorsOnThisSide) {
+        List<Action> finalActions = new ArrayList<>();
+        for (Marin babordMarin : listOfSailorsOnThisSide) {
+            if (numberOfOarWeWant == 0){
+                break;
+            }
+            numberOfOarWeWant -= 1;
+
+
+            Optional<Action> action = HeadquarterUtil.generateOar(babordMarin.getId(), sailors, boat);
+            action.ifPresent(finalActions::add);
+        }
+        return finalActions;
+    }
 
 
 

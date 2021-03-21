@@ -96,7 +96,7 @@ class OarTheGoodAmountOfSailorsTest {
         System.out.println(listOfTribordSailors);
 
         OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 2, new Transform(1000,0,0));
-        System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsPositive2());
+        System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsPositive());
 
         defaultSailors.add(new Marin(7,5,4, "test"));
         defaultSailors.add(new Marin(8,6,4, "test"));
@@ -105,7 +105,7 @@ class OarTheGoodAmountOfSailorsTest {
         listOfTribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(defaultSailors, defaultBoat);
         System.out.println(listOfBabordSailors);
         System.out.println(listOfTribordSailors);
-        System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsPositive2());
+        System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsPositive());
 
         defaultSailors.add(new Marin(9,6,0, "test"));
         defaultSailors.add(new Marin(10,5,0, "test"));
@@ -114,11 +114,47 @@ class OarTheGoodAmountOfSailorsTest {
         listOfTribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(defaultSailors, defaultBoat);
         System.out.println(listOfBabordSailors);
         System.out.println(listOfTribordSailors);
-        System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsPositive2());
+        System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsPositive());
 
 
         oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 2, new Transform(49.5,0,0));
-        System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsPositive2());
+        System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsPositive());
+
+    }
+
+
+    @Test
+    void generateOarActionWhenDifferenceIsNegative2Test() {
+
+        List<Marin> listOfBabordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(defaultSailors, defaultBoat);
+        List<Marin> listOfTribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(defaultSailors, defaultBoat);
+        System.out.println(listOfBabordSailors);
+        System.out.println(listOfTribordSailors);
+
+        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 2, new Transform(1000,0,0));
+        System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsNegative());
+
+        defaultSailors.add(new Marin(7,5,4, "test"));
+        defaultSailors.add(new Marin(8,6,4, "test"));
+
+        listOfBabordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(defaultSailors, defaultBoat);
+        listOfTribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(defaultSailors, defaultBoat);
+        System.out.println(listOfBabordSailors);
+        System.out.println(listOfTribordSailors);
+        System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsNegative());
+
+        defaultSailors.add(new Marin(9,6,0, "test"));
+        defaultSailors.add(new Marin(10,5,0, "test"));
+
+        listOfBabordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(defaultSailors, defaultBoat);
+        listOfTribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(defaultSailors, defaultBoat);
+        System.out.println(listOfBabordSailors);
+        System.out.println(listOfTribordSailors);
+        System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsNegative());
+
+
+        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 2, new Transform(49.5,0,0));
+        System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsNegative());
 
     }
 }
