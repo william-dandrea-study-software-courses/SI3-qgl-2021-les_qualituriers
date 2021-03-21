@@ -31,6 +31,9 @@ public class TempoRender extends Render {
     int currentCheckpointIndex = 0;
     CheckPoint intermediareCheckpoint = null;
     public List<Action> nextRoundAlternative(RoundInfo round) {
+
+
+
         // Récupération des checkpoints
         var checkpoints = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints();
 
@@ -54,7 +57,8 @@ public class TempoRender extends Render {
 
         // Mapping of checkpoints to PositionnalShape
         List<PositionableShape<? extends Shape>> positionableShapes = new ArrayList<>();
-        Arrays.stream(gameInfo.getSeaEntities()).map(VisibleDeckEntity::getPositionableShape).forEach(positionableShapes::add);
+        if(gameInfo.getSeaEntities() != null)
+            Arrays.stream(gameInfo.getSeaEntities()).map(VisibleDeckEntity::getPositionableShape).forEach(positionableShapes::add);
 
         // Recherche de l'itinéraire
         if(intermediareCheckpoint == null || Collisions.isColliding(intermediareCheckpoint.getPositionableShape(), gameInfo.getShip().getPositionableShape())) {

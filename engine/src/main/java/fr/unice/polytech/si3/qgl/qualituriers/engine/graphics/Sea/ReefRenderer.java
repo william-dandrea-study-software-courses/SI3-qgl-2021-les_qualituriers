@@ -5,8 +5,10 @@ import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.ReefVisibleDeckEntity;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ReefRenderer {
@@ -22,7 +24,8 @@ public class ReefRenderer {
     }
 
     private List<ReefVisibleDeckEntity> getReefs() {
-        return Arrays.stream(this.race.getEntities())
+        if(this.race.getEntities() == null) return new ArrayList<>();
+        return Arrays.stream(Objects.requireNonNull(this.race.getEntities()))
                 .filter(entity -> entity instanceof ReefVisibleDeckEntity)
                 .map(entity -> (ReefVisibleDeckEntity) entity)
                 .collect(Collectors.toList());

@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Polygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +30,7 @@ public class StreamRendered {
     }
 
     private List<StreamVisibleDeckEntity> getStreams() {
+        if(this.race.getEntities() == null) return new ArrayList<>();
         return Arrays.stream(this.race.getEntities())
                 .filter(entity -> entity instanceof StreamVisibleDeckEntity)
                 .map(entity -> (StreamVisibleDeckEntity) entity)
