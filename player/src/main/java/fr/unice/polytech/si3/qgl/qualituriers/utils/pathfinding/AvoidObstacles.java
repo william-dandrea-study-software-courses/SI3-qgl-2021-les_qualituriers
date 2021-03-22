@@ -25,7 +25,7 @@ public class AvoidObstacles implements IPathfinder {
         var end = context.getToReach().getPosition();
         var boatRadius = context.getBoat().getPositionableShape().getCircumscribed();
         var start = boatRadius.getTransform().getPoint();
-        var margin = 2 * boatRadius.getShape().getRadius();
+        var margin = 10 * boatRadius.getShape().getRadius();
 
         // Map the obstacle to circles obstacle
         // get the one who will collid with the boat
