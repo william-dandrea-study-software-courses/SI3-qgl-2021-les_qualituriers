@@ -132,12 +132,15 @@ public class Main {
     }
 
     private static void collisions(Race race) {
-        for (ReefVisibleDeckEntity reef : Arrays.stream(race.getEntities())
-                .filter(entity -> entity instanceof ReefVisibleDeckEntity)
-                .map(entity -> (ReefVisibleDeckEntity) entity)
-                .collect(Collectors.toList())) {
-            if(Collisions.isColliding(race.getBoat().getPositionableShape(), reef.getPositionableShape()))
-                race.getBoat().setLife(0);
+        if(race.getEntities() != null) {
+            for (ReefVisibleDeckEntity reef : Arrays.stream(race.getEntities())
+                    .filter(entity -> entity instanceof ReefVisibleDeckEntity)
+                    .map(entity -> (ReefVisibleDeckEntity) entity)
+                    .collect(Collectors.toList())) {
+
+                if (Collisions.isColliding(race.getBoat().getPositionableShape(), reef.getPositionableShape()))
+                    race.getBoat().setLife(0);
+            }
         }
     }
 
