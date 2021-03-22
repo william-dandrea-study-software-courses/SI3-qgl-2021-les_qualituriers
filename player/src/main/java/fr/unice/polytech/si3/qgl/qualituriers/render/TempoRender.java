@@ -1,11 +1,15 @@
 package fr.unice.polytech.si3.qgl.qualituriers.render;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.StreamVisibleDeckEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntities;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -14,6 +18,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.Positiona
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class TempoRender extends Render {
 
@@ -57,6 +62,14 @@ public class TempoRender extends Render {
         System.out.println("======================================================================================================");
 
 
+        StreamVisibleDeckEntity str;
+        for(VisibleDeckEntity entity : round.getVisibleEntities())
+            if(entity instanceof StreamVisibleDeckEntity && Collisions.isColliding(entity.getPositionableShape(), boatShape))
+            {
+                str = (StreamVisibleDeckEntity) entity;
+                gameInfo.getShip().getPosition().getPoint().add(new Point(str.getPositionableShape().getTransform().getOrientation()).scalar(str.getStrength()));
+            }
+
 
 
         if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter == numberOfCheckPoints - 1) {
@@ -68,6 +81,8 @@ public class TempoRender extends Render {
             checkPointCounter++;
             currentCheckPoint = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints()[checkPointCounter];
         }
+
+
 
 
 

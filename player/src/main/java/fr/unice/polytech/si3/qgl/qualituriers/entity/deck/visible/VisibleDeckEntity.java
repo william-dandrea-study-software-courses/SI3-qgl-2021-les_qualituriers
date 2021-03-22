@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShapeFactory;
 
 import java.util.Objects;
 
@@ -43,5 +45,9 @@ public abstract class VisibleDeckEntity {
     @Override
     public int hashCode() {
         return Objects.hash(type, position, shape);
+    }
+
+    public PositionableShape<? extends Shape> getPositionableShape(){
+        return PositionableShapeFactory.getPositionable(shape, position);
     }
 }
