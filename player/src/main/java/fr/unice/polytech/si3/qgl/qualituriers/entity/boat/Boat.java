@@ -7,6 +7,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarter;
+import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
@@ -50,9 +51,9 @@ public class Boat {
 
 
 
-    public List<Action> moveBoatDistanceStrategy2(Transform checkPoint,  ILogger logger) {
+    public List<Action> moveBoatDistanceStrategy2(Transform checkPoint, GameInfo gameInfo,  ILogger logger) {
 
-        HeadQuarter headQuarter = new HeadQuarter(this, getSailors(), checkPoint);
+        HeadQuarter headQuarter = new HeadQuarter(this, sailors, checkPoint, gameInfo);
         List<Action> actions = headQuarter.playTurn();
         setSailors(headQuarter.getSailors());
 

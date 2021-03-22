@@ -102,6 +102,157 @@ class BoatPathFindingTest {
     }
 
     @Test
+    void tryToMoveToFarPoint() {
+
+        BoatPathFinding boatPathFinding = new BoatPathFinding(defaultSailors,completeBoat, 18, new Point(11,2));
+        Point firstPoint = boatPathFinding.generateClosestPoint();
+        HeadquarterUtil.getSailorByHisID(defaultSailors, 18).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+
+        assertEquals(new Point(11,2), boatPathFinding.generateClosestPoint());
+
+    }
+
+    @Test
+    void tryToMoveToFarPointTopLeftToBottomRight() {
+
+        int xStart = 0;
+        int yStart = 0;
+        int xFinal = 31;
+        int yFinal = 10;
+
+
+        Deck actualDeck = new Deck(11, 32);
+        BoatEntity[] actualEntities = {
+                new RudderBoatEntity(xFinal,yFinal),
+                new SailBoatEntity(6,2, false)
+        };
+        Shape actualBoatShape = new Rectangle(11, 32, 0);
+        Boat actualBoat = new Boat(defaultLife,defaultTransform, defaultName, actualDeck, actualEntities, actualBoatShape);
+
+        List<Marin> actualSailors = new ArrayList<>() {{ add(new Marin(0, xStart, yStart, "marin0"));}};
+
+
+        BoatPathFinding boatPathFinding = new BoatPathFinding(actualSailors,actualBoat, 0, new Point(xFinal,yFinal));
+        Point firstPoint = boatPathFinding.generateClosestPoint();
+        HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+
+        assertEquals(new Point(xFinal,yFinal), boatPathFinding.generateClosestPoint());
+
+    }
+
+
+    @Test
+    void tryToMoveToFarPointTopRightToBottomLeft() {
+
+        int xStart = 0;
+        int yStart = 10;
+        int xFinal = 31;
+        int yFinal = 0;
+
+
+        Deck actualDeck = new Deck(11, 32);
+        BoatEntity[] actualEntities = {
+                new RudderBoatEntity(xFinal,yFinal),
+                new SailBoatEntity(6,2, false)
+        };
+        Shape actualBoatShape = new Rectangle(11, 32, 0);
+        Boat actualBoat = new Boat(defaultLife,defaultTransform, defaultName, actualDeck, actualEntities, actualBoatShape);
+
+        List<Marin> actualSailors = new ArrayList<>() {{ add(new Marin(0, xStart, yStart, "marin0"));}};
+
+
+        BoatPathFinding boatPathFinding = new BoatPathFinding(actualSailors,actualBoat, 0, new Point(xFinal,yFinal));
+        Point firstPoint = boatPathFinding.generateClosestPoint();
+        HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+
+        assertEquals(new Point(xFinal,yFinal), boatPathFinding.generateClosestPoint());
+
+    }
+
+    @Test
+    void tryToMoveToFarPointBottomLeftToTopRight() {
+
+        int xStart = 31;
+        int yStart = 0;
+        int xFinal = 0;
+        int yFinal = 10;
+
+
+        Deck actualDeck = new Deck(11, 32);
+        BoatEntity[] actualEntities = {
+                new RudderBoatEntity(xFinal,yFinal),
+                new SailBoatEntity(6,2, false)
+        };
+        Shape actualBoatShape = new Rectangle(11, 32, 0);
+        Boat actualBoat = new Boat(defaultLife,defaultTransform, defaultName, actualDeck, actualEntities, actualBoatShape);
+
+        List<Marin> actualSailors = new ArrayList<>() {{ add(new Marin(0, xStart, yStart, "marin0"));}};
+
+
+        BoatPathFinding boatPathFinding = new BoatPathFinding(actualSailors,actualBoat, 0, new Point(xFinal,yFinal));
+        Point firstPoint = boatPathFinding.generateClosestPoint();
+        HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+
+        assertEquals(new Point(xFinal,yFinal), boatPathFinding.generateClosestPoint());
+    }
+
+    @Test
+    void tryToMoveToFarPointBottomRightToTopLeft() {
+
+        int xStart = 31;
+        int yStart = 10;
+        int xFinal = 0;
+        int yFinal = 0;
+
+
+        Deck actualDeck = new Deck(11, 32);
+        BoatEntity[] actualEntities = {
+                new RudderBoatEntity(xFinal,yFinal),
+                new SailBoatEntity(6,2, false)
+        };
+        Shape actualBoatShape = new Rectangle(11, 32, 0);
+        Boat actualBoat = new Boat(defaultLife,defaultTransform, defaultName, actualDeck, actualEntities, actualBoatShape);
+
+        List<Marin> actualSailors = new ArrayList<>() {{ add(new Marin(0, xStart, yStart, "marin0"));}};
+
+
+        BoatPathFinding boatPathFinding = new BoatPathFinding(actualSailors,actualBoat, 0, new Point(xFinal,yFinal));
+        Point firstPoint = boatPathFinding.generateClosestPoint();
+        HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+        firstPoint = boatPathFinding.generateClosestPoint(); HeadquarterUtil.getSailorByHisID(actualSailors, 0).get().setPosition((int) firstPoint.getX(), (int) firstPoint.getY());
+
+        assertEquals(new Point(xFinal,yFinal), boatPathFinding.generateClosestPoint());
+    }
+
+
+    @Test
     void generateClosestPointWhereWeCanMoveSailor() {
         defaultSailors.add(new Marin(30, 11, 4, "marinTest"));
         BoatPathFinding boatPathFinding = new BoatPathFinding(defaultSailors,completeBoat, 30, new Point(9,3));
@@ -118,6 +269,8 @@ class BoatPathFindingTest {
 
 
     }
+
+
 
 
     @Test
@@ -179,6 +332,8 @@ class BoatPathFindingTest {
         assertEquals(new Point(6, 4), boatPathFinding.getTheInitialCloserPosition());
 
     }
+
+
 
 
 

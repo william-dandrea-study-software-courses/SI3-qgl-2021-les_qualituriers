@@ -7,6 +7,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
 import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil.*;
 
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
@@ -15,7 +16,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -106,163 +109,182 @@ class InitSailorsPlaceOnOarsTest {
     }
 
     @Test
-    void initSailorsPlaceSailor0() {
+    void moveSailorsInTest() {
 
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
+        List<Marin> sailorsWeWantToMove = new ArrayList<>() {{
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 0).get());
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 1).get());
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 2).get());
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 3).get());
+        }};
 
-        System.out.println(finalListOfActions);
-        System.out.println(defaultSailors);
+        List<BoatEntity> destinations = new ArrayList<>() {{
+            add(new OarBoatEntity(7, 0));
+            add(new OarBoatEntity(8, 0));
+            add(new OarBoatEntity(9, 0));
+        }};
 
-        initSailorsPlaceOnOars.initSailorsPlace();
 
-        assertEquals(3, HeadquarterUtil.getListOfSailorsOnAnyOar(defaultSailors, defaultBoat).size());
-        //System.out.println("===>" + HeadquarterUtil.getListOfSailorsOnAnyOar(defaultSailors, defaultBoat));
+        InitSailorsPlaceOnOars initSailorsPlaceOnRudder = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
+
+        assertEquals(4, initSailorsPlaceOnRudder.moveSailorsIn(4, sailorsWeWantToMove, destinations).size());
+
+        assertEquals(new Point(5,0), HeadquarterUtil.getSailorByHisID(sailorsWeWantToMove, 0).get().getPosition());
+        assertEquals(new Point(4,0), HeadquarterUtil.getSailorByHisID(sailorsWeWantToMove, 1).get().getPosition());
+        assertEquals(new Point(4,1), HeadquarterUtil.getSailorByHisID(sailorsWeWantToMove, 2).get().getPosition());
+        assertEquals(new Point(5,1), HeadquarterUtil.getSailorByHisID(sailorsWeWantToMove, 3).get().getPosition());
     }
 
 
     @Test
-    void initSailorsPlaceSailor5() {
+    void generateCorrespondanceSailorWithPotentialEmplacementTest() {
 
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
+        List<Marin> marins = new ArrayList<>() {{
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 18).get());
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 17).get());
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 16).get());
+        }};
 
+        List<BoatEntity> entities = new ArrayList<>() {{
+            add(new OarBoatEntity(4, 0));
+            add(new OarBoatEntity(5, 0));
+            add(new OarBoatEntity(6, 0));
+        }};
 
-
-
-        assertEquals(6, getSailorByHisID(defaultSailors, 5).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 5).get().getY());
-
-
-    }
-
-
-
-
-    @Test
-    void initSailorsPlaceSailor10() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-
-
-        assertEquals(2, getSailorByHisID(defaultSailors, 10).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 10).get().getY());
-
-
+        InitSailorsPlaceOnOars initSailorsPlaceOnRudder = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
+        assertEquals(3, initSailorsPlaceOnRudder.generateCorrespondanceSailorWithPotentialEmplacement(marins, entities).size());
     }
 
     @Test
-    void initSailorsPlaceSailor11() {
+    void generateCorrespondanceSailorWithPotentialEmplacementWhenPlaceIsNotFreeTest() {
 
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
+        List<Marin> marins = new ArrayList<>() {{
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 18).get());
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 17).get());
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 16).get());
+        }};
 
+        List<BoatEntity> entities = new ArrayList<>() {{
+            add(new OarBoatEntity(2, 0));
+            add(new OarBoatEntity(3, 0));
+        }};
 
-
-        assertEquals(7, getSailorByHisID(defaultSailors, 11).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 11).get().getY());
-
-
-    }
-
-
-
-    @Test
-    void initSailorsPlaceSailor14() {
-
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-
-
-
-        assertEquals(2, getSailorByHisID(defaultSailors, 14).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 14).get().getY());
-
-
+        InitSailorsPlaceOnOars initSailorsPlaceOnRudder = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
+        assertEquals(0, initSailorsPlaceOnRudder.generateCorrespondanceSailorWithPotentialEmplacement(marins, entities).size());
     }
 
     @Test
-    void initSailorsPlaceSailor15() {
+    void generateCorrespondanceSailorWithPotentialEmplacementWhithDisparitiesOfSize1Test() {
 
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
+        List<Marin> marins = new ArrayList<>() {{
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 18).get());
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 17).get());
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 16).get());
+        }};
+
+        List<BoatEntity> entities = new ArrayList<>() {{
+            add(new OarBoatEntity(4, 0));
+        }};
 
 
+        InitSailorsPlaceOnOars initSailorsPlaceOnRudder = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
+        var result = initSailorsPlaceOnRudder.generateCorrespondanceSailorWithPotentialEmplacement(marins, entities);
+        assertEquals(1, result.size());
 
-        assertEquals(3, getSailorByHisID(defaultSailors, 15).get().getX());
-        assertEquals(0, getSailorByHisID(defaultSailors, 15).get().getY());
-
+        System.out.println(result);
     }
 
     @Test
-    void initSailorsPlaceSailor16() {
+    void generateCorrespondanceSailorWithPotentialEmplacementWhithDisparitiesOfSize2Test() {
 
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
+        List<Marin> marins = new ArrayList<>() {{
+            add(HeadquarterUtil.getSailorByHisID(defaultSailors, 18).get());
+        }};
+
+        List<BoatEntity> entities = new ArrayList<>() {{
+            add(new OarBoatEntity(4, 0));
+            add(new OarBoatEntity(5, 0));
+            add(new OarBoatEntity(6, 0));
+        }};
 
 
+        InitSailorsPlaceOnOars initSailorsPlaceOnRudder = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
+        var result = initSailorsPlaceOnRudder.generateCorrespondanceSailorWithPotentialEmplacement(marins, entities);
+        assertEquals(1, result.size());
 
-        assertEquals(8, getSailorByHisID(defaultSailors, 16).get().getX());
-        assertEquals(4, getSailorByHisID(defaultSailors, 16).get().getY());
-
-
+        System.out.println(result);
     }
-
-
-
 
     @Test
-    void initSailorsPlaceSailor2Rounds() {
+    void generateCorrespondanceSailorWithPotentialEmplacementCrashTest() {
 
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(defaultBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
+        List<Marin> marins = new ArrayList<>() {{ }};
+        List<BoatEntity> entities = new ArrayList<>() {{ }};
 
-        System.out.println(finalListOfActions);
-        System.out.println(defaultSailors);
 
-        List<Action> finalListOfActions2 = initSailorsPlaceOnOars.initSailorsPlace();
-        System.out.println(finalListOfActions2);
-        System.out.println(defaultSailors);
+        InitSailorsPlaceOnOars initSailorsPlaceOnRudder = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
+        var result = initSailorsPlaceOnRudder.generateCorrespondanceSailorWithPotentialEmplacement(marins, entities);
+        assertEquals(0, result.size());
 
-        System.out.println(getListOfSailorsOnOars(defaultSailors, defaultBoat).size());
+        marins = new ArrayList<>() {{ add(HeadquarterUtil.getSailorByHisID(defaultSailors, 18).get());}};
+        entities = new ArrayList<>() {{ }};
+
+
+        initSailorsPlaceOnRudder = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
+        result = initSailorsPlaceOnRudder.generateCorrespondanceSailorWithPotentialEmplacement(marins, entities);
+        assertEquals(0, result.size());
+
+        marins = new ArrayList<>() {{ }};
+        entities = new ArrayList<>() {{ add(new OarBoatEntity(4, 0));}};
+
+
+        initSailorsPlaceOnRudder = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
+        result = initSailorsPlaceOnRudder.generateCorrespondanceSailorWithPotentialEmplacement(marins, entities);
+        assertEquals(0, result.size());
+
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 
     @Test
-    void initSailorsPlaceSailorWithCompleteBoat() {
+    void affectMarinToBoatEntityTest() {
+        Map<Marin, Point> map = new HashMap<>() {{
+            put(HeadquarterUtil.getSailorByHisID(defaultSailors, 18).get(), new Point(6, 4));
+            put(HeadquarterUtil.getSailorByHisID(defaultSailors, 17).get(), new Point(7, 4));
+            put(HeadquarterUtil.getSailorByHisID(defaultSailors, 16).get(), new Point(8, 4));
+        }};
 
-        // new RudderBoatEntity(11,2),
-        // new SailBoatEntity(6,2, false),
+        InitSailorsPlaceOnOars initSailorsPlaceOnRudder = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
 
-        InitSailorsPlaceOnOars initSailorsPlaceOnOars = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
-        List<Action> finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
-        finalListOfActions = initSailorsPlaceOnOars.initSailorsPlace();
+        assertEquals(2, initSailorsPlaceOnRudder.affectMarinToBoatEntity(map, 2).size());
 
-        //System.out.println(defaultSailors);
-        assertTrue(defaultSailors.stream().noneMatch(sailor -> sailor.getX() == 11 &&  sailor.getY() == 2));
-        assertTrue(defaultSailors.stream().noneMatch(sailor -> sailor.getX() == 6 &&  sailor.getY() == 2));
+        assertEquals(new Point(3,3),HeadquarterUtil.getSailorByHisID(defaultSailors, 18).get().getPosition());
+        assertEquals(new Point(7,4),HeadquarterUtil.getSailorByHisID(defaultSailors, 17).get().getPosition());
+        assertEquals(new Point(8,4),HeadquarterUtil.getSailorByHisID(defaultSailors, 16).get().getPosition());
+
+    }
+
+    @Test
+    void affectMarinToBoatEntityTestWhenSailorOnEmplacement() {
+        Map<Marin, Point> map = new HashMap<>() {{
+            put(HeadquarterUtil.getSailorByHisID(defaultSailors, 18).get(), new Point(3, 3));
+        }};
+
+        InitSailorsPlaceOnOars initSailorsPlaceOnRudder = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
+        assertEquals(0, initSailorsPlaceOnRudder.affectMarinToBoatEntity(map, 2).size());
+        assertEquals(new Point(3,3),HeadquarterUtil.getSailorByHisID(defaultSailors, 18).get().getPosition());
+
+    }
+
+    @Test
+    void affectMarinToBoatEntityCrashTest() {
+        Map<Marin, Point> map = new HashMap<>() {{ }};
+
+        InitSailorsPlaceOnOars initSailorsPlaceOnRudder = new InitSailorsPlaceOnOars(completeBoat, defaultSailors);
+        assertEquals(0, initSailorsPlaceOnRudder.affectMarinToBoatEntity(map, 2).size());
+        assertEquals(0, initSailorsPlaceOnRudder.affectMarinToBoatEntity(map, 0).size());
+
     }
 }

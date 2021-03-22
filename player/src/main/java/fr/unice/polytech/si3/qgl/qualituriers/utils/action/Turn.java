@@ -1,7 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.Objects;
 

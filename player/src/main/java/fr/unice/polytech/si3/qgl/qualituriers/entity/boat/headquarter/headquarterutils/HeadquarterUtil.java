@@ -25,6 +25,8 @@ import java.util.stream.Stream;
 
 public class HeadquarterUtil {
 
+    private HeadquarterUtil() {}
+
 
     /**
      * Cette méthode genère une action moving grâce a deux points distants, un point de depart, et un point d'arrivée
@@ -69,6 +71,18 @@ public class HeadquarterUtil {
 
 
         return Optional.of(new Oar(sailorId));
+    }
+
+    /**
+     * cette méthode a pour but de regarder si le marin est sur une boatEntity ou pas
+     * @param boat le bateau en question
+     * @param marin le marin que l'on souhaite saoir si il est sur une oar ou non
+     * @return true si le marin est sur une oar, false sinon
+     */
+    public static boolean sailorIsOnOar(Boat boat, Marin marin) {
+
+        return getListOfOars(boat).contains(marin);
+
     }
 
 
@@ -117,6 +131,13 @@ public class HeadquarterUtil {
     }
 
 
+    public static Optional<Marin> getSailorOnSail(Boat boat, List<Marin> sailors) {
+        Optional<BoatEntity> sailer = getSail(boat);
+        return sailer.flatMap(boatEntity -> sailors.stream().filter(marin -> marin.getX() == boatEntity.getX() && marin.getY() == boatEntity.getY()).findAny());
+
+    }
+
+
     /**
      * Cette méthode return la liste totale des rames sur le bateau
      * @param boat le bateau ou l'on veut compter les rames
@@ -152,7 +173,8 @@ public class HeadquarterUtil {
         for (int eachX = 0; eachX < boat.getDeck().getLength(); eachX++) {
             for (int eachY = 0; eachY < boat.getDeck().getWidth(); eachY++) {
 
-                int finalEachX = eachX; int finalEachY = eachY;
+                int finalEachX = eachX;
+                int finalEachY = eachY;
                 if (Arrays.stream(boat.getEntities()).noneMatch(entity -> entity.getX() == finalEachX && entity.getY() == finalEachY)) {
                     finalListOfPositions.add(new Point(eachX, eachY));
                 }
@@ -238,6 +260,26 @@ public class HeadquarterUtil {
                 .collect(Collectors.toList());
     }
 
+    public static List<BoatEntity> getListOfBabordOarWithAnySailorsOnIt(List<Marin> sailors, Boat boat) {
+        return getListOfOars(boat)
+                .stream()
+                .filter(boatOar ->
+                        getListOfSailorsOnBabordOars(sailors, boat)
+                                .stream()
+                                .noneMatch(sailorOnOar -> boatOar.getX() == sailorOnOar.getX() && boatOar.getY() == sailorOnOar.getY()))
+                .collect(Collectors.toList());
+    }
+
+    public static List<BoatEntity> getListOfTribordOarWithAnySailorsOnIt(List<Marin> sailors, Boat boat) {
+        return getListOfOars(boat)
+                .stream()
+                .filter(boatOar ->
+                        getListOfSailorsOnTribordOars(sailors, boat)
+                                .stream()
+                                .noneMatch(sailorOnOar -> boatOar.getX() == sailorOnOar.getX() && boatOar.getY() == sailorOnOar.getY()))
+                .collect(Collectors.toList());
+    }
+
 
     /**
      * Cette méthode renvoie le marin grâce à son ID
@@ -280,6 +322,20 @@ public class HeadquarterUtil {
 
         return Math.sqrt((pointB.getY() - pointA.getY()) * (pointB.getY() - pointA.getY()) + (pointB.getX() - pointA.getX()) * (pointB.getX() - pointA.getX()));
 
+    }
+
+
+    /**
+     * Cette méthode retourne l'angle de rotation minimal possible grâce à la formule du cours : PI * <diff rame tribord - rame bâbord> / <nombre total de rames>
+     * @param boat le bateau sur lequel on travaille
+     * @return la valeur de l'angle minimal de rotation
+     */
+    public static double getMinimumAngleOfRotation(Boat boat) {
+        return Math.PI * 1 / getListOfOars(boat).size();
+    }
+
+    public static double getBoatMovingDistanceMaxInOneTurn(Boat boat) {
+        return Config.linearSpeedOar(getListOfOars(boat).size(), getListOfOars(boat).size());
     }
 
 

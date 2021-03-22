@@ -7,6 +7,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarte
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,18 +35,22 @@ public class InitSailorsPlaceOnRudder {
 
         Optional<BoatEntity> boatRudderOp = HeadquarterUtil.getRudder(boat);
 
+
         // Si on a un gouvernail
         if (boatRudderOp.isPresent()) {
             BoatEntity boatRudder = boatRudderOp.get();
 
 
+
             // Si il y a deja un marin sur le gouvernail
             if (HeadquarterUtil.getSailorOnRudder(boat, sailors).isPresent()) {
+
                 return new ArrayList<>();
             }
 
             // Si il n'y a pas de marin sur le gouvernail mais que l'on peut bouger le marin sur le gouvernail
             if (rudder.canMoveTo(boatRudder.getX(), boatRudder.getY(), boat)) {
+
 
                 Optional<Action> movingAction = HeadquarterUtil.generateMovingAction(rudder.getId(), rudder.getX(), rudder.getY(), boatRudder.getX(), boatRudder.getY());
 
@@ -56,11 +61,10 @@ public class InitSailorsPlaceOnRudder {
             } else {
 
                 // On ne peux pas bouger le marin directement sur le gouvernail
+
                 return moveTheSailorTheNearest(boatRudder);
 
             }
-
-
         }
 
         return finalListOfActions;
@@ -70,20 +74,19 @@ public class InitSailorsPlaceOnRudder {
 
     private List<Action> moveTheSailorTheNearest(BoatEntity boatRudder) {
 
+
+
         BoatPathFinding boatPathFinding = new BoatPathFinding(sailors, boat, rudder.getId(), boatRudder.getPosition());
         Point point = boatPathFinding.generateClosestPoint();
 
-        if (rudder.canMoveTo((int) point.getX(),(int) point.getY(), boat)) {
-            Optional<Action> movingAction = HeadquarterUtil.generateMovingAction(rudder.getId(), rudder.getX(), rudder.getY(), (int) point.getX(), (int) point.getY());
-            if (movingAction.isPresent()) {
-                Action actionToAdd = movingAction.get();
-                rudder.setPosition((int) point.getX(), (int) point.getY());
-                return new ArrayList<>(){{add(actionToAdd);}};
-            }
-        }
 
+        Optional<Action> action = HeadquarterUtil.generateMovingAction(rudder.getId(), rudder.getX(), rudder.getY(), (int) point.getX(), (int) point.getY());
 
-        return new ArrayList<>();
+        if (action.isPresent())
+
+            rudder.setPosition((int) point.getX(), (int) point.getY());
+            return new ArrayList<>() {{add(action.get());}};
+
     }
 
 }

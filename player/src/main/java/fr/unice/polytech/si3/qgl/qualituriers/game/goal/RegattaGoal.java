@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 public class RegattaGoal extends Goal {
 
-    private CheckPoint[] checkPoints;
+    private final CheckPoint[] checkPoints;
 
     @JsonCreator
     public RegattaGoal(@JsonProperty("checkpoints") CheckPoint[] checkpoints) {
