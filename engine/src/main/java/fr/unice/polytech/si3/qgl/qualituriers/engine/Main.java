@@ -91,7 +91,7 @@ public class Main {
         int compteurMax = 500;
         do {
             Wind wind = generateWind();
-            RoundInfo rInfo = new RoundInfo(race.getBoat(), wind, new VisibleDeckEntity[] {});
+            RoundInfo rInfo = new RoundInfo(race.getBoat(), wind, race.getEntities());
             var roundString = om.writeValueAsString(rInfo);
 
             var actionString = cockpit.nextRound(roundString);
