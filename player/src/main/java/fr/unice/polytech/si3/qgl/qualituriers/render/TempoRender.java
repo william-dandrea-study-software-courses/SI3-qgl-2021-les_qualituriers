@@ -74,9 +74,8 @@ public class TempoRender extends Render {
         }
 
         // Calcul des action a effectuer pour atteindre l'étape
-        var actions = gameInfo.getShip().moveBoatDistanceStrategy2(intermediareCheckpoint.getPosition(), this.gameInfo,this.logger);
 
-        return actions;
+        return gameInfo.getShip().moveBoatDistanceStrategy2(intermediareCheckpoint.getPosition(), this.gameInfo);
     }
 
 

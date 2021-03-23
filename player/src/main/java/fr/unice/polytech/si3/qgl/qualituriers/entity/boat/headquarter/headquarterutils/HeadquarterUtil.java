@@ -23,12 +23,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
+/**
+ * Cette classe regroupe plusieurs methodes utiles au PathFinding
+ * @author D'Andrea William
+ */
 public class HeadquarterUtil {
 
     private HeadquarterUtil() {}
 
 
     /**
+     * TESTED
      * Cette méthode genère une action moving grâce a deux points distants, un point de depart, et un point d'arrivée
      * @param sailorId l'id du marin
      * @param initialX la position X initiale du marin
@@ -53,6 +58,14 @@ public class HeadquarterUtil {
         return Optional.of(new Moving(sailorId, finalX - initialX, finalY - initialY));
     }
 
+
+    /**
+     * TESTED
+     * Cette méthode génére une action Rudder
+     * @param sailorId l'id du marin que l'on souhaite faire rudder
+     * @param angle l'angle du gouvernail
+     * @return une action optionnal si on peut bien faire tourner le rudder
+     */
     public static Optional<Action> generateRudder(int sailorId, double angle) {
         if (angle > Config.MAX_ANGLE_FOR_RUDDER + Config.EPSILON || angle < -Config.MAX_ANGLE_FOR_RUDDER - Config.EPSILON) {
             throw new MaxAngleRudderException(angle);
@@ -62,18 +75,24 @@ public class HeadquarterUtil {
     }
 
 
-
+    /**
+     * TESTED
+     * Cette méthode génére une action de type oar pour faire ramer un marin
+     * @param sailorId le marin que l'on souhaite faire ramer
+     * @param sailors la liste des marins
+     * @param boat le bateau en question
+     * @return une action opt d'une action Oar ou releve une exception
+     */
     public static Optional<Action> generateOar(int sailorId, List<Marin> sailors, Boat boat) {
 
         if (getListOfSailorsOnOars(sailors, boat).stream().noneMatch(marin -> marin.getId() == sailorId)) {
             throw new SailorCantOarException(sailorId);
         }
-
-
         return Optional.of(new Oar(sailorId));
     }
 
     /**
+     * TESTED
      * cette méthode a pour but de regarder si le marin est sur une boatEntity ou pas
      * @param boat le bateau en question
      * @param marin le marin que l'on souhaite saoir si il est sur une oar ou non
@@ -81,31 +100,43 @@ public class HeadquarterUtil {
      */
     public static boolean sailorIsOnOar(Boat boat, Marin marin) {
 
-        return getListOfOars(boat).contains(marin);
+        return getListOfOars(boat).stream().anyMatch(entity -> entity.getX() == marin.getX() && entity.getY() == marin.getY());
 
     }
 
 
+    /**
+     * TESTED
+     * Cette méthode regarde un emplacement n'est squatté par aucun marins
+     * @param position l'endroit ou l'on souhaite voir si il y a un marin ou pas
+     * @param sailors la liste des marins sur le bateau
+     * @return true si la place est libre, false sinon
+     */
     public static boolean placeIsFree(Point position,List<Marin> sailors) {
 
         for (Marin sailor: sailors) {
             if (sailor.getX() == position.getX() && sailor.getY() == position.getY())
                 return false;
         }
-
         return true;
-
     }
 
+    /**
+     * TESTED
+     * Cette methode regarde si la place souhaité n'est pas une boat entity, par exemple, si une place sur un bateau n'est pas
+     * une rame ou un gouvernail
+     * @param position la position que l'on souhaite analysé
+     * @param boat le bateau
+     * @return true si la place est sans aucune entité, false sinon
+     */
     public static boolean placeIsNotAnBoatEntity(Point position, Boat boat) {
 
         return Arrays.stream(boat.getEntities()).noneMatch(entity -> entity.getX() == (int) position.getX() && entity.getY() == (int) position.getY());
 
     }
 
-
-
     /**
+     * TESTED
      * Cette méthode return la voile qui est situé sur le bateau
      * @param boat le bateau ou l'on veut trouver la voile
      * @return la voile qui est situé sur le bateau
@@ -114,7 +145,9 @@ public class HeadquarterUtil {
         return Arrays.stream(boat.getEntities()).filter(oar -> oar.getType() == BoatEntities.SAIL).findFirst();
     }
 
+
     /**
+     * TESTED
      * Cette méthode return le gouvernail qui est situé sur le bateau
      * @param boat le bateau ou l'on veut trouver le gouvernail
      * @return le gouvernail qui est situé sur le bateau
@@ -124,6 +157,13 @@ public class HeadquarterUtil {
     }
 
 
+    /**
+     * TESTED
+     * Cette méthode retourne le marin qui est sur le gouvernal
+     * @param boat le bateau
+     * @param sailors la liste des marins sur le bateau
+     * @return le sailor sur le rudder ou Op.empty() s'il n'y a personne dessus
+     */
     public static Optional<Marin> getSailorOnRudder(Boat boat, List<Marin> sailors) {
 
         Optional<BoatEntity> rudder = getRudder(boat);
@@ -131,14 +171,21 @@ public class HeadquarterUtil {
     }
 
 
+    /**
+     * TESTED
+     * Cette méthode retourne le marin qui est sur la voile
+     * @param boat le bateau
+     * @param sailors la liste des marins sur le bateau
+     * @return le sailor sur la voile ou Op.empty() s'il n'y a personne dessus
+     */
     public static Optional<Marin> getSailorOnSail(Boat boat, List<Marin> sailors) {
         Optional<BoatEntity> sailer = getSail(boat);
         return sailer.flatMap(boatEntity -> sailors.stream().filter(marin -> marin.getX() == boatEntity.getX() && marin.getY() == boatEntity.getY()).findAny());
-
     }
 
 
     /**
+     * TESTED
      * Cette méthode return la liste totale des rames sur le bateau
      * @param boat le bateau ou l'on veut compter les rames
      * @return la liste de rames sur le bateau
@@ -148,6 +195,7 @@ public class HeadquarterUtil {
     }
 
     /**
+     * TESTED
      * @param boat le bateau ou l'on veut compter les rames
      * @return la liste de rames sur le côté babord du bateau
      */
@@ -156,6 +204,7 @@ public class HeadquarterUtil {
     }
 
     /**
+     * TESTED
      * @param boat le bateau ou l'on veut compter les rames
      * @return la liste de rames sur le côté tribord du bateau
      */
@@ -164,6 +213,7 @@ public class HeadquarterUtil {
     }
 
     /**
+     * TESTED
      * @param boat le bateau ou l'on veut connaitre les emplacements ou il n'y a aucune entité
      * @return la liste des postions ou il n'y a aucune entité
      */
@@ -187,6 +237,7 @@ public class HeadquarterUtil {
 
 
     /**
+     * TESTED
      * Cette méthode renvoie la liste des marins qui se situent sur une rame du coté babord
      * @param sailors liste des marins sur le bateau
      * @param boat le bateau sur lequel on travaille
@@ -206,6 +257,7 @@ public class HeadquarterUtil {
 
 
     /**
+     * TESTED
      * Cette méthode renvoie la liste des marins qui se situent sur une rame du coté tribord
      * @param sailors liste des marins sur le bateau
      * @param boat le bateau sur lequel on travaille
@@ -224,6 +276,7 @@ public class HeadquarterUtil {
     }
 
     /**
+     * TESTED
      * Cette méthode renvoie la liste des marins qui se situent sur une rame
      * @param sailors liste des marins sur le bateau
      * @param boat le bateau sur lequel on travaille
@@ -235,6 +288,7 @@ public class HeadquarterUtil {
 
 
     /**
+     * TESTED
      * @param boat le bateau sur lequel on travaille
      * @param sailors la liste des marins sur le bateau
      * @return La liste des marins qui ne sont pas sur des rames
@@ -245,6 +299,7 @@ public class HeadquarterUtil {
 
 
     /**
+     * TESTED
      * @param boat le bateau sur lequel on travaille
      * @param sailors la liste des marins sur le bateau
      * @return La liste des rames ou il n'y a aucun marin dessus
@@ -260,6 +315,12 @@ public class HeadquarterUtil {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * TESTED
+     * @param boat le bateau sur lequel on travaille
+     * @param sailors la liste des marins sur le bateau
+     * @return La liste des rames de babord ou il n'y a aucun marin dessus
+     */
     public static List<BoatEntity> getListOfBabordOarWithAnySailorsOnIt(List<Marin> sailors, Boat boat) {
         return getListOfOars(boat)
                 .stream()
@@ -270,6 +331,12 @@ public class HeadquarterUtil {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * TESTED
+     * @param boat le bateau sur lequel on travaille
+     * @param sailors la liste des marins sur le bateau
+     * @return La liste des rames de tribord ou il n'y a aucun marin dessus
+     */
     public static List<BoatEntity> getListOfTribordOarWithAnySailorsOnIt(List<Marin> sailors, Boat boat) {
         return getListOfOars(boat)
                 .stream()
@@ -282,6 +349,7 @@ public class HeadquarterUtil {
 
 
     /**
+     * TESTED
      * Cette méthode renvoie le marin grâce à son ID
      * @param sailors la liste des marins
      * @param sailorID l'id du marin que l'on cherche
@@ -291,33 +359,27 @@ public class HeadquarterUtil {
         return sailors.stream().filter(sailor -> sailor.getId() == sailorID).findAny();
     }
 
+
+    /**
+     * TESTED
+     * Cette methode renvoie le marin qui est sur une certaine position, si il n'y a pas de marins sur cette position, ca renvoie
+     * Op.empty()
+     * @param sailors liste des marins sur le bateau
+     * @param x la position x
+     * @param y la position y
+     * @return le marin si il est dispo ou un Op.empty si pas de marin dessus
+     */
     public static Optional<Marin> getSailorByHisPosition(List<Marin> sailors, int x, int y) {
         return sailors.stream().filter(sailor -> sailor.getX() == x && sailor.getY() == y).findAny();
     }
 
-
-    public static Optional<BoatEntity> getTheFarthestOarFromAPosition(Point position, Boat boat, List<Marin> sailors, List<BoatEntity> oarsWeExclude) {
-
-        double distanceMin = 0;
-        Optional<BoatEntity> finalOar = Optional.empty();
-
-        for (BoatEntity oar : getListOfOarWithAnySailorsOnIt(sailors, boat)) {
-
-            double currentDistance = distanceBetweenTwoPoints(position, oar.getPosition());
-
-            if (currentDistance >= distanceMin && !oarsWeExclude.contains(oar)) {
-                distanceMin = currentDistance;
-                finalOar = Optional.of(oar);
-            }
-
-        }
-        return finalOar;
-
-    }
-
-
-
-
+    /**
+     * TESTED
+     * Cette methode renvoie la distance entre 2 points de la map
+     * @param pointA le point A
+     * @param pointB le point B
+     * @return la distance entre le point A et le point B
+     */
     public static double distanceBetweenTwoPoints(Point pointA, Point pointB) {
 
         return Math.sqrt((pointB.getY() - pointA.getY()) * (pointB.getY() - pointA.getY()) + (pointB.getX() - pointA.getX()) * (pointB.getX() - pointA.getX()));
@@ -326,18 +388,27 @@ public class HeadquarterUtil {
 
 
     /**
-     * Cette méthode retourne l'angle de rotation minimal possible grâce à la formule du cours : PI * <diff rame tribord - rame bâbord> / <nombre total de rames>
-     * @param boat le bateau sur lequel on travaille
-     * @return la valeur de l'angle minimal de rotation
+     * TESTED
+     * Cette méthode à pour objectif d'aller rechercher le marin le plus proche d'une certaine position sur le bateau
+     * @param sailors la liste de marins sur le bateau
+     * @param point le point dont on souhaite savoir qui est le plus proche
+     * @return le Marin le plus proche de ce point
      */
-    public static double getMinimumAngleOfRotation(Boat boat) {
-        return Math.PI * 1 / getListOfOars(boat).size();
-    }
+    public static Marin searchTheClosestSailorToAPoint(List<Marin> sailors, Point point, List<Integer> sailorsWeDontWant) {
 
-    public static double getBoatMovingDistanceMaxInOneTurn(Boat boat) {
-        return Config.linearSpeedOar(getListOfOars(boat).size(), getListOfOars(boat).size());
-    }
+        double distanceMinimale = distanceBetweenTwoPoints(sailors.get(0).getPosition(), point);
+        Marin closerSailor = sailors.get(0);
 
+        for (Marin marin : sailors) {
+
+            if (distanceBetweenTwoPoints(marin.getPosition(), point) < distanceMinimale
+                    && !sailorsWeDontWant.contains(marin.getId())
+            ) {
+                closerSailor = marin;
+            }
+        }
+        return closerSailor;
+    }
 
 
 

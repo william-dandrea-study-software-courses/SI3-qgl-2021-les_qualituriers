@@ -77,13 +77,13 @@ public class TurnConfig {
         add(new Marin(2, 0, 2, "marin2"));
         add(new Marin(3, 1, 0, "marin3"));
         add(new Marin(4, 1, 1, "marin4"));
-        add(new Marin(5, 1, 2, "marin4"));
-        add(new Marin(6, 2, 0, "marin4"));
-        add(new Marin(7, 2, 1, "marin4"));
-        add(new Marin(8, 2, 2, "marin4"));
-        add(new Marin(9, 3, 0, "marin4"));
-        add(new Marin(10, 3, 1, "marin4"));
-        add(new Marin(11, 3, 2, "marin4"));
+        add(new Marin(5, 1, 2, "marin5"));
+        add(new Marin(6, 2, 0, "marin6"));
+        add(new Marin(7, 2, 1, "marin7"));
+        add(new Marin(8, 2, 2, "marin8"));
+        add(new Marin(9, 3, 0, "marin9"));
+        add(new Marin(10, 3, 1, "marin10"));
+        add(new Marin(11, 3, 2, "marin11"));
 
         /*add(new Marin(6, 1, 1, "marin6"));
         add(new Marin(7, 1, 2, "marin7"));

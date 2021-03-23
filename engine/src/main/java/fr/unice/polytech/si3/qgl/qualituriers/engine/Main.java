@@ -100,6 +100,7 @@ public class Main {
 
             actionsDone = om.readValue(actionString, Action[].class);
 
+
             List<Action> finalActionsDone = List.of(actionsDone);
 
             Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
