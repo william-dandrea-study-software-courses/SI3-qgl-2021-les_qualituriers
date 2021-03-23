@@ -44,6 +44,8 @@ public class TempoRender extends Render {
         gameInfo.getShip().setPosition(round.getShip().getPosition());
         gameInfo.getShip().setEntities(round.getShip().getEntities());
 
+        gameInfo.setSeaEntities(round.getVisibleEntities());
+
         gameInfo.getShip().setSailors(Arrays.asList(gameInfo.getSailors()));
 
         // Vérification si le checkpoint actuel est validé
