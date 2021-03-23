@@ -52,7 +52,7 @@ public class Boat {
 
 
 
-    public List<Action> moveBoatDistanceStrategy2(Transform checkPoint, GameInfo gameInfo,  ILogger logger) {
+    public List<Action> moveBoatDistanceStrategy2(Transform checkPoint, GameInfo gameInfo) {
 
         HeadQuarter headQuarter = new HeadQuarter(this, sailors, checkPoint, gameInfo);
         List<Action> actions = headQuarter.playTurn();

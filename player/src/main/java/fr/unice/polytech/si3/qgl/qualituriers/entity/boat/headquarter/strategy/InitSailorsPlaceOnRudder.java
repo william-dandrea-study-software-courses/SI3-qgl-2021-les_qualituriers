@@ -7,7 +7,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarte
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,18 +73,21 @@ public class InitSailorsPlaceOnRudder {
 
     private List<Action> moveTheSailorTheNearest(BoatEntity boatRudder) {
 
-
+        List<Action> finalsActions = new ArrayList<>();
 
         BoatPathFinding boatPathFinding = new BoatPathFinding(sailors, boat, rudder.getId(), boatRudder.getPosition());
         Point point = boatPathFinding.generateClosestPoint();
 
-
         Optional<Action> action = HeadquarterUtil.generateMovingAction(rudder.getId(), rudder.getX(), rudder.getY(), (int) point.getX(), (int) point.getY());
 
-        if (action.isPresent())
-
+        if (action.isPresent()) {
+            Action actionReal = action.get();
             rudder.setPosition((int) point.getX(), (int) point.getY());
-            return new ArrayList<>() {{add(action.get());}};
+
+            finalsActions.add(actionReal);
+        }
+
+        return finalsActions;
 
     }
 

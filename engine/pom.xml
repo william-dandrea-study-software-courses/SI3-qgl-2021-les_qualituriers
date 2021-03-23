@@ -19,6 +19,10 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
+
+
+
+
     <dependencies>
         <dependency>
             <groupId>fr.unice.polytech.si3.qgl</groupId>

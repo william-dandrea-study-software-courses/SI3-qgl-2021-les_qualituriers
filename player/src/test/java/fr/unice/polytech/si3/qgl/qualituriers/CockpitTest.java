@@ -88,7 +88,7 @@ class CockpitTest {
     }
 
     @Test
-    public void initGameCrash() {
+    void initGameCrash() {
         cockpit.initGame("{\"goal\":\"mode\":\"test\"}");
         assertTrue(cockpit.getLogs().contains("com.fasterxml.jackson.core.JsonParseException: Unexpected character (':' (code 58)): was expecting comma to separate Object entries\n" +
                 " at [Source: (String)\"{\"goal\":\"mode\":\"test\"}\"; line: 1, column: 16]"));
@@ -135,46 +135,5 @@ class CockpitTest {
         assertEquals(moving, list.get(0));
     }
 
-    @Disabled
-    @Test @DisplayName("Les marins ne doivent qu'avancer")
-    void testAll() throws IOException {
-        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/initGame.json");
-        JsonNode inputNode = om.readTree(from);
-        cockpit.initGame(inputNode.toString());
 
-
-
-        String src = "src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/week2_1_1.json";
-
-        System.out.println(cockpit.nextRound(om.readTree(new File(src)).toString()));
-
-//            for (int i = 1; i <= 12 ; i++) {
-//                String str = "src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/nextRound" + i + ".json";
-//                System.out.println(cockpit.nextRound(om.readTree(new File(str)).toString()));
-//
-//            }
-    }
-
-
-    @Disabled
-    @Test @DisplayName("WEEK3")
-    void testWeek3() throws IOException {
-        File from = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/jsonfiles/week3/init.json");
-        JsonNode inputNode = om.readTree(from);
-        cockpit.initGame(inputNode.toString());
-
-
-
-        String src = "src/test/java/fr/unice/polytech/si3/qgl/qualituriers/jsonfiles/week3/nextRound.json";
-
-        System.out.println(cockpit.nextRound(om.readTree(new File(src)).toString()));
-
-//            for (int i = 1; i <= 12 ; i++) {
-//                String str = "src/test/java/fr/unice/polytech/si3/qgl/qualituriers/parser/fichiersJsonTest/week2/nextRound" + i + ".json";
-//                System.out.println(cockpit.nextRound(om.readTree(new File(str)).toString()));
-//
-//            }
-
-
-    }
 }
