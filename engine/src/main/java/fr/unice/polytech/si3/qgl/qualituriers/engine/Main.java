@@ -7,6 +7,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Deck.DeckRenderer;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea.Sea;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.*;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
+import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race6;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.serializers.RectangleSerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
@@ -22,11 +23,10 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Turn;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -56,6 +56,15 @@ public class Main {
                 new LiftMechanic(),
                 new RudderMechanic()
         }, TurnConfig.seaEntities);
+    }
+
+    static Race createRaceFromFile(String path) throws FileNotFoundException, JsonProcessingException {
+        File file = new File(path);
+        Scanner scanner = new Scanner(file);
+        StringBuilder json = new StringBuilder();
+        while(scanner.hasNextLine())
+            json.append(scanner.nextLine()).append("\n");
+        return null;
     }
 
     static void RunRace(Race race) throws JsonProcessingException, InterruptedException {
@@ -145,8 +154,6 @@ public class Main {
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-
-        RunRace(createRace());
-
+        RunRace(Race6.race);
     }
 }
