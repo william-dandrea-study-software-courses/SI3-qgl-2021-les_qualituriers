@@ -19,19 +19,18 @@ import java.util.List;
 
 public class TempoRender extends Render {
 
-    //private CheckPoint currentCheckPoint;
-    //private int checkPointCounter = 0;
+    private CheckPoint currentCheckPoint;
+    private int checkPointCounter = 0;
 
     public TempoRender(GameInfo gameInfo, ILogger logger) {
         super(gameInfo, logger);
         CheckPoint[] listCheckPoint = ((RegattaGoal) gameInfo.getGoal()).getCheckPoints();
-        //currentCheckPoint = listCheckPoint[0];
+        currentCheckPoint = listCheckPoint[0];
     }
 
     int currentCheckpointIndex = 0;
     CheckPoint intermediareCheckpoint = null;
     public List<Action> nextRoundAlternative(RoundInfo round) {
-
 
 
         // Récupération des checkpoints
@@ -82,117 +81,46 @@ public class TempoRender extends Render {
 
     @Override
     public List<Action> nextRound(RoundInfo round)  {
-        return nextRoundAlternative(round);
-        /*
-
-        System.out.println("Round");
-        if (gameInfo.getSeaEntities() != null) {
-            System.out.println("1");
-
-            gameInfo.getShip().setPosition(round.getShip().getPosition());
-            gameInfo.getShip().setEntities(round.getShip().getEntities());
-
-            gameInfo.getShip().setSailors(Arrays.asList(gameInfo.getSailors()));
-
-            int numberOfCheckPoints = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints().length;
-
-            PositionableShape<? extends Shape> checkpointsShape = currentCheckPoint.getPositionableShape();
-            PositionableShape<? extends Shape> boatShape = gameInfo.getShip().getPositionableShape();
+        //return nextRoundAlternative(round);
 
 
+        System.out.println("2");
+
+        int numberOfCheckPoints = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints().length;
+
+        gameInfo.getShip().setPosition(round.getShip().getPosition());
+        gameInfo.getShip().setEntities(round.getShip().getEntities());
+
+        gameInfo.getShip().setSailors(Arrays.asList(gameInfo.getSailors()));
 
 
-            double distanceRestanteX = currentCheckPoint.getPosition().getX() - gameInfo.getShip().getPosition().getX();
-            double distanceRestanteY = currentCheckPoint.getPosition().getY() - gameInfo.getShip().getPosition().getY();
+        PositionableShape<? extends Shape> checkpointsShape = currentCheckPoint.getPositionableShape();
+        PositionableShape<? extends Shape> boatShape = gameInfo.getShip().getPositionableShape();
 
+        double distanceRestanteX = currentCheckPoint.getPosition().getX() - gameInfo.getShip().getPosition().getX();
+        double distanceRestanteY = currentCheckPoint.getPosition().getY() - gameInfo.getShip().getPosition().getY();
 
-            double distanceRestante = Math.sqrt(distanceRestanteX * distanceRestanteX + distanceRestanteY * distanceRestanteY);
-            System.out.println("======================================================================================================");
-            System.out.println("| " + distanceRestanteX);
-            System.out.println("| " + distanceRestanteY);
-            System.out.println("| " + "Distance restante : " + distanceRestante);
-            System.out.println("======================================================================================================");
+        double distanceRestante = Math.sqrt(distanceRestanteX * distanceRestanteX + distanceRestanteY * distanceRestanteY);
+        System.out.println("======================================================================================================");
+        System.out.println("| " + distanceRestanteX);
+        System.out.println("| " + distanceRestanteY);
+        System.out.println("| " + "Distance restante : " + distanceRestante);
 
-
-
-
-
-            List<PositionableShape<? extends Shape>> obstacles = new ArrayList<>();
-            for (VisibleDeckEntity entity: gameInfo.getSeaEntities()) {
-                obstacles.add(entity.getPositionableShape());
-            }
-
-            var checkpoints = Arrays.asList((((RegattaGoal)gameInfo.getGoal()).getCheckPoints())).subList(checkPointCounter, Arrays.asList((((RegattaGoal)gameInfo.getGoal()).getCheckPoints())).size());
-
-            MainPathfinding mainPathfinding = new MainPathfinding();
-            PathfindingContext pathfindingContext = new PathfindingContext(gameInfo.getShip(), obstacles.stream(), checkpoints);
-            currentCheckPoint = mainPathfinding.getNextCheckpoint(pathfindingContext);
-
-
-            if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter == numberOfCheckPoints - 1) {
-                return new ArrayList<>();
-            }
-
-            if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter < numberOfCheckPoints-1) {
-                checkPointCounter++;
-                currentCheckPoint = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints()[checkPointCounter];
-            }
-
-
-            List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(currentCheckPoint.getPosition(), this.gameInfo,this.logger);
-            System.out.println("| " + actions);
-
-            return actions;
-
-
-        } else {
-
-            System.out.println("2");
-
-            int numberOfCheckPoints = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints().length;
-
-            gameInfo.getShip().setPosition(round.getShip().getPosition());
-            gameInfo.getShip().setEntities(round.getShip().getEntities());
-
-            gameInfo.getShip().setSailors(Arrays.asList(gameInfo.getSailors()));
-
-
-            PositionableShape<? extends Shape> checkpointsShape = currentCheckPoint.getPositionableShape();
-            PositionableShape<? extends Shape> boatShape = gameInfo.getShip().getPositionableShape();
-
-
-
-            double distanceRestanteX = currentCheckPoint.getPosition().getX() - gameInfo.getShip().getPosition().getX();
-            double distanceRestanteY = currentCheckPoint.getPosition().getY() - gameInfo.getShip().getPosition().getY();
-
-
-            double distanceRestante = Math.sqrt(distanceRestanteX * distanceRestanteX + distanceRestanteY * distanceRestanteY);
-            System.out.println("======================================================================================================");
-            System.out.println("| " + distanceRestanteX);
-            System.out.println("| " + distanceRestanteY);
-            System.out.println("| " + "Distance restante : " + distanceRestante);
-
-
-
-
-            if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter == numberOfCheckPoints - 1) {
-                return new ArrayList<>();
-            }
-
-            if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter < numberOfCheckPoints-1) {
-                checkPointCounter++;
-                currentCheckPoint = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints()[checkPointCounter];
-            }
-
-
-            List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(currentCheckPoint.getPosition(), this.gameInfo,this.logger);
-            System.out.println("| " + actions);
-            System.out.println("======================================================================================================");
-            return actions;
-
-
+        if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter == numberOfCheckPoints - 1) {
+            return new ArrayList<>();
         }
-        */
+
+        if (Collisions.isColliding(checkpointsShape, boatShape) && checkPointCounter < numberOfCheckPoints-1) {
+            checkPointCounter++;
+            currentCheckPoint = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints()[checkPointCounter];
+        }
+
+
+        List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(currentCheckPoint.getPosition(), this.gameInfo);
+        System.out.println("| " + actions);
+        System.out.println("======================================================================================================");
+        return actions;
+
     }
 
 
