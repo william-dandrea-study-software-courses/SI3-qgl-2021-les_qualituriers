@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -18,7 +19,8 @@ import java.util.Objects;
         @JsonSubTypes.Type(name = "AIM", value = Aim.class),
         @JsonSubTypes.Type(name = "TURN", value = Turn.class),
         @JsonSubTypes.Type(name = "LIFT_SAIL", value = LiftSail.class),
-        @JsonSubTypes.Type(name = "LOWER_SAIL", value = LowerSail.class)
+        @JsonSubTypes.Type(name = "LOWER_SAIL", value = LowerSail.class),
+        @JsonSubTypes.Type(name = "USE_WATCH", value = UseWatch.class)
 })
 public abstract class Action {
 
@@ -37,7 +39,6 @@ public abstract class Action {
     public void setSailorId(int sailorId) {
         this.sailorId = sailorId;
     }
-
 
     public Actions getType() {
         return type;
