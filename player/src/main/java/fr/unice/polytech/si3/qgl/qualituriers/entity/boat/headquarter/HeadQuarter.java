@@ -16,6 +16,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LiftSail;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LowerSail;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,42 +84,43 @@ public class HeadQuarter {
 
 
 
-        if (sailorForSail.isPresent()) {
+        if (HeadquarterUtil.placeIsFree(HeadquarterUtil.getSail(boat).get().getPosition(), sailors)) {
             finalListOfActions.addAll(initSailSailorsPlace(boat, sailorForSail.get()));
+        }
 
-            Optional<Marin> sailorOnSail = HeadquarterUtil.getSailorOnSail(boat, sailors);
 
+        Optional<Marin> sailorOnSail =  HeadquarterUtil.getSailorOnSail(boat, sailors);
 
-            if (sailorOnSail.isPresent()) {
+        if (sailorOnSail.isPresent()) {
 
-                if (Config.linearSpeedWind(
-                        HeadquarterUtil.getListOfOars(boat).size(),
-                        HeadquarterUtil.getListOfOars(boat).size(),
-                        gameInfo.getWind().getStrength(),
-                        boat.getPosition().getOrientation(),
-                        gameInfo.getWind().getOrientation()
-                ) >= 0
-                        && HeadquarterUtil.getSail(boat).isPresent()
-                        && !((SailBoatEntity) HeadquarterUtil.getSail(boat).get()).isOpened())
-                {
-                    finalListOfActions.add(new LiftSail(sailorOnSail.get().getId()));
+            if (Config.linearSpeedWind(
+                    HeadquarterUtil.getListOfOars(boat).size(),
+                    HeadquarterUtil.getListOfOars(boat).size(),
+                    gameInfo.getWind().getStrength(),
+                    boat.getPosition().getOrientation(),
+                    gameInfo.getWind().getOrientation()
+            ) >= 0
+                    && HeadquarterUtil.getSail(boat).isPresent()
+                    && !((SailBoatEntity) HeadquarterUtil.getSail(boat).get()).isOpened())
+            {
+                finalListOfActions.add(new LiftSail(sailorOnSail.get().getId()));
+                var opn = HeadquarterUtil.getSail(boat);
+                if (opn.isPresent()){
+                    SailBoatEntity sailBoatEntity = (SailBoatEntity) opn.get();
+                    sailBoatEntity.setOpened(true);
+                }
+            } else {
+
+                if (HeadquarterUtil.getSail(boat).isPresent() && ((SailBoatEntity) HeadquarterUtil.getSail(boat).get()).isOpened()) {
+                    finalListOfActions.add(new LowerSail(sailorOnSail.get().getId()));
                     var opn = HeadquarterUtil.getSail(boat);
                     if (opn.isPresent()){
                         SailBoatEntity sailBoatEntity = (SailBoatEntity) opn.get();
-                        sailBoatEntity.setOpened(true);
-                    }
-                } else {
-
-                    if (HeadquarterUtil.getSail(boat).isPresent() && ((SailBoatEntity) HeadquarterUtil.getSail(boat).get()).isOpened()) {
-                        finalListOfActions.add(new LowerSail(sailorOnSail.get().getId()));
-                        var opn = HeadquarterUtil.getSail(boat);
-                        if (opn.isPresent()){
-                            SailBoatEntity sailBoatEntity = (SailBoatEntity) opn.get();
-                            sailBoatEntity.setOpened(false);
-                        }
+                        sailBoatEntity.setOpened(false);
                     }
                 }
             }
+
         }
 
         System.out.println(sailors.toString());
@@ -152,8 +154,14 @@ public class HeadQuarter {
 
 
     private List<Action> initSailSailorsPlace(Boat methodBoat, Marin sailorForSail) {
-        InitSailorsPlaceOnRudder initSailorsPlaceOnRudder = new InitSailorsPlaceOnRudder(methodBoat, sailorForSail.getId(), sailors);
-        return initSailorsPlaceOnRudder.initSailorsPlaceOnRudder();
+
+        BoatPathFinding boatPathFinding = new BoatPathFinding(sailors, boat, sailorForSail.getId(), HeadquarterUtil.getSail(boat).get().getPosition());
+        Point point = boatPathFinding.generateClosestPoint();
+
+        return new ArrayList<>() {{HeadquarterUtil.generateMovingAction(sailorForSail.getId(), sailorForSail.getX(), sailorForSail.getY(), (int) point.getX(), (int) point.getY());}};
+
+
+
     }
 
 

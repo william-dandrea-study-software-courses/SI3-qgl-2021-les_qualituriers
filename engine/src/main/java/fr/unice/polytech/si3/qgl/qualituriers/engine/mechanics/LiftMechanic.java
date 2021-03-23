@@ -50,7 +50,7 @@ public class LiftMechanic extends Mechanic {
 
     private Marin getSailor(int id, Race race) {
 
-        return race.getBoat().getSailors().stream().filter(marin -> marin.getId() == id).findAny().orElseThrow(() -> new SailorNotFoundException(id));
+        return race.getBoat().getSailors().stream().filter(marin -> marin.getId() == id).findFirst().orElseThrow(() -> new SailorNotFoundException(id));
     }
 
     private SailBoatEntity getSailAt(Marin marin, Race race) {
