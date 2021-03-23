@@ -16,7 +16,9 @@ import java.util.Objects;
         @JsonSubTypes.Type(name = "OAR", value = Oar.class),
         @JsonSubTypes.Type(name = "MOVING", value = Moving.class),
         @JsonSubTypes.Type(name = "AIM", value = Aim.class),
-        @JsonSubTypes.Type(name = "TURN", value = Turn.class)
+        @JsonSubTypes.Type(name = "TURN", value = Turn.class),
+        @JsonSubTypes.Type(name = "LIFT_SAIL", value = LiftSail.class),
+        @JsonSubTypes.Type(name = "LOWER_SAIL", value = LowerSail.class)
 })
 public abstract class Action {
 

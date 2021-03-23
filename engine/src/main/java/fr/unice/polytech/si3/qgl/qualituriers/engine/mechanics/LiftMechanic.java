@@ -20,6 +20,7 @@ public class LiftMechanic extends Mechanic {
 
     @Override
     public void execute(List<Action> actions, Race race) {
+
         for (Action action : actions) {
             if(action instanceof LiftSail) {
                 Marin marin = this.getSailor(action.getSailorId(), race);
@@ -48,7 +49,8 @@ public class LiftMechanic extends Mechanic {
     }
 
     private Marin getSailor(int id, Race race) {
-        return race.getBoat().getSailors().stream().filter(marin -> marin.getId() == id).findFirst().orElseThrow(() -> new SailorNotFoundException(id));
+
+        return race.getBoat().getSailors().stream().filter(marin -> marin.getId() == id).findAny().orElseThrow(() -> new SailorNotFoundException(id));
     }
 
     private SailBoatEntity getSailAt(Marin marin, Race race) {
