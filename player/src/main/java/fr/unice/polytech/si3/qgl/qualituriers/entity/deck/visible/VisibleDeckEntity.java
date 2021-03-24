@@ -67,8 +67,4 @@ public abstract class VisibleDeckEntity {
                 ", positionableShape=" + positionableShape +
                 '}';
     }
-
-    public PositionableShape<? extends Shape> getPositionableShape(){
-        return PositionableShapeFactory.getPositionable(shape, position);
-    }
 }

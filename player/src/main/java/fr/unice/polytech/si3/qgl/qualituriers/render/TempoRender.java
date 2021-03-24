@@ -2,8 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.render;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.StreamVisibleDeckEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntities;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
@@ -49,6 +48,14 @@ public class TempoRender extends Render {
         gameInfo.getShip().setEntities(round.getShip().getEntities());
 
         gameInfo.getShip().setSailors(Arrays.asList(gameInfo.getSailors()));
+
+        StreamVisibleDeckEntity str;
+        for(VisibleDeckEntity entity : round.getVisibleEntities())
+            if(entity instanceof StreamVisibleDeckEntity && Collisions.isColliding(entity.getPositionableShape(), gameInfo.getShip().getPositionableShape()))
+            {
+                str = (StreamVisibleDeckEntity) entity;
+                gameInfo.getShip().getPosition().getPoint().add(new Point(str.getPositionableShape().getTransform().getOrientation()).scalar(str.getStrength()));
+            }
 
         // Vérification si le checkpoint actuel est validé
         var currentCheckpoint = checkpoints[currentCheckpointIndex];
