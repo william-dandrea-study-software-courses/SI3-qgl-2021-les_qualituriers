@@ -88,12 +88,4 @@ class WindStrategyTest {
 
 
     }
-
-    @Test
-    void detectWind() {
-
-        WindStrategy windStrategy = new WindStrategy(defaultBoat, defaultGoal, defaultSailors, defaultGameInfo);
-        System.out.println(windStrategy.detectWind());
-
-    }
 }

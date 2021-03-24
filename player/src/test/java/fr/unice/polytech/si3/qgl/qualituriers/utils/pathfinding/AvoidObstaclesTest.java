@@ -11,6 +11,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class AvoidObstaclesTest {
         boat = new Boat(10, Transform.ZERO, "", null, null, new Rectangle(10, 30, 0));
     }
 
+    @Disabled
     @Test
     void TestReachSameLevel() {
         TestAttemptToReach(new Point(1000, 0), Arrays.asList(
@@ -38,6 +40,7 @@ public class AvoidObstaclesTest {
         ));
     }
 
+    @Disabled
     @Test
     void TestManyObstacles() {
         TestAttemptToReach(new Point(2000, 0), Arrays.asList(

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarter;
@@ -51,7 +52,7 @@ public class Boat {
 
 
 
-    public List<Action> moveBoatDistanceStrategy2(Transform checkPoint, GameInfo gameInfo,  ILogger logger) {
+    public List<Action> moveBoatDistanceStrategy2(Transform checkPoint, GameInfo gameInfo) {
 
         HeadQuarter headQuarter = new HeadQuarter(this, sailors, checkPoint, gameInfo);
         List<Action> actions = headQuarter.playTurn();
@@ -90,6 +91,10 @@ public class Boat {
 
     public void setSailors(List<Marin> sailors) {
         this.sailors = sailors;
+    }
+
+    public Optional<BoatEntity> getSail() {
+        return Arrays.stream(entities).filter(entity -> entity.getType().equals(BoatEntities.SAIL)).findAny();
     }
 
     @JsonIgnore

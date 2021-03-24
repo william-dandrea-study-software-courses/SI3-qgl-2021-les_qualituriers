@@ -94,9 +94,34 @@ public class Collisions {
      * @return true si le chemin est obstrué, false sinon
      */
     public static boolean raycast(Point start, Point end, PositionableCircle shape, double margin) {
-        if(shape.getShape().isIn(start.substract(shape.getTransform().getPoint())) || shape.getShape().isIn((end.substract(shape.getTransform().getPoint())))) return true;
         var shapeWithMargin = new PositionableCircle(new Circle(shape.getShape().getRadius() + margin), shape.getTransform());
+        if(shapeWithMargin.getShape().isIn(start.substract(shapeWithMargin.getTransform().getPoint())) || shapeWithMargin.getShape().isIn((end.substract(shapeWithMargin.getTransform().getPoint())))) return true;
         Segment segment = new Segment(start, end);
         return segment.intersectWith(shapeWithMargin);
+    }
+
+    public static double getDistanceCast(Point start, Point end, PositionableCircle shape, double margin) {
+        var r = shape.getShape().getRadius() + margin;
+
+        var d = end.substract(start).normalized();
+        var dx = d.getX();
+        var dy = d.getY();
+
+        var dObs = shape.getTransform().getPoint().substract(start);
+        var ABx = dObs.getX();
+        var ABy = dObs.getY();
+
+
+        var a = dx*dx + dy*dy;
+        var b = -2 * (ABx * dx + ABy * dy);
+        var c = ABx * ABx + ABy * ABy - r * r;
+        var delta = b * b - 4 * a * c;
+
+        if(delta < 0) return -1;
+
+        var x1 = (-b - Math.sqrt(delta)) / (2 * a);
+        var x2 = (-b + Math.sqrt(delta)) / (2 * a);
+
+        return Math.min(x1, x2);
     }
 }

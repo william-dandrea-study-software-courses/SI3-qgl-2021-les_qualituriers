@@ -91,7 +91,7 @@ public class BoatPathFinding {
 
     /**
      * Cette méthode permet de retourner la premiere destionation idéale ou deplacer la marin
-     * @return
+     * @return le point ideal ou deplacer le marin
      */
      Point getTheInitialCloserPosition() {
 
@@ -144,10 +144,10 @@ public class BoatPathFinding {
 
             for (int i = 1; i <= start; i++) {
                 if (leftRight == 0) {
-                    pointListAroundPosition.add(new Point(start, i-1));
+                    pointListAroundPosition.add(new Point(start, (double) i-1));
 
                 } else {
-                    pointListAroundPosition.add(new Point( i-1, start));
+                    pointListAroundPosition.add(new Point( (double) i-1, start));
 
                 }
                 lines++;
@@ -175,10 +175,4 @@ public class BoatPathFinding {
 
         return pointListAroundPosition;
     }
-
-
-
-
-
-
 }

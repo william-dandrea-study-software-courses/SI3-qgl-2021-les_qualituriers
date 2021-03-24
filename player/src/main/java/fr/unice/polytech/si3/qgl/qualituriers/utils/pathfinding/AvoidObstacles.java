@@ -17,11 +17,15 @@ public class AvoidObstacles implements IPathfinder {
 
     @Override
     public CheckPoint getNextCheckpoint(PathfindingContext context) {
+        return getNextCheckpoint(context, 0);
+    }
+
+    private CheckPoint getNextCheckpoint(PathfindingContext context, int pass) {
 
         var end = context.getToReach().getPosition();
         var boatRadius = context.getBoat().getPositionableShape().getCircumscribed();
         var start = boatRadius.getTransform().getPoint();
-        var margin = 2 * boatRadius.getShape().getRadius();
+        var margin = 20 * boatRadius.getShape().getRadius();
 
         // Map the obstacle to circles obstacle
         // get the one who will collid with the boat
@@ -37,14 +41,21 @@ public class AvoidObstacles implements IPathfinder {
         // Obstacle datas
         var obsRadius = obstacleToAvoid.get().getShape().getRadius();
         var obsPosition = obstacleToAvoid.get().getTransform().getPoint();
-        var obsDirection = obsPosition.substract(start).normalized();
+
+        var boatDirection = end.substract(start).normalized();
+        //var obsDirection = obsPosition.substract(start).normalized();
+
+        if(pass > 30) {
+            int i = 0;
+        }
 
 
-
-        var nextPosition = obsPosition.add(obsDirection.rotate(Math.PI / 2).scalar(2 * obsRadius));
+        var nextPosition = obsPosition.add(boatDirection.rotate(Math.PI / 2).scalar(obsRadius + 3 * margin));
 
         context.setToReach(new CheckPoint(new Transform(nextPosition, 0), new Circle(100)));
 
-        return getNextCheckpoint(context);
+        return getNextCheckpoint(context, pass + 1);
     }
+
+
 }

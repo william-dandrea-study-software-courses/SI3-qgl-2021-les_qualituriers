@@ -118,17 +118,4 @@ class DifferenceOfOarsForGoingSomewhereTest {
         assertEquals(3, differenceOfOarsForGoingSomewhere.differenceOfOarsForGoingSomewhere());
         assertEquals(Math.PI/4, differenceOfOarsForGoingSomewhere.differenceOfAngleForTheRudder(), Config.EPSILON);
     }
-
-
-
-
-
-
-    @Test
-    void differenceOfAngleForTheRudder() {
-
-
-
-
-    }
 }

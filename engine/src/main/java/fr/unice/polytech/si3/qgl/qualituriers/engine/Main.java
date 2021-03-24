@@ -7,6 +7,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Deck.DeckRenderer;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea.Sea;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.*;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
+import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race6;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.serializers.RectangleSerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
@@ -22,11 +23,10 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Turn;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -58,6 +58,15 @@ public class Main {
         }, TurnConfig.seaEntities);
     }
 
+    static Race createRaceFromFile(String path) throws FileNotFoundException, JsonProcessingException {
+        File file = new File(path);
+        Scanner scanner = new Scanner(file);
+        StringBuilder json = new StringBuilder();
+        while(scanner.hasNextLine())
+            json.append(scanner.nextLine()).append("\n");
+        return null;
+    }
+
     static void RunRace(Race race) throws JsonProcessingException, InterruptedException {
 
         ObjectMapper om = new ObjectMapper();
@@ -66,7 +75,7 @@ public class Main {
         om.registerModule(module);
 
         // Init game
-        var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1, new Wind(Math.PI, 20), race.getEntities());
+        var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1, new Wind(0, 50), race.getEntities());
 
 
         Cockpit cockpit = new Cockpit();
@@ -82,7 +91,7 @@ public class Main {
         int compteurMax = 500;
         do {
             Wind wind = generateWind();
-            RoundInfo rInfo = new RoundInfo(race.getBoat(), wind, new VisibleDeckEntity[] {});
+            RoundInfo rInfo = new RoundInfo(race.getBoat(), wind, race.getEntities());
             var roundString = om.writeValueAsString(rInfo);
 
             var actionString = cockpit.nextRound(roundString);
@@ -90,6 +99,7 @@ public class Main {
             race.setWind(wind);
 
             actionsDone = om.readValue(actionString, Action[].class);
+
 
             List<Action> finalActionsDone = List.of(actionsDone);
 
@@ -132,18 +142,19 @@ public class Main {
     }
 
     private static void collisions(Race race) {
-        for (ReefVisibleDeckEntity reef : Arrays.stream(race.getEntities())
-                .filter(entity -> entity instanceof ReefVisibleDeckEntity)
-                .map(entity -> (ReefVisibleDeckEntity) entity)
-                .collect(Collectors.toList())) {
-            if(Collisions.isColliding(race.getBoat().getPositionableShape(), reef.getPositionableShape()))
-                race.getBoat().setLife(0);
+        if(race.getEntities() != null) {
+            for (ReefVisibleDeckEntity reef : Arrays.stream(race.getEntities())
+                    .filter(entity -> entity instanceof ReefVisibleDeckEntity)
+                    .map(entity -> (ReefVisibleDeckEntity) entity)
+                    .collect(Collectors.toList())) {
+
+                if (Collisions.isColliding(race.getBoat().getPositionableShape(), reef.getPositionableShape()))
+                    race.getBoat().setLife(0);
+            }
         }
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-
-        RunRace(createRace());
-
+        RunRace(Race6.race);
     }
 }
