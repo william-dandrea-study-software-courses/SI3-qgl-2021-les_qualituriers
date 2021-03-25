@@ -19,14 +19,13 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -103,6 +102,8 @@ public class Main {
 
             List<Action> finalActionsDone = List.of(actionsDone);
 
+            checkMultipleActions(finalActionsDone);
+
             Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
 
             collisions(race);
@@ -152,6 +153,25 @@ public class Main {
                     race.getBoat().setLife(0);
             }
         }
+    }
+
+    private static void checkMultipleActions(List<Action> actions) {
+        Map<Integer, List<Actions>> sailorsActions = new HashMap<>();
+        for (Action action : actions) {
+            if(sailorsActions.containsKey(action.getSailorId()))
+                sailorsActions.get(action.getSailorId()).add(action.getType());
+            else {
+                ArrayList<Actions> sailorActions = new ArrayList<>();
+                sailorActions.add(action.getType());
+                sailorsActions.put(action.getSailorId(), sailorActions);
+            }
+        }
+
+        List<Map.Entry<Integer, List<Actions>>> tooManyActions = sailorsActions.entrySet().stream()
+                .filter(entry -> entry.getValue().size() >= 2)
+                .collect(Collectors.toList());
+        if(!tooManyActions.isEmpty())
+            throw new IllegalStateException("Plusieurs actions ont été donné à un/plusieurs marin(s): " + tooManyActions);
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
