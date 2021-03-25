@@ -4,6 +4,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.SailBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.DifferenceOfOarsForGoingSomewhere;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.InitSailorsPlaceOnOars;
@@ -13,6 +14,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LowerSail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +35,13 @@ public class HeadQuarter {
     private final Boat boat;
     private final List<Marin> sailors;
     private final Transform goal;
+    private final GameInfo gameInfo;
 
     public HeadQuarter(Boat boat, List<Marin> sailors, Transform goal, GameInfo gameInfo) {
         this.boat = boat;
         this.sailors = sailors;
         this.goal = goal;
+        this.gameInfo = gameInfo;
 
         if (gameInfo.getWind() == null) { gameInfo.setWind(new Wind(0,0)); }
     }
@@ -158,6 +162,10 @@ public class HeadQuarter {
         OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(methodBoat, methodSailors, differenceOfSailors, goal);
         return oarTheGoodAmountOfSailors.oarTheGoodAmountOfSailors();
     }
+
+
+
+
 
 
     public List<Marin> getSailors() {

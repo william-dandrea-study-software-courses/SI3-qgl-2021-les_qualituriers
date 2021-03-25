@@ -3,24 +3,23 @@ package fr.unice.polytech.si3.qgl.qualituriers.engine;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Deck.DeckRenderer;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea.Sea;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.*;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race6;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.serializers.RectangleSerializer;
-import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.ReefVisibleDeckEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Turn;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 
 import java.io.File;
@@ -103,6 +102,8 @@ public class Main {
 
             List<Action> finalActionsDone = List.of(actionsDone);
 
+            checkMultipleActions(finalActionsDone);
+
             Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
 
             collisions(race);
@@ -152,6 +153,25 @@ public class Main {
                     race.getBoat().setLife(0);
             }
         }
+    }
+
+    private static void checkMultipleActions(List<Action> actions) {
+        Map<Integer, List<Actions>> sailorsActions = new HashMap<>();
+        for (Action action : actions) {
+            if(sailorsActions.containsKey(action.getSailorId()))
+                sailorsActions.get(action.getSailorId()).add(action.getType());
+            else {
+                ArrayList<Actions> sailorActions = new ArrayList<>();
+                sailorActions.add(action.getType());
+                sailorsActions.put(action.getSailorId(), sailorActions);
+            }
+        }
+
+        List<Map.Entry<Integer, List<Actions>>> tooManyActions = sailorsActions.entrySet().stream()
+                .filter(entry -> entry.getValue().size() >= 2)
+                .collect(Collectors.toList());
+        if(!tooManyActions.isEmpty())
+            throw new IllegalStateException("Plusieurs actions ont été donné à un/plusieurs marin(s): " + tooManyActions);
     }
 
     public static void main(String... args) throws IOException, InterruptedException {

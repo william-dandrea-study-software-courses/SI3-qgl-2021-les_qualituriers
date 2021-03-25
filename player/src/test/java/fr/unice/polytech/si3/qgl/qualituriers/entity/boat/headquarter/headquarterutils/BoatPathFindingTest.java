@@ -94,7 +94,7 @@ class BoatPathFindingTest {
                 new OarBoatEntity(8, 4),
                 new OarBoatEntity(9, 4),
                 new RudderBoatEntity(11,2),
-                new SailBoatEntity(6,2, false),
+                new SailBoatEntity(6,2, true),
 
         };
         Shape completeBoatShape = new Rectangle(5, 12, 0);

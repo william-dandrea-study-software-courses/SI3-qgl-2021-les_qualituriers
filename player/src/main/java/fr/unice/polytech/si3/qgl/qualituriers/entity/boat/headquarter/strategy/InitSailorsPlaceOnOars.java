@@ -44,8 +44,7 @@ public class InitSailorsPlaceOnOars {
      */
     public List<Action> initSailorsPlace() {
 
-
-
+        
 
         List<Marin> listOfSailorsOnBabordOars = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat);
         List<Marin> listOfSailorsOnTribordOars = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat);

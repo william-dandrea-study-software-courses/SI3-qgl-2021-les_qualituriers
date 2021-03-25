@@ -10,11 +10,8 @@ import java.util.List;
 public class MovingMechanic extends Mechanic {
     @Override
     public void execute(List<Action> actions, Race race) {
-
-
         for (Action action : actions) {
 
-            //boolean breaking = false;
             if (action instanceof Moving) {
 
                 int id = action.getSailorId();
@@ -24,17 +21,18 @@ public class MovingMechanic extends Mechanic {
                 for (Marin sailor : race.getSailors()) {
 
                     if (sailor.getId() == id) {
-                        sailor.setX(sailor.getX() + distanceX);
-                        sailor.setY(sailor.getY() + distanceY);
-                        //breaking = true;
-                        break;
+
+                        int deltaPos = Math.abs(distanceX) + Math.abs(distanceY);
+                        if(deltaPos <= 5) {
+
+                            sailor.setX(sailor.getX() + distanceX);
+                            sailor.setY(sailor.getY() + distanceY);
+                            break;
+                        } else
+                            throw new IllegalArgumentException("Le marin fait un déplacement de "+deltaPos+" cases (x:"+distanceX+";y:"+distanceY+")");
                     }
                 }
             }
-            /*
-            if (breaking) {
-                break;
-            }*/
         }
     }
 }

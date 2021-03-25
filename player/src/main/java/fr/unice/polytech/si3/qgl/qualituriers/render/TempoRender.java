@@ -125,7 +125,6 @@ public class TempoRender extends Render {
 
 
 
-
     /*
     @Override
     public List<Action> nextRound(RoundInfo round) throws JsonProcessingException {
