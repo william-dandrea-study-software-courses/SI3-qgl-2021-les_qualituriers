@@ -18,8 +18,16 @@ jobs:
 
       - name: Slack notification
         env:
-          SLACK_WEBHOOK: https://hooks.slack.com/services/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
+          SLACK_USERNAME: GITHUB ACTION BOT
+          SLACK_ICON: https://bitcoin.fr/wp-content/uploads/2019/07/ancien-logo-bitcoin.jpg
+          SLACK_COLOR: green
+          SLACK_MESSAGE: 'Un push vient d avoir lieu'
+          SLACK_TITLE: Nouveau Push
+
           SLACK_CHANNEL: si3-qgl-20-21-les_qualituriers
+          SLACK_WEBHOOK: https://hooks.slack.com/services/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
+
+
         uses: Ilshidur/action-slack@2.0.2
         with:
           args: 'A new commit has been pushed.'
