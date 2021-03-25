@@ -24,3 +24,5 @@ jobs:
 
       - name: Run Mutation Testing
         run: mvn package -Ppitest org.pitest:pitest-maven:mutationCoverage
+
+
