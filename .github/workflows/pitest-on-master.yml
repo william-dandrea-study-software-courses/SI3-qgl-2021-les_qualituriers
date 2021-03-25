@@ -1,0 +1,26 @@
+
+name: pitest-on-master
+
+on:
+  push:
+    branches:
+      - master
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 1.11
+        uses: actions/checkout@v2
+        with:
+          java-version: 1.11
+
+      - name: Maven build
+        run: mvn clean package
+
+      - name: Run Mutation Testing
+        run: mvn package -Ppitest org.pitest:pitest-maven:mutationCoverage
