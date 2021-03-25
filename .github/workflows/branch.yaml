@@ -16,6 +16,7 @@ jobs:
       - name: Maven build
         run: mvn clean package
 
+
       - name: Slack notification
         uses: rtCamp/action-slack-notify@v2
         env:
