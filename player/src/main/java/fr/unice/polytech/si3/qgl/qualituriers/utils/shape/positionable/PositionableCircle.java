@@ -1,8 +1,10 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable;
 
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Polygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 
 import java.util.ArrayList;
@@ -73,5 +75,17 @@ public class PositionableCircle extends PositionableShape<Circle> {
         int result = super.hashCode();
         result = 31 * result + Arrays.hashCode(points);
         return result;
+    }
+
+    @Override
+    public PositionablePolygon getCircumscribedPolygon() {
+        var reso = Config.CIRCLE_APPROXIMATION_RESOLUTION;
+        if(reso <= 2) throw new RuntimeException("The resolution can't less than 2 !");
+
+        var dTheta = 2 * Math.PI / (double)reso;
+        var radius = getShape().getRadius();
+
+        var circumscribedPolygonRadius = radius / Math.cos(dTheta / 2);
+        return new PositionablePolygon(Polygon.createRegular(reso, circumscribedPolygonRadius), getTransform());
     }
 }

@@ -17,6 +17,9 @@ public class Config {
     public static final double MAX_ANGLE_FOR_RUDDER = Math.PI / 4;
     public static final double MAX_ANGLE_TURN_FOR_SAILORS = Math.PI/2;
 
+
+    public static final int CIRCLE_APPROXIMATION_RESOLUTION = 8;
+
     /**
      * Epsilon pour comparer des valeurs flottantes
      */
