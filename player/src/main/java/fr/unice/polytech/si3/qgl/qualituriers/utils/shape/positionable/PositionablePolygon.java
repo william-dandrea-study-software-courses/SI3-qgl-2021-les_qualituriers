@@ -68,4 +68,9 @@ public class PositionablePolygon extends PositionableShape<PolygonAbstract> {
         result = 31 * result + Arrays.hashCode(points);
         return result;
     }
+
+    @Override
+    public PositionablePolygon getCircumscribedPolygon() {
+        return this;
+    }
 }

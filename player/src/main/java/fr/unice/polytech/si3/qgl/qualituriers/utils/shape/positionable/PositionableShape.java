@@ -69,6 +69,9 @@ public abstract class PositionableShape<T extends Shape> {
         return new PositionableCircle(c.getShape(), transform.getInParentLandmark(c.getTransform()));
     }
 
+    @JsonIgnore
+    public abstract PositionablePolygon getCircumscribedPolygon();
+
 
     @Override
     public String toString() {
