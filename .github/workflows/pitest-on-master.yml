@@ -1,7 +1,11 @@
-name: Pull-Request
 
-# Trigger de déclenchement de cette action
-on: pull_request
+name: pitest-on-master
+
+on:
+  push:
+    branches:
+      - master
+
 
 jobs:
   build:
@@ -18,7 +22,5 @@ jobs:
       - name: Maven build
         run: mvn clean package
 
-
-
-
-
+      - name: Run Mutation Testing
+        run: mvn package -Ppitest org.pitest:pitest-maven:mutationCoverage
