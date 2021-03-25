@@ -16,12 +16,10 @@ jobs:
       - name: Maven build
         run: mvn clean package
 
-
       - name: Slack notification
-        uses: rtCamp/action-slack-notify@v2
         env:
+          SLACK_WEBHOOK: https://hooks.slack.com/services/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
           SLACK_CHANNEL: si3-qgl-20-21-les_qualituriers
-          SLACK_WEBHOOK: SLACK_SECRET_ACTION
-          SLACK_MESSAGE: 'Ce message vient du futur'
-          SLACK_TITLE: 'We made it'
-          SLACK_USERNAME: bot
+        uses: Ilshidur/action-slack@2.0.2
+        with:
+          args: 'A new commit has been pushed.'
