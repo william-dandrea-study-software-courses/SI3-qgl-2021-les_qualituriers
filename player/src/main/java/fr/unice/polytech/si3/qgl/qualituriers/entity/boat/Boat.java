@@ -11,7 +11,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarte
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShapeFactory;
@@ -61,6 +60,7 @@ public class Boat {
 
         return actions;
     }
+
 
     @Override
     public boolean equals(Object o) {

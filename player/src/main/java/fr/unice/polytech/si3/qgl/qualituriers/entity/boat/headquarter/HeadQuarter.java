@@ -14,7 +14,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LiftSail;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LowerSail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,13 +64,6 @@ public class HeadQuarter {
             actionOptional.ifPresent(finalListOfActions::add);
         }
 
-
-
-
-
-
-
-
         return finalListOfActions;
     }
 
@@ -94,11 +87,6 @@ public class HeadQuarter {
             finalsActions.addAll(initRudderSailorPlace(methodBoat, closestSailor));
             sailorsWeUsed.add(closestSailor.getId());
         }
-
-
-        // TEMPORAIRE //
-        finalsActions.addAll(temporarGenerateOnLiftSail());
-        sailorsWeUsed.add(10);
 
         // Nous ajoutons maintenant les sailors sur les oars
         List<Marin> sailorsForOar = sailors.stream().filter(marin -> !sailorsWeUsed.contains(marin.getId())).collect(Collectors.toList());
@@ -178,24 +166,6 @@ public class HeadQuarter {
 
 
 
-    private List<Action> temporarGenerateOnLiftSail() {
-        List<Action> finalListOfActions = new ArrayList<>();
-        Optional<Marin> potentialSailor = HeadquarterUtil.getSailorOnSail(boat, sailors);
-        Optional<BoatEntity> potentialSail = gameInfo.getShip().getSail();
-        if (potentialSailor.isPresent() && potentialSail.isPresent()) {
-
-            Marin sailorOnSail = potentialSailor.get();
-            SailBoatEntity sailOnBoat = (SailBoatEntity) potentialSail.get();
-
-            if (!sailOnBoat.isOpened()) {
-
-                finalListOfActions.add(new LiftSail(sailorOnSail.getId()));
-                sailOnBoat.setOpened(true);
-            }
-        }
-
-        return finalListOfActions;
-    }
 
 
     public List<Marin> getSailors() {

@@ -99,9 +99,7 @@ public class HeadquarterUtil {
      * @return true si le marin est sur une oar, false sinon
      */
     public static boolean sailorIsOnOar(Boat boat, Marin marin) {
-
         return getListOfOars(boat).stream().anyMatch(entity -> entity.getX() == marin.getX() && entity.getY() == marin.getY());
-
     }
 
 
@@ -233,8 +231,6 @@ public class HeadquarterUtil {
 
         return finalListOfPositions;
     }
-
-
 
     /**
      * TESTED
@@ -409,7 +405,4 @@ public class HeadquarterUtil {
         }
         return closerSailor;
     }
-
-
-
 }
