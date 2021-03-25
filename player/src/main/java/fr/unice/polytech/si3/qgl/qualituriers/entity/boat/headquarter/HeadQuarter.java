@@ -97,8 +97,8 @@ public class HeadQuarter {
 
 
         // TEMPORAIRE //
-        //finalsActions.addAll(temporarGenerateOnLiftSail());
-        //sailorsWeUsed.add(10);
+        finalsActions.addAll(temporarGenerateOnLiftSail());
+        sailorsWeUsed.add(10);
 
         // Nous ajoutons maintenant les sailors sur les oars
         List<Marin> sailorsForOar = sailors.stream().filter(marin -> !sailorsWeUsed.contains(marin.getId())).collect(Collectors.toList());

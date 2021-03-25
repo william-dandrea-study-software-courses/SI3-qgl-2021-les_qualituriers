@@ -32,18 +32,17 @@ public class LiftMechanic extends Mechanic {
                 sail.setOpened(false);
             }
         }
-        if(race.getWind() != null) {
+
+        Wind wind = race.getWind();
+        if(wind != null) {
             Boat boat = race.getBoat();
             List<SailBoatEntity> sails = this.getSails(boat);
             if(!sails.isEmpty()) {
-                Wind wind = race.getWind();
                 Transform position = boat.getPosition();
                 long sailsOpened = sails.stream().filter(SailBoatEntity::isOpened).count();
                 double speed = (sailsOpened / (double) sails.size()) * wind.getStrength() * Math.cos(wind.getOrientation() - position.getOrientation());
-                double dx = speed * position.getX();
-                double dy = speed * position.getY();
-                Point translation = new Point(dx, dy);
-                boat.setPosition(position.translate(translation));
+                Point point = new Point(position.getOrientation()).scalar(speed);
+                boat.setPosition(position.translate(point));
             }
         }
     }
