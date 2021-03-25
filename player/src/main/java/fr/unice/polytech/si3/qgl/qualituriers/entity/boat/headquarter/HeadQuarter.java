@@ -4,6 +4,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.SailBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.DifferenceOfOarsForGoingSomewhere;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.InitSailorsPlaceOnOars;
@@ -13,6 +14,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LiftSail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +35,13 @@ public class HeadQuarter {
     private final Boat boat;
     private final List<Marin> sailors;
     private final Transform goal;
+    private final GameInfo gameInfo;
 
     public HeadQuarter(Boat boat, List<Marin> sailors, Transform goal, GameInfo gameInfo) {
         this.boat = boat;
         this.sailors = sailors;
         this.goal = goal;
+        this.gameInfo = gameInfo;
 
         if (gameInfo.getWind() == null) { gameInfo.setWind(new Wind(0,0)); }
     }
@@ -59,6 +63,13 @@ public class HeadQuarter {
             Optional<Action> actionOptional = HeadquarterUtil.generateRudder(sailorOnRudderOp.get().getId(), angleRudder);
             actionOptional.ifPresent(finalListOfActions::add);
         }
+
+
+
+
+
+
+
 
         return finalListOfActions;
     }
@@ -83,6 +94,11 @@ public class HeadQuarter {
             finalsActions.addAll(initRudderSailorPlace(methodBoat, closestSailor));
             sailorsWeUsed.add(closestSailor.getId());
         }
+
+
+        // TEMPORAIRE //
+        //finalsActions.addAll(temporarGenerateOnLiftSail());
+        //sailorsWeUsed.add(10);
 
         // Nous ajoutons maintenant les sailors sur les oars
         List<Marin> sailorsForOar = sailors.stream().filter(marin -> !sailorsWeUsed.contains(marin.getId())).collect(Collectors.toList());
@@ -157,6 +173,28 @@ public class HeadQuarter {
     private List<Action> oarTheGoodAmountOfSailors(int differenceOfSailors, Boat methodBoat, List<Marin> methodSailors, Transform goal) {
         OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(methodBoat, methodSailors, differenceOfSailors, goal);
         return oarTheGoodAmountOfSailors.oarTheGoodAmountOfSailors();
+    }
+
+
+
+
+    private List<Action> temporarGenerateOnLiftSail() {
+        List<Action> finalListOfActions = new ArrayList<>();
+        Optional<Marin> potentialSailor = HeadquarterUtil.getSailorOnSail(boat, sailors);
+        Optional<BoatEntity> potentialSail = gameInfo.getShip().getSail();
+        if (potentialSailor.isPresent() && potentialSail.isPresent()) {
+
+            Marin sailorOnSail = potentialSailor.get();
+            SailBoatEntity sailOnBoat = (SailBoatEntity) potentialSail.get();
+
+            if (!sailOnBoat.isOpened()) {
+
+                finalListOfActions.add(new LiftSail(sailorOnSail.getId()));
+                sailOnBoat.setOpened(true);
+            }
+        }
+
+        return finalListOfActions;
     }
 
 
