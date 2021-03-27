@@ -42,4 +42,14 @@ public class SailBoatEntity extends BoatEntity {
     public int hashCode() {
         return Objects.hash(super.hashCode(), opened);
     }
+
+    @Override
+    public String toString() {
+        return "SailBoatEntity : " +
+                "opened=" + opened +
+                ", type=" + type +
+                ", x=" + x +
+                ", y=" + y +
+                '\n';
+    }
 }

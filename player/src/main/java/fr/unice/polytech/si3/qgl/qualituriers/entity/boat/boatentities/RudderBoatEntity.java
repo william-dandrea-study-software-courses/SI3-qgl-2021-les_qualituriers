@@ -14,4 +14,13 @@ public class RudderBoatEntity extends BoatEntity {
     public RudderBoatEntity(@JsonProperty("x") int x, @JsonProperty("y") int y) {
         super(BoatEntities.RUDDER, x, y);
     }
+
+    @Override
+    public String toString() {
+        return "RudderBoatEntity : " +
+                "type=" + type +
+                ", x=" + x +
+                ", y=" + y +
+                '\n';
+    }
 }

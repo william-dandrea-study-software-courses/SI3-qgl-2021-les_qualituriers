@@ -14,4 +14,13 @@ public class WatchBoatEntity extends BoatEntity {
     public WatchBoatEntity(@JsonProperty("x") int x, @JsonProperty("y") int y) {
         super(BoatEntities.WATCH, x, y);
     }
+
+    @Override
+    public String toString() {
+        return "WatchBoatEntity : " +
+                "type=" + type +
+                ", x=" + x +
+                ", y=" + y +
+                '\n';
+    }
 }

@@ -33,4 +33,14 @@ public class OarBoatEntity extends BoatEntity {
     public boolean isLeftOar() {
         return y == 0;
     }
+
+
+    @Override
+    public String toString() {
+        return "OarBoatEntity : " +
+                "type=" + type +
+                ", x=" + x +
+                ", y=" + y +
+                '\n';
+    }
 }
