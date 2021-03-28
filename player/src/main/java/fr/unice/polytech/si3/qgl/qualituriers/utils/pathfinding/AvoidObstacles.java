@@ -24,6 +24,7 @@ public class AvoidObstacles implements IPathfinder {
 
     private CheckPoint getNextCheckpoint(PathfindingContext context, int pass) {
         var store = context.getStore();
+        var boatPosition = context.getBoat().getPosition();
 
         // Enlarge obstacles
         List<PositionablePolygon> obstacles = new ArrayList<>();
@@ -31,11 +32,13 @@ public class AvoidObstacles implements IPathfinder {
         store.addObstaclesTo(obstacles);
         obstacles.forEach(store::addObstacle);
 
+        if(!Collisions.raycastPolygon(new Segment(boatPosition, context.getToReach().getPosition()), obstacles.stream()))
+            return context.getToReach();
+
         if(store.getCalculatedPath() == null)
             FindANewPath(context, obstacles);
 
         var currentPt = store.getCalculatedPath().get(store.getCurrentNodeToReach());
-        var boatPosition = context.getBoat().getPosition();
 
         // Boat on checkpoint
         if(boatPosition.substract(currentPt.getPosition()).length() < 100) {
