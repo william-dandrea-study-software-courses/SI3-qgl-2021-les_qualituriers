@@ -1,13 +1,13 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class AvoidObstacles implements IPathfinder {
     @Override
@@ -21,41 +21,23 @@ public class AvoidObstacles implements IPathfinder {
     }
 
     private CheckPoint getNextCheckpoint(PathfindingContext context, int pass) {
+        // Enlarge obstacles
+        List<PositionablePolygon> obstacles = new ArrayList<>();
+        context.getObstacles().stream().map(o -> o.getCircumscribedPolygon().scaleFromCenter(1.1)).forEach(obstacles::add);
 
-        var end = context.getToReach().getPosition();
-        var boatRadius = context.getBoat().getPositionableShape().getCircumscribed();
-        var start = boatRadius.getTransform().getPoint();
-        var margin = 20 * boatRadius.getShape().getRadius();
+        // Create PathfindingProblem
+        PathfindingNode startPosition = new PathfindingNode(context.getBoat().getPosition(), null);
+        PathfindingNode goal = new PathfindingNode(context.getToReach().getPosition(), null);
 
-        // Map the obstacle to circles obstacle
-        // get the one who will collid with the boat
-        // get the nearest
-        var obstacleToAvoid = context.getObstacles().stream()
-                .map(PositionableShape::getCircumscribed) // Map the obstacle to circles obstacle
-                .filter(p -> Collisions.raycast(start, end, p, margin)) // get the ones who collids
-                .min(Comparator.comparingDouble(p -> p.getTransform().getPoint().substract(start).length())); // get the nearests
+        PathfindingProblem pb = new PathfindingProblem(startPosition, goal);
+        obstacles.forEach(pb::addPolygon);
 
-        if(obstacleToAvoid.isEmpty())
-            return context.getToReach();
+        // Solve pb
+        Path result = pb.solve();
+        if(result == null) throw new RuntimeException("No path founded !");
 
-        // Obstacle datas
-        var obsRadius = obstacleToAvoid.get().getShape().getRadius();
-        var obsPosition = obstacleToAvoid.get().getTransform().getPoint();
+        return new CheckPoint(new Transform(result.getFirstNode().getPosition(), 0), new Circle(200));
 
-        var boatDirection = end.substract(start).normalized();
-        //var obsDirection = obsPosition.substract(start).normalized();
-
-        if(pass > 30) {
-            int i = 0;
-        }
-
-
-        var nextPosition = obsPosition.add(boatDirection.rotate(Math.PI / 2).scalar(obsRadius + 3 * margin));
-
-        context.setToReach(new CheckPoint(new Transform(nextPosition, 0), new Circle(100)));
-
-        return getNextCheckpoint(context, pass + 1);
     }
-
 
 }

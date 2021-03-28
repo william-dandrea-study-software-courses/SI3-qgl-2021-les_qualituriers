@@ -81,8 +81,8 @@ public class TempoRender extends Render {
 
     @Override
     public List<Action> nextRound(RoundInfo round)  {
-        //return nextRoundAlternative(round);
-
+        return nextRoundAlternative(round);
+/*
 
         System.out.println("2");
 
@@ -119,7 +119,7 @@ public class TempoRender extends Render {
         List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(currentCheckPoint.getPosition(), this.gameInfo);
         System.out.println("| " + actions);
         System.out.println("======================================================================================================");
-        return actions;
+        return actions;*/
 
     }
 

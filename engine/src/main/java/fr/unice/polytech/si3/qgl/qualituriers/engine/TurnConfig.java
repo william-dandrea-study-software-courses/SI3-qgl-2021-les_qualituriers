@@ -56,7 +56,7 @@ public class TurnConfig {
 
     public static final VisibleDeckEntity[] seaEntities = {
             new ReefVisibleDeckEntity(new Transform(5416.415681234441, 211.04307432432563, 0.6981317007977318), new Rectangle(250,1200, 0.6981317007977318)),
-            new ReefVisibleDeckEntity(new Transform(3567.708333333334, 1126.3020833333342, 0), new Circle(350)),
+            //new ReefVisibleDeckEntity(new Transform(3567.708333333334, 1126.3020833333342, 0), new Circle(350)),
             new ReefVisibleDeckEntity(new Transform(4500, 2300, Math.PI / 4), new Rectangle(200, 300, 0)),
             new ReefVisibleDeckEntity(new Transform(4000, 3500, Math.PI / 4), new Rectangle(200, 300, 0)),
             new ReefVisibleDeckEntity(new Transform(4500, 2800, -Math.PI / 4), new Rectangle(200, 300, 0)),
@@ -65,7 +65,7 @@ public class TurnConfig {
 
     private static final int boatLife = 1050;
 
-    private static final Transform boatTransform = new Transform(2852.173913043478,1978.827361563518,-1.0297442586766543);
+    private static final Transform boatTransform = new Transform(3000,2000,-1.0297442586766543);
 
     private static final String boatName = "superFregate";
 

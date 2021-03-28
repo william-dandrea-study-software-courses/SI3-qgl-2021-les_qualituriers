@@ -9,6 +9,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea.Sea;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.*;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race6;
+import fr.unice.polytech.si3.qgl.qualituriers.engine.races.TestPathfinding;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.serializers.RectangleSerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
@@ -170,11 +171,12 @@ public class Main {
         List<Map.Entry<Integer, List<Actions>>> tooManyActions = sailorsActions.entrySet().stream()
                 .filter(entry -> entry.getValue().size() >= 2)
                 .collect(Collectors.toList());
-        if(!tooManyActions.isEmpty())
-            throw new IllegalStateException("Plusieurs actions ont été donné à un/plusieurs marin(s): " + tooManyActions);
+
+        /*if(!tooManyActions.isEmpty())
+            throw new IllegalStateException("Plusieurs actions ont été donné à un/plusieurs marin(s): " + tooManyActions);*/
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(Race6.race);
+        RunRace(createRace());
     }
 }
