@@ -194,10 +194,10 @@ public class Main {
         List<Map.Entry<Integer, List<Actions>>> tooManyActions = sailorsActions.entrySet().stream()
                 .filter(entry -> entry.getValue().size() >= 2)
                 .collect(Collectors.toList());
-        if(!tooManyActions.isEmpty())
-            throw new IllegalStateException("Plusieurs actions ont été donné à un/plusieurs marin(s): " + tooManyActions);
-        else if(!tooManyMoves.isEmpty())
-            throw new IllegalStateException("Plusieurs déplacements à été donné à un/plusieurs marin(s): " + tooManyMoves);
+        //if(!tooManyActions.isEmpty())
+        //    throw new IllegalStateException("Plusieurs actions ont été donné à un/plusieurs marin(s): " + tooManyActions);
+        //else if(!tooManyMoves.isEmpty())
+         //   throw new IllegalStateException("Plusieurs déplacements à été donné à un/plusieurs marin(s): " + tooManyMoves);
     }
 
     private static Transform[] calculateMiddlePosition(Transform oldPosition, Transform speed) {

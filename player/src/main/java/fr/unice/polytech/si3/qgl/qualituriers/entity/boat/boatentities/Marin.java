@@ -7,6 +7,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import java.util.Objects;
 
+import static fr.unice.polytech.si3.qgl.qualituriers.Config.MAX_MOVING_CASES_MARIN;
+
 /**
  * Cette classe represente un marin qui pourra donner des ordres a différents protagonistes present sur le bateau
  *
@@ -57,21 +59,21 @@ public class Marin {
 
     public void setPosition(int x, int y) { this.x = x; this.y = y;}
 
+
     public boolean canMoveTo(int xFinal, int yFinal, Boat boat) {
-        
-        return (Math.abs(xFinal - x) < Config.MAX_MOVING_CASES_MARIN) && (Math.abs(yFinal - y) <= Config.MAX_MOVING_CASES_MARIN)
+        return (Math.abs(xFinal - x) + Math.abs(yFinal - y)) <= MAX_MOVING_CASES_MARIN
                 && xFinal <= boat.getDeck().getLength()-1 && xFinal >= 0
                 && yFinal  <= boat.getDeck().getWidth()-1 && yFinal >= 0;
+
     }
 
     @Override
     public String toString() {
-        return "Marin{" +
+        return "Marin : " +
                 "id=" + id +
                 ", x=" + x +
                 ", y=" + y +
-                ", name='" + name + '\'' +
-                '}' + '\n';
+                ", name=" + name +  "\n";
     }
 
     @Override

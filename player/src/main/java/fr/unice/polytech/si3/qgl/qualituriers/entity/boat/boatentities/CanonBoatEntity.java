@@ -36,4 +36,15 @@ public class CanonBoatEntity extends BoatEntity {
     public int hashCode() {
         return Objects.hash(super.hashCode(), loaded, angle);
     }
+
+    @Override
+    public String toString() {
+        return "CanonBoatEntity : " +
+                "loaded=" + loaded +
+                ", angle=" + angle +
+                ", type=" + type +
+                ", x=" + x +
+                ", y=" + y +
+                '\n';
+    }
 }
