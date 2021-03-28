@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AvoidObstaclesTest {
     boolean showDetails = false;
@@ -47,6 +46,27 @@ public class AvoidObstaclesTest {
                 new PositionableCircle(new Circle(300), new Transform(new Point(500, 0), 0)),
                 new PositionableCircle(new Circle(300), new Transform(new Point(1500, -500), 0))
         ));
+    }
+
+    @Test
+    void TestGetPriorityRank(){
+        assertEquals(pathfinder.getPriorityRank(), 2147483647);
+    }
+
+    @Test
+    void TestGetNextCheckpoint(){
+        var toReach = new CheckPoint(new Transform(new Point(100, 200), 0), new Circle(50));
+        var toReach2 = new CheckPoint(new Transform(new Point(300, 500), 0), new Circle(50));
+
+        List<PositionableShape<? extends Shape>> obs = new ArrayList<>();
+        obs.add(new PositionableCircle(new Circle(300), new Transform(new Point(500, 0), 0)));
+        obs.add(new PositionableCircle(new Circle(300), new Transform(new Point(1500, -500), 0)));
+
+        var context = new PathfindingContext(boat, obs, toReach);
+
+        assertEquals(pathfinder.getNextCheckpoint(context), toReach);
+
+
     }
 
 
