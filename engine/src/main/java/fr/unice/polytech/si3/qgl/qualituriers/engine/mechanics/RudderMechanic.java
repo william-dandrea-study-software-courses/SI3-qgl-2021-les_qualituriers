@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics;
 
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Turn;
 
@@ -13,7 +14,8 @@ public class RudderMechanic extends Mechanic {
         for (Action action : actions) {
             if(action instanceof Turn) {
                 Turn turnAction = (Turn) action;
-                race.getBoat().setPosition(race.getBoat().getPosition().rotate(turnAction.getRotation()));
+                race.addSpeed(new Transform(0, 0, turnAction.getRotation()));
+                //race.getBoat().setPosition(race.getBoat().getPosition().rotate(turnAction.getRotation()));
             }
         }
     }

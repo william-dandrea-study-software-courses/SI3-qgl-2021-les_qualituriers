@@ -42,7 +42,8 @@ public class LiftMechanic extends Mechanic {
                 long sailsOpened = sails.stream().filter(SailBoatEntity::isOpened).count();
                 double speed = (sailsOpened / (double) sails.size()) * wind.getStrength() * Math.cos(wind.getOrientation() - position.getOrientation());
                 Point point = new Point(position.getOrientation()).scalar(speed);
-                boat.setPosition(position.translate(point));
+                race.addSpeed(new Transform(point, 0));
+                //boat.setPosition(position.translate(point));
             }
         }
     }

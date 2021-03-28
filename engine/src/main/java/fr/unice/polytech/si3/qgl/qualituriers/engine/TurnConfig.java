@@ -133,5 +133,10 @@ public class TurnConfig {
      */
     public static final double FIELD_VISION_ENLARGE = 5000;
 
+    /**
+     * Nombre d'étape dans le calcul des positions
+     */
+    public static final int STEP = 10;
+
 
 }
