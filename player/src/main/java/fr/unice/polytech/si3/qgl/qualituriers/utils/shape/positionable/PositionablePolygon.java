@@ -73,4 +73,8 @@ public class PositionablePolygon extends PositionableShape<PolygonAbstract> {
     public PositionablePolygon getCircumscribedPolygon() {
         return this;
     }
+
+    public PositionablePolygon scaleFromCenter(double scale) {
+        return new PositionablePolygon(getShape().scaleFromCenter(scale), getTransform());
+    }
 }

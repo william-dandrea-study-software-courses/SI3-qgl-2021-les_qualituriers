@@ -65,6 +65,11 @@ public class Rectangle extends PolygonAbstract {
     }
 
     @Override
+    public PolygonAbstract scaleFromCenter(double scale) {
+        return new Rectangle(width * scale, height * scale, this.getOrientation());
+    }
+
+    @Override
     public PositionableCircle getCircumscribed() {
         return new PositionableCircle(new Circle(new Point(width / 2, height / 2).length()), Transform.ZERO);
     }

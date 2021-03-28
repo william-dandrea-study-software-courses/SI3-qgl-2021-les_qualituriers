@@ -23,13 +23,12 @@ public class MovingMechanic extends Mechanic {
                     if (sailor.getId() == id) {
 
                         int deltaPos = Math.abs(distanceX) + Math.abs(distanceY);
-                        if(deltaPos <= 5) {
+                        //if(deltaPos <= 5) {
 
                             sailor.setX(sailor.getX() + distanceX);
                             sailor.setY(sailor.getY() + distanceY);
                             break;
-                        } else
-                            throw new IllegalArgumentException("Le marin fait un déplacement de "+deltaPos+" cases (x:"+distanceX+";y:"+distanceY+")");
+                        //} else throw new IllegalArgumentException("Le marin fait un déplacement de "+deltaPos+" cases (x:"+distanceX+";y:"+distanceY+")");
                     }
                 }
             }

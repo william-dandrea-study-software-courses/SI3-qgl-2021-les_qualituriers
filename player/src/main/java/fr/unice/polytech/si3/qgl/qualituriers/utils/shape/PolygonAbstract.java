@@ -101,4 +101,6 @@ public abstract class PolygonAbstract extends Shape {
         result = 31 * result + Arrays.hashCode(vertices);
         return result;
     }
+
+    public abstract PolygonAbstract scaleFromCenter(double scale);
 }

@@ -9,6 +9,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea.Sea;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.*;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race6;
+import fr.unice.polytech.si3.qgl.qualituriers.engine.races.TestPathfinding;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.serializers.RectangleSerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
@@ -105,9 +106,20 @@ public class Main {
 
             checkMultipleActions(finalActionsDone);
 
+            Transform oldPosition = race.getBoat().getPosition();
             Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
+            Transform[] positions = calculateMiddlePosition(oldPosition, race.getSpeed());
+            for (Transform position : positions) {
+                race.getBoat().setPosition(position);
+                collisions(race);
+            }
 
-            collisions(race);
+            race.getBoat().setPosition(oldPosition.translate(race.getSpeed()));
+            race.resetSpeed();
+            //race.getBoat().setPosition(positions[positions.length - 1]);
+            renderer.getPath().addWaypoint(race.getBoat().getPosition().getPoint(), positions[positions.length / 2]);
+
+            //collisions(race);
 
             deckRenderer.setSailor(race.getSailors());
 
@@ -177,28 +189,32 @@ public class Main {
             }
         }
 
+        List<Map.Entry<Integer, Integer>> tooManyMoves = sailorsMoving.entrySet().stream()
+                .filter(entry -> entry.getValue() >= 2)
+                .collect(Collectors.toList());
         List<Map.Entry<Integer, List<Actions>>> tooManyActions = sailorsActions.entrySet().stream()
                 .filter(entry -> entry.getValue().size() >= 2)
                 .collect(Collectors.toList());
-        /*
-        if(!tooManyActions.isEmpty())
-            throw new IllegalStateException("Plusieurs actions ont été donné à un/plusieurs marin(s): " + tooManyActions);
-        else if(!tooManyMoves.isEmpty())
-            throw new IllegalStateException("Plusieurs déplacements à été donné à un/plusieurs marin(s): " + tooManyMoves);
-         */
+        //if(!tooManyActions.isEmpty())
+        //    throw new IllegalStateException("Plusieurs actions ont été donné à un/plusieurs marin(s): " + tooManyActions);
+        //else if(!tooManyMoves.isEmpty())
+         //   throw new IllegalStateException("Plusieurs déplacements à été donné à un/plusieurs marin(s): " + tooManyMoves);
     }
 
-    private Transform[] calculateMiddlePosition(Transform oldPosition, Transform speed) {
-        Transform[] positions = new Transform[10];
-        Point vector = speed.getPoint().scalar(0.1);
-        double angle = speed.getOrientation() / 10;
-        for (int i = 0; i < 10; i++) {
-            positions[i] = oldPosition.translate(new Point(oldPosition.getOrientation())).translate(vector).rotate(angle);
+    private static Transform[] calculateMiddlePosition(Transform oldPosition, Transform speed) {
+        Transform[] positions = new Transform[TurnConfig.STEP];
+        Point vector = speed.getPoint().scalar(1d/TurnConfig.STEP);
+        double angle = speed.getOrientation() / TurnConfig.STEP;
+        for (int i = 0; i < TurnConfig.STEP; i++) {
+            if(i == 0)
+                positions[i] = oldPosition.translate(vector.rotate(oldPosition.getOrientation())).rotate(angle);
+            else
+                positions[i] = positions[i - 1].translate(vector.rotate(positions[i - 1].getOrientation())).rotate(angle);
         }
         return positions;
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(Race6.race);
+        RunRace(createRace());
     }
 }

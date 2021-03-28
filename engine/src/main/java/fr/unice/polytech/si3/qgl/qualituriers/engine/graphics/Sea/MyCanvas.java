@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea;
 
+import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Arc;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
@@ -7,6 +8,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.Positiona
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
 import java.awt.*;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.util.Objects;
@@ -21,6 +24,8 @@ public class MyCanvas extends Canvas {
     private Point offset = new Point(-300, -200);
     private Point displayOffset = new Point(0, 0);
     private Point mousePos;
+
+    private static final Color blue =  new Color(96, 96, 255);
 
     public MyCanvas() {
         this.mousePos = new Point(0, 0);
@@ -168,5 +173,35 @@ public class MyCanvas extends Canvas {
         g.setStroke(new BasicStroke(3));
 
         g.drawLine((int)s.getX(), (int)s.getY(), (int)e.getX(), (int)e.getY());
+    }
+
+    public void drawArc(Arc arc) {
+        var g = (Graphics2D)getGraphics();
+        Point point1 = this.getScreenPosition(arc.getPoint1());
+        Point point2 = this.getScreenPosition(arc.getPoint2());
+        Point point3 = this.getScreenPosition(arc.getPoint3());
+        double radius = this.getRadius(point1, point2, point3);
+        Arc2D.Double arc2D = new Arc2D.Double();
+        arc2D.setArcByTangent(new Point2D.Double(point1.getX(), point1.getY()), new Point2D.Double(point2.getX(), point2.getY()),
+                new Point2D.Double(point3.getX(), point3.getY()), radius);
+        g.setColor(blue);
+        g.draw(arc2D);
+    }
+
+    private double getRadius(Point point1, Point point2, Point point3) {
+        double x1 = point1.getX();
+        double x2 = point2.getX();
+        double x3 = point3.getX();
+        double y1 = point1.getY();
+        double y2 = point2.getY();
+        double y3 = point3.getY();
+        double a = (x3*x3 - x2*x2) / (y3 - y2);
+        double b = (x1*x1 - x2*x2) / (y1 - y2);
+        double c = 2*((x3 - x2) / (y3 - y2));
+        double d = 2*((x1 - x2) / (y1 - y2));
+        double x = (a - b + y3 - y1) / (c - d);
+        double y = -2 * x * ((x1 - x2) / (y1 - y2)) + b + y1 + y2;
+        y /= 2;
+        return Math.sqrt(Math.pow(x1 - x, 2) + Math.pow(y1 - y, 2));
     }
 }

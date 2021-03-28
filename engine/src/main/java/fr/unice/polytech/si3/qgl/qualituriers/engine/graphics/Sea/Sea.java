@@ -106,7 +106,7 @@ public class Sea {
         reefR = new ReefRenderer(race);
         streamR = new StreamRendered(race);
 
-        path.addWaypoint(race.getBoat().getPosition().getPoint());
+        path.addWaypoint(race.getBoat().getPosition().getPoint(), null);
 
         ajustCanvas();
         //canvas.ajustWindows(java.util.List.of(new Rectangle2D.Double(150, 150, 1, 1), new Rectangle2D.Double(-1, -1, 1, 1)));
@@ -126,8 +126,6 @@ public class Sea {
 
     public void draw() {
         clear();
-        path.addWaypoint(race.getBoat().getPosition().getPoint());
-
 
         checkR.draw(canvas);
         reefR.draw(canvas);
@@ -155,5 +153,9 @@ public class Sea {
 
     public void close() {
         frame.dispose();
+    }
+
+    public PathRenderer getPath() {
+        return path;
     }
 }

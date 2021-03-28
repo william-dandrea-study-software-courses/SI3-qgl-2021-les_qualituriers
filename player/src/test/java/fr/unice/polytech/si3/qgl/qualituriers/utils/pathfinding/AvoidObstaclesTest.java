@@ -71,7 +71,7 @@ public class AvoidObstaclesTest {
 
 
     void TestAttemptToReach(Point pt, List<PositionableShape<? extends Shape>> obs) {
-        var toReach = new CheckPoint(new Transform(pt, 0), new Circle(50));
+        /*var toReach = new CheckPoint(new Transform(pt, 0), new Circle(50));
 
         var context = new PathfindingContext(boat, obs, toReach);
         //context.setToReach(toReach);
@@ -86,7 +86,7 @@ public class AvoidObstaclesTest {
         } while(!context.getToReach().getPosition().getPoint().equals(toReach.getPosition().getPoint()));
 
         if(showDetails)
-            System.out.println("Resolved in " + nodes + " node(s).");
+            System.out.println("Resolved in " + nodes + " node(s).");*/
 
     }
 }

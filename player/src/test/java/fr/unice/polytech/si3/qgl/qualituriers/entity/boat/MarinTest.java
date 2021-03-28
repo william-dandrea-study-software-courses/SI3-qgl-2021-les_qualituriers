@@ -1,9 +1,16 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
+import fr.unice.polytech.si3.qgl.qualituriers.Deck;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,6 +44,19 @@ public class MarinTest {
     public void testHashcode() {
         assertEquals(new Marin(3, 1, 2, "canard").hashCode(), this.marin.hashCode());
         assertNotEquals(new Marin(1, 1, 2, "canard").hashCode(), this.marin.hashCode());
+    }
+
+    @Test
+    void canMoveTo() {
+
+        Boat actualBoat = new Boat(100, new Transform(0,0,0), "name", new Deck(10,10), new BoatEntity[]{}, new Rectangle(10,10, 0));
+        Marin marin = new Marin(0,0,0, "MarinTest");
+
+        assertFalse(marin.canMoveTo(9,9, actualBoat));
+        assertFalse(marin.canMoveTo(3,3, actualBoat));
+        assertTrue(marin.canMoveTo(3,2, actualBoat));
+        assertFalse(marin.canMoveTo(-1,2, actualBoat));
+        assertFalse(marin.canMoveTo(2,-2, actualBoat));
     }
 
 }

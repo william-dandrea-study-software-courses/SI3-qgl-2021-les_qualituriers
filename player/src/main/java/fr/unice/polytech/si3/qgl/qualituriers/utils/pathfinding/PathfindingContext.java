@@ -12,13 +12,15 @@ import java.util.stream.Stream;
 public class PathfindingContext {
     private final Boat boat;
     private final List<PositionableShape<? extends Shape>> obstacles;
+    private final PathfindingStore store;
 
     private CheckPoint toReach;
 
-    public PathfindingContext(Boat boat, List<PositionableShape<? extends Shape>> obstacles, CheckPoint checkPoint) {
+    public PathfindingContext(Boat boat, List<PositionableShape<? extends Shape>> obstacles, CheckPoint checkPoint, PathfindingStore store) {
         this.boat = boat;
         this.obstacles = obstacles;
         this.toReach = checkPoint;
+        this.store = store;
     }
 
     void setToReach(CheckPoint checkPoint) {
@@ -35,5 +37,9 @@ public class PathfindingContext {
 
     CheckPoint getToReach() {
         return toReach;
+    }
+
+    PathfindingStore getStore() {
+        return store;
     }
 }

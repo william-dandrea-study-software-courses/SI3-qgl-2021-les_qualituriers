@@ -1,14 +1,20 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
-public class Segment {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Segment extends PositionableShape<Polygon> {
 
     private final Point start;
     private final Point end;
 
     public Segment(Point start, Point end) {
+        super(null, new Transform(start.add(end.substract(start).scalar(0.5)), 0));
         this.start = start;
         this.end = end;
     }
@@ -82,5 +88,50 @@ public class Segment {
                 "start=" + start +
                 ", end=" + end +
                 '}';
+    }
+
+
+    public List<Point> axis(PositionableShape<? extends Shape> other) {
+        var delta = end.substract(start);
+        List<Point> a = new ArrayList<>();
+        a.add(delta);
+        return a;
+    }
+
+    @Override
+    public Point[] getPoints() {
+        return new Point[] { start, end };
+    }
+
+    public Point[] project(Point axis) {
+        return new Point[] {
+                start.projection(axis),
+                end.projection(axis)
+        };
+    }
+
+    public double length() {
+        return end.substract(start).length();
+    }
+
+    public Segment scale(double scale) {
+        return changeLength(length() * scale);
+    }
+
+    public Segment changeLength(double length) {
+        var dir = end.substract(start);
+        var currentLength = dir.length();
+        var oldCenter = start.add(dir.scalar(0.5));
+        dir = dir.normalized();
+
+        var nStart = oldCenter.add(dir.scalar(-length / 2));
+        var nEnd = oldCenter.add(dir.scalar(length / 2));
+
+        return new Segment(nStart, nEnd);
+    }
+
+    @Override
+    public PositionablePolygon getCircumscribedPolygon() {
+        throw new RuntimeException("This method is not implemented !");
     }
 }
