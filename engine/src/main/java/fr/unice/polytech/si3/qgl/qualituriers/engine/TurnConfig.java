@@ -55,12 +55,12 @@ public class TurnConfig {
     };
 
     public static final VisibleDeckEntity[] seaEntities = {
-            new ReefVisibleDeckEntity(new Transform(5416.415681234441, 211.04307432432563, 0.6981317007977318), new Rectangle(250,1200, 0.6981317007977318)),
-            new ReefVisibleDeckEntity(new Transform(3567.708333333334, 1126.3020833333342, 0), new Circle(350)),
-            new ReefVisibleDeckEntity(new Transform(4500, 2300, Math.PI / 4), new Rectangle(200, 300, 0)),
-            new ReefVisibleDeckEntity(new Transform(4000, 3500, Math.PI / 4), new Rectangle(200, 300, 0)),
-            new ReefVisibleDeckEntity(new Transform(4500, 2800, -Math.PI / 4), new Rectangle(200, 300, 0)),
-            new StreamVisibleDeckEntity(new Transform(5144.039698840838, 499.8240427927923, 0.7330382858376184), new Rectangle(400,1350, 0.7330382858376184), 10)
+            //new ReefVisibleDeckEntity(new Transform(5416.415681234441, 211.04307432432563, 0.6981317007977318), new Rectangle(250,1200, 0.6981317007977318)),
+            //new ReefVisibleDeckEntity(new Transform(3567.708333333334, 1126.3020833333342, 0), new Circle(350)),
+            //new ReefVisibleDeckEntity(new Transform(4500, 2300, Math.PI / 4), new Rectangle(200, 300, 0)),
+            //new ReefVisibleDeckEntity(new Transform(4000, 3500, Math.PI / 4), new Rectangle(200, 300, 0)),
+            //new ReefVisibleDeckEntity(new Transform(4500, 2800, -Math.PI / 4), new Rectangle(200, 300, 0)),
+            //new StreamVisibleDeckEntity(new Transform(5144.039698840838, 499.8240427927923, 0.7330382858376184), new Rectangle(400,1350, 0.7330382858376184), 10)
     };
 
     private static final int boatLife = 1050;
@@ -102,7 +102,7 @@ public class TurnConfig {
             // WEEK4
             new CheckPoint(new Transform(new Point(4036.4115963579497, 264.956362612613), 0), new Circle(100)),
             new CheckPoint(new Transform(new Point(6866.105430167673, 277.9420045045067), 0), new Circle(100)),
-            new CheckPoint(new Transform(new Point(6261.605476524839, 937.2184684684704), 0), new Circle(100)),
+            new CheckPoint(new Transform(new Point(6261.605476524839, 900.2184684684704), 0), new Circle(100)),
             new CheckPoint(new Transform(new Point(4024.9876946036743, -1002.8153153153128), 0), new Circle(100)),
             new CheckPoint(new Transform(new Point(3460.8684297910377, 2243.1024774774787), 0), new Circle(100)),
     });
