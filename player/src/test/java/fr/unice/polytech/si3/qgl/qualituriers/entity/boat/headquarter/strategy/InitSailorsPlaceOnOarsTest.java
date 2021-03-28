@@ -129,10 +129,10 @@ class InitSailorsPlaceOnOarsTest {
 
         assertEquals(4, initSailorsPlaceOnRudder.moveSailorsIn(4, sailorsWeWantToMove, destinations).size());
 
-        assertEquals(new Point(4,0), HeadquarterUtil.getSailorByHisID(sailorsWeWantToMove, 0).get().getPosition());
-        assertEquals(new Point(4,1), HeadquarterUtil.getSailorByHisID(sailorsWeWantToMove, 1).get().getPosition());
-        assertEquals(new Point(4,2), HeadquarterUtil.getSailorByHisID(sailorsWeWantToMove, 2).get().getPosition());
-        assertEquals(new Point(4,3), HeadquarterUtil.getSailorByHisID(sailorsWeWantToMove, 3).get().getPosition());
+        assertEquals(new Point(5,0), HeadquarterUtil.getSailorByHisID(sailorsWeWantToMove, 0).get().getPosition());
+        assertEquals(new Point(5,1), HeadquarterUtil.getSailorByHisID(sailorsWeWantToMove, 1).get().getPosition());
+        assertEquals(new Point(5,2), HeadquarterUtil.getSailorByHisID(sailorsWeWantToMove, 2).get().getPosition());
+        assertEquals(new Point(5,3), HeadquarterUtil.getSailorByHisID(sailorsWeWantToMove, 3).get().getPosition());
     }
 
 

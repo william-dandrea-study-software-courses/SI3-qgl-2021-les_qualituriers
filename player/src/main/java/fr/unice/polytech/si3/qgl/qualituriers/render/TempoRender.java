@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.render;
 
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
@@ -84,7 +85,6 @@ public class TempoRender extends Render {
         return nextRoundAlternative(round);
 /*
 
-        System.out.println("2");
 
         int numberOfCheckPoints = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints().length;
 
@@ -115,10 +115,13 @@ public class TempoRender extends Render {
             currentCheckPoint = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints()[checkPointCounter];
         }
 
-
         List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(currentCheckPoint.getPosition(), this.gameInfo);
         System.out.println("| " + actions);
         System.out.println("======================================================================================================");
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+        System.out.println(Arrays.toString(gameInfo.getShip().getEntities()));
+
         return actions;*/
 
     }

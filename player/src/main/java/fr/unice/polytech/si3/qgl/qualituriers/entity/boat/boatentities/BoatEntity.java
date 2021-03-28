@@ -70,7 +70,6 @@ public abstract class BoatEntity {
     @Override
     public String toString() {
         return "BoatEntity{" +
-                "type=" + type.toString() +
                 ", x=" + x +
                 ", y=" + y +
                 '}';

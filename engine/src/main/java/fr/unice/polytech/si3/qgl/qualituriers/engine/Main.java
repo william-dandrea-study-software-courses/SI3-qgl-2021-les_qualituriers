@@ -19,8 +19,9 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.*;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 
 import java.io.File;
@@ -157,23 +158,43 @@ public class Main {
     }
 
     private static void checkMultipleActions(List<Action> actions) {
+        Map<Integer, Integer> sailorsMoving = new HashMap<>();
         Map<Integer, List<Actions>> sailorsActions = new HashMap<>();
         for (Action action : actions) {
-            if(sailorsActions.containsKey(action.getSailorId()))
-                sailorsActions.get(action.getSailorId()).add(action.getType());
-            else {
-                ArrayList<Actions> sailorActions = new ArrayList<>();
-                sailorActions.add(action.getType());
-                sailorsActions.put(action.getSailorId(), sailorActions);
+            int sailorId = action.getSailorId();
+            if(action.getType() == Actions.MOVING) {
+                if(sailorsMoving.containsKey(sailorId))
+                    sailorsMoving.put(sailorId, sailorsMoving.get(sailorId) + 1);
+                else
+                    sailorsMoving.put(sailorId, 1);
+            } else {
+                if (sailorsActions.containsKey(sailorId))
+                    sailorsActions.get(sailorId).add(action.getType());
+                else {
+                    ArrayList<Actions> sailorActions = new ArrayList<>();
+                    sailorActions.add(action.getType());
+                    sailorsActions.put(sailorId, sailorActions);
+                }
             }
         }
 
         List<Map.Entry<Integer, List<Actions>>> tooManyActions = sailorsActions.entrySet().stream()
                 .filter(entry -> entry.getValue().size() >= 2)
                 .collect(Collectors.toList());
+        //if(!tooManyActions.isEmpty())
+        //    throw new IllegalStateException("Plusieurs actions ont été donné à un/plusieurs marin(s): " + tooManyActions);
+        //else if(!tooManyMoves.isEmpty())
+         //   throw new IllegalStateException("Plusieurs déplacements à été donné à un/plusieurs marin(s): " + tooManyMoves);
+    }
 
-        /*if(!tooManyActions.isEmpty())
-            throw new IllegalStateException("Plusieurs actions ont été donné à un/plusieurs marin(s): " + tooManyActions);*/
+    private Transform[] calculateMiddlePosition(Transform oldPosition, Transform speed) {
+        Transform[] positions = new Transform[10];
+        Point vector = speed.getPoint().scalar(0.1);
+        double angle = speed.getOrientation() / 10;
+        for (int i = 0; i < 10; i++) {
+            positions[i] = oldPosition.translate(new Point(oldPosition.getOrientation())).translate(vector).rotate(angle);
+        }
+        return positions;
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
