@@ -1,33 +1,37 @@
 package fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea;
 
+import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Arc;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PathRenderer {
 
     private final MyCanvas canvas;
-    private final List<Point> waypoint = new ArrayList<>();
+    private final List<Arc> waypoints = new ArrayList<>();
+    private Point prevPosition;
 
     public PathRenderer(MyCanvas canvas) {
         this.canvas = canvas;
     }
 
-    public void addWaypoint(Point point) {
-        waypoint.add(point);
+    public void addWaypoint(Point point, Point midPoint) {
+        if(this.prevPosition == null) {
+            this.prevPosition = point;
+            return;
+        }
+        this.waypoints.add(new Arc(this.prevPosition, midPoint, point));
+        this.prevPosition = point;
     }
 
     public void draw() {
-        if(waypoint.size() < 1) return;
+        if(this.waypoints.size() < 1) return;
 
-        for(int i = 1; i < waypoint.size(); i++) {
-            canvas.drawLine(waypoint.get(i - 1), waypoint.get(i), new Color(96, 96, 255));
-        }
+        for (Arc waypoint : this.waypoints)
+            canvas.drawArc(waypoint);
     }
-
+/*
     public Rectangle2D.Double getBounds() {
         if(waypoint.size() == 0)
             return null;
@@ -38,6 +42,6 @@ public class PathRenderer {
         var maxY = waypoint.stream().mapToDouble(Point::getY).max().getAsDouble();
 
         return new Rectangle2D.Double(minX, minY, maxX - minX, maxY - minY);
-    }
+    }*/
 
 }

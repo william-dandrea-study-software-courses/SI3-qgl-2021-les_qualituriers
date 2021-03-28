@@ -3,16 +3,14 @@ package fr.unice.polytech.si3.qgl.qualituriers.engine.races;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.Mechanic;
-import fr.unice.polytech.si3.qgl.qualituriers.engine.serializers.RectangleSerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 
 public class Race {
 
@@ -23,6 +21,7 @@ public class Race {
     private final Mechanic[] mechanics;
     private final VisibleDeckEntity[] entities;
     private Wind wind;
+    private Transform speed;
 
     public Race(Goal goal, Boat boat, Marin[] sailors, Wind wind, Mechanic[] mechanics, VisibleDeckEntity[] entities) {
         this.goal = goal;
@@ -33,6 +32,7 @@ public class Race {
         this.entities = entities;
 
         this.gi = new GameInfo(goal, boat, sailors, 1, wind, entities);
+        this.resetSpeed();
     }
 
     public Race(String json, Mechanic[] mechanics) throws JsonProcessingException {
@@ -47,6 +47,7 @@ public class Race {
         this.entities = gi.getSeaEntities();
 
         this.mechanics = mechanics;
+        this.resetSpeed();
     }
 
     public Goal getGoal() {
@@ -77,4 +78,15 @@ public class Race {
         this.wind = wind;
     }
 
+    public void addSpeed(Transform point) {
+        this.speed = this.speed.translate(point);
+    }
+
+    public void resetSpeed() {
+        this.speed = new Transform(0, 0, 0);
+    }
+
+    public Transform getSpeed() {
+        return speed;
+    }
 }

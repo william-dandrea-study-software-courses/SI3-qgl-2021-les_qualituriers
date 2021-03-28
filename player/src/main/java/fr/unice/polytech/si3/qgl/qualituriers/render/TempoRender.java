@@ -88,7 +88,6 @@ public class TempoRender extends Render {
         return nextRoundAlternative(round);
 /*
 
-
         int numberOfCheckPoints = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints().length;
 
         gameInfo.getShip().setPosition(round.getShip().getPosition());
