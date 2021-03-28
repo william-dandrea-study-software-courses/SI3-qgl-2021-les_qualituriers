@@ -10,6 +10,7 @@ import java.util.List;
 
 public class PathfindingProblem {
     private final List<PositionablePolygon>  polygons = new ArrayList<>();
+    private final List<PositionablePolygon>  enlargedPolygons = new ArrayList<>();
     private final List<PathfindingNode> nodes = new ArrayList<>();
     private final PathfindingNode startPosition;
     private final PathfindingNode goal;
@@ -23,6 +24,7 @@ public class PathfindingProblem {
 
     void addPolygon(PositionablePolygon polygon) {
         polygons.add(polygon);
+        enlargedPolygons.add(polygon.scaleFromCenter(1.1));
     }
 
     private void checkAllRoad() {
@@ -30,60 +32,64 @@ public class PathfindingProblem {
     }
 
     private void generateNodes() {
-        for(var polygon : this.polygons) {
+        for(var polygon : this.enlargedPolygons) {
             List<PathfindingNode> nodesPolygon = PathfindingNode.createFrom(polygon);
 
-            for (var nNodes : nodesPolygon) {
+            for (var nNode : nodesPolygon) {
                 for (var oNode : nodes) {
-                    var s = new Segment(oNode.getPosition(), nNodes.getPosition());
-                    s = s.changeLength(s.length() - 1);
-                    Segment finalS = s;
-                    if (polygons.stream().noneMatch(p -> Collisions.raycast(finalS, p))) {
-                        oNode.addReachableNode(nNodes);
-                        nNodes.addReachableNode(oNode);
+                    if(!Collisions.raycastPolygon(new Segment(nNode.getPosition(), oNode.getPosition()), polygons.stream())) {
+                        nNode.addReachableNode(oNode);
+                        oNode.addReachableNode(nNode);
                     }
                 }
             }
 
             this.nodes.addAll(nodesPolygon);
         }
-        //checkAllRoad();
+
+        ///checkAllRoad();
     }
 
-    Path solve() {
-        if(!Collisions.raycast(new Segment(startPosition.getPosition(), goal.getPosition()), polygons.stream()))
-            return new Path() {{ addNode(goal); }};
+    PathfindingResult solve() {
+        if(!Collisions.raycastPolygon(new Segment(startPosition.getPosition(), goal.getPosition()), polygons.stream()))
+            return new PathfindingResult() {{ addNode(startPosition); addNode(goal); }};
 
         generateNodes();
 
-        var result = privateSolveRecusive(startPosition, new Path());
-        return result;
+        var results = privateSolveRecusive(startPosition, new PathfindingResult() {{ addNode(startPosition); }});
+        var result= results.stream()
+                .filter(p -> p.pathIsCorrect(0, polygons))
+                .min(Comparator.comparing(PathfindingResult::length));
+        if(result.isEmpty())
+            throw new RuntimeException("No path found !");
+
+        return result.get();
     }
 
-    private Path privateSolveRecusive(PathfindingNode from, Path currentPath) {
+    private List<PathfindingResult> privateSolveRecusive(PathfindingNode from, PathfindingResult currentPath) {
         var nextPositions = from.getReachableNodes();
         nextPositions.sort(Comparator.comparingDouble(pn -> pn.calculateHeuristic(this.goal)));
 
-        Path processingPath = null;
+        List<PathfindingResult> results = new ArrayList<>();
         for(var nextPos : nextPositions) {
 
             // On verifie que l'on ne revient pas sur ses pas
             if(currentPath.contains(nextPos)) break; // classé par heuristic donc on peut breaker si on reviens en arriere
 
             // create a sandbox
-            processingPath = currentPath.copy();
+            var processingPath = currentPath.copy();
             processingPath.addNode(nextPos);
 
             // Exit if i reached the end
-            if(nextPos == this.goal)
+            if(nextPos == this.goal) {
+                results.add(processingPath);
                 break;
+            }
 
             // Exit if i found a path who lead to end
-            processingPath = privateSolveRecusive(nextPos, processingPath);
-            if(processingPath != null)
-                break;
+            results.addAll(privateSolveRecusive(nextPos, processingPath));
         }
 
-        return processingPath;
+        return results;
     }
 }

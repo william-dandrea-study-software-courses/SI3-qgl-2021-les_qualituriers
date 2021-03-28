@@ -97,7 +97,11 @@ public class Collisions {
         return isColliding(segment, shape);
     }
 
-    public static boolean raycast(Segment segment, Stream<PositionablePolygon> shape) {
+    public static boolean raycastPolygon(Segment segment, Stream<PositionablePolygon> shape) {
+        return shape.anyMatch(s -> raycast(segment, s));
+    }
+
+    public static boolean raycast(Segment segment, Stream<PositionableShape<? extends Shape>> shape) {
         return shape.anyMatch(s -> raycast(segment, s));
     }
 

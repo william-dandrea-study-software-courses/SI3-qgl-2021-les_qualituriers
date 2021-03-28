@@ -23,11 +23,12 @@ public class TestPathfinding {
     });
 
     static VisibleDeckEntity[] entities = new VisibleDeckEntity[] {
-            new ReefVisibleDeckEntity(new Transform(3000, 3000, Math.PI / 4), new Rectangle(2000, 500, 0)),
-            new ReefVisibleDeckEntity(new Transform(3000, 4000, Math.PI / 4), new Rectangle(2000, 500, 0)),
-            new ReefVisibleDeckEntity(new Transform(3000, 5000, Math.PI / 4), new Rectangle(2000, 500, 0)),
-            new ReefVisibleDeckEntity(new Transform(3000, 6000, Math.PI / 4), new Rectangle(2000, 500, 0)),
-            new ReefVisibleDeckEntity(new Transform(3000, 7000, Math.PI / 4), new Rectangle(2000, 500, 0)),
+            new ReefVisibleDeckEntity(new Transform(3000, 3000, 0), new Rectangle(2000, 500, 0)),
+            new ReefVisibleDeckEntity(new Transform(3000, 4000, 0), new Rectangle(2000, 500, 0)),
+            new ReefVisibleDeckEntity(new Transform(3000, 4500, 0), new Rectangle(500, 500, 0)),
+            new ReefVisibleDeckEntity(new Transform(3000, 5000, 0), new Rectangle(2000, 500, 0)),
+            new ReefVisibleDeckEntity(new Transform(3000, 6000, 0), new Rectangle(2000, 500, 0)),
+            new ReefVisibleDeckEntity(new Transform(3000, 7000, 0), new Rectangle(2000, 500, 0)),
     };
 
     //  boatTransform = new Transform(2852.173913043478,1978.827361563518,-1.0297442586766543);

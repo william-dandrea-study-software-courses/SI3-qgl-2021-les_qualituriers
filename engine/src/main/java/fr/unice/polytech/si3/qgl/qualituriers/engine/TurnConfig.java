@@ -56,7 +56,7 @@ public class TurnConfig {
 
     public static final VisibleDeckEntity[] seaEntities = {
             new ReefVisibleDeckEntity(new Transform(5416.415681234441, 211.04307432432563, 0.6981317007977318), new Rectangle(250,1200, 0.6981317007977318)),
-            //new ReefVisibleDeckEntity(new Transform(3567.708333333334, 1126.3020833333342, 0), new Circle(350)),
+            new ReefVisibleDeckEntity(new Transform(3567.708333333334, 1126.3020833333342, 0), new Circle(350)),
             new ReefVisibleDeckEntity(new Transform(4500, 2300, Math.PI / 4), new Rectangle(200, 300, 0)),
             new ReefVisibleDeckEntity(new Transform(4000, 3500, Math.PI / 4), new Rectangle(200, 300, 0)),
             new ReefVisibleDeckEntity(new Transform(4500, 2800, -Math.PI / 4), new Rectangle(200, 300, 0)),

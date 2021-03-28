@@ -33,6 +33,10 @@ public class PathfindingNode {
         return position;
     }
 
+    PositionablePolygon getOwner() {
+        return owner;
+    }
+
     double calculateHeuristic(PathfindingNode goal) {
         return goal.getPosition().substract(position).length();
     }
@@ -55,12 +59,19 @@ public class PathfindingNode {
 
     public void checkRoads(List<PositionablePolygon> obstacles) {
         List<PathfindingNode> unreachable = new ArrayList<>();
+
         for (var reachable : reachableNodes) {
-            if(Collisions.raycast(new Segment(reachable.getPosition(), getPosition()), obstacles.stream().filter(o -> o != this.owner))) {
-                reachable.removeReachableNode(this);
+            if(Collisions.raycastPolygon(new Segment(reachable.getPosition(), getPosition()), obstacles.stream().filter(o -> o != this.owner))) {
                 unreachable.add(reachable);
+                reachable.removeReachableNode(this);
             }
         }
+        //unreachable.forEach(n -> n.removeReachableNode(this));
         unreachable.forEach(this::removeReachableNode);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj == this;
     }
 }

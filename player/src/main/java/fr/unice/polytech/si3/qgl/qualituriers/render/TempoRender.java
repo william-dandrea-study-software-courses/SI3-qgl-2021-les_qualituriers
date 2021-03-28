@@ -1,6 +1,5 @@
 package fr.unice.polytech.si3.qgl.qualituriers.render;
 
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
@@ -9,9 +8,10 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.MainPathfinding;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.PathfindingContext;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.*;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
 import java.util.ArrayList;
@@ -22,11 +22,13 @@ public class TempoRender extends Render {
 
     private CheckPoint currentCheckPoint;
     private int checkPointCounter = 0;
+    private PathfindingStore store;
 
     public TempoRender(GameInfo gameInfo, ILogger logger) {
         super(gameInfo, logger);
         CheckPoint[] listCheckPoint = ((RegattaGoal) gameInfo.getGoal()).getCheckPoints();
         currentCheckPoint = listCheckPoint[0];
+        this.store = new PathfindingStore();
     }
 
     int currentCheckpointIndex = 0;
@@ -35,10 +37,10 @@ public class TempoRender extends Render {
 
 
         // Récupération des checkpoints
-        var checkpoints = ((RegattaGoal)gameInfo.getGoal()).getCheckPoints();
+        var checkpoints = ((RegattaGoal) gameInfo.getGoal()).getCheckPoints();
 
         // Est-ce que tout les checkpoints sont complété ?
-        if(checkpoints.length <= currentCheckpointIndex) return new ArrayList<>();
+        if (checkpoints.length <= currentCheckpointIndex) return new ArrayList<>();
 
         // Mise à jour du gameInfo
         gameInfo.getShip().setPosition(round.getShip().getPosition());
@@ -50,27 +52,28 @@ public class TempoRender extends Render {
 
         // Vérification si le checkpoint actuel est validé
         var currentCheckpoint = checkpoints[currentCheckpointIndex];
-        if(Collisions.isColliding(currentCheckpoint.getPositionableShape(), gameInfo.getShip().getPositionableShape())) {
+        if (Collisions.isColliding(currentCheckpoint.getPositionableShape(), gameInfo.getShip().getPositionableShape())) {
             //Mise à jour du nouveau checkpoint
             currentCheckpointIndex++;
-            if(currentCheckpointIndex >= checkpoints.length) return new ArrayList<>();
+            if (currentCheckpointIndex >= checkpoints.length) return new ArrayList<>();
             currentCheckpoint = checkpoints[currentCheckpointIndex];
         }
 
         // Mapping of checkpoints to PositionnalShape
-        List<PositionableShape<? extends Shape>> positionableShapes = new ArrayList<>();
-        if(gameInfo.getSeaEntities() != null)
-            Arrays.stream(gameInfo.getSeaEntities()).map(VisibleDeckEntity::getPositionableShape).forEach(positionableShapes::add);
+        List<PositionableShape<? extends Shape>> obstacles = new ArrayList<>();
+        if (gameInfo.getSeaEntities() != null) {
+            Arrays.stream(gameInfo.getSeaEntities())
+                    .map(VisibleDeckEntity::getPositionableShape)
+                    .forEach(obstacles::add);
 
-        // Recherche de l'itinéraire
-        if(intermediareCheckpoint == null || Collisions.isColliding(intermediareCheckpoint.getPositionableShape(), gameInfo.getShip().getPositionableShape())) {
+
             MainPathfinding pathfinding = new MainPathfinding();
             intermediareCheckpoint = pathfinding.getNextCheckpoint(new PathfindingContext(
                     gameInfo.getShip(),
-                    positionableShapes,
-                    currentCheckpoint
+                    obstacles,
+                    currentCheckpoint,
+                    this.store
             ));
-            int test = 0;
         }
 
         // Calcul des action a effectuer pour atteindre l'étape
