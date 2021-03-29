@@ -88,4 +88,9 @@ class WindStrategyTest {
 
 
     }
+
+
+    void setupWindTest() {
+
+    }
 }
