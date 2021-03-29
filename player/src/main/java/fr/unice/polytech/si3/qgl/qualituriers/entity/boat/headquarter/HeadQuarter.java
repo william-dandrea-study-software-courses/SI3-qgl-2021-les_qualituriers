@@ -77,9 +77,6 @@ public class HeadQuarter {
             finalListOfActions.addAll(setupWind(sailorOnRudderOp, HeadquarterUtil.getSail(boat).get() ));
         }
 
-
-
-
         return finalListOfActions;
     }
 
