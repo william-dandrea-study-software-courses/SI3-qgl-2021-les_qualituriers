@@ -215,17 +215,21 @@ public class Main {
         return positions;
     }
 
-    public static void main(String... args) throws IOException, InterruptedException {
-        File file = new File("D:\\Bibliotheques\\Cours\\OneDrive\\OneDrive - Université Nice Sophia Antipolis\\COURS\\PS6\\pns-si3-qgl-2021-les_qualituriers\\engine\\src\\main\\java\\fr\\unice\\polytech\\si3\\qgl\\qualituriers\\engine\\races\\race6.json");
+    static Race loadRace(String name) throws FileNotFoundException, JsonProcessingException {
+        File file = new File("engine/src/main/java/fr/unice/polytech/si3/qgl/qualituriers/engine/races/webrunnerjsonraces/" + name + ".json");
         Scanner scanner = new Scanner(file);
         String json = "";
         while(scanner.hasNextLine())
             json += scanner.nextLine() + "\n";
-        RunRace(new Race(json, new Mechanic[] {
+        return new Race(json, new Mechanic[] {
                 new MovingMechanic(),
                 new OarMechanic(),
                 new LiftMechanic(),
                 new RudderMechanic()
-        }));
+        });
+    }
+
+    public static void main(String... args) throws IOException, InterruptedException {
+        RunRace(loadRace("WEEK1"));
     }
 }
