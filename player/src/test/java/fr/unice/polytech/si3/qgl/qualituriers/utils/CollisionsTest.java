@@ -2,13 +2,16 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShapeFactory;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.concurrent.ConcurrentLinkedDeque;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 //Note: pas de test dans le cas où "project[1] = project2[0]" car pas réussi à trouver de cas
 public class CollisionsTest {
@@ -58,6 +61,25 @@ public class CollisionsTest {
         PositionablePolygon rect = new PositionablePolygon(new Rectangle(5, 3, 0), new Transform(-316.04, 417.15, 1.047));
         PositionableCircle circle = new PositionableCircle(new Circle(85), new Transform(-150, 410, 0));
         assertFalse(Collisions.isColliding(circle, rect));
+    }
+
+    @Test
+    void TestRaycast(){
+        Segment segment1 = new Segment(new Point(10, 0), new Point(20, 0));
+        Segment segment2 = new Segment(new Point(10, 50), new Point(20, 50));
+
+        assertTrue(Collisions.raycast(segment1, PositionableShapeFactory.getPositionable(new Circle(10), new Transform(14, 0, 0))));
+        assertFalse(Collisions.raycast(segment2, PositionableShapeFactory.getPositionable(new Circle(10), new Transform(14, 0, 0))));
+    }
+
+    @Test
+    void TestGetDistanceCast(){
+        Point point1 = new Point(10, 50);
+        Point point2 = new Point(30, 30);
+        PositionableCircle circle = (PositionableCircle) PositionableShapeFactory.getPositionable(new Circle(10), new Transform(14, 0, 0));
+        assertEquals(14.902872730427934, Collisions.getDistanceCast(point1, point2, circle, 30));
+        assertEquals(-33.1803883902573, Collisions.getDistanceCast(point2, point1, circle, 30));
+
     }
 
 

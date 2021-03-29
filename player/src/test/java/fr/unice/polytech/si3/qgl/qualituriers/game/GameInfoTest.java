@@ -56,7 +56,12 @@ public class GameInfoTest {
         assertArrayEquals(sailors, this.gameInfo.getSailors());
         this.gameInfo.setShipCount(shipCount);
         assertEquals(shipCount, this.gameInfo.getShipCount());
-
+        this.gameInfo.setWind(new Wind(2, 0));
+        assertEquals(new Wind(2, 0), gameInfo.getWind());
+        VisibleDeckEntity[] theEntities = new VisibleDeckEntity[] {new StreamVisibleDeckEntity(new Transform(2,0,0), new Rectangle(1,1,0), 0),
+                new StreamVisibleDeckEntity(new Transform(2,0,0), new Rectangle(1,1,0), 0)};
+        this.gameInfo.setSeaEntities(theEntities);
+        assertEquals(theEntities, this.gameInfo.getSeaEntities());
     }
 
     @Test
@@ -139,7 +144,4 @@ public class GameInfoTest {
         assertNotEquals(gameInfo4.hashCode(), this.gameInfo.hashCode());
         assertNotEquals(gameInfo5.hashCode(), this.gameInfo.hashCode());
     }
-
-
-
 }

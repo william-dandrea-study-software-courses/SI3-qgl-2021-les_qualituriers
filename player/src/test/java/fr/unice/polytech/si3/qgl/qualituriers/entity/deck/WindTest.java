@@ -37,4 +37,9 @@ public class WindTest {
         assertNotEquals(new Wind(4, 6).hashCode(), wind.hashCode());
     }
 
+    @Test
+    public void testToString(){
+        assertEquals("Wind{orientation=5.0, strength=6.0}", wind.toString());
+    }
+
 }

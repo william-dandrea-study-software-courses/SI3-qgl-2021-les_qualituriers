@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import org.junit.jupiter.api.Test;
 
@@ -23,5 +24,12 @@ public class PolygonTest {
         assertEquals(circumscribed2.getTransform(), Transform.ZERO);
         d = Math.abs(circumscribed2.getShape().getRadius() - Math.sqrt(7.5 * 7.5 + 0.25));
         assertTrue(d < 0.0001);
+    }
+
+    @Test
+    void createRegularTest(){
+        Point[] vertices = {new Point(30, 0), new Point(-14.999999999999993, 25.98076211353316), new Point(-15.000000000000014, -25.980762113533153)};
+        Polygon compare = new Polygon(0, vertices);
+        assertTrue(compare.equals(Polygon.createRegular(3, 30)));
     }
 }
