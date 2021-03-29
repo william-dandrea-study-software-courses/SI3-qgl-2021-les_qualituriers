@@ -215,6 +215,16 @@ public class Main {
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(createRace());
+        File file = new File("D:\\Bibliotheques\\Cours\\OneDrive\\OneDrive - Université Nice Sophia Antipolis\\COURS\\PS6\\pns-si3-qgl-2021-les_qualituriers\\engine\\src\\main\\java\\fr\\unice\\polytech\\si3\\qgl\\qualituriers\\engine\\races\\race6.json");
+        Scanner scanner = new Scanner(file);
+        String json = "";
+        while(scanner.hasNextLine())
+            json += scanner.nextLine() + "\n";
+        RunRace(new Race(json, new Mechanic[] {
+                new MovingMechanic(),
+                new OarMechanic(),
+                new LiftMechanic(),
+                new RudderMechanic()
+        }));
     }
 }

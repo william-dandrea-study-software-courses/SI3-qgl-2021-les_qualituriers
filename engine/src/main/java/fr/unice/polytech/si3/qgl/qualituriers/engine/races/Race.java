@@ -12,6 +12,9 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Race {
 
     private GameInfo gi;
@@ -39,7 +42,14 @@ public class Race {
         var om = new ObjectMapper();
         om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        this.gi = om.readValue(json, GameInfo.class);
+        WebRunnerRace race = om.readValue(json, WebRunnerRace.class);
+
+        List<Marin> sailors = new ArrayList<>();
+        for(int i = 0; i < race.getMaximumCrewSize(); i++) {
+            sailors.add(new Marin(i, 0, 0, "marin"+i));
+        }
+
+        this.gi = new GameInfo(race.getGoal(), race.getBoat(), sailors.toArray(Marin[]::new), 1, race.getWind(), race.getSeaEntities());
         this.goal = gi.getGoal();
         this.boat = gi.getShip();
         this.sailors = gi.getSailors();
