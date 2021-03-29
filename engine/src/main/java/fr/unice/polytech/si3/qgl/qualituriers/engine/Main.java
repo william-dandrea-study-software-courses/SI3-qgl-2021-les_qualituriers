@@ -9,6 +9,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea.Sea;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.*;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race6;
+import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race7;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.TestPathfinding;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.serializers.RectangleSerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
@@ -215,6 +216,6 @@ public class Main {
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(createRace());
+        RunRace(Race7.race);
     }
 }
