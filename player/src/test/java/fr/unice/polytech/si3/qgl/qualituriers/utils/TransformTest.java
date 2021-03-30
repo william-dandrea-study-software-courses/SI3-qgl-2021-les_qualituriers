@@ -53,4 +53,15 @@ public class TransformTest {
         assertNotEquals(transform4.hashCode(), transform.hashCode());
     }
 
+    @Test
+    public void testToString(){
+        assertEquals("Transform{Point: { x: 10.0, y: 0.0 }orientation=0.7853981633974483}", transform.toString());
+    }
+
+    @Test
+    public void testGetInParentLandmark(){
+        Transform transform1 = new Transform(10, 0, Math.PI / 4);
+        assertEquals(new Transform(10, 10, 1.5707963267948966), transform.getInParentLandmark(transform1));
+    }
+
 }

@@ -62,13 +62,10 @@ public class AvoidObstaclesTest {
         obs.add(new PositionableCircle(new Circle(300), new Transform(new Point(500, 0), 0)));
         obs.add(new PositionableCircle(new Circle(300), new Transform(new Point(1500, -500), 0)));
 
-        /*
-        var context = new PathfindingContext(boat, obs, toReach);
+
+        var context = new PathfindingContext(boat, obs, toReach, new PathfindingStore());
 
         assertEquals(pathfinder.getNextCheckpoint(context), toReach);
-
-         */
-
     }
 
 

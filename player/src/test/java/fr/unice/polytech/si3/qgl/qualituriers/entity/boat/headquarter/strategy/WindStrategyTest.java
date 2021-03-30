@@ -5,6 +5,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.OarBoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.SailBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.StreamVisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
@@ -13,6 +14,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -53,7 +55,7 @@ class WindStrategyTest {
 
         defaultBoatPosition = new Transform(new Point(0,0), 0);
         defaultBoatDeck = new Deck(4,12);
-        defaultBoatEntities = new BoatEntity[] {new OarBoatEntity(0,0), new OarBoatEntity(0,3)};
+        defaultBoatEntities = new BoatEntity[] {new OarBoatEntity(0,0), new OarBoatEntity(0,3), new SailBoatEntity(1, 2, false)};
         defaultBoatShape = new Rectangle(4, 12, 0);
 
         defaultBoat = new Boat(10, defaultBoatPosition, "boatName1", defaultBoatDeck, defaultBoatEntities, defaultBoatShape);
@@ -87,5 +89,11 @@ class WindStrategyTest {
                 );
 
 
+    }
+
+    @Test
+    public void initOneSailorOnTheSailTest(){
+        WindStrategy test = new WindStrategy(defaultBoat, defaultGoal, defaultSailors, defaultGameInfo);
+        assertEquals(new Moving(0, 1, 2), test.initOneSailorOnTheSail(defaultSailors.get(0)).get());
     }
 }
