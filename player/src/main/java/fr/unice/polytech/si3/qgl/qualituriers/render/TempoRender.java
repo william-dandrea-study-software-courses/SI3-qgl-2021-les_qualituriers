@@ -78,7 +78,20 @@ public class TempoRender extends Render {
 
         // Calcul des action a effectuer pour atteindre l'étape
 
-        return gameInfo.getShip().moveBoatDistanceStrategy2(intermediareCheckpoint.getPosition(), this.gameInfo);
+        List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(intermediareCheckpoint.getPosition(), this.gameInfo);
+
+        double distanceRestanteX = intermediareCheckpoint.getPosition().getX() - gameInfo.getShip().getPosition().getX();
+        double distanceRestanteY = intermediareCheckpoint.getPosition().getY() - gameInfo.getShip().getPosition().getY();
+
+        double distanceRestante = Math.sqrt(distanceRestanteX * distanceRestanteX + distanceRestanteY * distanceRestanteY);
+        System.out.println("======================================================================================================");
+        System.out.println("| " + distanceRestanteX);
+        System.out.println("| " + distanceRestanteY);
+        System.out.println("| " + "Distance restante : " + distanceRestante);
+        System.out.println("| " + actions);
+        System.out.println("======================================================================================================");
+
+        return actions;
     }
 
 

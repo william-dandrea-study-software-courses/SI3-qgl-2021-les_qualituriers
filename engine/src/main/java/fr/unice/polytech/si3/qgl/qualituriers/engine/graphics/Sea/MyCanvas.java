@@ -49,7 +49,7 @@ public class MyCanvas extends Canvas {
 
     public Point getScreenPosition(Point pt) {
         pt = pt.substract(offset);
-        pt = new Point(pt.getX(), -pt.getY());
+        pt = new Point(pt.getX(), pt.getY());
         pt = pt.scalar(zoom * scale);
 
 
@@ -139,7 +139,7 @@ public class MyCanvas extends Canvas {
     public void drawPolygon(PositionablePolygon polygon, Color color) {
         var g = getGraphics();
         g.setColor(color);
-        var pts = polygon.getShape().getVertices(polygon.getTransform());
+        var pts = polygon.getShape().getVertices(polygon.getTransform().rotate(Math.PI / 2));
         var ptsX = new int[pts.length];
         var ptsY = new int[pts.length];
 

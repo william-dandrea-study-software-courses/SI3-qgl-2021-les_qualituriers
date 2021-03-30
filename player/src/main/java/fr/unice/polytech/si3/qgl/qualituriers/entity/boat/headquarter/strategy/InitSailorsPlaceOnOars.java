@@ -44,8 +44,6 @@ public class InitSailorsPlaceOnOars {
      */
     public List<Action> initSailorsPlace() {
 
-        
-
         List<Marin> listOfSailorsOnBabordOars = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat);
         List<Marin> listOfSailorsOnTribordOars = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat);
 
@@ -57,6 +55,23 @@ public class InitSailorsPlaceOnOars {
         int numberOfSailorsAtTribord = sailors.size() - numberOfSailorsAtBabord - listOfSailorsOnTribordOars.size();
 
         List<Marin> listOfSailorsOnAnyOars = HeadquarterUtil.getListOfSailorsOnAnyOar(sailors, boat);
+
+
+        if (listOfSailorsOnBabordOars.size() >= numberOfSailorsAtBabord) {
+            int differenceBabord = numberOfSailorsAtBabord - listOfSailorsOnBabordOars.size();
+            for (int i = 0; i < differenceBabord; i++) {
+                var marinOp = listOfSailorsOnBabordOars.get(i);
+                if (marinOp != null) listOfSailorsOnAnyOars.add(marinOp);
+            }
+        }
+        if (listOfSailorsOnTribordOars.size() >= numberOfSailorsAtTribord) {
+            int differenceTribord = numberOfSailorsAtTribord- listOfSailorsOnTribordOars.size();
+            for (int i = 0; i < differenceTribord; i++) {
+                var marinOp = listOfSailorsOnTribordOars.get(i);
+                if (marinOp != null) listOfSailorsOnAnyOars.add(marinOp);
+            }
+        }
+
         List<Action> finalListOfActions = new ArrayList<>(moveSailorsIn(numberOfSailorsAtBabord, listOfSailorsOnAnyOars, listOfBabordOarWithAnySailorsOnIt));
         listOfSailorsOnAnyOars = HeadquarterUtil.getListOfSailorsOnAnyOar(sailors, boat);
         finalListOfActions.addAll(moveSailorsIn(numberOfSailorsAtTribord, listOfSailorsOnAnyOars, listOfTribordOarWithAnySailorsOnIt));

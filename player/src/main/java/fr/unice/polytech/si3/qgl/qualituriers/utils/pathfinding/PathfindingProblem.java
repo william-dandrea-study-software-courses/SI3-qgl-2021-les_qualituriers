@@ -14,6 +14,8 @@ public class PathfindingProblem {
     private final List<PathfindingNode> nodes = new ArrayList<>();
     private final PathfindingNode startPosition;
     private final PathfindingNode goal;
+    private double currentMinimalValidPath = Double.MAX_VALUE;
+
 
     PathfindingProblem(PathfindingNode startPosition, PathfindingNode goal) {
         this.nodes.add(startPosition);
@@ -72,7 +74,7 @@ public class PathfindingProblem {
 
         List<PathfindingResult> results = new ArrayList<>();
         for(var nextPos : nextPositions) {
-
+            if(currentPath.length() > currentMinimalValidPath) break;
             // On verifie que l'on ne revient pas sur ses pas
             if(currentPath.contains(nextPos)) break; // classé par heuristic donc on peut breaker si on reviens en arriere
 
@@ -83,6 +85,8 @@ public class PathfindingProblem {
             // Exit if i reached the end
             if(nextPos == this.goal) {
                 results.add(processingPath);
+                if(processingPath.length() < currentMinimalValidPath && processingPath.size() > 0 && processingPath.pathIsCorrect(0, polygons))
+                    currentMinimalValidPath = processingPath.length();
                 break;
             }
 

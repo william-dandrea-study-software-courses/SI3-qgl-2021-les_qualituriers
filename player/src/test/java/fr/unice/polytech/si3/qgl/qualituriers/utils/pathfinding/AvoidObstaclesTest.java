@@ -1,10 +1,15 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.pseudomaps.MyCustomRace;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -14,9 +19,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,61 +39,50 @@ public class AvoidObstaclesTest {
         boat = new Boat(10, Transform.ZERO, "", null, null, new Rectangle(10, 30, 0));
     }
 
-    @Disabled
     @Test
-    void TestReachSameLevel() {
-        TestAttemptToReach(new Point(1000, 0), Arrays.asList(
-                new PositionableCircle(new Circle(300), new Transform(new Point(500, 0), 0))
-        ));
-    }
-
-    @Disabled
-    @Test
-    void TestManyObstacles() {
-        TestAttemptToReach(new Point(2000, 0), Arrays.asList(
-                new PositionableCircle(new Circle(300), new Transform(new Point(500, 0), 0)),
-                new PositionableCircle(new Circle(300), new Transform(new Point(1500, -500), 0))
-        ));
+    void RunRace6() {
+        TestRace("race1");
     }
 
     @Test
-    void TestGetPriorityRank(){
-        assertEquals(pathfinder.getPriorityRank(), 2147483646);
+    void RunRace7() {
+        TestRace("race2");
     }
 
-    @Test
-    void TestGetNextCheckpoint(){
-        var toReach = new CheckPoint(new Transform(new Point(100, 200), 0), new Circle(50));
-        var toReach2 = new CheckPoint(new Transform(new Point(300, 500), 0), new Circle(50));
+    void TestRace(String name) {
+        assertDoesNotThrow(() -> {
+            var map = GetMap(name);
+            List<PositionableShape<? extends Shape>> obstacles = new ArrayList<>();
+            Arrays.stream(map.getObstacles())
+                    .map(VisibleDeckEntity::getPositionableShape)
+                    .forEach(obstacles::add);
 
-        List<PositionableShape<? extends Shape>> obs = new ArrayList<>();
-        obs.add(new PositionableCircle(new Circle(300), new Transform(new Point(500, 0), 0)));
-        obs.add(new PositionableCircle(new Circle(300), new Transform(new Point(1500, -500), 0)));
-
-
-        var context = new PathfindingContext(boat, obs, toReach, new PathfindingStore());
-
-        assertEquals(pathfinder.getNextCheckpoint(context), toReach);
+            TestBetweenTwoCheckpoints(map.getStartPosition().getPoint(), map.getCheckPoints()[0].getPosition().getPoint(), obstacles);
+            for(int i = 1; i < map.getCheckPoints().length; i++) {
+                TestBetweenTwoCheckpoints(map.getCheckPoints()[i - 1].getPosition(), map.getCheckPoints()[i].getPosition().getPoint(), obstacles);
+            }
+        });
     }
 
+    void TestBetweenTwoCheckpoints(Point start, Point end, List<PositionableShape<? extends Shape>> obstacles) {
+        MainPathfinding pathfinding = new MainPathfinding();
+        var context = new PathfindingContext(new Boat(0, new Transform(start, 0), "", null, null, new Circle(100)), obstacles, new CheckPoint(new Transform(end, 0), new Circle(100)), new PathfindingStore());
+        var nextCheckpoint = pathfinding.getNextCheckpoint(context);
+        while(!end.equals(nextCheckpoint.getPosition().getPoint())) {
+            context = new PathfindingContext(new Boat(0, nextCheckpoint.getPosition(), "", null, null, new Circle(100)), obstacles, new CheckPoint(new Transform(end, 0), new Circle(100)), new PathfindingStore());
+            nextCheckpoint = pathfinding.getNextCheckpoint(context);
+        }
+    }
 
-    void TestAttemptToReach(Point pt, List<PositionableShape<? extends Shape>> obs) {
-        /*var toReach = new CheckPoint(new Transform(pt, 0), new Circle(50));
+    MyCustomRace GetMap(String map) throws FileNotFoundException, JsonProcessingException {
+        File file = new File("D:\\Bibliotheques\\Cours\\OneDrive\\OneDrive - Université Nice Sophia Antipolis\\COURS\\PS6\\pns-si3-qgl-2021-les_qualituriers\\player\\src\\test\\java\\fr\\unice\\polytech\\si3\\qgl\\qualituriers\\utils\\pathfinding\\pseudomaps\\" + map + ".json");
+        Scanner scanner = new Scanner(file);
+        String fileContent = "";
+        while(scanner.hasNextLine())
+            fileContent += scanner.nextLine() + "\n";
+        var om = new ObjectMapper();
+        om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        var context = new PathfindingContext(boat, obs, toReach);
-        //context.setToReach(toReach);
-
-        int nodes = 1;
-        do {
-            context.setToReach(toReach);
-            var ch = pathfinder.getNextCheckpoint(context);
-            assertFalse(obs.stream().anyMatch(p -> Collisions.raycast(boat.getPosition().getPoint(), ch.getPosition().getPoint(), p.getCircumscribed(), 30)));
-            boat.setPosition(ch.getPosition());
-            nodes++;
-        } while(!context.getToReach().getPosition().getPoint().equals(toReach.getPosition().getPoint()));
-
-        if(showDetails)
-            System.out.println("Resolved in " + nodes + " node(s).");*/
-
+        return om.readValue(fileContent, MyCustomRace.class);
     }
 }

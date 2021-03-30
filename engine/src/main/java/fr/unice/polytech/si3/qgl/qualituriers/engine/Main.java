@@ -9,6 +9,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea.Sea;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.*;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race6;
+import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race7;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.TestPathfinding;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.serializers.RectangleSerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
@@ -87,7 +88,7 @@ public class Main {
         Action[] actionsDone;
 
         Sea renderer = new Sea(race);
-        DeckRenderer deckRenderer = new DeckRenderer(race.getBoat(), createSailors());
+        //DeckRenderer deckRenderer = new DeckRenderer(race.getBoat(), createSailors());
 
         int compteurMax = 500;
         do {
@@ -108,20 +109,21 @@ public class Main {
 
             Transform oldPosition = race.getBoat().getPosition();
             Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
+
             Transform[] positions = calculateMiddlePosition(oldPosition, race.getSpeed());
             for (Transform position : positions) {
                 race.getBoat().setPosition(position);
                 collisions(race);
             }
 
-            race.getBoat().setPosition(oldPosition.translate(race.getSpeed()));
+            //race.getBoat().setPosition(oldPosition.translate(race.getSpeed()));
             race.resetSpeed();
-            //race.getBoat().setPosition(positions[positions.length - 1]);
+            race.getBoat().setPosition(positions[positions.length - 1]);
             renderer.getPath().addWaypoint(race.getBoat().getPosition().getPoint(), positions[positions.length / 2]);
 
             //collisions(race);
 
-            deckRenderer.setSailor(race.getSailors());
+            //deckRenderer.setSailor(race.getSailors());
 
             renderer.draw();
             //deckRenderer.draw();
@@ -135,7 +137,7 @@ public class Main {
 
         //Pour pouvoir continuer à faire des trucs
         while (true) {
-            deckRenderer.setSailor(race.getSailors());
+            //deckRenderer.setSailor(race.getSailors());
             renderer.draw();
             TimeUnit.MILLISECONDS.sleep(2);
         }
@@ -214,7 +216,24 @@ public class Main {
         return positions;
     }
 
+    static Race loadRace(String name) throws FileNotFoundException, JsonProcessingException {
+        File file = new File("engine/src/main/java/fr/unice/polytech/si3/qgl/qualituriers/engine/races/webrunnerjsonraces/" + name + ".json");
+        Scanner scanner = new Scanner(file);
+        String json = "";
+        while(scanner.hasNextLine())
+            json += scanner.nextLine() + "\n";
+
+
+
+        return new Race(json, new Mechanic[] {
+                new MovingMechanic(),
+                new OarMechanic(),
+                new LiftMechanic(),
+                new RudderMechanic()
+        });
+    }
+
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(createRace());
+        RunRace(loadRace("WEEK6"));
     }
 }

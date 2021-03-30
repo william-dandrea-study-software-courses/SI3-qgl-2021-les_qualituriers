@@ -8,10 +8,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.SailBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.BoatPathFinding;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.DifferenceOfOarsForGoingSomewhere;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.InitSailorsPlaceOnOars;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.InitSailorsPlaceOnRudder;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.OarTheGoodAmountOfSailors;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.exceptions.MovingSailorException;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
@@ -77,71 +74,19 @@ public class HeadQuarter {
             finalListOfActions.addAll(setupWind(sailorOnRudderOp, HeadquarterUtil.getSail(boat).get() ));
         }
 
-
-
-
+        int babordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat).size();
+        int tribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat).size();
+        System.out.println(babordSailors + " : " + tribordSailors);
         return finalListOfActions;
     }
 
 
     public List<Action> setupWind(Optional<Marin> sailorForRudder, BoatEntity sail) {
 
-        List<Action> finalListOfActions = new ArrayList<>();
-        // D'abord, on regarde si le vent nous pousse
-        double speedWind = Config.linearSpeedWind(1, HeadquarterUtil.getListOfOars(boat).size(), gameInfo.getWind().getStrength(), boat.getPosition().getOrientation(), gameInfo.getWind().getOrientation());
-
-        SailBoatEntity realSail = (SailBoatEntity) sail;
-
-
-        Optional<Marin> sailorOnSail = HeadquarterUtil.getSailorOnSail(boat, sailors);
-        if (sailorOnSail.isPresent()) {
-
-            if (speedWind > 0 && !realSail.isOpened()) {
-                // Si c'est judicieux d'avoir la voile ouverte
-                finalListOfActions.add(new LiftSail(sailorOnSail.get().getId()));
-                realSail.setOpened(true);
-            } else {
-                if (realSail.isOpened() && speedWind <= 0) {
-                    // Si ce n'est pas judicieux d'avoir la voile ouverte
-                    finalListOfActions.add(new LowerSail(sailorOnSail.get().getId()));
-                    realSail.setOpened(false);
-                }
-            }
-
-
-        } else {
-
-            // Marin potentiels : les marins qui n'ont pas encore bougé et le marin qui n'est pas sur le gouvernail
-            List<Marin> potentialSailors = sailorForRudder.map(value -> sailors.stream().filter(marin -> marin.getId() != value.getId() && !idSailorsWeUsesMoving.contains(marin.getId())).collect(Collectors.toList())).orElseGet(() -> sailors.stream().filter(marin -> !idSailorsWeUsesMoving.contains(marin.getId())).collect(Collectors.toList()));
-
-
-            Marin closestSailor = HeadquarterUtil.searchTheClosestSailorToAPoint(potentialSailors, sail.getPosition(), new ArrayList<>());
-            BoatPathFinding boatPathFinding = new BoatPathFinding(sailors, boat, closestSailor.getId(), sail.getPosition());
-            Point pointFinal = boatPathFinding.generateClosestPoint();
-
-            Optional<Action> movingAction = HeadquarterUtil.generateMovingAction(closestSailor.getId(), closestSailor.getX(), closestSailor.getY(), (int) pointFinal.getX(), (int) pointFinal.getY());
-            movingAction.ifPresent(finalListOfActions::add);
-
-            sailorOnSail = HeadquarterUtil.getSailorOnSail(boat, sailors);
-            if (sailorOnSail.isPresent()) {
-
-                if (speedWind > 0 && !realSail.isOpened()) {
-                    // Si c'est judicieux d'avoir la voile ouverte
-                    finalListOfActions.add(new LiftSail(sailorOnSail.get().getId()));
-                    realSail.setOpened(true);
-                } else {
-
-                    if (realSail.isOpened() && speedWind <= 0) {
-                        // Si ce n'est pas judicieux d'avoir la voile ouverte
-                        finalListOfActions.add(new LowerSail(sailorOnSail.get().getId()));
-                        realSail.setOpened(false);
-                    }
-                }
-            }
-
-        }
-
-        return finalListOfActions;
+        WindStrategy windStrategy = new WindStrategy(boat, sailors, gameInfo, sailorForRudder, sail, idSailorsWeUsesMoving);
+        List<Action> actions = windStrategy.setupWind();
+        idSailorsWeUsesMoving = windStrategy.getIdSailorsWeUsesMoving();
+        return actions;
     }
 
 
