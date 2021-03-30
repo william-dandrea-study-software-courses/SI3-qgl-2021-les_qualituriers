@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 
@@ -26,7 +27,7 @@ public class PathfindingProblem {
 
     void addPolygon(PositionablePolygon polygon) {
         polygons.add(polygon);
-        enlargedPolygons.add(polygon.scaleFromCenter(1.5));
+        enlargedPolygons.add(polygon.enlargeOf(150));
     }
 
     private void checkAllRoad() {
@@ -62,8 +63,12 @@ public class PathfindingProblem {
         var result= results.stream()
                 .filter(p -> p.pathIsCorrect(0, polygons))
                 .min(Comparator.comparing(PathfindingResult::length));
-        if(result.isEmpty())
-            throw new RuntimeException("No path found !");
+        if(result.isEmpty()){
+            PathfindingResult res = new PathfindingResult();
+            res.addNode(startPosition);
+            res.addNode(new PathfindingNode(startPosition.getPosition().add(new Point(0, 10)), null));
+            return res;
+        }
 
         return result.get();
     }

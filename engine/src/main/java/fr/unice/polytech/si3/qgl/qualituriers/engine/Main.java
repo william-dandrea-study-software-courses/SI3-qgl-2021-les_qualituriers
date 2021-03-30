@@ -124,7 +124,7 @@ public class Main {
             //collisions(race);
 
             //deckRenderer.setSailor(race.getSailors());
-            collisions(race);
+            //collisions(race);
             renderer.draw();
             //deckRenderer.draw();
 
@@ -234,6 +234,6 @@ public class Main {
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(loadRace("WEEK7"));
+        RunRace(loadRace("WEEK8_PREVIEW2"));
     }
 }

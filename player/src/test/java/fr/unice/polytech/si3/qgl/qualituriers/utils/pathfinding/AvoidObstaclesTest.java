@@ -39,16 +39,19 @@ public class AvoidObstaclesTest {
         boat = new Boat(10, Transform.ZERO, "", null, null, new Rectangle(10, 30, 0));
     }
 
+    @Disabled
     @Test
     void RunRace6() {
         TestRace("race1");
     }
 
+    @Disabled
     @Test
     void RunRace7() {
         TestRace("race2");
     }
 
+    @Disabled
     @Test
     void RunRace8() {
         TestRace("race3");
@@ -80,7 +83,7 @@ public class AvoidObstaclesTest {
     }
 
     MyCustomRace GetMap(String map) throws FileNotFoundException, JsonProcessingException {
-        File file = new File("D:\\Bibliotheques\\Cours\\OneDrive\\OneDrive - Université Nice Sophia Antipolis\\COURS\\PS6\\pns-si3-qgl-2021-les_qualituriers\\player\\src\\test\\java\\fr\\unice\\polytech\\si3\\qgl\\qualituriers\\utils\\pathfinding\\pseudomaps\\" + map + ".json");
+        File file = new File("./pseudomaps/" + map + ".json");
         Scanner scanner = new Scanner(file);
         String fileContent = "";
         while(scanner.hasNextLine())

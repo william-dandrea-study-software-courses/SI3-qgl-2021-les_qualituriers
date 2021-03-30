@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.render;
 
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.ReefVisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
@@ -64,6 +65,7 @@ public class TempoRender extends Render {
         List<PositionableShape<? extends Shape>> obstacles = new ArrayList<>();
         if (gameInfo.getSeaEntities() != null) {
             Arrays.stream(gameInfo.getSeaEntities())
+                    .filter(p -> p instanceof ReefVisibleDeckEntity)
                     .map(VisibleDeckEntity::getPositionableShape)
                     .forEach(obstacles::add);
 

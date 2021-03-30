@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
@@ -51,6 +52,7 @@ public abstract class PolygonAbstract extends Shape {
      * Calcul les segments du polygon dans sont propre repère : relatif au transform de la shape
      * @return La liste des segments
      */
+    @JsonIgnore
     public List<Segment> getSegments() {
         List<Segment> segments = new ArrayList<>();
 
@@ -104,5 +106,5 @@ public abstract class PolygonAbstract extends Shape {
 
     public abstract PolygonAbstract scaleFromCenter(double scale);
 
-    /* public abstract PolygonAbstract enlargeOf(int length); */
+    public abstract PolygonAbstract enlargeOf(int length);
 }

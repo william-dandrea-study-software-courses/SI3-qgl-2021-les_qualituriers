@@ -41,13 +41,16 @@ public class Polygon extends PolygonAbstract {
         return new Polygon(getOrientation(), newVertices.toArray(new Point[0]));
     }
 
-    /*@Override
+    @Override
     public PolygonAbstract enlargeOf(int length) {
         var vertices = getVertices();
         var center = Arrays.stream(vertices).reduce(Point.ZERO, Point::add).scalar(1 / (double)vertices.length);
 
         List<Point> newVertices = new ArrayList<>();
-        Arrays.stream(vertices).map(v -> v.substract(center)).map(v -> v.scalar(scale)).forEach(newVertices::add);
+        Arrays.stream(vertices).map(v -> v.substract(center)).map(v -> {
+            var currentLength = v.length();
+            return v.scalar((currentLength + length) / currentLength);
+        }).forEach(newVertices::add);
         return new Polygon(getOrientation(), newVertices.toArray(new Point[0]));
-    }*/
+    }
 }

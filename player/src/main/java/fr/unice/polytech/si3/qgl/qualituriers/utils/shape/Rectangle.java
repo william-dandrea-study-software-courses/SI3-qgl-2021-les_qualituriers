@@ -70,6 +70,11 @@ public class Rectangle extends PolygonAbstract {
     }
 
     @Override
+    public PolygonAbstract enlargeOf(int length) {
+        return new Rectangle(width + 2 * length, height + 2 * length, getOrientation());
+    }
+
+    @Override
     public PositionableCircle getCircumscribed() {
         return new PositionableCircle(new Circle(new Point(width / 2, height / 2).length()), Transform.ZERO);
     }
