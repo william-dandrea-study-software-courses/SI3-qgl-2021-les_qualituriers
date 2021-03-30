@@ -7,6 +7,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.OarBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,8 +57,11 @@ class OarTheGoodAmountOfSailorsTest {
 
     @Test
     void oarTheGoodAmountOfSailorsTest() {
-
-
+        Oar[] oars = {new Oar(1), new Oar(3), new Oar(2), new Oar(4)};
+        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(1000,0,0));
+        var test = oarTheGoodAmountOfSailors.oarTheGoodAmountOfSailors();
+        for(int j = 0; j<oars.length; j++)
+        assertEquals(oars[j], test.get(j));
 
 
     }

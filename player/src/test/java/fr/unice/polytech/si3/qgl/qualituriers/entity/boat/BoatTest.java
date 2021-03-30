@@ -1,22 +1,23 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.CanonBoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.OarBoatEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShapeFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class BoatTest {
@@ -25,6 +26,9 @@ class BoatTest {
     Transform transform;
     BoatEntity[] boatEntities;
     Shape shape;
+    List<Marin> sailors;
+    SailBoatEntity sail;
+    PositionableShape pshape;
 
     @BeforeEach
     void setup() {
@@ -33,6 +37,7 @@ class BoatTest {
         this.shape = new Rectangle(4, 5, 0);
         this.boat = new Boat(100, transform, "bateau", new Deck(4, 5),
                 boatEntities, shape);
+        this.pshape = PositionableShapeFactory.getPositionable(shape, transform);
     }
 
     @Test
@@ -44,15 +49,21 @@ class BoatTest {
         List<Marin> marins = Arrays.asList(new Marin(0, 1, 1, "toto"), new Marin(1, 2, 2, "tata"));
         boat.sailors = marins;
         assertEquals(marins, boat.getSailors());
+        assertEquals(pshape, boat.getPositionableShape());
     }
 
     @Test
     public void testSetter(){
         boat.setLife(50);
         Transform transform = new Transform(1, 2, 0);
+        sailors = new ArrayList<>();
         boat.setPosition(transform);
+        boat.setEntities(boatEntities);
+        boat.setSailors(sailors);
         assertEquals(50, boat.getLife());
         assertEquals(transform, boat.getPosition());
+        assertEquals(boatEntities, boat.getEntities());
+        assertEquals(sailors, boat.getSailors());
     }
 
     @Test

@@ -33,6 +33,14 @@ public class MarinTest {
     }
 
     @Test
+    public void testSetter(){
+        marin.setX(3);
+        assertEquals(3, marin.getX());
+        marin.setY(4);
+        assertEquals(4, marin.getY());
+    }
+
+    @Test
     public void testEquals() {
         assertEquals(new Marin(3, 1, 2, "canard"), this.marin);
         assertNotEquals(new Marin(1, 1, 2, "canard"), this.marin);

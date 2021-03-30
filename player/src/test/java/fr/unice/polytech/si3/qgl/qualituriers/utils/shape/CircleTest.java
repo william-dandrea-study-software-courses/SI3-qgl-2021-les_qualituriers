@@ -1,6 +1,9 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShapeFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,6 +44,17 @@ public class CircleTest {
         Circle circle2 = new Circle(19);
         assertEquals(circle1.hashCode(), this.circle.hashCode());
         assertNotEquals(circle2.hashCode(), this.circle.hashCode());
+    }
+
+    @Test
+    public void testToString(){
+        assertEquals("Circle{radius=20.0, type=CIRCLE}", circle.toString());
+    }
+
+    @Test
+    public void testGetCircumscribed(){
+        PositionableCircle positionableCircle = (PositionableCircle) PositionableShapeFactory.getPositionable(circle, Transform.ZERO);
+        assertEquals(positionableCircle, circle.getCircumscribed());
     }
 
 }
