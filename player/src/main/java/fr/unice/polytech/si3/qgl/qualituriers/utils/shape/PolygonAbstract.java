@@ -103,4 +103,6 @@ public abstract class PolygonAbstract extends Shape {
     }
 
     public abstract PolygonAbstract scaleFromCenter(double scale);
+
+    /* public abstract PolygonAbstract enlargeOf(int length); */
 }

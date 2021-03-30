@@ -77,4 +77,8 @@ public class PositionablePolygon extends PositionableShape<PolygonAbstract> {
     public PositionablePolygon scaleFromCenter(double scale) {
         return new PositionablePolygon(getShape().scaleFromCenter(scale), getTransform());
     }
+
+    /*public PositionablePolygon enlargeOf(int length) {
+        return new PositionablePolygon(getShape().enlargeOf(length), getTransform());
+    }*/
 }

@@ -68,12 +68,12 @@ public class TempoRender extends Render {
                     .forEach(obstacles::add);
 
 
-            intermediareCheckpoint = currentCheckpoint;/*pathfinding.getNextCheckpoint(new PathfindingContext(
+            intermediareCheckpoint = pathfinding.getNextCheckpoint(new PathfindingContext(
                     gameInfo.getShip(),
                     obstacles,
                     currentCheckpoint,
                     this.store
-            ));*/
+            ));
             if(intermediareCheckpoint == null || Collisions.isColliding(intermediareCheckpoint.getPositionableShape(), this.gameInfo.getShip().getPositionableShape())) {
 
                 int i = 0;

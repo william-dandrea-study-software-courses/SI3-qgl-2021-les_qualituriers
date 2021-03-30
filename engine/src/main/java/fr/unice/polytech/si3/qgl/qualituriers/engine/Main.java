@@ -124,7 +124,7 @@ public class Main {
             //collisions(race);
 
             //deckRenderer.setSailor(race.getSailors());
-
+            collisions(race);
             renderer.draw();
             //deckRenderer.draw();
 
