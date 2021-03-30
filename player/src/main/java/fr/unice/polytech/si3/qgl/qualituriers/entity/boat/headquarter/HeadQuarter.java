@@ -74,6 +74,9 @@ public class HeadQuarter {
             finalListOfActions.addAll(setupWind(sailorOnRudderOp, HeadquarterUtil.getSail(boat).get() ));
         }
 
+        int babordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat).size();
+        int tribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat).size();
+        System.out.println(babordSailors + " : " + tribordSailors);
         return finalListOfActions;
     }
 

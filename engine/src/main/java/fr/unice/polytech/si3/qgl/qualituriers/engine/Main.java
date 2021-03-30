@@ -234,6 +234,6 @@ public class Main {
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(loadRace("WEEK7"));
+        RunRace(loadRace("WEEK6"));
     }
 }
