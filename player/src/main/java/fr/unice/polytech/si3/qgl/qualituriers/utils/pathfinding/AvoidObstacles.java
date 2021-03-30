@@ -23,6 +23,10 @@ public class AvoidObstacles implements IPathfinder {
     }
 
     private CheckPoint getNextCheckpoint(PathfindingContext context, int pass) {
+        return test(context, pass);
+    }
+
+    private CheckPoint test(PathfindingContext context, int pass) {
         var store = context.getStore();
         var boatPosition = context.getBoat().getPosition();
 

@@ -26,7 +26,7 @@ public class PathfindingProblem {
 
     void addPolygon(PositionablePolygon polygon) {
         polygons.add(polygon);
-        enlargedPolygons.add(polygon.scaleFromCenter(1.1));
+        enlargedPolygons.add(polygon.scaleFromCenter(1.19));
     }
 
     private void checkAllRoad() {

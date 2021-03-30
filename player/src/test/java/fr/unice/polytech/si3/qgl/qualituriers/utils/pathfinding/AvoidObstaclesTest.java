@@ -49,6 +49,11 @@ public class AvoidObstaclesTest {
         TestRace("race2");
     }
 
+    @Test
+    void RunRace8() {
+        TestRace("race3");
+    }
+
     void TestRace(String name) {
         assertDoesNotThrow(() -> {
             var map = GetMap(name);

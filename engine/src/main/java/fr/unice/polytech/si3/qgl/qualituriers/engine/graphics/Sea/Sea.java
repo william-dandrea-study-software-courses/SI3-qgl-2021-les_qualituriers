@@ -127,12 +127,14 @@ public class Sea {
 
     public void draw() {
         clear();
+        //path.addWaypoint(race.getBoat().getPosition().getPoint(), Point.ZERO);
 
         checkR.draw(canvas);
         reefR.draw(canvas);
         streamR.draw(canvas);
         path.draw();
         boatR.render(canvas);
+        //path.draw();
         //this.drawMousePosition();
 
         if(race.getBoat().getLife() <= 0)

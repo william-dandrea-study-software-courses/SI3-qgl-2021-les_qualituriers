@@ -58,8 +58,9 @@ public class TempoRender extends Render {
             if (currentCheckpointIndex >= checkpoints.length) return new ArrayList<>();
             currentCheckpoint = checkpoints[currentCheckpointIndex];
         }
+        MainPathfinding pathfinding = new MainPathfinding();
 
-        // Mapping of checkpoints to PositionnalShape
+        // Mapping of obstacles to PositionnalShape
         List<PositionableShape<? extends Shape>> obstacles = new ArrayList<>();
         if (gameInfo.getSeaEntities() != null) {
             Arrays.stream(gameInfo.getSeaEntities())
@@ -67,15 +68,25 @@ public class TempoRender extends Render {
                     .forEach(obstacles::add);
 
 
-            MainPathfinding pathfinding = new MainPathfinding();
-            intermediareCheckpoint = pathfinding.getNextCheckpoint(new PathfindingContext(
+            intermediareCheckpoint = currentCheckpoint;/*pathfinding.getNextCheckpoint(new PathfindingContext(
                     gameInfo.getShip(),
                     obstacles,
                     currentCheckpoint,
                     this.store
-            ));
-        }
+            ));*/
+            if(intermediareCheckpoint == null || Collisions.isColliding(intermediareCheckpoint.getPositionableShape(), this.gameInfo.getShip().getPositionableShape())) {
 
+                int i = 0;
+            }
+        }
+        /*var old = intermediareCheckpoint;
+        intermediareCheckpoint = currentCheckpoint;
+        /*pathfinding.getNextCheckpoint(new PathfindingContext(
+                gameInfo.getShip(),
+                obstacles,
+                currentCheckpoint,
+                this.store
+        ));*/
         // Calcul des action a effectuer pour atteindre l'étape
 
         List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(intermediareCheckpoint.getPosition(), this.gameInfo);
@@ -88,6 +99,7 @@ public class TempoRender extends Render {
         System.out.println("| " + distanceRestanteX);
         System.out.println("| " + distanceRestanteY);
         System.out.println("| " + "Distance restante : " + distanceRestante);
+        System.out.println("| " + "Chechpoint : " + intermediareCheckpoint.getPosition().getPoint());
         System.out.println("| " + actions);
         System.out.println("======================================================================================================");
 

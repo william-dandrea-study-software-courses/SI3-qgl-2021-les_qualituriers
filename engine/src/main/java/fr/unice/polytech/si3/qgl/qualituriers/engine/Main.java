@@ -110,7 +110,7 @@ public class Main {
             Transform oldPosition = race.getBoat().getPosition();
             Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
 
-            Transform[] positions = calculateMiddlePosition(oldPosition, race.getSpeed());
+            /*Transform[] positions = calculateMiddlePosition(oldPosition, race.getSpeed());
             for (Transform position : positions) {
                 race.getBoat().setPosition(position);
                 collisions(race);
@@ -119,7 +119,7 @@ public class Main {
             race.getBoat().setPosition(oldPosition.translate(race.getSpeed()));
             race.resetSpeed();
             //race.getBoat().setPosition(positions[positions.length - 1]);
-            renderer.getPath().addWaypoint(race.getBoat().getPosition().getPoint(), positions[positions.length / 2]);
+            renderer.getPath().addWaypoint(race.getBoat().getPosition().getPoint(), positions[positions.length / 2]);*/
 
             //collisions(race);
 
@@ -234,6 +234,6 @@ public class Main {
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(loadRace("WEEK6"));
+        RunRace(loadRace("WEEK7"));
     }
 }
