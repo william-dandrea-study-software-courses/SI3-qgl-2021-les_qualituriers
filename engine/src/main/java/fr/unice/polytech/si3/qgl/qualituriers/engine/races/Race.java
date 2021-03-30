@@ -46,7 +46,9 @@ public class Race {
 
         List<Marin> sailors = new ArrayList<>();
         for(int i = 0; i < race.getMaximumCrewSize(); i++) {
-            sailors.add(new Marin(i, 0, 0, "marin"+i));
+            var x = i % race.getShip().getDeck().getWidth();
+            int y = i / race.getShip().getDeck().getWidth();
+            sailors.add(new Marin(i, x, y, "marin"+i));
         }
 
         this.gi = new GameInfo(race.getGoal(), race.getBoat(), sailors.toArray(Marin[]::new), 1, race.getWind(), race.getSeaEntities());
