@@ -88,7 +88,7 @@ public class Main {
         Action[] actionsDone;
 
         Sea renderer = new Sea(race);
-        DeckRenderer deckRenderer = new DeckRenderer(race.getBoat(), createSailors());
+        //DeckRenderer deckRenderer = new DeckRenderer(race.getBoat(), createSailors());
 
         int compteurMax = 500;
         do {
@@ -109,20 +109,21 @@ public class Main {
 
             Transform oldPosition = race.getBoat().getPosition();
             Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
+
             Transform[] positions = calculateMiddlePosition(oldPosition, race.getSpeed());
             for (Transform position : positions) {
                 race.getBoat().setPosition(position);
                 collisions(race);
             }
 
-            race.getBoat().setPosition(oldPosition.translate(race.getSpeed()));
+            //race.getBoat().setPosition(oldPosition.translate(race.getSpeed()));
             race.resetSpeed();
-            //race.getBoat().setPosition(positions[positions.length - 1]);
+            race.getBoat().setPosition(positions[positions.length - 1]);
             renderer.getPath().addWaypoint(race.getBoat().getPosition().getPoint(), positions[positions.length / 2]);
 
             //collisions(race);
 
-            deckRenderer.setSailor(race.getSailors());
+            //deckRenderer.setSailor(race.getSailors());
 
             renderer.draw();
             //deckRenderer.draw();
@@ -136,7 +137,7 @@ public class Main {
 
         //Pour pouvoir continuer à faire des trucs
         while (true) {
-            deckRenderer.setSailor(race.getSailors());
+            //deckRenderer.setSailor(race.getSailors());
             renderer.draw();
             TimeUnit.MILLISECONDS.sleep(2);
         }
