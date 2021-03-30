@@ -94,7 +94,7 @@ public class Collisions {
      * @return true si le chemin est obstrué, false sinon
      */
     public static boolean raycast(Segment segment, PositionableShape<? extends Shape> shape) {
-        return isColliding(segment, shape);
+        return isColliding(new PositionablePolygon(segment, new Transform(0, 0, 0)), shape);
     }
 
     public static boolean raycastPolygon(Segment segment, Stream<PositionablePolygon> shape) {

@@ -23,7 +23,7 @@ public class DeckRenderer {
         canvas.ajustWindow();
 
         frame.add(canvas);
-        frame.setVisible(true);
+        //frame.setVisible(true);
     }
 
     public void setSailor(Marin[] sailors) {

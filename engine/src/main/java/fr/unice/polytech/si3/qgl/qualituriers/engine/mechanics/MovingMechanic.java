@@ -28,7 +28,8 @@ public class MovingMechanic extends Mechanic {
                             sailor.setX(sailor.getX() + distanceX);
                             sailor.setY(sailor.getY() + distanceY);
                             break;
-                        //} else throw new IllegalArgumentException("Le marin fait un déplacement de "+deltaPos+" cases (x:"+distanceX+";y:"+distanceY+")");
+                        //} else
+                            //throw new IllegalArgumentException("Le marin fait un déplacement de "+deltaPos+" cases (x:"+distanceX+";y:"+distanceY+")");
                     }
                 }
             }

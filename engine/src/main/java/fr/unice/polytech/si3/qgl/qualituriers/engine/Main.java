@@ -116,9 +116,9 @@ public class Main {
                 collisions(race);
             }
 
-            //race.getBoat().setPosition(oldPosition.translate(race.getSpeed()));
+            race.getBoat().setPosition(oldPosition.translate(race.getSpeed()));
             race.resetSpeed();
-            race.getBoat().setPosition(positions[positions.length - 1]);
+            //race.getBoat().setPosition(positions[positions.length - 1]);
             renderer.getPath().addWaypoint(race.getBoat().getPosition().getPoint(), positions[positions.length / 2]);
 
             //collisions(race);

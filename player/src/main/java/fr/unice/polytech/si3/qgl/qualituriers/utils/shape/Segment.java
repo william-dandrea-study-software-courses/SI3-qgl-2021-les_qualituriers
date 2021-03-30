@@ -1,20 +1,18 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Segment extends PositionableShape<Polygon> {
+public class Segment extends Polygon {
 
     private final Point start;
     private final Point end;
 
     public Segment(Point start, Point end) {
-        super(null, new Transform(start.add(end.substract(start).scalar(0.5)), 0));
+        super(0D, new Point[]{start, end}); //Est-ce utile de calculer l'angle entre les 2 points ?
         this.start = start;
         this.end = end;
     }
@@ -60,10 +58,9 @@ public class Segment extends PositionableShape<Polygon> {
      * @return true si les segments intersect, false sinon
      */
     public boolean intersectWith(Segment other) {
-
-
         return isIntersectDontCheckOther(other) && other.isIntersectDontCheckOther(this);
     }
+
 
     private boolean isIntersectDontCheckOther(Segment other) {
         var vector = end.substract(start);
@@ -82,14 +79,6 @@ public class Segment extends PositionableShape<Polygon> {
         return endDistToDroite * startDistToDroite < 0;
     }
 
-    @Override
-    public String toString() {
-        return "Segment{" +
-                "start=" + start +
-                ", end=" + end +
-                '}';
-    }
-
 
     public List<Point> axis(PositionableShape<? extends Shape> other) {
         var delta = end.substract(start);
@@ -98,23 +87,11 @@ public class Segment extends PositionableShape<Polygon> {
         return a;
     }
 
-    @Override
-    public Point[] getPoints() {
-        return new Point[] { start, end };
-    }
-
-    public Point[] project(Point axis) {
-        return new Point[] {
-                start.projection(axis),
-                end.projection(axis)
-        };
-    }
-
     public double length() {
         return end.substract(start).length();
     }
 
-    public Segment scale(double scale) {
+    /*public Segment scale(double scale) {
         return changeLength(length() * scale);
     }
 
@@ -128,10 +105,14 @@ public class Segment extends PositionableShape<Polygon> {
         var nEnd = oldCenter.add(dir.scalar(length / 2));
 
         return new Segment(nStart, nEnd);
-    }
+    }*/
 
     @Override
-    public PositionablePolygon getCircumscribedPolygon() {
-        throw new RuntimeException("This method is not implemented !");
+    public String toString() {
+        return "Segment{" +
+                "start=" + start +
+                ", end=" + end +
+                '}';
     }
+
 }
