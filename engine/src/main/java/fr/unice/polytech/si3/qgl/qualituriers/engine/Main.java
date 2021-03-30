@@ -222,6 +222,9 @@ public class Main {
         String json = "";
         while(scanner.hasNextLine())
             json += scanner.nextLine() + "\n";
+
+
+
         return new Race(json, new Mechanic[] {
                 new MovingMechanic(),
                 new OarMechanic(),
@@ -231,6 +234,6 @@ public class Main {
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(loadRace("WEEK1"));
+        RunRace(loadRace("WEEK7"));
     }
 }

@@ -58,6 +58,7 @@ public class WindStrategy {
             // Marin potentiels : les marins qui n'ont pas encore bougé et le marin qui n'est pas sur le gouvernail
             List<Marin> potentialSailors = sailorForRudder.map(value -> sailors.stream().filter(marin -> marin.getId() != value.getId() && !idSailorsWeUsesMoving.contains(marin.getId())).collect(Collectors.toList())).orElseGet(() -> sailors.stream().filter(marin -> !idSailorsWeUsesMoving.contains(marin.getId())).collect(Collectors.toList()));
 
+            if (potentialSailors.isEmpty()) return new ArrayList<>();
 
             Marin closestSailor = HeadquarterUtil.searchTheClosestSailorToAPoint(potentialSailors, sail.getPosition(), new ArrayList<>());
             BoatPathFinding boatPathFinding = new BoatPathFinding(sailors, boat, closestSailor.getId(), sail.getPosition());

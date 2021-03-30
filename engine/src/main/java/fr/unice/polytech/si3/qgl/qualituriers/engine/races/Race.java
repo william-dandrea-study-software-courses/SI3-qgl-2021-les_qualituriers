@@ -45,10 +45,19 @@ public class Race {
         WebRunnerRace race = om.readValue(json, WebRunnerRace.class);
 
         List<Marin> sailors = new ArrayList<>();
-        for(int i = 0; i < race.getMaximumCrewSize(); i++) {
-            var x = i % race.getShip().getDeck().getWidth();
-            int y = i / race.getShip().getDeck().getWidth();
-            sailors.add(new Marin(i, x, y, "marin"+i));
+
+        int xMax = race.getShip().getDeck().getLength()-1;
+        int yMax = race.getShip().getDeck().getWidth()-1;
+
+        int maxSailors = race.getMaximumCrewSize();
+
+        int curSailor = 0;
+        for (int y = 0; y <= yMax; y++) {
+            for (int x = 0; x < xMax; x++) {
+                sailors.add(new Marin(curSailor, x,y,"name"));
+                curSailor++;
+                if (curSailor == maxSailors) break;
+            }
         }
 
         this.gi = new GameInfo(race.getGoal(), race.getBoat(), sailors.toArray(Marin[]::new), 1, race.getWind(), race.getSeaEntities());
