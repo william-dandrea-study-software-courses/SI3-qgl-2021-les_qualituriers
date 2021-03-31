@@ -71,7 +71,21 @@ public class PathfindingNode {
     }
 
     @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
     public boolean equals(Object obj) {
-        return obj == this;
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!super.equals(obj)) return false;
+
+        PathfindingNode node = (PathfindingNode) obj;
+
+        var pos = this.position.equals(node.position);
+        var pol = this.owner.equals(node.owner);
+        var rech = this.reachableNodes.equals(node.reachableNodes);
+        return pos && pol && rech;
     }
 }

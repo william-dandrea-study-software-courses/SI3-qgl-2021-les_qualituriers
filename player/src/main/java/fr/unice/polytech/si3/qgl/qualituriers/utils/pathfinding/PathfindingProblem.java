@@ -53,12 +53,20 @@ public class PathfindingProblem {
     }
 
     PathfindingResult solve() {
-        if(!Collisions.raycastPolygon(new Segment(startPosition.getPosition(), goal.getPosition()), polygons.stream()))
-            return new PathfindingResult() {{ addNode(startPosition); addNode(goal); }};
+
+        if(!Collisions.raycastPolygon(new Segment(startPosition.getPosition(), goal.getPosition()), polygons.stream())) {
+
+            var tempPathResult = new PathfindingResult();
+            tempPathResult.addNode(startPosition);
+            tempPathResult.addNode(goal);
+            return tempPathResult;
+        }
 
         generateNodes();
 
-        var results = privateSolveRecusive(startPosition, new PathfindingResult() {{ addNode(startPosition); }});
+        var tempPathResult = new PathfindingResult();
+        tempPathResult.addNode(startPosition);
+        var results = privateSolveRecusive(startPosition, tempPathResult);
         var result= results.stream()
                 .filter(p -> p.pathIsCorrect(0, polygons))
                 .min(Comparator.comparing(PathfindingResult::length));

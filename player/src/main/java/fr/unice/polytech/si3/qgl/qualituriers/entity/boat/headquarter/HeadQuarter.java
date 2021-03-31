@@ -1,22 +1,16 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter;
 
 
-import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.SailBoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.BoatPathFinding;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.exceptions.MovingSailorException;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LiftSail;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LowerSail;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
 import java.util.ArrayList;
@@ -70,9 +64,8 @@ public class HeadQuarter {
         }
 
         // Maintenant on sélectionne un marin que nous allons déplacer sur la voile si cela est nécessaire
-        if (HeadquarterUtil.getSail(boat).isPresent()) {
-            finalListOfActions.addAll(setupWind(sailorOnRudderOp, HeadquarterUtil.getSail(boat).get() ));
-        }
+        Optional<BoatEntity> opSail = HeadquarterUtil.getSail(boat);
+        opSail.ifPresent(boatEntity -> finalListOfActions.addAll(setupWind(sailorOnRudderOp, boatEntity)));
 
         int babordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat).size();
         int tribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat).size();
