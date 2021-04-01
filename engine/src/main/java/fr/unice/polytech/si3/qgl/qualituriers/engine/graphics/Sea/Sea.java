@@ -127,7 +127,7 @@ public class Sea {
 
     public void draw() {
         clear();
-        //path.addWaypoint(race.getBoat().getPosition().getPoint(), Point.ZERO);
+        path.addWaypoint(race.getBoat().getPosition().getPoint(), Point.ZERO);
 
         checkR.draw(canvas);
         reefR.draw(canvas);

@@ -78,6 +78,8 @@ public class TempoRender extends Render {
 
                 int i = 0;
             }
+        } else {
+            intermediareCheckpoint = currentCheckpoint;
         }
         /*var old = intermediareCheckpoint;
         intermediareCheckpoint = currentCheckpoint;
@@ -89,6 +91,8 @@ public class TempoRender extends Render {
         ));*/
         // Calcul des action a effectuer pour atteindre l'étape
 
+
+        assert intermediareCheckpoint != null;
         List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(intermediareCheckpoint.getPosition(), this.gameInfo);
 
         double distanceRestanteX = intermediareCheckpoint.getPosition().getX() - gameInfo.getShip().getPosition().getX();

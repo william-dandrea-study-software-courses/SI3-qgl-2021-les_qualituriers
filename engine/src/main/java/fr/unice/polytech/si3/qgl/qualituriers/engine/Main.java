@@ -128,7 +128,7 @@ public class Main {
             renderer.draw();
             //deckRenderer.draw();
 
-            TimeUnit.MILLISECONDS.sleep(50);
+            TimeUnit.MILLISECONDS.sleep(200);
             compteurMax--;
             //System.out.println(cockpit.getLogs());
             cockpit.getLogs().clear();
