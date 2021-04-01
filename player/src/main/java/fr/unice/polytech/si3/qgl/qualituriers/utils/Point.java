@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.Config;
 
 import java.util.Objects;
-import java.util.function.BinaryOperator;
 
 import static fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil.modAngle;
 

@@ -3,6 +3,9 @@ package fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.TurnConfig;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.ReefVisibleDeckEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -32,7 +35,7 @@ public class ReefRenderer {
     }
 
     private boolean canSee(ReefVisibleDeckEntity reef) {
-        return reef.getPositionableShape().getTransform().distanceWithoutSquare(this.race.getBoat().getPosition()) <= Math.pow(TurnConfig.FIELD_VISION, 2);
+        return Collisions.isColliding(new PositionableCircle(new Circle(TurnConfig.FIELD_VISION), race.getBoat().getPosition()), reef.getPositionableShape());
     }
 
 }
