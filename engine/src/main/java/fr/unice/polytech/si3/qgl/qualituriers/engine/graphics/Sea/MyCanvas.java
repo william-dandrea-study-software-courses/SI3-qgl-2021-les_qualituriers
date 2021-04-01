@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea;
 
 import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Arc;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IDrawer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
@@ -14,7 +15,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.util.Objects;
 
-public class MyCanvas extends Canvas {
+public class MyCanvas extends Canvas implements IDrawer {
 
     private double scale = 1.0;
     private double zoom = 1.0;
@@ -149,7 +150,7 @@ public class MyCanvas extends Canvas {
             ptsY[i] = (int)apt.getY();
         }
 
-        g.fillPolygon(ptsX, ptsY, pts.length);
+        g.drawPolygon(ptsX, ptsY, pts.length);
     }
 
     public void drawShape(PositionableShape<? extends Shape> shape, Color color) {

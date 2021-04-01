@@ -1,8 +1,12 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding;
 
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 
 import java.util.ArrayList;
@@ -61,7 +65,7 @@ public class PathfindingNode {
         List<PathfindingNode> unreachable = new ArrayList<>();
 
         for (var reachable : reachableNodes) {
-            if(Collisions.raycastPolygon(new Segment(reachable.getPosition(), getPosition()), obstacles.stream().filter(o -> o != this.owner))) {
+            if(Collisions.raycastPolygon(new Segment(reachable.getPosition(), getPosition()), 2 * Config.BOAT_MARGIN, obstacles.stream().filter(o -> o != this.owner))) {
                 unreachable.add(reachable);
                 reachable.removeReachableNode(this);
             }
@@ -87,5 +91,9 @@ public class PathfindingNode {
         var pol = this.owner.equals(node.owner);
         var rech = this.reachableNodes.equals(node.reachableNodes);
         return pos && pol && rech;
+    }
+
+    PositionableCircle toPositionableCircle() {
+        return new PositionableCircle(new Circle(100), new Transform(getPosition(), 0));
     }
 }

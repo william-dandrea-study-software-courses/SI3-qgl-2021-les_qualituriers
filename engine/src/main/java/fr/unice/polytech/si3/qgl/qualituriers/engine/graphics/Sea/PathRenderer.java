@@ -25,12 +25,12 @@ public class PathRenderer {
         this.prevPosition = point;
     }
 
-    public void draw() {
+    /*public void draw() {
         if(this.waypoints.size() < 1) return;
 
         for (Arc waypoint : this.waypoints)
             canvas.drawArc(waypoint);
-    }
+    }*/
 /*
     public Rectangle2D.Double getBounds() {
         if(waypoint.size() == 0)

@@ -1,9 +1,13 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding;
 
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
+import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 
+import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -18,6 +22,9 @@ public class PathfindingResult {
 
     PathfindingNode get(int index) {
         return nodes.get(index);
+    }
+    PathfindingNode getLast() {
+        return nodes.get(nodes.size() - 1);
     }
 
     int size() {
@@ -56,10 +63,21 @@ public class PathfindingResult {
             var nodeA = nodes.get(i);
             var nodeB = nodes.get(i + 1);
 
-            if(Collisions.raycastPolygon(new Segment(nodeA.getPosition(), nodeB.getPosition()), obstacles.stream()))
+            if(Collisions.raycastPolygon(new Segment(nodeA.getPosition(), nodeB.getPosition()), 2 * Config.BOAT_MARGIN, obstacles.stream()))
                 return false;
         }
 
         return true;
+    }
+
+    void draw() {
+        if(TempoRender.SeaDrawer == null) return;
+
+        for(int i = 0; i < nodes.size() - 1; i++) {
+            TempoRender.SeaDrawer.drawLine(nodes.get(i).getPosition(), nodes.get(i + 1).getPosition(), Color.RED);
+        }
+        try {
+            while (System.in.available() == 0) ;
+        } catch (Exception e) {}
     }
 }

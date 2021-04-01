@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.PolygonAbstract;
@@ -78,7 +79,8 @@ public class PositionablePolygon extends PositionableShape<PolygonAbstract> {
         return new PositionablePolygon(getShape().scaleFromCenter(scale), getTransform());
     }
 
-    /*public PositionablePolygon enlargeOf(int length) {
+    @JsonIgnore
+    public PositionablePolygon enlargeOf(double length) {
         return new PositionablePolygon(getShape().enlargeOf(length), getTransform());
-    }*/
+    }
 }

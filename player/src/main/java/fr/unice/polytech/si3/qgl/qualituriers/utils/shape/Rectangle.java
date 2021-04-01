@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
@@ -64,11 +65,19 @@ public class Rectangle extends PolygonAbstract {
         return Objects.hash(super.hashCode(), width, height);
     }
 
+    @JsonIgnore
     @Override
     public PolygonAbstract scaleFromCenter(double scale) {
         return new Rectangle(width * scale, height * scale, this.getOrientation());
     }
 
+    @Override
+    @JsonIgnore
+    public PolygonAbstract enlargeOf(double length) {
+        return new Rectangle(width + 2 * length, height + 2 * length, this.getOrientation());
+    }
+
+    @JsonIgnore
     @Override
     public PositionableCircle getCircumscribed() {
         return new PositionableCircle(new Circle(new Point(width / 2, height / 2).length()), Transform.ZERO);

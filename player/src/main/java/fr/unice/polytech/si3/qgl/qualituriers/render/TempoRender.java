@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.render;
 
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
@@ -7,6 +8,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IDrawer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.*;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
@@ -19,6 +21,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TempoRender extends Render {
+
+    public static boolean ON_ENGINE = false;
+    public static IDrawer SeaDrawer;
 
     private CheckPoint currentCheckPoint;
     private int checkPointCounter = 0;
@@ -66,6 +71,8 @@ public class TempoRender extends Render {
             Arrays.stream(gameInfo.getSeaEntities())
                     .map(VisibleDeckEntity::getPositionableShape)
                     .forEach(obstacles::add);
+
+            boolean raycast = Collisions.raycastPolygon(new Segment(checkpoints[1].getPosition().getPoint(), checkpoints[2].getPosition().getPoint()), Config.BOAT_MARGIN * 2, obstacles.stream().map(PositionableShape::getCircumscribedPolygon), true);
 
 
             intermediareCheckpoint = pathfinding.getNextCheckpoint(new PathfindingContext(

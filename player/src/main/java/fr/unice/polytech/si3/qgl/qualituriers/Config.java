@@ -26,7 +26,7 @@ public class Config {
     public static final double EPSILON = 10E-9D;
 
 
-
+    public static final double BOAT_MARGIN = 100;
 
 
 

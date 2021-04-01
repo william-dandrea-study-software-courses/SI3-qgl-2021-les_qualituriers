@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea;
 
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
+import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.awt.event.*;
 public class Sea {
 
     private final JFrame frame;
-    private final MyCanvas canvas;
+    public static MyCanvas canvas;
 
     private final Race race;
     private final BoatRenderer boatR;
@@ -30,6 +31,8 @@ public class Sea {
         canvas = new MyCanvas();
         canvas.setLocation(0, 0);
         canvas.setSize(600, 480);
+
+        TempoRender.SeaDrawer = canvas;
 
         canvas.addMouseWheelListener(new MouseWheelListener() {
             @Override
@@ -127,12 +130,12 @@ public class Sea {
 
     public void draw() {
         clear();
-        path.addWaypoint(race.getBoat().getPosition().getPoint(), Point.ZERO);
+        //path.addWaypoint(race.getBoat().getPosition().getPoint(), Point.ZERO);
 
         checkR.draw(canvas);
         reefR.draw(canvas);
         streamR.draw(canvas);
-        path.draw();
+        //path.draw();
         boatR.render(canvas);
         //path.draw();
         //this.drawMousePosition();

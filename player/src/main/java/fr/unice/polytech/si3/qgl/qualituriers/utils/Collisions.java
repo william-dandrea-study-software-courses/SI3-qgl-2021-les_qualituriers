@@ -1,10 +1,15 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
+
+import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -96,16 +101,45 @@ public class Collisions {
      * @param shape: Obstacle
      * @return true si le chemin est obstrué, false sinon
      */
-    public static boolean raycast(Segment segment, PositionableShape<? extends Shape> shape) {
-        return isColliding(new PositionablePolygon(segment, new Transform(0, 0, 0)), shape);
+    public static boolean raycast(Segment segment, double width, PositionableShape<? extends Shape> shape) {
+        //return isColliding(new PositionablePolygon(segment, new Transform(0, 0, 0)), shape);
+        var dir = segment.getEnd().substract(segment.getStart());
+        PositionablePolygon poly = new PositionablePolygon(new Rectangle(dir.length(), width, dir.getOrientation()), new Transform(segment.getStart().add(dir.scalar(0.5)), 0));
+
+        //if(TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawPolygon(poly, Color.RED);
+
+        return isColliding(poly, shape);
+
     }
 
-    public static boolean raycastPolygon(Segment segment, Stream<PositionablePolygon> shape) {
-        return shape.anyMatch(s -> raycast(segment, s));
+
+    public static boolean raycast(Segment segment, double width, PositionableShape<? extends Shape> shape, boolean draw) {
+        //return isColliding(new PositionablePolygon(segment, new Transform(0, 0, 0)), shape);
+        var dir = segment.getEnd().substract(segment.getStart());
+        PositionablePolygon poly = new PositionablePolygon(new Rectangle(dir.length(), width, dir.getOrientation()), new Transform(segment.getStart().add(dir.scalar(0.5)), 0));
+
+        if(draw && TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawPolygon(poly, Color.RED);
+
+        return isColliding(poly, shape);
+
     }
 
-    public static boolean raycast(Segment segment, Stream<PositionableShape<? extends Shape>> shape) {
-        return shape.anyMatch(s -> raycast(segment, s));
+    public static boolean raycastPolygon(Segment segment, double width, Stream<PositionablePolygon> shape) {
+        return shape.anyMatch(s -> {
+            boolean res = raycast(segment, width, s);
+            return res;
+        });
+    }
+
+    public static boolean raycastPolygon(Segment segment, double width, Stream<PositionablePolygon> shape, boolean draw) {
+        return shape.anyMatch(s -> {
+            boolean res = raycast(segment, width, s, draw);
+            return res;
+        });
+    }
+
+    public static boolean raycast(Segment segment, double width, Stream<PositionableShape<? extends Shape>> shape) {
+        return shape.anyMatch(s -> raycast(segment, width, s));
     }
 
     public static double getDistanceCast(Point start, Point end, PositionableCircle shape, double margin) {

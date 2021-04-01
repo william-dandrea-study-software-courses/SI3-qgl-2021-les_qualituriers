@@ -1,7 +1,11 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.MyColumn2DMat;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.MySquared2DMat;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Polygon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +16,9 @@ public class Segment extends Polygon {
     private final Point end;
 
     public Segment(Point start, Point end) {
-        super(0D, new Point[]{start, end}); //Est-ce utile de calculer l'angle entre les 2 points ?
+        super(0, new Point[] {start,end});
+        //super(0D, new Point[]{start, end} );
+        //Est-ce utile de calculer l'angle entre les 2 points ?
         this.start = start;
         this.end = end;
     }
@@ -30,6 +36,7 @@ public class Segment extends Polygon {
      * @param other le cercle
      * @return true si le segment intersect avec le cercle, false sinon
      */
+    @JsonIgnore
     public boolean intersectWith(PositionableShape<Circle> other) {
         var segmentLength = end.substract(start).length();
         var vector = end.substract(start).normalized();
@@ -57,11 +64,12 @@ public class Segment extends Polygon {
      * @param other le deuxieme segment
      * @return true si les segments intersect, false sinon
      */
+    @JsonIgnore
     public boolean intersectWith(Segment other) {
         return isIntersectDontCheckOther(other) && other.isIntersectDontCheckOther(this);
     }
 
-
+    @JsonIgnore
     private boolean isIntersectDontCheckOther(Segment other) {
         var vector = end.substract(start);
         var normal = new Point(vector.getY(), -vector.getX());
@@ -77,6 +85,41 @@ public class Segment extends Polygon {
 
         // Check opposite sign
         return endDistToDroite * startDistToDroite < 0;
+    }
+
+    private double[] getCartesianFactors() {
+        var dir = getEnd().substract(getStart());
+        double a = dir.getY();
+        double b = -dir.getX();
+        double c = -(getStart().getX() * dir.getY() - getStart().getY() * dir.getX());
+
+        double verif = a * getEnd().getX() + b * getEnd().getY() + c;
+
+        return new double[] { a, b, c };
+    }
+
+    public Point intersectionOfSupports(Segment other) {
+        var cf1 = getCartesianFactors();
+        double a1 = cf1[0];
+        double b1 = cf1[1];
+        double c1 = cf1[2];
+        var cf2 = other.getCartesianFactors();
+        double a2 = cf2[0];
+        double b2 = cf2[1];
+        double c2 = cf2[2];
+
+        try {
+            var mat = new MySquared2DMat(a1, b1, a2, b2);
+            var inv = mat.inverse();
+
+            var det1 = mat.determinant();
+            var det2 = inv.determinant();
+
+            var matricialCalcResult = inv.multiply(new MyColumn2DMat(-c1, -c2));
+            return new Point(matricialCalcResult.getA(), matricialCalcResult.getB());
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 

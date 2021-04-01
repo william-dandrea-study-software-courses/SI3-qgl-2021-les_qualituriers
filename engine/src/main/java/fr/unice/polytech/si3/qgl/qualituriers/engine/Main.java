@@ -18,6 +18,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.ReefVisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
@@ -70,6 +71,8 @@ public class Main {
     }
 
     static void RunRace(Race race) throws JsonProcessingException, InterruptedException {
+        TempoRender.ON_ENGINE = true;
+
 
         ObjectMapper om = new ObjectMapper();
         SimpleModule module = new SimpleModule();
@@ -130,7 +133,7 @@ public class Main {
             renderer.draw();
             //deckRenderer.draw();
 
-            TimeUnit.MILLISECONDS.sleep(2000);
+            TimeUnit.MILLISECONDS.sleep(200);
             compteurMax--;
             //System.out.println(cockpit.getLogs());
             cockpit.getLogs().clear();
@@ -236,6 +239,6 @@ public class Main {
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(loadRace("WEEK7"));
+        RunRace(loadRace("WEEK8_PREVIEW2"));
     }
 }
