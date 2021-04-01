@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.engine.races;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.unice.polytech.si3.qgl.qualituriers.engine.TurnConfig;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.Mechanic;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
@@ -10,9 +11,13 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Race {
@@ -89,6 +94,11 @@ public class Race {
 
     public VisibleDeckEntity[] getEntities() {
         return entities;
+    }
+
+    public VisibleDeckEntity[] getVisiblesEntities() {
+        PositionableCircle circle = new PositionableCircle(new Circle(TurnConfig.FIELD_VISION), this.boat.getPosition());
+        return Arrays.stream(entities).filter(entity -> Collisions.isColliding(circle, entity.getPositionableShape())).toArray(VisibleDeckEntity[]::new);
     }
 
     public Wind getWind() {
