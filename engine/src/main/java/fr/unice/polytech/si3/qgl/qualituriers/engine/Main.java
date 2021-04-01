@@ -110,6 +110,8 @@ public class Main {
             Transform oldPosition = race.getBoat().getPosition();
             Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
 
+            collisions(race);
+
             /*Transform[] positions = calculateMiddlePosition(oldPosition, race.getSpeed());
             for (Transform position : positions) {
                 race.getBoat().setPosition(position);
@@ -128,7 +130,7 @@ public class Main {
             renderer.draw();
             //deckRenderer.draw();
 
-            TimeUnit.MILLISECONDS.sleep(200);
+            TimeUnit.MILLISECONDS.sleep(2000);
             compteurMax--;
             //System.out.println(cockpit.getLogs());
             cockpit.getLogs().clear();
@@ -139,7 +141,7 @@ public class Main {
         while (true) {
             //deckRenderer.setSailor(race.getSailors());
             renderer.draw();
-            TimeUnit.MILLISECONDS.sleep(2);
+            TimeUnit.MILLISECONDS.sleep(2000);
         }
         //      Run game
         //      Execute action

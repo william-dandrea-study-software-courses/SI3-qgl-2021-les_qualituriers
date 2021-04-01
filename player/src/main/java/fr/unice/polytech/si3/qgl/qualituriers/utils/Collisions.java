@@ -26,6 +26,9 @@ public class Collisions {
      * @return true si les formes sont en contact, false sinon
      */
     public static boolean isColliding(PositionableShape<? extends Shape> shape1, PositionableShape<? extends Shape> shape2) {
+        //On prend le polygone circonsrit
+        shape1 = shape1.getCircumscribedPolygon();
+        shape2 = shape2.getCircumscribedPolygon();
         //On récupère les axes
         List<Point> axes = new ArrayList<>();
         axes.addAll(shape1.axis(shape2));

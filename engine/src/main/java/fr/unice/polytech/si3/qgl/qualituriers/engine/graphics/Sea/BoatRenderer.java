@@ -18,7 +18,7 @@ public class BoatRenderer {
 
     void render(MyCanvas canvas) {
 
-        canvas.drawShape(race.getBoat().getPositionableShape(), Color.BLUE);
+        canvas.drawShape(race.getBoat().getPositionableShape().getCircumscribedPolygon(), Color.BLUE);
         //canvas.drawPin(race.getBoat().getPosition(), Color.BLUE);
     }
 }
