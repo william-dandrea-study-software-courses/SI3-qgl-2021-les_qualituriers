@@ -96,7 +96,7 @@ public class Main {
         int compteurMax = 500;
         do {
             Wind wind = generateWind();
-            RoundInfo rInfo = new RoundInfo(race.getBoat(), wind, race.getVisiblesEntities());
+            RoundInfo rInfo = new RoundInfo(race.getBoat(), wind, race.getEntities());
             var roundString = om.writeValueAsString(rInfo);
 
             var actionString = cockpit.nextRound(roundString);
@@ -115,20 +115,7 @@ public class Main {
 
             collisions(race);
 
-            /*Transform[] positions = calculateMiddlePosition(oldPosition, race.getSpeed());
-            for (Transform position : positions) {
-                race.getBoat().setPosition(position);
-                collisions(race);
-            }
 
-            race.getBoat().setPosition(oldPosition.translate(race.getSpeed()));
-            race.resetSpeed();
-            //race.getBoat().setPosition(positions[positions.length - 1]);
-            renderer.getPath().addWaypoint(race.getBoat().getPosition().getPoint(), positions[positions.length / 2]);*/
-
-            //collisions(race);
-
-            //deckRenderer.setSailor(race.getSailors());
             collisions(race);
             renderer.draw();
             //deckRenderer.draw();
@@ -240,5 +227,6 @@ public class Main {
 
     public static void main(String... args) throws IOException, InterruptedException {
         RunRace(loadRace("WEEK8_PREVIEW2"));
+        //RunRace(TestPathfinding.race);
     }
 }

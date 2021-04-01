@@ -5,12 +5,15 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class PathfindingProblem {
     private final List<PositionablePolygon>  polygons = new ArrayList<>();
@@ -71,55 +74,54 @@ public class PathfindingProblem {
 
         var tempPathResult = new PathfindingResult();
         tempPathResult.addNode(startPosition);
-        var results = privateSolveRecusive(startPosition, tempPathResult);
-        var result= results.stream()
-                //.filter(p -> p.pathIsCorrect(0, polygons))
-                .min(Comparator.comparing(PathfindingResult::length));
-        if(result.isEmpty()) {
-            throw new RuntimeException("No path found !");
-            /*return new PathfindingResult() {{
-                addNode(startPosition);
-                addNode(goal);
-            }};*/
-        }
 
-        return result.get();
+        var result = privateSolveRecusive(startPosition, tempPathResult);
+        if(result == null) throw new RuntimeException("No path found");
+        
+        return result;
     }
 
-    private List<PathfindingResult> privateSolveRecusive(PathfindingNode from, PathfindingResult currentPath) {
+    private boolean roadInTrouble(PathfindingNode start, PathfindingNode end) {
+        return Collisions.raycastPolygon(new Segment(start.getPosition(), end.getPosition()), 2 * Config.BOAT_MARGIN, polygons.stream());
+    }
+
+    private PathfindingResult privateSolveRecusive(PathfindingNode from, PathfindingResult currentPath) {
         var nextPositions = from.getReachableNodes();
-        nextPositions.sort(Comparator.comparingDouble(pn -> pn.calculateHeuristic(this.goal)));
+        List<PathfindingNode> nextNodes = new ArrayList<>();
+        nextPositions.stream()
+            .filter(n -> !currentPath.contains(n))
+            .forEach(nextNodes::add);
 
-        List<PathfindingResult> results = new ArrayList<>();
-        for(var nextPos : nextPositions) {
-            if(currentPath.length() > currentMinimalValidPath)
-                break;
+        nextNodes.sort(Comparator.comparingDouble(pn -> pn.calculateHeuristic(this.goal)));
+
+        if(TempoRender.SeaDrawer != null && false) {
+            for(int i = 0; i < nextPositions.size(); i++) {
+                TempoRender.SeaDrawer.drawLine(from.getPosition(), nextPositions.get(i).getPosition(), Color.MAGENTA);
+            }
+            try {
+                while(System.in.available() == 0) ;
+            } catch(Exception e) {}
+        }
+
+
+        for(var nextPos : nextNodes) {
+            if(roadInTrouble(from, nextPos)) continue;
             // On verifie que l'on ne revient pas sur ses pas
-            if(currentPath.contains(nextPos)) break; // classé par heuristic donc on peut breaker si on reviens en arriere
-
-
+            //if(currentPath.contains(nextPos)) break; // classé par heuristic donc on peut breaker si on reviens en arriere
 
             // create a sandbox
             var processingPath = currentPath.copy();
             processingPath.addNode(nextPos);
-            var pathIsCorrect = processingPath.pathIsCorrect(0, polygons);
-            if(!pathIsCorrect) continue;
 
             // Exit if i reached the end
-            if(nextPos == this.goal) {
-                if(pathIsCorrect) {
-                    results.add(processingPath);
-                    if(processingPath.length() < currentMinimalValidPath)
-                        currentMinimalValidPath = processingPath.length();
-                    break;
-                }
-                continue;
-            }
+            if(nextPos.getPosition().equals(this.goal.getPosition())) return processingPath;
 
             // Exit if i found a path who lead to end
-            results.addAll(privateSolveRecusive(nextPos, processingPath));
+            var r = privateSolveRecusive(nextPos, processingPath);
+            if(r != null)
+                return r;
         }
 
-        return results;
+        return null;
     }
 }

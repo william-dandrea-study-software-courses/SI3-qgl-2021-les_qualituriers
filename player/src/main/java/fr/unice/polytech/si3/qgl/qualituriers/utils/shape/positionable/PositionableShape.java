@@ -72,6 +72,11 @@ public abstract class PositionableShape<T extends Shape> {
     @JsonIgnore
     public abstract PositionablePolygon getCircumscribedPolygon();
 
+    @JsonIgnore
+    public PositionablePolygon getCircumscribedPolygon(int reso) {
+        return getCircumscribedPolygon();
+    }
+
 
     @Override
     public String toString() {

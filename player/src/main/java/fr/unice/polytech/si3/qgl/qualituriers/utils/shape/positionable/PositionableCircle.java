@@ -73,7 +73,18 @@ public class PositionableCircle extends PositionableShape<Circle> {
 
     @Override
     public PositionablePolygon getCircumscribedPolygon() {
-        var reso = Config.CIRCLE_APPROXIMATION_RESOLUTION;
+        var reso = Config.CIRCLE_APPROXIMATION_RESOLUTION_PATHFINDING;
+        if(reso <= 2) throw new RuntimeException("The resolution can't less than 2 !");
+
+        var dTheta = 2 * Math.PI / (double)reso;
+        var radius = getShape().getRadius();
+
+        var circumscribedPolygonRadius = radius / Math.cos(dTheta / 2);
+        return new PositionablePolygon(Polygon.createRegular(reso, circumscribedPolygonRadius), getTransform());
+    }
+
+    @Override
+    public PositionablePolygon getCircumscribedPolygon(int reso) {
         if(reso <= 2) throw new RuntimeException("The resolution can't less than 2 !");
 
         var dTheta = 2 * Math.PI / (double)reso;

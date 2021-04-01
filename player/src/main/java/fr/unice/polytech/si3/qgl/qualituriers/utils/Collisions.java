@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
@@ -32,8 +33,8 @@ public class Collisions {
      */
     public static boolean isColliding(PositionableShape<? extends Shape> shape1, PositionableShape<? extends Shape> shape2) {
         //On prend le polygone circonsrit
-        shape1 = shape1.getCircumscribedPolygon();
-        shape2 = shape2.getCircumscribedPolygon();
+        shape1 = shape1.getCircumscribedPolygon(Config.CIRCLE_APPROXIMATION_RESOLUTION_COLLISION);
+        shape2 = shape2.getCircumscribedPolygon(Config.CIRCLE_APPROXIMATION_RESOLUTION_COLLISION);
         //On récupère les axes
         List<Point> axes = new ArrayList<>();
         axes.addAll(shape1.axis(shape2));

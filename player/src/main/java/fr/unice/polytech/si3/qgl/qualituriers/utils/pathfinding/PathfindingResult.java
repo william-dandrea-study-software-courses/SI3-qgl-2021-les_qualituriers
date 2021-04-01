@@ -36,7 +36,7 @@ public class PathfindingResult {
     }
 
     boolean contains(PathfindingNode node) {
-        return nodes.contains(node);
+        return nodes.stream().anyMatch(n -> n.getPosition().equals(node.getPosition()));
     }
 
     void addNode(PathfindingNode node) {
