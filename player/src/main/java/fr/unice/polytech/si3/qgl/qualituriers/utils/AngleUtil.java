@@ -29,4 +29,11 @@ public class AngleUtil {
         return 0;
     }
 
+    public static double mod2PIAngle(double angle) {
+        if(angle < 2 * Math.PI && angle >= 0) return angle;
+        if(angle >= 2 * Math.PI) return modAngle(angle - 2 * Math.PI);
+        if(angle < 0) return modAngle(angle + 2 * Math.PI);
+        return 0;
+    }
+
 }

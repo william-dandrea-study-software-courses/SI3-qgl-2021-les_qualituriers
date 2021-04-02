@@ -76,8 +76,11 @@ public class PathfindingResult {
         for(int i = 0; i < nodes.size() - 1; i++) {
             TempoRender.SeaDrawer.drawLine(nodes.get(i).getPosition(), nodes.get(i + 1).getPosition(), Color.RED);
         }
+
         try {
-            while (System.in.available() == 0) ;
-        } catch (Exception e) {}
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

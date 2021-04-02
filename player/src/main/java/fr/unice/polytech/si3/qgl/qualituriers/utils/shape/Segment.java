@@ -98,6 +98,10 @@ public class Segment extends Polygon {
         return new double[] { a, b, c };
     }
 
+    public Point getDirection() {
+        return end.substract(start);
+    }
+
     public Point intersectionOfSupports(Segment other) {
         var cf1 = getCartesianFactors();
         double a1 = cf1[0];

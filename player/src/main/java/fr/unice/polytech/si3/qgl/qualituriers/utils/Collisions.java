@@ -53,6 +53,13 @@ public class Collisions {
         return true;
     }
 
+
+    public static PositionablePolygon getCollidingPolygon(PositionableShape<? extends Shape> shape, Stream<PositionablePolygon> polygons) {
+        var polygon = polygons.filter(p -> isColliding(shape, p)).findFirst();
+        if(polygon.isEmpty()) return null;
+        else return polygon.get();
+    }
+
     /**
      * Permet de supprimer les axes colinéaires entre eux
      * @param axes les axes

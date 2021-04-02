@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import java.util.ArrayList;
@@ -72,13 +73,8 @@ public class Polygon extends PolygonAbstract {
         // création d'un arrondi
         for(int i = 0; i < enlargedArrete.size(); i++) {
             var seg1 = enlargedArrete.get(i);
-            var seg2 = enlargedArrete.get((i + 1) % enlargedArrete.size());
-
             finalVertices.add(seg1.getStart());
             finalVertices.add(seg1.getEnd());
-            /*var isc = seg1.intersectionOfSupports(seg2);
-            if(isc == null) throw new RuntimeException("Poygon bizarre qui n'est pas un segment et qui à deux coté consecutifs parrallele");
-            finalVertices.add(isc);*/
         }
 
 

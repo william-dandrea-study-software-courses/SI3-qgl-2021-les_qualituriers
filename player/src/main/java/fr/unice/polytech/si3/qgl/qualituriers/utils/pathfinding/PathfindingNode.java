@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PathfindingNode {
-    private final Point position;
+    private Point position;
     private final List<PathfindingNode> reachableNodes = new ArrayList<>();
     private final PositionablePolygon owner;
 
@@ -35,6 +35,10 @@ public class PathfindingNode {
 
     Point getPosition() {
         return position;
+    }
+
+    void setPosition(Point pt) {
+        this.position = pt;
     }
 
     PositionablePolygon getOwner() {
@@ -65,7 +69,7 @@ public class PathfindingNode {
         List<PathfindingNode> unreachable = new ArrayList<>();
 
         for (var reachable : reachableNodes) {
-            if(Collisions.raycastPolygon(new Segment(reachable.getPosition(), getPosition()), 2 * Config.BOAT_MARGIN, obstacles.stream().filter(o -> o != this.owner))) {
+            if(Collisions.raycastPolygon(new Segment(reachable.getPosition(), getPosition()), 2 * Config.BOAT_MARGIN, obstacles.stream().filter(o -> o != this.owner && o != reachable.owner))) {
                 unreachable.add(reachable);
                 reachable.removeReachableNode(this);
             }
