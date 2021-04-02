@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarterConfig.USE_WIND;
+
 /**
  * Cette classe a pour objectif de controller tout ce qu'il se passe sur le bateau.
  * Cette méthode va affecter par exemple n marins pour ramer et n marins pour tirer des canons
@@ -29,11 +31,13 @@ import java.util.stream.Collectors;
  */
 public class HeadQuarter {
 
+
     private final Boat boat;
     private final List<Marin> sailors;
     private final Transform goal;
     private final GameInfo gameInfo;
     private List<Integer> idSailorsWeUsesMoving;
+
 
     public HeadQuarter(Boat boat, List<Marin> sailors, Transform goal, GameInfo gameInfo) {
         this.boat = boat;
@@ -63,9 +67,11 @@ public class HeadQuarter {
             actionOptional.ifPresent(finalListOfActions::add);
         }
 
-        // Maintenant on sélectionne un marin que nous allons déplacer sur la voile si cela est nécessaire
-        Optional<BoatEntity> opSail = HeadquarterUtil.getSail(boat);
-        opSail.ifPresent(boatEntity -> finalListOfActions.addAll(setupWind(sailorOnRudderOp, boatEntity)));
+        if (USE_WIND) {
+            // Maintenant on sélectionne un marin que nous allons déplacer sur la voile si cela est nécessaire
+            Optional<BoatEntity> opSail = HeadquarterUtil.getSail(boat);
+            opSail.ifPresent(boatEntity -> finalListOfActions.addAll(setupWind(sailorOnRudderOp, boatEntity)));
+        }
 
         int babordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat).size();
         int tribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat).size();
