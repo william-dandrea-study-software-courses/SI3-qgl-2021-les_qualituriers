@@ -14,23 +14,23 @@ import java.util.List;
 
 public class PathfindingNode {
     private Point position;
-    private final List<PathfindingNode> reachableNodes = new ArrayList<>();
     private final PositionablePolygon owner;
+    private final List<PathfindingRoad> roads = new ArrayList<>();
 
     PathfindingNode(Point position, PositionablePolygon owner) {
         this.position = position;
         this.owner = owner;
     }
 
-    void addReachableNode(PathfindingNode node) {
-        reachableNodes.add(node);
-    }
-    void removeReachableNode(PathfindingNode node) {
-        reachableNodes.remove(node);
+    public static List<PathfindingNode> createFrom(PositionablePolygon polygon) {
+        var result = new ArrayList<PathfindingNode>();
+        for(var v : polygon.getShape().getVertices(polygon.getTransform()))
+            result.add(new PathfindingNode(v, polygon));
+        return result;
     }
 
-    List<PathfindingNode> getReachableNodes() {
-        return reachableNodes;
+    void removeRoad(PathfindingRoad road) {
+        this.roads.remove(road);
     }
 
     Point getPosition() {
@@ -41,41 +41,16 @@ public class PathfindingNode {
         this.position = pt;
     }
 
+    List<PathfindingRoad> getRoads() {
+        return this.roads;
+    }
+
     PositionablePolygon getOwner() {
         return owner;
     }
 
     double calculateHeuristic(PathfindingNode goal) {
         return goal.getPosition().substract(position).length();
-    }
-
-    static List<PathfindingNode> createFrom(PositionablePolygon positionablePolygon) {
-        var vertices = positionablePolygon.getShape().getVertices(positionablePolygon.getTransform());
-        List<PathfindingNode> nodes = new ArrayList<>();
-
-        for (Point vertex : vertices) nodes.add(new PathfindingNode(vertex, positionablePolygon));
-
-        for(int i = 0; i < vertices.length; i++) {
-            int indexNeighbourSide1 = i + 1 >= nodes.size() ? 0 : i + 1;
-            int indexNeighbourSide2 = i <= 0 ? nodes.size() - 1 : i - 1;
-            nodes.get(i).addReachableNode(nodes.get(indexNeighbourSide1));
-            nodes.get(i).addReachableNode(nodes.get(indexNeighbourSide2));
-        }
-
-        return nodes;
-    }
-
-    public void checkRoads(List<PositionablePolygon> obstacles) {
-        List<PathfindingNode> unreachable = new ArrayList<>();
-
-        for (var reachable : reachableNodes) {
-            if(Collisions.raycastPolygon(new Segment(reachable.getPosition(), getPosition()), 2 * Config.BOAT_MARGIN, obstacles.stream().filter(o -> o != this.owner && o != reachable.owner))) {
-                unreachable.add(reachable);
-                reachable.removeReachableNode(this);
-            }
-        }
-        //unreachable.forEach(n -> n.removeReachableNode(this));
-        unreachable.forEach(this::removeReachableNode);
     }
 
     @Override
@@ -93,11 +68,22 @@ public class PathfindingNode {
 
         var pos = this.position.equals(node.position);
         var pol = this.owner.equals(node.owner);
-        var rech = this.reachableNodes.equals(node.reachableNodes);
-        return pos && pol && rech;
+        return pos && pol;
     }
 
     PositionableCircle toPositionableCircle() {
-        return new PositionableCircle(new Circle(100), new Transform(getPosition(), 0));
+        return new PositionableCircle(new Circle(Config.BOAT_MARGIN), new Transform(getPosition(), 0));
+    }
+
+    private boolean hasRoadLeadingTo(PathfindingNode node) {
+        return roads.stream().anyMatch(r -> r.isLinckedWith(node));
+    }
+
+    void createRoadTo(PathfindingNode node) {
+        if(!hasRoadLeadingTo(node)) {
+            var road = new PathfindingRoad(node, this);
+            roads.add(road);
+            node.roads.add(road);
+        }
     }
 }

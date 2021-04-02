@@ -64,6 +64,15 @@ public class AvoidObstacles implements IPathfinder {
         if(TempoRender.SeaDrawer != null)
             TempoRender.SeaDrawer.drawLine(context.getBoat().getPosition().getPoint(), nextPos, Color.MAGENTA);
 
+        if(TempoRender.SeaDrawer != null) {
+            TempoRender.SeaDrawer.drawPin(nextPos, Color.ORANGE);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         return new CheckPoint(new Transform(nextPos, 0), new Circle(50));
     }
 

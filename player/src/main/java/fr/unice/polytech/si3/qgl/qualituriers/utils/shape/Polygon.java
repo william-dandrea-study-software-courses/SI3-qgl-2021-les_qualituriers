@@ -73,8 +73,13 @@ public class Polygon extends PolygonAbstract {
         // création d'un arrondi
         for(int i = 0; i < enlargedArrete.size(); i++) {
             var seg1 = enlargedArrete.get(i);
+            var seg2 = enlargedArrete.get((i + 1) % enlargedArrete.size());
+
+            var middleCornerPoint = seg2.getStart().substract(seg1.getEnd()).scalar(0.5);
             finalVertices.add(seg1.getStart());
             finalVertices.add(seg1.getEnd());
+            //finalVertices.add(vertices[(i + 1) % vertices.length].add(middleCornerPoint.rotate(-Math.PI / 4).normalized().scalar(length)));
+
         }
 
 

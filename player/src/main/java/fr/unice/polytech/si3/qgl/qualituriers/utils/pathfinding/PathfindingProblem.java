@@ -29,135 +29,89 @@ public class PathfindingProblem {
 
 
     PathfindingProblem(PathfindingNode startPosition, PathfindingNode goal) {
-        this.nodes.add(startPosition);
-        this.nodes.add(goal);
         this.startPosition = startPosition;
         this.goal = goal;
     }
 
     void addPolygon(PositionablePolygon polygon) {
         polygons.add(polygon);
-        var enlarged = polygon.enlargeOf(Config.BOAT_MARGIN * 4);
+        var enlarged = polygon.enlargeOf(Config.BOAT_MARGIN * 2);
         enlargedPolygons.add(enlarged);
 
         if(TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawPolygon(enlarged, Color.magenta);
     }
 
-    private void checkAllRoad() {
-        nodes.forEach(n -> n.checkRoads(enlargedPolygons));
+    private boolean canNavigateOn(PathfindingNode start, PathfindingNode end) {
+        return !Collisions.raycastPolygon(new Segment(start.getPosition(), end.getPosition()), Config.BOAT_MARGIN * 2, polygons.stream());
+    }
+
+    private PathfindingNode getNearestOutsideLimitNode(PathfindingNode node) {
+        node = new PathfindingNode(node.getPosition(), null);
+        var poly = Collisions.getCollidingPolygon(node.toPositionableCircle(), enlargedPolygons.stream());
+        while(poly != null) {
+            Point pt = node.getPosition();
+            var dir = pt.substract(poly.getTransform().getPoint());
+            var dist = dir.length();
+            dir = dir.normalized();
+
+            for(double d = dist; Collisions.isColliding(node.toPositionableCircle(), poly); d += 50)
+                node.setPosition(poly.getTransform().getPoint().add(dir.scalar(d)));
+
+            poly = Collisions.getCollidingPolygon(node.toPositionableCircle(), enlargedPolygons.stream());
+        }
+        return node;
     }
 
     private void generateNodes() {
-        for(var polygon : this.enlargedPolygons) {
-            List<PathfindingNode> nodesPolygon = PathfindingNode.createFrom(polygon);
-
-            /*for (var nNode : nodesPolygon) {
-                for (var oNode : nodes) {
-                    if(!Collisions.raycastPolygon(new Segment(nNode.getPosition(), oNode.getPosition()), Config.BOAT_MARGIN, polygons.stream())) {
-                        nNode.addReachableNode(oNode);
-                        oNode.addReachableNode(nNode);
-                    }
-                }
-            }*/
-
-            this.nodes.addAll(nodesPolygon);
+        for(var poly : enlargedPolygons) {
+            nodes.addAll(PathfindingNode.createFrom(poly));
         }
     }
 
     private void generateRoads() {
         for(var n1 : nodes) {
             for(var n2 : nodes) {
-                if(n1.getOwner() == n2.getOwner()) continue;
-                if(roadInTrouble(n1, n2)) continue;
-                n1.addReachableNode(n2);
-                n2.addReachableNode(n1);
+                if(n1 != n2)
+                    PathfindingRoad.createIfPraticable(n1, n2, Config.BOAT_MARGIN * 2, polygons.stream());
             }
         }
     }
 
-    private void moveAtTheNearestSafePoint(PathfindingNode node, double margin) {
-        Point pt = node.getPosition();
-        PositionablePolygon poly = Collisions.getCollidingPolygon(new PositionableCircle(new Circle(150), new Transform(pt, 0)), enlargedPolygons.stream());
-        while(poly != null) {
-            var dir = pt.substract(poly.getTransform().getPoint());
-            var dist = dir.length();
-            dir = dir.normalized();
-            pt = poly.getTransform().getPoint().add(dir.scalar(dist + 50));
-            poly = Collisions.getCollidingPolygon(new PositionableCircle(new Circle(150), new Transform(pt, 0)), enlargedPolygons.stream());
-        }
-        node.setPosition(pt);
-    }
-
     PathfindingResult solve() {
-
-        if(!Collisions.raycastPolygon(new Segment(startPosition.getPosition(), goal.getPosition()), Config.BOAT_MARGIN * 2, enlargedPolygons.stream())) {
-
-            var tempPathResult = new PathfindingResult();
-            tempPathResult.addNode(startPosition);
-            tempPathResult.addNode(goal);
-            return tempPathResult;
-        }
-
-        PathfindingNode safeGoal = new PathfindingNode(goal.getPosition(), null);
-        moveAtTheNearestSafePoint(safeGoal, 0);
-        PathfindingNode firstSafePt = new PathfindingNode(startPosition.getPosition(), null);
-        moveAtTheNearestSafePoint(firstSafePt, 0);
-
-        nodes.add(safeGoal);
-        nodes.add(firstSafePt);
+        nodes.add(startPosition);
+        nodes.add(goal);
 
         generateNodes();
         generateRoads();
 
-        var tempPathResult = new PathfindingResult();
-        tempPathResult.addNode(startPosition);
-        tempPathResult.addNode(firstSafePt);
+        //PathfindingRoad.draw();
 
-        var result = privateSolveRecusive(firstSafePt, tempPathResult, safeGoal);
-        if(result == null) throw new RuntimeException("No path found");
+        var path = searchPath(startPosition, goal, new PathfindingResult() {{ addNode(startPosition); }});
+        if(path == null) throw new RuntimeException("No path founded !");
 
-        result.addNode(goal);
-
-        return result;
+        return path;
     }
 
-    private boolean roadInTrouble(PathfindingNode start, PathfindingNode end) {
-        return Collisions.raycastPolygon(new Segment(start.getPosition(), end.getPosition()), 1 * Config.BOAT_MARGIN, polygons.stream().filter(d -> d != start.getOwner() && d != end.getOwner()));
-    }
+    private PathfindingResult searchPath(PathfindingNode from, PathfindingNode to, PathfindingResult currentPath) {
+        List<PathfindingNode> connectedNodes = new ArrayList<>();
+        from.getRoads().stream()
+                .map(r -> r.getArriving(from))
+                .filter(n -> !currentPath.contains(n))
+                .sorted(Comparator.comparingDouble(r -> r.calculateHeuristic(to)))
+                .forEach(connectedNodes::add);
 
-    private PathfindingResult privateSolveRecusive(PathfindingNode from, PathfindingResult currentPath, PathfindingNode goal) {
-        var nextPositions = from.getReachableNodes();
-        nextPositions.sort(Comparator.comparingDouble(pn -> pn.calculateHeuristic(goal)));
+        for(var n : connectedNodes) {
+            if(currentPath.contains(n))
+                continue;
 
-        List<PathfindingNode> nextNodes = new ArrayList<>();
-        nextPositions.stream()
-            //.filter(n -> !currentPath.contains(n))
-            .forEach(nextNodes::add);
+            var evaluationPath = currentPath.copy();
+            evaluationPath.addNode(n);
 
+            if(n.equals(to))
+                return evaluationPath;
 
-        if(TempoRender.SeaDrawer != null && false) {
-            for(int i = 0; i < nextPositions.size(); i++) {
-                TempoRender.SeaDrawer.drawLine(from.getPosition(), nextPositions.get(i).getPosition(), Color.MAGENTA);
-            }
-        }
-
-
-        for(var nextPos : nextNodes) {
-            if(roadInTrouble(from, nextPos)) continue;
-            // On verifie que l'on ne revient pas sur ses pas
-            //if(currentPath.contains(nextPos)) break; // classé par heuristic donc on peut breaker si on reviens en arriere
-
-            // create a sandbox
-            var processingPath = currentPath.copy();
-            processingPath.addNode(nextPos);
-
-            // Exit if i reached the end
-            if(nextPos.getPosition().equals(goal.getPosition())) return processingPath;
-
-            // Exit if i found a path who lead to end
-            var r = privateSolveRecusive(nextPos, processingPath, goal);
-            if(r != null)
-                return r;
+            evaluationPath = searchPath(n, to, evaluationPath);
+            if(evaluationPath != null) return evaluationPath;
         }
 
         return null;
