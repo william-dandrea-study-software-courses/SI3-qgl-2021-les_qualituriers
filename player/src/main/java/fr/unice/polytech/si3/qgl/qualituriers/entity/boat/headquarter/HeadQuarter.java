@@ -51,6 +51,8 @@ public class HeadQuarter {
 
     public List<Action> playTurn() {
 
+        System.out.println("======> " + boat.getPosition().getAngleToSee(goal));
+
         // Nous allons d'abord dispatcher les marins au bon endroit
         List<Action> finalListOfActions = new ArrayList<>(dispatchAllTheSailors(boat, sailors));
 
@@ -75,7 +77,11 @@ public class HeadQuarter {
 
         int babordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat).size();
         int tribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat).size();
-        System.out.println(babordSailors + " : " + tribordSailors);
+
+        int oarsActionBabord = (int) finalListOfActions.stream().filter(action -> HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat).stream().map(Marin::getId).collect(Collectors.toList()).contains(action.getSailorId())).count();
+        int oarsActionTribord = (int) finalListOfActions.stream().filter(action -> HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat).stream().map(Marin::getId).collect(Collectors.toList()).contains(action.getSailorId())).count();
+
+
         return finalListOfActions;
     }
 
@@ -107,8 +113,11 @@ public class HeadQuarter {
             Marin closestSailor = HeadquarterUtil.searchTheClosestSailorToAPoint(methodSailors, rudderOptional.get().getPosition(), new ArrayList<>());
             finalsActions.addAll(initRudderSailorPlace(methodBoat, closestSailor));
             sailorsWeUsed.add(closestSailor.getId());
-
         }
+
+        // On regarde si nous avons un marin sur le gouvernail
+        Optional<Marin> marinOnRudder = HeadquarterUtil.getSailorOnRudder(methodBoat, methodSailors);
+        marinOnRudder.ifPresent(marin -> sailorsWeUsed.add(marin.getId()));
 
         // Nous ajoutons maintenant les sailors sur les oars
         List<Marin> sailorsForOar = sailors.stream().filter(marin -> !sailorsWeUsed.contains(marin.getId())).collect(Collectors.toList());

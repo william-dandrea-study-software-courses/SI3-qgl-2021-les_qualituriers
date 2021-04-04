@@ -113,10 +113,10 @@ public class Main {
             Transform oldPosition = race.getBoat().getPosition();
             Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
 
-            collisions(race);
+            //collisions(race);
 
 
-            collisions(race);
+
             renderer.draw();
             //deckRenderer.draw();
 

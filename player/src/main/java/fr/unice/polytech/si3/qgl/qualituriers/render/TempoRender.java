@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IDrawer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
@@ -51,6 +52,8 @@ public class TempoRender extends Render {
         // Mise à jour du gameInfo
         gameInfo.getShip().setPosition(round.getShip().getPosition());
         gameInfo.getShip().setEntities(round.getShip().getEntities());
+
+
 
         gameInfo.setSeaEntities(round.getVisibleEntities());
 
@@ -115,6 +118,7 @@ public class TempoRender extends Render {
         System.out.println("| " + "Chechpoint : " + intermediareCheckpoint.getPosition().getPoint());
         System.out.println("| " + actions);
         System.out.println("======================================================================================================");
+
 
         return actions;
     }
