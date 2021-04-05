@@ -48,6 +48,7 @@ public class Polygon extends PolygonAbstract {
     public PolygonAbstract enlargeOf(double length) {
         var vertices = getVertices();
 
+        // Getting edges of the polygon
         var arretes = getSegments();
         List<Segment> enlargedArrete = new ArrayList<>();
 
@@ -55,7 +56,7 @@ public class Polygon extends PolygonAbstract {
             throw new RuntimeException("Error");
         }
 
-        // On ecarte les arrètes
+        // move the edges outside
         for(var arr : arretes) {
             var dir = arr.getEnd().substract(arr.getStart());
             var directionDecalage = dir.rotate(Math.PI / 2);
@@ -70,22 +71,18 @@ public class Polygon extends PolygonAbstract {
 
         List<Point> finalVertices = new ArrayList<>();
 
-        // création d'un arrondi
+        // Getting a point between the inter-edge and put it at the right distance of the corner
         for(int i = 0; i < enlargedArrete.size(); i++) {
             var seg1 = enlargedArrete.get(i);
             var seg2 = enlargedArrete.get((i + 1) % enlargedArrete.size());
 
-            var middleCornerPoint = seg2.getStart().substract(seg1.getEnd()).scalar(0.5);
             finalVertices.add(seg1.getStart());
             finalVertices.add(seg1.getEnd());
 
             var dir = seg2.getStart().substract(seg1.getEnd());
-            //var middleVertice = seg1.getEnd().add(dir.scalar(0.5)).add(dir.normalized().rotate(-Math.PI / 2).scalar(length));
             var middleVertice = vertices[(i + 1) % vertices.length].add(dir.normalized().rotate(-Math.PI / 2).scalar(length));
 
             finalVertices.add(middleVertice);
-            //finalVertices.add(vertices[(i + 1) % vertices.length].add(middleCornerPoint.rotate(-Math.PI / 4).normalized().scalar(length)));
-
         }
 
 

@@ -35,32 +35,40 @@ public class AvoidObstacles implements IPathfinder {
         var store = context.getStore();
         var boatPosition = context.getBoat().getPosition();
 
-        // Enlarge obstacles
+        // Keep the obstacle in memory over the turns to take it in account in the processing of the path
         List<PositionablePolygon> obstacles = new ArrayList<>();
         context.getObstacles().stream().map(PositionableShape::getCircumscribedPolygon).forEach(obstacles::add);
         store.addObstaclesTo(obstacles);
         obstacles.forEach(store::addObstacle);
 
-
+        // Check if we can go directly to the goal
         if(!Collisions.raycastPolygon(new Segment(boatPosition, context.getToReach().getPosition()), Config.BOAT_MARGIN * 4, obstacles.stream()))
             return context.getToReach();
 
+        // If the path is null (start of the game)
         if(store.getCalculatedPath() == null)
             FindANewPath(context, obstacles);
 
+        // if a new obstacle is encountered during the travel and it block the road
+        else if(!store.getCalculatedPath().pathIsCorrect(store.getCurrentNodeToReach(), obstacles))
+            FindANewPath(context, obstacles);
+
+        // If the checkpoint has changed on the turn
         else if(!context.getToReach().getPosition().getPoint().equals(store.getCalculatedPath().getLast().getPosition()))
             FindANewPath(context, obstacles);
 
+        // If we reached the final waypoint
         else if(Collisions.isColliding(
                 context.getBoat().getPositionableShape(),
                 store.getCalculatedPath().getLast().toPositionableCircle())) {
             FindANewPath(context, obstacles);
-        } else if(Collisions.isColliding(context.getBoat().getPositionableShape(), store.getCalculatedPath().get(store.getCurrentNodeToReach()).toPositionableCircle())) {
+        }
+        // If we reached an intermediare checkpoint
+        else if(Collisions.isColliding(context.getBoat().getPositionableShape(), store.getCalculatedPath().get(store.getCurrentNodeToReach()).toPositionableCircle())) {
             store.setCurrentNodeToReach(store.getCurrentNodeToReach() + 1);
-        } else {
-            int i = 0;
         }
 
+        // Getting the next checkpoint from the processed path
         var nextPos = store.getCalculatedPath().get(store.getCurrentNodeToReach()).getPosition();
 
         SeaDrawer.drawLine(context.getBoat().getPosition().getPoint(), nextPos, Color.MAGENTA);
@@ -84,6 +92,7 @@ public class AvoidObstacles implements IPathfinder {
         PathfindingResult result = pb.solve();
         if(result == null) throw new RuntimeException("No path founded !");
 
+        // store the path inside the store
         context.getStore().setCalculatedPath(result);
         context.getStore().setCurrentNodeToReach(1);
         result.draw();
