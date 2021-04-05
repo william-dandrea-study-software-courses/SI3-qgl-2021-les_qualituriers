@@ -109,20 +109,26 @@ public class PathfindingProblem {
                 .sorted(Comparator.comparingDouble(r -> r.calculateHeuristic(to)))
                 .forEach(connectedNodes::add);
 
+        PathfindingResult bestPath = null;
         for(var n : connectedNodes) {
+
             if(currentPath.contains(n))
                 continue;
 
             var evaluationPath = currentPath.copy();
             evaluationPath.addNode(n);
+            if(evaluationPath.length() > currentMinimalValidPath) break;
 
-            if(n.equals(to))
-                return evaluationPath;
+            if(n.equals(to)) {
+                currentMinimalValidPath = evaluationPath.length();
+                bestPath = evaluationPath;
+                continue;
+            }
 
             evaluationPath = searchPath(n, to, evaluationPath);
-            if(evaluationPath != null) return evaluationPath;
+            if(evaluationPath != null) bestPath = evaluationPath;
         }
 
-        return null;
+        return bestPath;
     }
 }
