@@ -5,6 +5,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.SeaDrawer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
@@ -41,7 +42,7 @@ public class AvoidObstacles implements IPathfinder {
         obstacles.forEach(store::addObstacle);
 
 
-        if(!Collisions.raycastPolygon(new Segment(boatPosition, context.getToReach().getPosition()), Config.BOAT_MARGIN * 2, obstacles.stream()))
+        if(!Collisions.raycastPolygon(new Segment(boatPosition, context.getToReach().getPosition()), Config.BOAT_MARGIN * 4, obstacles.stream()))
             return context.getToReach();
 
         if(store.getCalculatedPath() == null)
@@ -61,17 +62,10 @@ public class AvoidObstacles implements IPathfinder {
         }
 
         var nextPos = store.getCalculatedPath().get(store.getCurrentNodeToReach()).getPosition();
-        if(TempoRender.SeaDrawer != null)
-            TempoRender.SeaDrawer.drawLine(context.getBoat().getPosition().getPoint(), nextPos, Color.MAGENTA);
 
-        if(TempoRender.SeaDrawer != null) {
-            TempoRender.SeaDrawer.drawPin(nextPos, Color.ORANGE);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        SeaDrawer.drawLine(context.getBoat().getPosition().getPoint(), nextPos, Color.MAGENTA);
+        SeaDrawer.drawPin(nextPos, Color.ORANGE);
+        //SeaDrawer.waitIfDebugMode(2000);
 
         return new CheckPoint(new Transform(nextPos, 0), new Circle(50));
     }

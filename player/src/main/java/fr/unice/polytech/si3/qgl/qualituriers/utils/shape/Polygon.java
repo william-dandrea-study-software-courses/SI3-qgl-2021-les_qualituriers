@@ -78,6 +78,12 @@ public class Polygon extends PolygonAbstract {
             var middleCornerPoint = seg2.getStart().substract(seg1.getEnd()).scalar(0.5);
             finalVertices.add(seg1.getStart());
             finalVertices.add(seg1.getEnd());
+
+            var dir = seg2.getStart().substract(seg1.getEnd());
+            //var middleVertice = seg1.getEnd().add(dir.scalar(0.5)).add(dir.normalized().rotate(-Math.PI / 2).scalar(length));
+            var middleVertice = vertices[(i + 1) % vertices.length].add(dir.normalized().rotate(-Math.PI / 2).scalar(length));
+
+            finalVertices.add(middleVertice);
             //finalVertices.add(vertices[(i + 1) % vertices.length].add(middleCornerPoint.rotate(-Math.PI / 4).normalized().scalar(length)));
 
         }

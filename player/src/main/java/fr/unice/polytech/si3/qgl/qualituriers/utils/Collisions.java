@@ -128,20 +128,15 @@ public class Collisions {
 
         if(draw && TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawPolygon(poly, Color.RED);
 
-        return isColliding(poly, shape);
+        return isColliding(poly, shape)
+                && isColliding(new PositionableCircle(new Circle(width / 2), new Transform(segment.getStart(), 0)), shape)
+                && isColliding(new PositionableCircle(new Circle(width / 2), new Transform(segment.getEnd(), 0)), shape);
 
     }
 
     public static boolean raycastPolygon(Segment segment, double width, Stream<PositionablePolygon> shape) {
         return shape.anyMatch(s -> {
             boolean res = raycast(segment, width, s);
-            return res;
-        });
-    }
-
-    public static boolean raycastPolygon(Segment segment, double width, Stream<PositionablePolygon> shape, boolean draw) {
-        return shape.anyMatch(s -> {
-            boolean res = raycast(segment, width, s, draw);
             return res;
         });
     }

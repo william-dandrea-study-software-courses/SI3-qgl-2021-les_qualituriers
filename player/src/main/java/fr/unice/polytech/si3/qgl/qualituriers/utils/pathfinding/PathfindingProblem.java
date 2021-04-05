@@ -6,6 +6,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.SeaDrawer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -35,10 +36,10 @@ public class PathfindingProblem {
 
     void addPolygon(PositionablePolygon polygon) {
         polygons.add(polygon);
-        var enlarged = polygon.enlargeOf(Config.BOAT_MARGIN * 2);
+        var enlarged = polygon.enlargeOf(Config.BOAT_MARGIN * 4);
         enlargedPolygons.add(enlarged);
 
-        if(TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawPolygon(enlarged, Color.magenta);
+        SeaDrawer.drawPolygon(enlarged, Color.magenta);
     }
 
     private boolean canNavigateOn(PathfindingNode start, PathfindingNode end) {
@@ -72,22 +73,30 @@ public class PathfindingProblem {
         for(var n1 : nodes) {
             for(var n2 : nodes) {
                 if(n1 != n2)
-                    PathfindingRoad.createIfPraticable(n1, n2, Config.BOAT_MARGIN * 2, polygons.stream());
+                    PathfindingRoad.createIfPraticable(n1, n2, Config.BOAT_MARGIN * 3, polygons.stream());
             }
         }
     }
 
     PathfindingResult solve() {
-        nodes.add(startPosition);
-        nodes.add(goal);
+
+        var pseudoStart = getNearestOutsideLimitNode(startPosition);
+        var pseudoGoal = getNearestOutsideLimitNode(goal);
 
         generateNodes();
-        generateRoads();
 
+        nodes.add(pseudoGoal);
+        nodes.add(pseudoStart);
+
+        generateRoads();
         //PathfindingRoad.draw();
 
-        var path = searchPath(startPosition, goal, new PathfindingResult() {{ addNode(startPosition); }});
+        SeaDrawer.drawPin(pseudoGoal.getPosition(), Color.YELLOW);
+        SeaDrawer.drawPin(pseudoStart.getPosition(), Color.YELLOW);
+
+        var path = searchPath(pseudoStart, pseudoGoal, new PathfindingResult() {{ addNode(startPosition); addNode(pseudoStart); }});
         if(path == null) throw new RuntimeException("No path founded !");
+        path.addNode(goal);
 
         return path;
     }

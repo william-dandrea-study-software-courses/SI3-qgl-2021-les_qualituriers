@@ -77,7 +77,7 @@ public class TempoRender extends Render {
                     .map(VisibleDeckEntity::getPositionableShape)
                     .forEach(obstacles::add);
 
-            boolean raycast = Collisions.raycastPolygon(new Segment(checkpoints[1].getPosition().getPoint(), checkpoints[2].getPosition().getPoint()), Config.BOAT_MARGIN * 2, obstacles.stream().map(PositionableShape::getCircumscribedPolygon), true);
+            //boolean raycast = Collisions.raycastPolygon(new Segment(checkpoints[1].getPosition().getPoint(), checkpoints[2].getPosition().getPoint()), Config.BOAT_MARGIN * 2, obstacles.stream().map(PositionableShape::getCircumscribedPolygon), true);
 
 
             intermediareCheckpoint = pathfinding.getNextCheckpoint(new PathfindingContext(
