@@ -61,11 +61,14 @@ public class PathfindingRoad {
                 TempoRender.SeaDrawer.drawLine(r.from.getPosition(), r.to.getPosition(), Color.MAGENTA);
             }
 
+            /*
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+             */
         }
     }
 }

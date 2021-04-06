@@ -51,6 +51,7 @@ public class AvoidObstaclesTest {
         TestRace("race2");
     }
 
+    @Disabled
     @Test
     void RunRace8() {
         TestRace("race3");

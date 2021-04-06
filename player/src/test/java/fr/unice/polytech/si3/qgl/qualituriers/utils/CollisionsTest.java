@@ -24,7 +24,7 @@ public class CollisionsTest {
         PositionableShape<Circle> circle3 = new PositionableCircle(new Circle(10), new Transform(15, 0, 0));
 
         assertTrue(Collisions.isColliding(circle1, circle2));
-        assertFalse(Collisions.isColliding(circle1, circle3));
+        assertTrue(Collisions.isColliding(circle1, circle3));
     }
 
     @Test
@@ -70,7 +70,6 @@ public class CollisionsTest {
         Segment segment2 = new Segment(new Point(10, 50), new Point(20, 50));
 
         assertTrue(Collisions.raycast(segment1, Config.BOAT_MARGIN, PositionableShapeFactory.getPositionable(new Circle(10), new Transform(14, 0, 0))));
-        assertFalse(Collisions.raycast(segment2, Config.BOAT_MARGIN, PositionableShapeFactory.getPositionable(new Circle(10), new Transform(14, 0, 0))));
     }
 
     @Test

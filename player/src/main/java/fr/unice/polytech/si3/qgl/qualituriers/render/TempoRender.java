@@ -119,6 +119,7 @@ public class TempoRender extends Render {
         System.out.println("| " + actions);
         System.out.println("======================================================================================================");
 
+        System.out.println(Collisions.isColliding(intermediareCheckpoint.getPositionableShape(), this.gameInfo.getShip().getPositionableShape()));
 
         return actions;
     }

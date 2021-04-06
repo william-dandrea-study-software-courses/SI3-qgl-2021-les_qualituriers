@@ -138,12 +138,15 @@ public class PathfindingProblem {
             if(n.equals(to)) {
                 currentMinimalValidPath = evaluationPath.length();
                 bestPath = evaluationPath;
-                continue;
+                break;
             }
 
             // if it doesn't, check for a path with a length increased
             evaluationPath = searchPath(n, to, evaluationPath);
-            if(evaluationPath != null) bestPath = evaluationPath;
+            if(evaluationPath != null) {
+                bestPath = evaluationPath;
+                break;
+            }
         }
 
         return bestPath;

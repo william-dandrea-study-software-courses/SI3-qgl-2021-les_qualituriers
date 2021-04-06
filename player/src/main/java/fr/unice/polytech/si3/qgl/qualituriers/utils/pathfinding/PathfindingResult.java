@@ -63,17 +63,20 @@ public class PathfindingResult {
             var nodeA = nodes.get(i);
             var nodeB = nodes.get(i + 1);
 
-            if(Collisions.raycastPolygon(new Segment(nodeA.getPosition(), nodeB.getPosition()), 2 * Config.BOAT_MARGIN, obstacles.stream()))
+            if(Collisions.raycastPolygon(new Segment(nodeA.getPosition(), nodeB.getPosition()), 4 * Config.BOAT_MARGIN, obstacles.stream()))
                 return false;
 
 
         }
         if(TempoRender.SeaDrawer != null) {
+            /*
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+             */
         }
         return true;
     }
@@ -85,10 +88,12 @@ public class PathfindingResult {
             TempoRender.SeaDrawer.drawLine(nodes.get(i).getPosition(), nodes.get(i + 1).getPosition(), Color.RED);
         }
 
+        /**
         try {
-            Thread.sleep(3000);
+            //Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+         */
     }
 }
