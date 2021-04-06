@@ -9,7 +9,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarte
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LiftSail;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LowerSail;
@@ -21,12 +20,12 @@ import java.util.stream.Collectors;
 
 public class WindStrategy {
 
-    private Boat boat;
-    private List<Marin> sailors;
-    private GameInfo gameInfo;
-    private Optional<Marin> sailorForRudder;
-    private BoatEntity sail;
-    private List<Integer> idSailorsWeUsesMoving;
+    private final Boat boat;
+    private final List<Marin> sailors;
+    private final GameInfo gameInfo;
+    private final Optional<Marin> sailorForRudder;
+    private final BoatEntity sail;
+    private final List<Integer> idSailorsWeUsesMoving;
 
     public WindStrategy(Boat boat,  List<Marin> sailors, GameInfo gameInfo, Optional<Marin> sailorForRudder, BoatEntity sail, List<Integer> idSailorsWeUsesMoving) {
         this.boat = boat;
@@ -79,18 +78,22 @@ public class WindStrategy {
     }
 
     private void openOrCloseTheSail(List<Action> finalListOfActions, double speedWind, SailBoatEntity realSail, Optional<Marin> sailorOnSail) {
-        if (speedWind > 0 && !realSail.isOpened()) {
-            // Si c'est judicieux d'avoir la voile ouverte
-            finalListOfActions.add(new LiftSail(sailorOnSail.get().getId()));
-            realSail.setOpened(true);
-        } else {
 
-            if (realSail.isOpened() && speedWind <= 0) {
-                // Si ce n'est pas judicieux d'avoir la voile ouverte
-                finalListOfActions.add(new LowerSail(sailorOnSail.get().getId()));
-                realSail.setOpened(false);
+        if (sailorOnSail.isPresent()) {
+            if (speedWind > 0 && !realSail.isOpened()) {
+                // Si c'est judicieux d'avoir la voile ouverte
+                finalListOfActions.add(new LiftSail(sailorOnSail.get().getId()));
+                realSail.setOpened(true);
+            } else {
+
+                if (realSail.isOpened() && speedWind <= 0) {
+                    // Si ce n'est pas judicieux d'avoir la voile ouverte
+                    finalListOfActions.add(new LowerSail(sailorOnSail.get().getId()));
+                    realSail.setOpened(false);
+                }
             }
         }
+
     }
 
     public List<Integer> getIdSailorsWeUsesMoving() {

@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.render;
 
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.ReefVisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
@@ -7,7 +8,9 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IDrawer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.*;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
@@ -20,6 +23,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TempoRender extends Render {
+
+    public static boolean ON_ENGINE = false;
+    public static IDrawer SeaDrawer;
 
     private CheckPoint currentCheckPoint;
     private int checkPointCounter = 0;
@@ -47,6 +53,8 @@ public class TempoRender extends Render {
         gameInfo.getShip().setPosition(round.getShip().getPosition());
         gameInfo.getShip().setEntities(round.getShip().getEntities());
 
+
+
         gameInfo.setSeaEntities(round.getVisibleEntities());
 
         gameInfo.getShip().setSailors(Arrays.asList(gameInfo.getSailors()));
@@ -65,9 +73,11 @@ public class TempoRender extends Render {
         List<PositionableShape<? extends Shape>> obstacles = new ArrayList<>();
         if (gameInfo.getSeaEntities() != null) {
             Arrays.stream(gameInfo.getSeaEntities())
-                    .filter(p -> p instanceof ReefVisibleDeckEntity)
+                    .filter(vde -> vde instanceof ReefVisibleDeckEntity)
                     .map(VisibleDeckEntity::getPositionableShape)
                     .forEach(obstacles::add);
+
+            //boolean raycast = Collisions.raycastPolygon(new Segment(checkpoints[1].getPosition().getPoint(), checkpoints[2].getPosition().getPoint()), Config.BOAT_MARGIN * 2, obstacles.stream().map(PositionableShape::getCircumscribedPolygon), true);
 
 
             intermediareCheckpoint = pathfinding.getNextCheckpoint(new PathfindingContext(
@@ -80,6 +90,8 @@ public class TempoRender extends Render {
 
                 int i = 0;
             }
+        } else {
+            intermediareCheckpoint = currentCheckpoint;
         }
         /*var old = intermediareCheckpoint;
         intermediareCheckpoint = currentCheckpoint;
@@ -91,6 +103,8 @@ public class TempoRender extends Render {
         ));*/
         // Calcul des action a effectuer pour atteindre l'étape
 
+
+        assert intermediareCheckpoint != null;
         List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(intermediareCheckpoint.getPosition(), this.gameInfo);
 
         double distanceRestanteX = intermediareCheckpoint.getPosition().getX() - gameInfo.getShip().getPosition().getX();
@@ -104,6 +118,8 @@ public class TempoRender extends Render {
         System.out.println("| " + "Chechpoint : " + intermediareCheckpoint.getPosition().getPoint());
         System.out.println("| " + actions);
         System.out.println("======================================================================================================");
+
+        System.out.println(Collisions.isColliding(intermediareCheckpoint.getPositionableShape(), this.gameInfo.getShip().getPositionableShape()));
 
         return actions;
     }

@@ -1,7 +1,9 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import java.util.ArrayList;
@@ -42,15 +44,48 @@ public class Polygon extends PolygonAbstract {
     }
 
     @Override
-    public PolygonAbstract enlargeOf(int length) {
+    @JsonIgnore
+    public PolygonAbstract enlargeOf(double length) {
         var vertices = getVertices();
-        var center = Arrays.stream(vertices).reduce(Point.ZERO, Point::add).scalar(1 / (double)vertices.length);
 
-        List<Point> newVertices = new ArrayList<>();
-        Arrays.stream(vertices).map(v -> v.substract(center)).map(v -> {
-            var currentLength = v.length();
-            return v.scalar((currentLength + length) / currentLength);
-        }).forEach(newVertices::add);
-        return new Polygon(getOrientation(), newVertices.toArray(new Point[0]));
+        // Getting edges of the polygon
+        var arretes = getSegments();
+        List<Segment> enlargedArrete = new ArrayList<>();
+
+        if(vertices.length == 2) {
+            throw new RuntimeException("Error");
+        }
+
+        // move the edges outside
+        for(var arr : arretes) {
+            var dir = arr.getEnd().substract(arr.getStart());
+            var directionDecalage = dir.rotate(Math.PI / 2);
+            var sensDecalage = arr.getStart().projection(directionDecalage).normalized();
+
+            var newArrete = new Segment(
+                    arr.getStart().add(sensDecalage.scalar(length)),
+                    arr.getEnd().add(sensDecalage.scalar(length))
+            );
+            enlargedArrete.add(newArrete);
+        }
+
+        List<Point> finalVertices = new ArrayList<>();
+
+        // Getting a point between the inter-edge and put it at the right distance of the corner
+        for(int i = 0; i < enlargedArrete.size(); i++) {
+            var seg1 = enlargedArrete.get(i);
+            var seg2 = enlargedArrete.get((i + 1) % enlargedArrete.size());
+
+            finalVertices.add(seg1.getStart());
+            finalVertices.add(seg1.getEnd());
+
+            var dir = seg2.getStart().substract(seg1.getEnd());
+            var middleVertice = vertices[(i + 1) % vertices.length].add(dir.normalized().rotate(-Math.PI / 2).scalar(length));
+
+            finalVertices.add(middleVertice);
+        }
+
+
+        return new Polygon(getOrientation(), finalVertices.toArray(new Point[0]));
     }
 }

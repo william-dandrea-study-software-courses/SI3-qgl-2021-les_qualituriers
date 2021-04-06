@@ -49,15 +49,9 @@ public class PositionableCircle extends PositionableShape<Circle> {
     @Override
     public List<Point> axis(PositionableShape<? extends Shape> other) {
         List<Point> axis = new ArrayList<>();
-        Point nearest = other.getPoints()[0];
-        double distance = nearest.distanceWithoutSquare(this.points[0]);
         for (Point point : other.getPoints()) {
-            if(point.distanceWithoutSquare(this.points[0]) < distance) {
-                nearest = point;
-                distance = point.distanceWithoutSquare(this.points[0]);
-            }
+            axis.add(new Point(point.getX() - this.points[0].getX(), point.getY() - this.points[0].getY()).normalized());
         }
-        axis.add(new Point(nearest.getX() - this.points[0].getX(), nearest.getY() - this.points[0].getY()).normalized());
         return axis;
     }
 
@@ -79,7 +73,18 @@ public class PositionableCircle extends PositionableShape<Circle> {
 
     @Override
     public PositionablePolygon getCircumscribedPolygon() {
-        var reso = Config.CIRCLE_APPROXIMATION_RESOLUTION;
+        var reso = Config.CIRCLE_APPROXIMATION_RESOLUTION_PATHFINDING;
+        if(reso <= 2) throw new RuntimeException("The resolution can't less than 2 !");
+
+        var dTheta = 2 * Math.PI / (double)reso;
+        var radius = getShape().getRadius();
+
+        var circumscribedPolygonRadius = radius / Math.cos(dTheta / 2);
+        return new PositionablePolygon(Polygon.createRegular(reso, circumscribedPolygonRadius), getTransform());
+    }
+
+    @Override
+    public PositionablePolygon getCircumscribedPolygon(int reso) {
         if(reso <= 2) throw new RuntimeException("The resolution can't less than 2 !");
 
         var dTheta = 2 * Math.PI / (double)reso;

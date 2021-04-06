@@ -26,6 +26,7 @@ public class MainPathfinding {
      * @return Checkpoint de la prochaine étape
      */
     public CheckPoint getNextCheckpoint(PathfindingContext context) {
+
         for(var pathfinder : pathfinders) {
             var cp = pathfinder.getNextCheckpoint(context);
             context.setToReach(cp);

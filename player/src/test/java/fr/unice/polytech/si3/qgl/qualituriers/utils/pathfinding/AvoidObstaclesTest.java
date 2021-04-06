@@ -83,7 +83,7 @@ public class AvoidObstaclesTest {
     }
 
     MyCustomRace GetMap(String map) throws FileNotFoundException, JsonProcessingException {
-        File file = new File("./pseudomaps/" + map + ".json");
+        File file = new File("src/test/java/fr/unice/polytech/si3/qgl/qualituriers/utils/pathfinding/pseudomaps/" + map + ".json");
         Scanner scanner = new Scanner(file);
         String fileContent = "";
         while(scanner.hasNextLine())

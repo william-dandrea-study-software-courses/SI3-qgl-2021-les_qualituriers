@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
@@ -23,7 +24,7 @@ public class CollisionsTest {
         PositionableShape<Circle> circle3 = new PositionableCircle(new Circle(10), new Transform(15, 0, 0));
 
         assertTrue(Collisions.isColliding(circle1, circle2));
-        assertFalse(Collisions.isColliding(circle1, circle3));
+        assertTrue(Collisions.isColliding(circle1, circle3));
     }
 
     @Test
@@ -68,8 +69,7 @@ public class CollisionsTest {
         Segment segment1 = new Segment(new Point(10, 0), new Point(20, 0));
         Segment segment2 = new Segment(new Point(10, 50), new Point(20, 50));
 
-        assertTrue(Collisions.raycast(segment1, PositionableShapeFactory.getPositionable(new Circle(10), new Transform(14, 0, 0))));
-        assertFalse(Collisions.raycast(segment2, PositionableShapeFactory.getPositionable(new Circle(10), new Transform(14, 0, 0))));
+        assertTrue(Collisions.raycast(segment1, Config.BOAT_MARGIN, PositionableShapeFactory.getPositionable(new Circle(10), new Transform(14, 0, 0))));
     }
 
     @Test

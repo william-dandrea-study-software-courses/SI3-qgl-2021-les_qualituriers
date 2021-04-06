@@ -51,30 +51,21 @@ public class InitSailorsPlaceOnOars {
         List<BoatEntity> listOfTribordOarWithAnySailorsOnIt = HeadquarterUtil.getListOfTribordOarWithAnySailorsOnIt(sailors, boat);
 
 
-        int numberOfSailorsAtBabord = (sailors.size() / 2) - listOfSailorsOnBabordOars.size();
-        int numberOfSailorsAtTribord = sailors.size() - numberOfSailorsAtBabord - listOfSailorsOnTribordOars.size();
+        int numberOfSailorsAtBabord = (sailors.size() / 2) ;
+        int numberOfSailorsAtTribord = sailors.size() - numberOfSailorsAtBabord;
+
 
         List<Marin> listOfSailorsOnAnyOars = HeadquarterUtil.getListOfSailorsOnAnyOar(sailors, boat);
 
 
-        if (listOfSailorsOnBabordOars.size() >= numberOfSailorsAtBabord) {
-            int differenceBabord = numberOfSailorsAtBabord - listOfSailorsOnBabordOars.size();
-            for (int i = 0; i < differenceBabord; i++) {
-                var marinOp = listOfSailorsOnBabordOars.get(i);
-                if (marinOp != null) listOfSailorsOnAnyOars.add(marinOp);
-            }
-        }
-        if (listOfSailorsOnTribordOars.size() >= numberOfSailorsAtTribord) {
-            int differenceTribord = numberOfSailorsAtTribord- listOfSailorsOnTribordOars.size();
-            for (int i = 0; i < differenceTribord; i++) {
-                var marinOp = listOfSailorsOnTribordOars.get(i);
-                if (marinOp != null) listOfSailorsOnAnyOars.add(marinOp);
-            }
-        }
+        int missingBabordSailors = numberOfSailorsAtBabord - listOfSailorsOnBabordOars.size();
+        int missingTribordSailors = numberOfSailorsAtTribord - listOfSailorsOnTribordOars.size();
 
-        List<Action> finalListOfActions = new ArrayList<>(moveSailorsIn(numberOfSailorsAtBabord, listOfSailorsOnAnyOars, listOfBabordOarWithAnySailorsOnIt));
+
+
+        List<Action> finalListOfActions = new ArrayList<>(moveSailorsIn(missingBabordSailors, listOfSailorsOnAnyOars, listOfBabordOarWithAnySailorsOnIt));
         listOfSailorsOnAnyOars = HeadquarterUtil.getListOfSailorsOnAnyOar(sailors, boat);
-        finalListOfActions.addAll(moveSailorsIn(numberOfSailorsAtTribord, listOfSailorsOnAnyOars, listOfTribordOarWithAnySailorsOnIt));
+        finalListOfActions.addAll(moveSailorsIn(missingTribordSailors, listOfSailorsOnAnyOars, listOfTribordOarWithAnySailorsOnIt));
 
 
         return finalListOfActions;
@@ -95,10 +86,13 @@ public class InitSailorsPlaceOnOars {
 
          List<Action> finalListOfActions = new ArrayList<>();
 
+
          Map<Marin, Point> potentialPlaceWhereWeCanMoveAnSailor = generateCorrespondanceSailorWithPotentialEmplacement(listOfSailorsWeWantToMoveTo, listOfEmplacementWhereWeWantSailor);
 
+
+
          if (potentialPlaceWhereWeCanMoveAnSailor.size() >= numberOfSailors) {
-            finalListOfActions.addAll(affectMarinToBoatEntity(potentialPlaceWhereWeCanMoveAnSailor, numberOfSailors));
+             finalListOfActions.addAll(affectMarinToBoatEntity(potentialPlaceWhereWeCanMoveAnSailor, numberOfSailors));
 
          } else {
 

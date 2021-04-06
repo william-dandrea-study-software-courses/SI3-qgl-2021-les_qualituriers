@@ -16,8 +16,10 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.ReefVisibleDeckEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
@@ -70,6 +72,8 @@ public class Main {
     }
 
     static void RunRace(Race race) throws JsonProcessingException, InterruptedException {
+        TempoRender.ON_ENGINE = true;
+
 
         ObjectMapper om = new ObjectMapper();
         SimpleModule module = new SimpleModule();
@@ -77,7 +81,7 @@ public class Main {
         om.registerModule(module);
 
         // Init game
-        var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1, new Wind(0, 50), race.getEntities());
+        var gameInfo = new GameInfo(race.getGoal(), race.getBoat(), race.getSailors(), 1, new Wind(0, 50), new VisibleDeckEntity[0]);
 
 
         Cockpit cockpit = new Cockpit();
@@ -93,7 +97,7 @@ public class Main {
         int compteurMax = 500;
         do {
             Wind wind = generateWind();
-            RoundInfo rInfo = new RoundInfo(race.getBoat(), wind, race.getEntities());
+            RoundInfo rInfo = new RoundInfo(race.getBoat(), wind, race.getVisiblesEntities());
             var roundString = om.writeValueAsString(rInfo);
 
             var actionString = cockpit.nextRound(roundString);
@@ -110,25 +114,14 @@ public class Main {
             Transform oldPosition = race.getBoat().getPosition();
             Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
 
-            /*Transform[] positions = calculateMiddlePosition(oldPosition, race.getSpeed());
-            for (Transform position : positions) {
-                race.getBoat().setPosition(position);
-                collisions(race);
-            }
-
-            race.getBoat().setPosition(oldPosition.translate(race.getSpeed()));
-            race.resetSpeed();
-            //race.getBoat().setPosition(positions[positions.length - 1]);
-            renderer.getPath().addWaypoint(race.getBoat().getPosition().getPoint(), positions[positions.length / 2]);*/
-
             //collisions(race);
 
-            //deckRenderer.setSailor(race.getSailors());
-            //collisions(race);
+
+
             renderer.draw();
             //deckRenderer.draw();
 
-            TimeUnit.MILLISECONDS.sleep(50);
+            TimeUnit.MILLISECONDS.sleep(200);
             compteurMax--;
             //System.out.println(cockpit.getLogs());
             cockpit.getLogs().clear();
@@ -139,7 +132,7 @@ public class Main {
         while (true) {
             //deckRenderer.setSailor(race.getSailors());
             renderer.draw();
-            TimeUnit.MILLISECONDS.sleep(2);
+            TimeUnit.MILLISECONDS.sleep(2000);
         }
         //      Run game
         //      Execute action
@@ -235,5 +228,6 @@ public class Main {
 
     public static void main(String... args) throws IOException, InterruptedException {
         RunRace(loadRace("WEEK8_PREVIEW2"));
+        //RunRace(TestPathfinding.race);
     }
 }

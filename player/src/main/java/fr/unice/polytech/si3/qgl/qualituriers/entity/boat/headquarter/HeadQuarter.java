@@ -1,28 +1,24 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter;
 
 
-import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.SailBoatEntity;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.BoatPathFinding;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.exceptions.MovingSailorException;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LiftSail;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LowerSail;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarterConfig.USE_WIND;
 
 /**
  * Cette classe a pour objectif de controller tout ce qu'il se passe sur le bateau.
@@ -35,11 +31,13 @@ import java.util.stream.Collectors;
  */
 public class HeadQuarter {
 
+
     private final Boat boat;
     private final List<Marin> sailors;
     private final Transform goal;
     private final GameInfo gameInfo;
     private List<Integer> idSailorsWeUsesMoving;
+
 
     public HeadQuarter(Boat boat, List<Marin> sailors, Transform goal, GameInfo gameInfo) {
         this.boat = boat;
@@ -52,6 +50,8 @@ public class HeadQuarter {
     }
 
     public List<Action> playTurn() {
+
+        System.out.println("======> " + boat.getPosition().getAngleToSee(goal));
 
         // Nous allons d'abord dispatcher les marins au bon endroit
         List<Action> finalListOfActions = new ArrayList<>(dispatchAllTheSailors(boat, sailors));
@@ -69,14 +69,19 @@ public class HeadQuarter {
             actionOptional.ifPresent(finalListOfActions::add);
         }
 
-        // Maintenant on sélectionne un marin que nous allons déplacer sur la voile si cela est nécessaire
-        if (HeadquarterUtil.getSail(boat).isPresent()) {
-            finalListOfActions.addAll(setupWind(sailorOnRudderOp, HeadquarterUtil.getSail(boat).get() ));
+        if (USE_WIND) {
+            // Maintenant on sélectionne un marin que nous allons déplacer sur la voile si cela est nécessaire
+            Optional<BoatEntity> opSail = HeadquarterUtil.getSail(boat);
+            opSail.ifPresent(boatEntity -> finalListOfActions.addAll(setupWind(sailorOnRudderOp, boatEntity)));
         }
 
         int babordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat).size();
         int tribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat).size();
-        System.out.println(babordSailors + " : " + tribordSailors);
+
+        int oarsActionBabord = (int) finalListOfActions.stream().filter(action -> HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat).stream().map(Marin::getId).collect(Collectors.toList()).contains(action.getSailorId())).count();
+        int oarsActionTribord = (int) finalListOfActions.stream().filter(action -> HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat).stream().map(Marin::getId).collect(Collectors.toList()).contains(action.getSailorId())).count();
+
+
         return finalListOfActions;
     }
 
@@ -108,8 +113,11 @@ public class HeadQuarter {
             Marin closestSailor = HeadquarterUtil.searchTheClosestSailorToAPoint(methodSailors, rudderOptional.get().getPosition(), new ArrayList<>());
             finalsActions.addAll(initRudderSailorPlace(methodBoat, closestSailor));
             sailorsWeUsed.add(closestSailor.getId());
-
         }
+
+        // On regarde si nous avons un marin sur le gouvernail
+        Optional<Marin> marinOnRudder = HeadquarterUtil.getSailorOnRudder(methodBoat, methodSailors);
+        marinOnRudder.ifPresent(marin -> sailorsWeUsed.add(marin.getId()));
 
         // Nous ajoutons maintenant les sailors sur les oars
         List<Marin> sailorsForOar = sailors.stream().filter(marin -> !sailorsWeUsed.contains(marin.getId())).collect(Collectors.toList());

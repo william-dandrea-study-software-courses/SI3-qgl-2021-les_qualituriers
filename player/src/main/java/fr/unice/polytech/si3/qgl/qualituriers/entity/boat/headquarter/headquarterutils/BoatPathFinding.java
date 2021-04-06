@@ -64,7 +64,7 @@ public class BoatPathFinding {
 
 
         int destX = 0; int destY = 0;
-        double max = Config.MAX_MOVING_CASES_MARIN * Config.MAX_MOVING_CASES_MARIN;
+        double max = (double) Config.MAX_MOVING_CASES_MARIN * (double) Config.MAX_MOVING_CASES_MARIN;
 
         if ( differenceX >= 0 && differenceY >= 0 ) {
             // +X  +Y

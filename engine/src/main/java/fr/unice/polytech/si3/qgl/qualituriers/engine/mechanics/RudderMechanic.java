@@ -15,7 +15,7 @@ public class RudderMechanic extends Mechanic {
             if(action instanceof Turn) {
                 Turn turnAction = (Turn) action;
                 race.addSpeed(new Transform(0, 0, turnAction.getRotation()));
-                //race.getBoat().setPosition(race.getBoat().getPosition().rotate(turnAction.getRotation()));
+                race.getBoat().setPosition(race.getBoat().getPosition().rotate(turnAction.getRotation()));
             }
         }
     }
