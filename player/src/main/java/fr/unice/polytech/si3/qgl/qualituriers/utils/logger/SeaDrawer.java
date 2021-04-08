@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.logger;
 
 import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IShapeDraw;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
@@ -17,10 +18,10 @@ public class SeaDrawer {
         }
     }
 
-    public static void drawLine(Point start, Point end, Color color) {
+    public static IShapeDraw drawLine(Point start, Point end, Color color) {
         if(TempoRender.SeaDrawer != null) {
-            TempoRender.SeaDrawer.drawFuturLine(start, end, color);
-        }
+            return TempoRender.SeaDrawer.drawFuturLine(start, end, color);
+        } else return null;
     }
 
     public static void drawCircle(PositionableCircle circle, Color color) {
@@ -35,10 +36,11 @@ public class SeaDrawer {
         }
     }
 
-    public static void drawPin(Point position, Color color) {
+    public static IShapeDraw drawPin(Point position, Color color) {
         if(TempoRender.SeaDrawer != null) {
             TempoRender.SeaDrawer.drawFuturPin(position, color);
         }
+        return null;
     }
 
     public static void waitIfDebugMode(int time) {

@@ -68,6 +68,8 @@ public class AvoidObstacles implements IPathfinder {
             store.setCurrentNodeToReach(store.getCurrentNodeToReach() + 1);
         }
 
+        if(store.getCalculatedPath() == null) return new CheckPoint(new Transform(boatPosition, 0), new Circle(50));
+
         // Getting the next checkpoint from the processed path
         var nextPos = store.getCalculatedPath().get(store.getCurrentNodeToReach()).getPosition();
 
@@ -90,7 +92,8 @@ public class AvoidObstacles implements IPathfinder {
 
         // Solve pb
         PathfindingResult result = pb.solve();
-        if(result == null) throw new RuntimeException("No path founded !");
+        if(result == null)
+            return;
 
         // store the path inside the store
         context.getStore().setCalculatedPath(result);

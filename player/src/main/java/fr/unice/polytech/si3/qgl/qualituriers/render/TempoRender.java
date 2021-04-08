@@ -73,7 +73,7 @@ public class TempoRender extends Render {
         List<PositionableShape<? extends Shape>> obstacles = new ArrayList<>();
         if (gameInfo.getSeaEntities() != null) {
             Arrays.stream(gameInfo.getSeaEntities())
-                    .filter(vde -> vde instanceof ReefVisibleDeckEntity)
+                    //.filter(vde -> vde instanceof ReefVisibleDeckEntity)
                     .map(VisibleDeckEntity::getPositionableShape)
                     .forEach(obstacles::add);
 

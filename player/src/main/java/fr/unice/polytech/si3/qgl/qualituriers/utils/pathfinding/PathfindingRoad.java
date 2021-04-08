@@ -3,12 +3,16 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding;
 
 import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IShapeDraw;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.SeaDrawer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class PathfindingRoad {
@@ -50,9 +54,19 @@ public class PathfindingRoad {
         return !Collisions.raycastPolygon(new Segment(from.getPosition(), to.getPosition()), width, obstacles);
     }
 
+    private static List<IShapeDraw> roadDrawings = new ArrayList<>();
+
     public static void createIfPraticable(PathfindingNode from, PathfindingNode to, double width, Stream<PositionablePolygon> obstacles) {
-        if(canCreatePraticableRoad(from, to, width, obstacles))
+        if(canCreatePraticableRoad(from, to, width, obstacles)) {
             from.createRoadTo(to);
+            if(TempoRender.SeaDrawer == null) return;
+            roadDrawings.add(TempoRender.SeaDrawer.drawFuturLine(from.getPosition(), to.getPosition(), Color.GREEN));
+        }
+    }
+
+    static void clearRoads() {
+        roadDrawings.stream().filter(Predicate.not(Objects::isNull)).forEach(IShapeDraw::destroy);
+        roadDrawings.clear();
     }
 
     public static void draw() {

@@ -5,6 +5,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea.futur.*;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IDrawer;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IShapeDraw;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
@@ -16,9 +17,8 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 
 public class MyCanvas extends JPanel implements IDrawer {
 
@@ -160,8 +160,10 @@ public class MyCanvas extends JPanel implements IDrawer {
     }
 
     @Override
-    public void drawFuturFilledCircle(PositionableCircle circle, Color color) {
-        this.futurDraws.add(new CircleFuturDraw(circle, color));
+    public IShapeDraw drawFuturFilledCircle(PositionableCircle circle, Color color) {
+        CircleFuturDraw circleFuturDraw = new CircleFuturDraw(circle, color);
+        this.futurDraws.add(circleFuturDraw);
+        return circleFuturDraw;
     }
 
     public void drawCircle(PositionableCircle circle, Color color, Graphics g) {
@@ -189,8 +191,10 @@ public class MyCanvas extends JPanel implements IDrawer {
     }
 
     @Override
-    public void drawFuturPolygon(PositionablePolygon polygon, Color color) {
-        this.futurDraws.add(new PolygonFuturDraw(polygon, color));
+    public IShapeDraw drawFuturPolygon(PositionablePolygon polygon, Color color) {
+        PolygonFuturDraw polygonFuturDraw = new PolygonFuturDraw(polygon, color);
+        this.futurDraws.add(polygonFuturDraw);
+        return polygonFuturDraw;
     }
 
     public void drawShape(PositionableShape<? extends Shape> shape, Color color, Graphics g) {
@@ -205,13 +209,17 @@ public class MyCanvas extends JPanel implements IDrawer {
     }
 
     @Override
-    public void drawFuturShape(PositionableShape<? extends Shape> shape, Color color) {
-        this.futurDraws.add(new ShapeFuturDraw(shape, color));
+    public IShapeDraw drawFuturShape(PositionableShape<? extends Shape> shape, Color color) {
+        ShapeFuturDraw shapeFuturDraw = new ShapeFuturDraw(shape, color);
+        this.futurDraws.add(shapeFuturDraw);
+        return shapeFuturDraw;
     }
 
     @Override
-    public void drawFuturPin(Point position, Color color) {
-        this.futurDraws.add(new PinFuturDraw(position, color));
+    public IShapeDraw drawFuturPin(Point position, Color color) {
+        PinFuturDraw pinFuturDraw = new PinFuturDraw(position, color);
+        this.futurDraws.add(pinFuturDraw);
+        return pinFuturDraw;
     }
 
     public void drawLine(Point start, Point end, Color color, Graphics g) {
@@ -226,8 +234,10 @@ public class MyCanvas extends JPanel implements IDrawer {
     }
 
     @Override
-    public void drawFuturLine(Point start, Point end, Color color) {
-        this.futurDraws.add(new LineFuturDraw(start, end, color));
+    public IShapeDraw drawFuturLine(Point start, Point end, Color color) {
+        LineFuturDraw lineFuturDraw = new LineFuturDraw(start, end, color);
+        this.futurDraws.add(lineFuturDraw);
+        return lineFuturDraw;
     }
 
     public void drawArc(Arc arc) {
@@ -264,9 +274,14 @@ public class MyCanvas extends JPanel implements IDrawer {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (FuturDraw futurDraw : this.futurDraws)
-            futurDraw.draw(this, g);
-        this.futurDraws.clear();
+        Iterator<FuturDraw> iterator = this.futurDraws.iterator();
+        while (iterator.hasNext()) {
+            FuturDraw futurDraw = iterator.next();
+            if(futurDraw.isDestroyed())
+                iterator.remove();
+            else
+                futurDraw.draw(this, g);
+        }
 
         checkR.draw(this, g);
         reefR.draw(this, g);
@@ -290,5 +305,10 @@ public class MyCanvas extends JPanel implements IDrawer {
 
     public PathRenderer getPath() {
         return path;
+    }
+
+    public void clearFuturDraw() {
+        for (FuturDraw futurDraw : this.futurDraws)
+            futurDraw.destroy();
     }
 }

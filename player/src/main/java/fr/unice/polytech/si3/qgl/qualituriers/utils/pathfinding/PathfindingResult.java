@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding;
 import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IShapeDraw;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class PathfindingResult {
+    private static List<IShapeDraw> drawing = new ArrayList<>();
     private List<PathfindingNode> nodes;
     private boolean resolved = false;
 
@@ -83,17 +85,11 @@ public class PathfindingResult {
 
     void draw() {
         if(TempoRender.SeaDrawer == null) return;
+        drawing.forEach(IShapeDraw::destroy);
+        drawing.clear();
 
         for(int i = 0; i < nodes.size() - 1; i++) {
-            TempoRender.SeaDrawer.drawFuturLine(nodes.get(i).getPosition(), nodes.get(i + 1).getPosition(), Color.RED);
+            drawing.add(TempoRender.SeaDrawer.drawFuturLine(nodes.get(i).getPosition(), nodes.get(i + 1).getPosition(), Color.RED));
         }
-
-        /**
-        try {
-            //Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-         */
     }
 }

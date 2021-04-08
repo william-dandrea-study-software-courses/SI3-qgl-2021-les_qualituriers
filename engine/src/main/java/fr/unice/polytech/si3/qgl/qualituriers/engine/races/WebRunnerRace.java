@@ -13,7 +13,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import java.util.Random;
 
 public class WebRunnerRace {
-    public static final Shape BOAT_SHAPE = new Circle(100);
+    public static final Shape BOAT_SHAPE = new Circle(25);
 
     private final Goal goal;
     private final WebRunnerBoat ship;
