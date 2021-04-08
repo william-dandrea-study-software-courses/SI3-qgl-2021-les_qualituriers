@@ -72,11 +72,12 @@ public class Sea {
             @Override
             public void mouseClicked(MouseEvent e) {
                 canvas.ajustCanvas();
+                if(e.getButton() == MouseEvent.BUTTON3) //clic droit
+                    canvas.clearFuturDraw();
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                //init start -> calculer diff entre mousedragged et lui -> reinit start
             }
 
             @Override
