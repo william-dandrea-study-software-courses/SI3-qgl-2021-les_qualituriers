@@ -56,7 +56,7 @@ public class Sea {
                 }
 
                 Point d = new Point(e.getX(), e.getY()).substract(start);
-                d = new Point(-d.getX(), d.getY());
+                d = new Point(-d.getX(), -d.getY());
                 canvas.setOffset(startDisplayOffset.add(d));
                 draw();
             }

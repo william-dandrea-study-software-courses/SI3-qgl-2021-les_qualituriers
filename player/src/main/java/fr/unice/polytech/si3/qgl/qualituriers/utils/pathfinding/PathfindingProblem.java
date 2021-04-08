@@ -76,7 +76,7 @@ public class PathfindingProblem {
         for(var n1 : nodes) {
             for(var n2 : nodes) {
                 if(n1 != n2)
-                    PathfindingRoad.createIfPraticable(n1, n2, Config.BOAT_MARGIN * 3, polygons.stream());
+                    PathfindingRoad.createIfPraticable(n1, n2, Config.BOAT_MARGIN * 4, polygons.stream());
             }
         }
     }
@@ -103,7 +103,7 @@ public class PathfindingProblem {
         var path = searchPath(pseudoStart, pseudoGoal, new PathfindingResult() {{ addNode(startPosition); addNode(pseudoStart); }});
 
         // Checking if a path exist
-        if(path == null) throw new RuntimeException("No path founded !");
+        if(path == null) return null;
 
         // add the final node
         path.addNode(goal);

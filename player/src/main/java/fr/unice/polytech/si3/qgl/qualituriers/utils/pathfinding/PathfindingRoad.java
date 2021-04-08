@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding;
 
 import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.SeaDrawer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 
@@ -51,8 +52,10 @@ public class PathfindingRoad {
     }
 
     public static void createIfPraticable(PathfindingNode from, PathfindingNode to, double width, Stream<PositionablePolygon> obstacles) {
-        if(canCreatePraticableRoad(from, to, width, obstacles))
+        if(canCreatePraticableRoad(from, to, width, obstacles)) {
             from.createRoadTo(to);
+            SeaDrawer.drawLine(from.getPosition(), to.getPosition(), Color.ORANGE);
+        }
     }
 
     public static void draw() {
