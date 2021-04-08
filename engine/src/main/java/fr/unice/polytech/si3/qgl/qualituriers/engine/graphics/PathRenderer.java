@@ -24,9 +24,9 @@ class PathRenderer {
     public void draw() {
         if(waypoint.size() < 1) return;
 
-        for(int i = 1; i < waypoint.size(); i++) {
+        /*for(int i = 1; i < waypoint.size(); i++) {
             canvas.drawLine(waypoint.get(i - 1), waypoint.get(i), new Color(96, 96, 255));
-        }
+        }*/
     }
 
     public Rectangle2D.Double getBounds() {

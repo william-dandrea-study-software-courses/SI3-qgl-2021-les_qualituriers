@@ -22,9 +22,9 @@ public class ReefRenderer {
         this.race = race;
     }
 
-    public void draw(MyCanvas canvas) {
+    public void draw(MyCanvas canvas, Graphics g) {
         for (ReefVisibleDeckEntity reef : this.getReefs())
-            canvas.drawShape(reef.getPositionableShape(), this.getColor(reef));
+            canvas.drawShape(reef.getPositionableShape(), this.getColor(reef), g);
     }
 
     private List<ReefVisibleDeckEntity> getReefs() {
@@ -36,7 +36,7 @@ public class ReefRenderer {
     }
 
     private Color getColor(ReefVisibleDeckEntity reef) {
-        if(Collisions.isColliding(new PositionableCircle(new Circle(TurnConfig.FIELD_VISION), race.getBoat().getPosition()), reef.getPositionableShape()))
+        if(Collisions.isColliding(new PositionableCircle(new Circle(race.isUsingWatch() ? TurnConfig.FIELD_VISION_ENLARGE : TurnConfig.FIELD_VISION), race.getBoat().getPosition()), reef.getPositionableShape()))
             return Color.BLACK;
         else if(this.race.getSeenReefs().contains(reef))
             return Color.GRAY;

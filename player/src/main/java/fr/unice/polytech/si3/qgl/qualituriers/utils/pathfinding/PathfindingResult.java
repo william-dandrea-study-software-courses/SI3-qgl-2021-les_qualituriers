@@ -85,7 +85,7 @@ public class PathfindingResult {
         if(TempoRender.SeaDrawer == null) return;
 
         for(int i = 0; i < nodes.size() - 1; i++) {
-            TempoRender.SeaDrawer.drawLine(nodes.get(i).getPosition(), nodes.get(i + 1).getPosition(), Color.RED);
+            TempoRender.SeaDrawer.drawFuturLine(nodes.get(i).getPosition(), nodes.get(i + 1).getPosition(), Color.RED);
         }
 
         /**

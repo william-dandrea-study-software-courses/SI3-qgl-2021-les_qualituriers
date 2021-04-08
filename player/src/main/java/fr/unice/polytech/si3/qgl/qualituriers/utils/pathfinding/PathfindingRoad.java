@@ -58,7 +58,7 @@ public class PathfindingRoad {
     public static void draw() {
         if(TempoRender.SeaDrawer != null) {
             for(var r : roads) {
-                TempoRender.SeaDrawer.drawLine(r.from.getPosition(), r.to.getPosition(), Color.MAGENTA);
+                TempoRender.SeaDrawer.drawFuturLine(r.from.getPosition(), r.to.getPosition(), Color.MAGENTA);
             }
 
             /*

@@ -22,10 +22,10 @@ public class StreamRendered {
         this.race = race;
     }
 
-    public void draw(MyCanvas canvas) {
+    public void draw(MyCanvas canvas, Graphics g) {
         for (StreamVisibleDeckEntity stream : this.getStreams()) {
-            canvas.drawShape(stream.getPositionableShape(), DARK_BLUE);
-            this.drawArrowLine(canvas, stream);
+            canvas.drawShape(stream.getPositionableShape(), DARK_BLUE, g);
+            this.drawArrowLine(canvas, stream, g);
         }
     }
 
@@ -37,11 +37,11 @@ public class StreamRendered {
                 .collect(Collectors.toList());
     }
 
-    private void drawArrowLine(MyCanvas canvas, StreamVisibleDeckEntity stream) {
+    private void drawArrowLine(MyCanvas canvas, StreamVisibleDeckEntity stream, Graphics g) {
         Point point = stream.getPositionableShape().getPoints()[0];
         Point point1 = new Point(stream.getPositionableShape().getTransform().getOrientation())
                 .scalar(stream.getStrength() * 20.0).add(point);
-        this.drawArrowLine(canvas, (int) point.getX(), (int) point.getY(), (int) point1.getX(), (int) point1.getY() * -1, 2, 2);
+        this.drawArrowLine(canvas, (int) point.getX(), (int) point.getY(), (int) point1.getX(), (int) point1.getY() * -1, 2, 2, g);
     }
 
     /**
@@ -55,7 +55,7 @@ public class StreamRendered {
      * @param d  the width of the arrow.
      * @param h  the height of the arrow.
      */
-    private void drawArrowLine(MyCanvas canvas, int x1, int y1, int x2, int y2, int d, int h) {
+    private void drawArrowLine(MyCanvas canvas, int x1, int y1, int x2, int y2, int d, int h, Graphics g) {
         int dx = x2 - x1, dy = y2 - y1;
         double D = Math.sqrt(dx*dx + dy*dy);
         double xm = D - d, xn = xm, ym = h, yn = -h, x;
@@ -71,8 +71,8 @@ public class StreamRendered {
 
         Point[] points = new Point[] {new Point(x2, y2), new Point((int) xm, (int) ym), new Point((int) xn, (int) yn)};
 
-        canvas.drawLine(new Point(x1, y1), new Point(x2, y2), Color.WHITE);
-        canvas.drawPolygon(new PositionablePolygon(new Polygon(0, points), new Transform(0, 0, 0)), Color.WHITE);
+        canvas.drawLine(new Point(x1, y1), new Point(x2, y2), Color.WHITE, g);
+        canvas.drawPolygon(new PositionablePolygon(new Polygon(0, points), new Transform(0, 0, 0)), Color.WHITE, g);
     }
 
 }

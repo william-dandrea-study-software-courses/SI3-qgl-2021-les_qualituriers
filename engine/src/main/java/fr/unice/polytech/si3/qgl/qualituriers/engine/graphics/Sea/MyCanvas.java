@@ -1,6 +1,8 @@
 package fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea;
 
 import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Arc;
+import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea.futur.*;
+import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IDrawer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -8,17 +10,27 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.Positiona
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class MyCanvas extends Canvas implements IDrawer {
+public class MyCanvas extends JPanel implements IDrawer {
 
+    private final Race race;
     private double scale = 1.0;
     private double zoom = 1.0;
+
+    private final BoatRenderer boatR;
+    private final CheckpointRenderer checkR;
+    private final PathRenderer path;
+    private final ReefRenderer reefR;
+    private final StreamRendered streamR;
 
     private Point target = new Point(0, 0);
 
@@ -26,10 +38,24 @@ public class MyCanvas extends Canvas implements IDrawer {
     private Point displayOffset = new Point(0, 0);
     private Point mousePos;
 
+    private final List<FuturDraw> futurDraws;
+
     private static final Color blue =  new Color(96, 96, 255);
 
-    public MyCanvas() {
+    public MyCanvas(Race race) {
+        this.race = race;
         this.mousePos = new Point(0, 0);
+
+        boatR = new BoatRenderer(race);
+        checkR = new CheckpointRenderer(race);
+        path = new PathRenderer(this);
+        reefR = new ReefRenderer(race);
+        streamR = new StreamRendered(race);
+
+        path.addWaypoint(race.getBoat().getPosition().getPoint(), null);
+
+        this.setBackground(Color.CYAN);
+        futurDraws = new ArrayList<>();
     }
 
     public void setMousePos(Point mousePos) {
@@ -121,15 +147,13 @@ public class MyCanvas extends Canvas implements IDrawer {
         zoom *= 2;
     }
 
-    public void drawPin(Point position, Color color) {
+    public void drawPin(Point position, Color color, Graphics g) {
         //setCameraPosition(new Point(1000, -200));
-        var g = getGraphics();
         g.setColor(color);
         g.fillOval((int) getScreenPosition(position).getX() - 5, (int) getScreenPosition(position).getY() - 5, 10, 10);
     }
 
-    public void drawFilledCircle(PositionableCircle circle, Color color) {
-        var g = getGraphics();
+    public void drawFilledCircle(PositionableCircle circle, Color color, Graphics g) {
         g.setColor(color);
         var pos = getScreenPosition(circle.getTransform().getPoint());
         var size = ajustToScale(circle.getShape().getRadius());
@@ -137,8 +161,12 @@ public class MyCanvas extends Canvas implements IDrawer {
         g.fillOval((int)pos.getX() - size, (int)pos.getY() - size, 2 * size, 2 * size);
     }
 
-    public void drawCircle(PositionableCircle circle, Color color) {
-        var g = getGraphics();
+    @Override
+    public void drawFuturFilledCircle(PositionableCircle circle, Color color) {
+        this.futurDraws.add(new CircleFuturDraw(circle, color));
+    }
+
+    public void drawCircle(PositionableCircle circle, Color color, Graphics g) {
         g.setColor(color);
         var pos = getScreenPosition(circle.getTransform().getPoint());
         var size = ajustToScale(circle.getShape().getRadius());
@@ -146,8 +174,7 @@ public class MyCanvas extends Canvas implements IDrawer {
         g.drawOval((int)pos.getX() - size, (int)pos.getY() - size, 2 * size, 2 * size);
     }
 
-    public void drawPolygon(PositionablePolygon polygon, Color color) {
-        var g = getGraphics();
+    public void drawPolygon(PositionablePolygon polygon, Color color, Graphics g) {
         g.setColor(color);
         var pts = polygon.getPoints();
         var ptsX = new int[pts.length];
@@ -159,30 +186,50 @@ public class MyCanvas extends Canvas implements IDrawer {
             ptsY[i] = (int)apt.getY();
         }
 
-        g.drawPolygon(ptsX, ptsY, pts.length);
+        g.fillPolygon(ptsX, ptsY, pts.length);
+        //g.drawPolygon(ptsX, ptsY, pts.length);
     }
 
-    public void drawShape(PositionableShape<? extends Shape> shape, Color color) {
+    @Override
+    public void drawFuturPolygon(PositionablePolygon polygon, Color color) {
+        this.futurDraws.add(new PolygonFuturDraw(polygon, color));
+    }
+
+    public void drawShape(PositionableShape<? extends Shape> shape, Color color, Graphics g) {
         switch (shape.getShape().getType()) {
             case CIRCLE:
-                drawFilledCircle((PositionableCircle) shape, color);
+                drawFilledCircle((PositionableCircle) shape, color, g);
                 break;
             case RECTANGLE: case POLYGON:
-                drawPolygon((PositionablePolygon) shape, color);
+                drawPolygon((PositionablePolygon) shape, color, g);
                 break;
         }
     }
 
-    public void drawLine(Point start, Point end, Color color) {
-        var g = (Graphics2D)getGraphics();
+    @Override
+    public void drawFuturShape(PositionableShape<? extends Shape> shape, Color color) {
+        this.futurDraws.add(new ShapeFuturDraw(shape, color));
+    }
+
+    @Override
+    public void drawFuturPin(Point position, Color color) {
+        this.futurDraws.add(new PinFuturDraw(position, color));
+    }
+
+    public void drawLine(Point start, Point end, Color color, Graphics g) {
         g.setColor(color);
 
         var s = getScreenPosition(start);
         var e = getScreenPosition(end);
 
-        g.setStroke(new BasicStroke(3));
+        ((Graphics2D)g).setStroke(new BasicStroke(3));
 
         g.drawLine((int)s.getX(), (int)s.getY(), (int)e.getX(), (int)e.getY());
+    }
+
+    @Override
+    public void drawFuturLine(Point start, Point end, Color color) {
+        this.futurDraws.add(new LineFuturDraw(start, end, color));
     }
 
     public void drawArc(Arc arc) {
@@ -213,5 +260,37 @@ public class MyCanvas extends Canvas implements IDrawer {
         double y = -2 * x * ((x1 - x2) / (y1 - y2)) + b + y1 + y2;
         y /= 2;
         return Math.sqrt(Math.pow(x1 - x, 2) + Math.pow(y1 - y, 2));
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        for (FuturDraw futurDraw : this.futurDraws)
+            futurDraw.draw(this, g);
+        this.futurDraws.clear();
+
+        checkR.draw(this, g);
+        reefR.draw(this, g);
+        streamR.draw(this, g);
+        //path.draw();
+        boatR.render(this, g);
+
+        if(race.getBoat().getLife() <= 0)
+            this.drawDeadMessage(g);
+    }
+
+    private void drawDeadMessage(Graphics graphics) {
+        Point position = race.getBoat().getPosition().getPoint();
+        graphics.setColor(Color.BLACK);
+        graphics.drawString("Mort !", (int) this.getScreenPosition(position).getX() - 15, (int) this.getScreenPosition(position).getY() - 10);
+    }
+
+    public void ajustCanvas() {
+        this.ajustWindows(java.util.List.of(boatR.getBounds(), checkR.getBounds()));
+    }
+
+    public PathRenderer getPath() {
+        return path;
     }
 }

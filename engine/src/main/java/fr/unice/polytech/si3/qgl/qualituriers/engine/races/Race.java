@@ -100,7 +100,7 @@ public class Race {
     }
 
     public VisibleDeckEntity[] getVisiblesEntities() {
-        PositionableCircle circle = new PositionableCircle(new Circle(TurnConfig.FIELD_VISION), this.boat.getPosition());
+        PositionableCircle circle = new PositionableCircle(new Circle(this.isUsingWatch() ? TurnConfig.FIELD_VISION_ENLARGE : TurnConfig.FIELD_VISION), this.boat.getPosition());
         VisibleDeckEntity[] visibleEntities = Arrays.stream(entities).filter(entity -> Collisions.isColliding(circle, entity.getPositionableShape())).toArray(VisibleDeckEntity[]::new);
         for (VisibleDeckEntity visibleEnt : visibleEntities) {
             if(visibleEnt instanceof ReefVisibleDeckEntity)

@@ -19,11 +19,10 @@ public class BoatRenderer {
         return new Rectangle2D.Double(race.getBoat().getPosition().getX(), race.getBoat().getPosition().getY(), 0, 0);
     }
 
-    void render(MyCanvas canvas) {
-
-        canvas.drawShape(race.getBoat().getPositionableShape().getCircumscribedPolygon(), Color.BLUE);
+    void render(MyCanvas canvas, Graphics g) {
+        canvas.drawShape(race.getBoat().getPositionableShape().getCircumscribedPolygon(), Color.BLUE, g);
         canvas.drawCircle(new PositionableCircle(new Circle(race.isUsingWatch() ? TurnConfig.FIELD_VISION_ENLARGE : TurnConfig.FIELD_VISION),
-                race.getBoat().getPosition()), Color.PINK);
+                race.getBoat().getPosition()), Color.PINK, g);
         //canvas.drawPin(race.getBoat().getPosition(), Color.BLUE);
     }
 }
