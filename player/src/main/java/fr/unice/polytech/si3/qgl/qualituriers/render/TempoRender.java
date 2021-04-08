@@ -27,20 +27,19 @@ public class TempoRender extends Render {
     public static boolean ON_ENGINE = false;
     public static IDrawer SeaDrawer;
 
-    private CheckPoint currentCheckPoint;
-    private int checkPointCounter = 0;
+
     private PathfindingStore store;
 
     public TempoRender(GameInfo gameInfo, ILogger logger) {
         super(gameInfo, logger);
         CheckPoint[] listCheckPoint = ((RegattaGoal) gameInfo.getGoal()).getCheckPoints();
-        currentCheckPoint = listCheckPoint[0];
         this.store = new PathfindingStore();
     }
 
     int currentCheckpointIndex = 0;
     CheckPoint intermediareCheckpoint = null;
     public List<Action> nextRoundAlternative(RoundInfo round) {
+
 
 
         // Récupération des checkpoints
@@ -104,6 +103,7 @@ public class TempoRender extends Render {
         // Calcul des action a effectuer pour atteindre l'étape
 
 
+
         assert intermediareCheckpoint != null;
         List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(intermediareCheckpoint.getPosition(), this.gameInfo);
 
@@ -120,6 +120,12 @@ public class TempoRender extends Render {
         System.out.println("======================================================================================================");
 
         System.out.println(Collisions.isColliding(intermediareCheckpoint.getPositionableShape(), this.gameInfo.getShip().getPositionableShape()));
+
+
+        gameInfo.addPointsWhereTheBoatMoved(gameInfo.getShip().getPosition());
+
+        System.out.println("====> " + gameInfo.getTraveledDistance());
+
 
         return actions;
     }

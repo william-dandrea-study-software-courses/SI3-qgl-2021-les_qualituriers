@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarterConfig.USE_WATCH;
 import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarterConfig.USE_WIND;
 
 /**
@@ -75,11 +76,12 @@ public class HeadQuarter {
             opSail.ifPresent(boatEntity -> finalListOfActions.addAll(setupWind(sailorOnRudderOp, boatEntity)));
         }
 
-        int babordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat).size();
-        int tribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat).size();
+        if (USE_WATCH) {
 
-        int oarsActionBabord = (int) finalListOfActions.stream().filter(action -> HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat).stream().map(Marin::getId).collect(Collectors.toList()).contains(action.getSailorId())).count();
-        int oarsActionTribord = (int) finalListOfActions.stream().filter(action -> HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat).stream().map(Marin::getId).collect(Collectors.toList()).contains(action.getSailorId())).count();
+            UseWatchStrategy useWatchStrategy = new UseWatchStrategy(gameInfo, sailors, boat, idSailorsWeUsesMoving);
+            finalListOfActions.addAll(useWatchStrategy.useWatchStrategy());
+
+        }
 
 
         return finalListOfActions;
@@ -214,6 +216,12 @@ public class HeadQuarter {
 
         }
     }
+
+
+
+
+
+
 
 
 

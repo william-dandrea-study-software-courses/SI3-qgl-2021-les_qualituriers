@@ -86,7 +86,6 @@ class OarTheGoodAmountOfSailorsTest {
         for(int j = 0; j<oars.length; j++)
         assertEquals(oars[j], test.get(j));
 
-
     }
 
     @Test

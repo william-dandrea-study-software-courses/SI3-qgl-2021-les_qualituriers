@@ -4,6 +4,7 @@ public class HeadQuarterConfig {
 
 
     public static final boolean USE_WIND = true;
+    public static final boolean USE_WATCH = true;
 
 
     /**

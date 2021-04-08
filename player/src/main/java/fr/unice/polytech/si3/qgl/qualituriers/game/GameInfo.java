@@ -7,10 +7,9 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Cette class a pour but d'initialiser le jeu et de permettre de pouvoir faire des actions plus tard sur le jeu
@@ -25,6 +24,9 @@ public class GameInfo {
     private int shipCount;
     private Wind wind;
     private VisibleDeckEntity[] seaEntities;
+    private int numberOfTurn;
+    private double traveledDistance;
+    private List<Point> pointsWhereTheBoatMoved;
 
     @JsonCreator
     public GameInfo(@JsonProperty("goal") Goal goal, @JsonProperty("ship") Boat ship,
@@ -36,6 +38,9 @@ public class GameInfo {
         this.shipCount = shipCount;
         this.wind = wind;
         this.seaEntities = seaEntities;
+        this.numberOfTurn = 0;
+        this.traveledDistance = 0;
+        this.pointsWhereTheBoatMoved = new ArrayList<>();
 
     }
 
@@ -63,6 +68,22 @@ public class GameInfo {
         return seaEntities;
     }
 
+    public int getNumberOfTurn() { return numberOfTurn; }
+    public double getTraveledDistance() { return traveledDistance; }
+
+    public List<Point> getPointsWhereTheBoatMoved() {
+        return pointsWhereTheBoatMoved;
+    }
+
+    public void addPointsWhereTheBoatMoved(Point pointsWhereTheBoatMoved) {
+        this.pointsWhereTheBoatMoved.add(pointsWhereTheBoatMoved);
+        this.numberOfTurn++;
+        if (numberOfTurn >= 2) {
+            Point lastPoint = this.pointsWhereTheBoatMoved.get(this.pointsWhereTheBoatMoved.size() - 2);
+            this.traveledDistance += Math.sqrt((pointsWhereTheBoatMoved.getY() - lastPoint.getY()) * (pointsWhereTheBoatMoved.getY() - lastPoint.getY()) + (pointsWhereTheBoatMoved.getX() - lastPoint.getX()) * (pointsWhereTheBoatMoved.getX() - lastPoint.getX()));
+        }
+
+    }
 
     public void setWind(Wind wind) {
         this.wind = wind;
