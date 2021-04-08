@@ -191,7 +191,7 @@ public class HeadQuarter {
      * @return la liste d'action a effectuer pour faire avancer le bateau
      */
     private List<Action> oarTheGoodAmountOfSailors(int differenceOfSailors, Boat methodBoat, List<Marin> methodSailors, Transform goal) {
-        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(methodBoat, methodSailors, differenceOfSailors, goal);
+        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(methodBoat, methodSailors, differenceOfSailors, goal, gameInfo);
         return oarTheGoodAmountOfSailors.oarTheGoodAmountOfSailors();
     }
 

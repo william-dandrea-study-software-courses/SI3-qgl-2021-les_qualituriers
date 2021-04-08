@@ -6,8 +6,15 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntit
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.OarBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.StreamVisibleDeckEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +29,9 @@ class OarTheGoodAmountOfSailorsTest {
 
     private Boat defaultBoat;
     private List<Marin> defaultSailors;
+    private VisibleDeckEntity streamEntity;
+    private VisibleDeckEntity[] seaEntities;
+    private GameInfo gameInfo;
 
     @BeforeEach
     void setUp() {
@@ -52,13 +62,26 @@ class OarTheGoodAmountOfSailorsTest {
             add(new Marin(5,2,2,"marin4"));
             add(new Marin(6,3,2,"marin4"));
         }};
+
+        streamEntity = new StreamVisibleDeckEntity(new Transform(0,0,0), new Rectangle(1,1,0), 0);
+        seaEntities = new VisibleDeckEntity[] {
+                streamEntity,
+                streamEntity,
+        };
+
+        gameInfo = new GameInfo(new RegattaGoal(new CheckPoint[]{new CheckPoint(new Transform(50, 50, 0), new Circle(50))}),
+                new Boat(100, new Transform(10, 10, 0), "lol", new Deck(4, 5), new BoatEntity[0], new Rectangle(2, 3, 0)),
+                new Marin[]{new Marin(0, 1, 1, "sdfsdf")},
+                2,
+                new Wind(0, 0),
+                seaEntities);
     }
 
 
     @Test
     void oarTheGoodAmountOfSailorsTest() {
         Oar[] oars = {new Oar(1), new Oar(3), new Oar(2), new Oar(4)};
-        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(1000,0,0));
+        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(1000,0,0), gameInfo);
         var test = oarTheGoodAmountOfSailors.oarTheGoodAmountOfSailors();
         for(int j = 0; j<oars.length; j++)
         assertEquals(oars[j], test.get(j));
@@ -68,26 +91,26 @@ class OarTheGoodAmountOfSailorsTest {
 
     @Test
     void optimumNumberOfActiveOarsToBeOnTheCheckPointTest() {
-        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(1000,0,0));
+        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(1000,0,0), gameInfo);
         assertEquals(10, oarTheGoodAmountOfSailors.optimumNumberOfActiveOarsToBeOnTheCheckPoint());
 
 
-        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(16.5,0,0));
+        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(16.5,0,0), gameInfo);
         assertEquals(1, oarTheGoodAmountOfSailors.optimumNumberOfActiveOarsToBeOnTheCheckPoint());
 
-        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(33,0,0));
+        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(33,0,0), gameInfo);
         assertEquals(2, oarTheGoodAmountOfSailors.optimumNumberOfActiveOarsToBeOnTheCheckPoint());
 
-        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(49.5,0,0));
+        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(49.5,0,0), gameInfo);
         assertEquals(3, oarTheGoodAmountOfSailors.optimumNumberOfActiveOarsToBeOnTheCheckPoint());
 
-        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(66,0,0));
+        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(66,0,0), gameInfo);
         assertEquals(4, oarTheGoodAmountOfSailors.optimumNumberOfActiveOarsToBeOnTheCheckPoint());
 
-        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(82.5,0,0));
+        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(82.5,0,0), gameInfo);
         assertEquals(5, oarTheGoodAmountOfSailors.optimumNumberOfActiveOarsToBeOnTheCheckPoint());
 
-        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(99,0,0));
+        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 0, new Transform(99,0,0), gameInfo);
         assertEquals(6, oarTheGoodAmountOfSailors.optimumNumberOfActiveOarsToBeOnTheCheckPoint());
     }
 
@@ -99,7 +122,7 @@ class OarTheGoodAmountOfSailorsTest {
         System.out.println(listOfBabordSailors);
         System.out.println(listOfTribordSailors);
 
-        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 2, new Transform(1000,0,0));
+        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 2, new Transform(1000,0,0), gameInfo);
         System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsPositive());
 
         defaultSailors.add(new Marin(7,5,4, "test"));
@@ -121,7 +144,7 @@ class OarTheGoodAmountOfSailorsTest {
         System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsPositive());
 
 
-        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 2, new Transform(49.5,0,0));
+        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 2, new Transform(49.5,0,0), gameInfo);
         System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsPositive());
 
     }
@@ -135,7 +158,7 @@ class OarTheGoodAmountOfSailorsTest {
         System.out.println(listOfBabordSailors);
         System.out.println(listOfTribordSailors);
 
-        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 2, new Transform(1000,0,0));
+        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 2, new Transform(1000,0,0), gameInfo);
         System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsNegative());
 
         defaultSailors.add(new Marin(7,5,4, "test"));
@@ -157,7 +180,7 @@ class OarTheGoodAmountOfSailorsTest {
         System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsNegative());
 
 
-        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 2, new Transform(49.5,0,0));
+        oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(defaultBoat, defaultSailors, 2, new Transform(49.5,0,0), gameInfo);
         System.out.println(oarTheGoodAmountOfSailors.generateOarActionWhenDifferenceIsNegative());
 
     }
