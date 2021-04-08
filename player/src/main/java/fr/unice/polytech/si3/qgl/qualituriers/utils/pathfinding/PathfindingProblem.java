@@ -35,11 +35,12 @@ public class PathfindingProblem {
     }
 
     void addPolygon(PositionablePolygon polygon) {
+
         polygons.add(polygon);
         var enlarged = polygon.enlargeOf(Config.BOAT_MARGIN * 4);
         enlargedPolygons.add(enlarged);
 
-        SeaDrawer.drawPolygon(enlarged, Color.magenta);
+        //SeaDrawer.drawPolygon(enlarged, Color.magenta);
     }
 
     private boolean canNavigateOn(PathfindingNode start, PathfindingNode end) {
@@ -76,7 +77,7 @@ public class PathfindingProblem {
         for(var n1 : nodes) {
             for(var n2 : nodes) {
                 if(n1 != n2)
-                    PathfindingRoad.createIfPraticable(n1, n2, Config.BOAT_MARGIN * 4, polygons.stream());
+                    PathfindingRoad.createIfPraticable(n1, n2, Config.BOAT_MARGIN * 3, polygons.stream());
             }
         }
     }
@@ -93,6 +94,11 @@ public class PathfindingProblem {
         nodes.add(pseudoGoal);
         nodes.add(pseudoStart);
 
+        for(var node : nodes) {
+            SeaDrawer.drawPin(node.getPosition(), Color.RED);
+        }
+
+        PathfindingRoad.clearRoads();
         // Generate road between the nodes
         generateRoads();
 

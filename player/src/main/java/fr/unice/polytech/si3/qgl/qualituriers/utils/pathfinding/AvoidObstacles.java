@@ -92,7 +92,8 @@ public class AvoidObstacles implements IPathfinder {
 
         // Solve pb
         PathfindingResult result = pb.solve();
-        if(result == null) return;
+        if(result == null)
+            return;
 
         // store the path inside the store
         context.getStore().setCalculatedPath(result);
