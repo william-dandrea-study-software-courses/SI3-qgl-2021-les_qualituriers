@@ -128,13 +128,22 @@ public class MyCanvas extends Canvas implements IDrawer {
         g.fillOval((int) getScreenPosition(position).getX() - 5, (int) getScreenPosition(position).getY() - 5, 10, 10);
     }
 
-    public void drawCircle(PositionableCircle circle, Color color) {
+    public void drawFilledCircle(PositionableCircle circle, Color color) {
         var g = getGraphics();
         g.setColor(color);
         var pos = getScreenPosition(circle.getTransform().getPoint());
         var size = ajustToScale(circle.getShape().getRadius());
 
         g.fillOval((int)pos.getX() - size, (int)pos.getY() - size, 2 * size, 2 * size);
+    }
+
+    public void drawCircle(PositionableCircle circle, Color color) {
+        var g = getGraphics();
+        g.setColor(color);
+        var pos = getScreenPosition(circle.getTransform().getPoint());
+        var size = ajustToScale(circle.getShape().getRadius());
+
+        g.drawOval((int)pos.getX() - size, (int)pos.getY() - size, 2 * size, 2 * size);
     }
 
     public void drawPolygon(PositionablePolygon polygon, Color color) {
@@ -156,7 +165,7 @@ public class MyCanvas extends Canvas implements IDrawer {
     public void drawShape(PositionableShape<? extends Shape> shape, Color color) {
         switch (shape.getShape().getType()) {
             case CIRCLE:
-                drawCircle((PositionableCircle) shape, color);
+                drawFilledCircle((PositionableCircle) shape, color);
                 break;
             case RECTANGLE: case POLYGON:
                 drawPolygon((PositionablePolygon) shape, color);

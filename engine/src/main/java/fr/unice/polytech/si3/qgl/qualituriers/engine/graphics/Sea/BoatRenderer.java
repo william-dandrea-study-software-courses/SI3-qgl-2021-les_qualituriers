@@ -1,6 +1,9 @@
 package fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea;
 
+import fr.unice.polytech.si3.qgl.qualituriers.engine.TurnConfig;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -19,6 +22,8 @@ public class BoatRenderer {
     void render(MyCanvas canvas) {
 
         canvas.drawShape(race.getBoat().getPositionableShape().getCircumscribedPolygon(), Color.BLUE);
+        canvas.drawCircle(new PositionableCircle(new Circle(race.isUsingWatch() ? TurnConfig.FIELD_VISION_ENLARGE : TurnConfig.FIELD_VISION),
+                race.getBoat().getPosition()), Color.PINK);
         //canvas.drawPin(race.getBoat().getPosition(), Color.BLUE);
     }
 }

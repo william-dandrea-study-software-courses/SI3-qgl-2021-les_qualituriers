@@ -11,6 +11,7 @@ import java.awt.*;
 public interface IDrawer {
     void drawPolygon(PositionablePolygon polygon, Color color);
     void drawLine(fr.unice.polytech.si3.qgl.qualituriers.utils.Point start, Point end, Color color);
+    void drawFilledCircle(PositionableCircle circle, Color color);
     void drawCircle(PositionableCircle circle, Color color);
     void drawShape(PositionableShape<? extends Shape> shape, Color color);
     void drawPin(Point position, Color color);

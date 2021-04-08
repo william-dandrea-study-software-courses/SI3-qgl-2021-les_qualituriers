@@ -17,13 +17,14 @@ import java.util.stream.Collectors;
 public class ReefRenderer {
 
     private final Race race;
+
     public ReefRenderer(Race race) {
         this.race = race;
     }
 
     public void draw(MyCanvas canvas) {
         for (ReefVisibleDeckEntity reef : this.getReefs())
-            canvas.drawShape(reef.getPositionableShape(), this.canSee(reef) ? Color.BLACK : Color.LIGHT_GRAY);
+            canvas.drawShape(reef.getPositionableShape(), this.getColor(reef));
     }
 
     private List<ReefVisibleDeckEntity> getReefs() {
@@ -34,8 +35,13 @@ public class ReefRenderer {
                 .collect(Collectors.toList());
     }
 
-    private boolean canSee(ReefVisibleDeckEntity reef) {
-        return Collisions.isColliding(new PositionableCircle(new Circle(TurnConfig.FIELD_VISION), race.getBoat().getPosition()), reef.getPositionableShape());
+    private Color getColor(ReefVisibleDeckEntity reef) {
+        if(Collisions.isColliding(new PositionableCircle(new Circle(TurnConfig.FIELD_VISION), race.getBoat().getPosition()), reef.getPositionableShape()))
+            return Color.BLACK;
+        else if(this.race.getSeenReefs().contains(reef))
+            return Color.GRAY;
+        else
+            return Color.WHITE;
     }
 
 }

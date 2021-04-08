@@ -2,7 +2,6 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.logger;
 
 import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IDrawer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
@@ -26,7 +25,7 @@ public class SeaDrawer {
 
     public static void drawCircle(PositionableCircle circle, Color color) {
         if(TempoRender.SeaDrawer != null) {
-            TempoRender.SeaDrawer.drawCircle(circle, color);
+            TempoRender.SeaDrawer.drawFilledCircle(circle, color);
         }
     }
 
