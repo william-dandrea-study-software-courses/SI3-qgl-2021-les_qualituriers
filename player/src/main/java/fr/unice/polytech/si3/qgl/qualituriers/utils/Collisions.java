@@ -126,7 +126,7 @@ public class Collisions {
         var dir = segment.getEnd().substract(segment.getStart());
         PositionablePolygon poly = new PositionablePolygon(new Rectangle(dir.length(), width, dir.getOrientation()), new Transform(segment.getStart().add(dir.scalar(0.5)), 0));
 
-        if(draw && TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawPolygon(poly, Color.RED);
+        if(draw && TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawFuturPolygon(poly, Color.RED);
 
         return isColliding(poly, shape)
                 && isColliding(new PositionableCircle(new Circle(width / 2), new Transform(segment.getStart(), 0)), shape)
