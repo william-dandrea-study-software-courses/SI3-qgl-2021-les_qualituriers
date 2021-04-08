@@ -227,7 +227,7 @@ public class Main {
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(loadRace("WEEK8_PREVIEW2"));
+        RunRace(loadRace("WEEK9"));
         //RunRace(TestPathfinding.race);
     }
 }
