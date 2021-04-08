@@ -23,10 +23,10 @@ public class Rectangle extends PolygonAbstract {
     public Rectangle(@JsonProperty("width") double width, @JsonProperty("height") double height,
                      @JsonProperty("orientation") double orientation) {
         super(orientation, new Point[] {
-                        new Point(-width / 2, height / 2),
-                        new Point(width / 2, height / 2),
-                        new Point(width / 2, -height / 2),
-                        new Point(-width / 2, -height / 2)
+                        new Point(-height / 2, width / 2),
+                        new Point(height / 2, width / 2),
+                        new Point(height / 2, -width / 2),
+                        new Point(-height / 2, -width / 2)
                 }, Shapes.RECTANGLE);
         this.width = width;
         this.height = height;

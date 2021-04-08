@@ -76,9 +76,7 @@ public class MyCanvas extends JPanel implements IDrawer {
 
     public Point getScreenPosition(Point pt) {
         pt = pt.substract(offset);
-        pt = new Point(pt.getX(), -pt.getY());
         pt = pt.scalar(zoom * scale);
-
 
         return pt.add(new Point(getWidth() / 2.0, getHeight() / 2.0));
     }

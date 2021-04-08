@@ -38,10 +38,9 @@ public class StreamRendered {
     }
 
     private void drawArrowLine(MyCanvas canvas, StreamVisibleDeckEntity stream, Graphics g) {
-        Point point = stream.getPositionableShape().getPoints()[0];
-        Point point1 = new Point(stream.getPositionableShape().getTransform().getOrientation())
-                .scalar(stream.getStrength() * 20.0).add(point);
-        this.drawArrowLine(canvas, (int) point.getX(), (int) point.getY(), (int) point1.getX(), (int) point1.getY() * -1, 2, 2, g);
+        Point point = stream.getPositionableShape().getTransform();
+        Point point1 = new Point(stream.getPositionableShape().getTransform().getOrientation()).add(point);
+        this.drawArrowLine(canvas, (int) point.getX(), (int) point.getY(), (int) point1.getX(), (int) point1.getY() * -1, 150, 150, g);
     }
 
     /**
@@ -71,8 +70,8 @@ public class StreamRendered {
 
         Point[] points = new Point[] {new Point(x2, y2), new Point((int) xm, (int) ym), new Point((int) xn, (int) yn)};
 
-        canvas.drawLine(new Point(x1, y1), new Point(x2, y2), Color.WHITE, g);
-        canvas.drawPolygon(new PositionablePolygon(new Polygon(0, points), new Transform(0, 0, 0)), Color.WHITE, g);
+        canvas.drawLine(new Point(x1, y1), new Point(x2, y2), Color.PINK, g);
+        canvas.drawPolygon(new PositionablePolygon(new Polygon(0, points), new Transform(0, 0, 0)), Color.PINK, g);
     }
 
 }
