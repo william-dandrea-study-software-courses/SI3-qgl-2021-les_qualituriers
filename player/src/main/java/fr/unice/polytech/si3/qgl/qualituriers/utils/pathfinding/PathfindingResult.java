@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class PathfindingResult {
-    private List<IShapeDraw> drawing = new ArrayList<>();
+    private static List<IShapeDraw> drawing = new ArrayList<>();
     private List<PathfindingNode> nodes;
     private boolean resolved = false;
 

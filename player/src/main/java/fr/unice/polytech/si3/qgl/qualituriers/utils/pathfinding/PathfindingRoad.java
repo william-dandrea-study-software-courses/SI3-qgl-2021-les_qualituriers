@@ -59,7 +59,8 @@ public class PathfindingRoad {
     public static void createIfPraticable(PathfindingNode from, PathfindingNode to, double width, Stream<PositionablePolygon> obstacles) {
         if(canCreatePraticableRoad(from, to, width, obstacles)) {
             from.createRoadTo(to);
-            roadDrawings.add(SeaDrawer.drawLine(from.getPosition(), to.getPosition(), Color.GREEN));
+            if(TempoRender.SeaDrawer == null) return;
+            roadDrawings.add(TempoRender.SeaDrawer.drawFuturLine(from.getPosition(), to.getPosition(), Color.GREEN));
         }
     }
 
