@@ -51,6 +51,7 @@ public class TurnConfig {
             new OarBoatEntity(4, 0),
             new OarBoatEntity(3, 0),
             new OarBoatEntity(5, 0),
+            new WatchBoatEntity(1,1)
 
     };
 

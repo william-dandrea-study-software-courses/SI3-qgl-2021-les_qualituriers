@@ -6,7 +6,11 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntit
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.SailBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.StreamVisibleDeckEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntities;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 
@@ -145,9 +149,29 @@ public class OarTheGoodAmountOfSailors {
             sailIsOpen = true;
         }
 
-        for (int i = 1; i <= numberOfOarsOnTheBoat ; i++) {
+
+        double courantSpeed = 0;
+        for (VisibleDeckEntity visibleDeckEntity : gameInfo.getSeaEntities()) {
+
+            if ( visibleDeckEntity.getType().equals(VisibleDeckEntities.STREAM) && Collisions.isColliding(visibleDeckEntity.getPositionableShape(), boat.getPositionableShape())) {
+
+                if (Math.abs(((StreamVisibleDeckEntity) visibleDeckEntity).getPosition().getAngleToSee(boat.getPosition())) <= Math.PI / 4) {
+                    courantSpeed += ((StreamVisibleDeckEntity) visibleDeckEntity).getStrength();
+                } else {
+                    courantSpeed -= ((StreamVisibleDeckEntity) visibleDeckEntity).getStrength();
+                }
+                break;
+            }
+        }
+
+
+
+
+
+        for (int i = 0; i <= numberOfOarsOnTheBoat ; i++) {
 
             double distanceWithThisAmountOfOars = (double) 165 * i / numberOfOarsOnTheBoat;
+            distanceWithThisAmountOfOars += courantSpeed;
 
             if (sailIsOpen) {
                 distanceWithThisAmountOfOars += Config.linearSpeedWind(1,1, gameInfo.getWind().getStrength(), boat.getPosition().getOrientation(), gameInfo.getWind().getOrientation());

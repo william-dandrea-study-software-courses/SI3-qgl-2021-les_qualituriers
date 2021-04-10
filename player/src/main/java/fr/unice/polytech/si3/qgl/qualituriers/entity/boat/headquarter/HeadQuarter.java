@@ -76,12 +76,7 @@ public class HeadQuarter {
             opSail.ifPresent(boatEntity -> finalListOfActions.addAll(setupWind(sailorOnRudderOp, boatEntity)));
         }
 
-        if (USE_WATCH) {
 
-            UseWatchStrategy useWatchStrategy = new UseWatchStrategy(gameInfo, sailors, boat, idSailorsWeUsesMoving);
-            finalListOfActions.addAll(useWatchStrategy.useWatchStrategy());
-
-        }
 
 
         return finalListOfActions;
@@ -108,6 +103,19 @@ public class HeadQuarter {
 
         List<Action> finalsActions = new ArrayList<>();
         List<Integer> sailorsWeUsed = new ArrayList<>();
+
+        if (USE_WATCH && (new UseWatchStrategy(gameInfo, sailors, boat, idSailorsWeUsesMoving, new Marin(0,0,0,""))).isSmartToUseUseWatch()) {
+
+            Optional<BoatEntity> watchOp = HeadquarterUtil.getWatch(boat);
+            if (watchOp.isPresent()) {
+                BoatEntity watch = watchOp.get();
+                Marin marin = HeadquarterUtil.searchTheClosestSailorToAPoint(sailors,watch.getPosition(), idSailorsWeUsesMoving);
+                UseWatchStrategy useWatchStrategy = new UseWatchStrategy(gameInfo, sailors, boat, idSailorsWeUsesMoving, marin);
+                finalsActions.addAll(useWatchStrategy.useWatchStrategy());
+                sailorsWeUsed.add(marin.getId());
+                idSailorsWeUsesMoving.add(marin.getId());
+            }
+        }
 
         // Nous cherchons à faire bouger au moins un marin sur le gouvernail => si on a un gouvernail et qu'il n'y a encore aucun marins sur le gouvernail, on en bouge un
         Optional<BoatEntity> rudderOptional =  HeadquarterUtil.getRudder(methodBoat);
@@ -194,7 +202,10 @@ public class HeadQuarter {
      */
     private List<Action> oarTheGoodAmountOfSailors(int differenceOfSailors, Boat methodBoat, List<Marin> methodSailors, Transform goal) {
         OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(methodBoat, methodSailors, differenceOfSailors, goal, gameInfo);
-        return oarTheGoodAmountOfSailors.oarTheGoodAmountOfSailors();
+        List<Action> oarTheGoodAmount = oarTheGoodAmountOfSailors.oarTheGoodAmountOfSailors();
+        idSailorsWeUsesMoving.addAll(oarTheGoodAmount.stream().map(Action::getSailorId).collect(Collectors.toList()));
+
+        return oarTheGoodAmount;
     }
 
 

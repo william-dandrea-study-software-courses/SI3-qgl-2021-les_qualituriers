@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.WatchBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.BoatPathFinding;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
@@ -24,19 +25,23 @@ public class UseWatchStrategy {
     private final List<Marin> sailors;
     private final Boat boat;
     private final List<Integer> idSailorsWeUsesMoving;
+    private final Marin marinWeChoose;
 
 
-    public UseWatchStrategy(GameInfo gameInfo, List<Marin> sailors, Boat boat, List<Integer> idSailorsWeUsesMoving) {
+    public UseWatchStrategy(GameInfo gameInfo, List<Marin> sailors, Boat boat, List<Integer> idSailorsWeUsesMoving, Marin marinWeChoose) {
         this.gameInfo = gameInfo;
         this.sailors = sailors;
         this.boat = boat;
         this.idSailorsWeUsesMoving = idSailorsWeUsesMoving;
+        this.marinWeChoose = marinWeChoose;
     }
 
     public List<Action> useWatchStrategy() {
 
         List<Action> finalListOfAction = new ArrayList<>();
+
         if (isSmartToUseUseWatch()) {
+
 
             // HeadquarterUtil.searchTheClosestSailorToAPoint();
             Optional<BoatEntity> watchOp = HeadquarterUtil.getWatch(boat);
@@ -44,7 +49,7 @@ public class UseWatchStrategy {
             if (watchOp.isPresent()) {
                 BoatEntity watch = watchOp.get();
 
-                Marin marin = HeadquarterUtil.searchTheClosestSailorToAPoint(sailors, watch.getPosition(), idSailorsWeUsesMoving);
+                Marin marin = marinWeChoose;
 
                 BoatPathFinding boatPathFinding = new BoatPathFinding(sailors, boat, marin.getId(), watch.getPosition());
                 Point objectifPoint = boatPathFinding.generateClosestPoint();
@@ -56,9 +61,8 @@ public class UseWatchStrategy {
                     if (marin.getPosition().equals(objectifPoint)) {
                         Action useWatchAction = new UseWatch(marin.getId());
                         finalListOfAction.add(useWatchAction);
+                        System.out.println(finalListOfAction);
                     }
-
-                    finalListOfAction.add(actionOp.get());
                 }
             }
         }
@@ -69,19 +73,23 @@ public class UseWatchStrategy {
 
 
 
-    private boolean isSmartToUseUseWatch() {
+    public boolean isSmartToUseUseWatch() {
+
+
 
         Optional<BoatEntity> boatEntityOptional = HeadquarterUtil.getWatch(boat);
         if (boatEntityOptional.isEmpty()) return false;
 
         boolean useWatch = (gameInfo.getNumberOfTurn() == 0);
 
+
         if (useWatch) return true;
 
         double moduloDistance = (gameInfo.getTraveledDistance() % 5000);
-        double ecartModulo = Math.abs(gameInfo.getTraveledDistance() - moduloDistance);
 
-        if (ecartModulo <= 150) return true;
+
+        if (moduloDistance <= 250) return true;
+
 
         return false;
     }
