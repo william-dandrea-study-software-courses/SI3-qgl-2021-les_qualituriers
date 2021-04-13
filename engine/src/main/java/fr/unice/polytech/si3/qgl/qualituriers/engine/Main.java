@@ -4,13 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import fr.unice.polytech.si3.qgl.qualituriers.Cockpit;
-import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Deck.DeckRenderer;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.graphics.Sea.Sea;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.*;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race;
-import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race6;
-import fr.unice.polytech.si3.qgl.qualituriers.engine.races.Race7;
-import fr.unice.polytech.si3.qgl.qualituriers.engine.races.TestPathfinding;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.serializers.RectangleSerializer;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
@@ -19,12 +15,13 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.ReefVisibleDec
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
-import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.*;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
+import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 
 import java.io.File;
@@ -98,6 +95,7 @@ public class Main {
         do {
             Wind wind = generateWind();
             RoundInfo rInfo = new RoundInfo(race.getBoat(), wind, race.getVisiblesEntities());
+            race.setUseWatch(false);
             var roundString = om.writeValueAsString(rInfo);
 
             var actionString = cockpit.nextRound(roundString);
@@ -114,6 +112,7 @@ public class Main {
             Transform oldPosition = race.getBoat().getPosition();
             Arrays.stream(race.getMechanics()).forEach(m -> m.execute(finalActionsDone, race));
 
+
             //collisions(race);
 
 
@@ -121,7 +120,7 @@ public class Main {
             renderer.draw();
             //deckRenderer.draw();
 
-            TimeUnit.MILLISECONDS.sleep(200);
+            TimeUnit.MILLISECONDS.sleep(500);
             compteurMax--;
             //System.out.println(cockpit.getLogs());
             cockpit.getLogs().clear();
@@ -227,7 +226,8 @@ public class Main {
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(loadRace("WEEK8_PREVIEW2"));
+        RunRace(loadRace("WEEK9"));
         //RunRace(TestPathfinding.race);
+        //RunRace(createRace());
     }
 }

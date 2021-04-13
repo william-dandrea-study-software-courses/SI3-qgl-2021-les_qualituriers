@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.Mechanic;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.ReefVisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
@@ -16,9 +17,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Race {
 
@@ -30,6 +29,8 @@ public class Race {
     private final VisibleDeckEntity[] entities;
     private Wind wind;
     private Transform speed;
+    private boolean useWatch;
+    private final Set<ReefVisibleDeckEntity> seenReefs;
 
     public Race(Goal goal, Boat boat, Marin[] sailors, Wind wind, Mechanic[] mechanics, VisibleDeckEntity[] entities) {
         this.goal = goal;
@@ -38,6 +39,7 @@ public class Race {
         this.wind = wind;
         this.mechanics = mechanics;
         this.entities = entities;
+        this.seenReefs = new HashSet<>();
 
         this.gi = new GameInfo(goal, boat, sailors, 1, wind, entities);
         this.resetSpeed();
@@ -71,6 +73,7 @@ public class Race {
         this.sailors = gi.getSailors();
         this.wind = gi.getWind();
         this.entities = gi.getSeaEntities();
+        this.seenReefs = new HashSet<>();
 
         this.mechanics = mechanics;
         this.resetSpeed();
@@ -97,8 +100,13 @@ public class Race {
     }
 
     public VisibleDeckEntity[] getVisiblesEntities() {
-        PositionableCircle circle = new PositionableCircle(new Circle(TurnConfig.FIELD_VISION), this.boat.getPosition());
-        return Arrays.stream(entities).filter(entity -> Collisions.isColliding(circle, entity.getPositionableShape())).toArray(VisibleDeckEntity[]::new);
+        PositionableCircle circle = new PositionableCircle(new Circle(this.isUsingWatch() ? TurnConfig.FIELD_VISION_ENLARGE : TurnConfig.FIELD_VISION), this.boat.getPosition());
+        VisibleDeckEntity[] visibleEntities = Arrays.stream(entities).filter(entity -> Collisions.isColliding(circle, entity.getPositionableShape())).toArray(VisibleDeckEntity[]::new);
+        for (VisibleDeckEntity visibleEnt : visibleEntities) {
+            if(visibleEnt instanceof ReefVisibleDeckEntity)
+                this.seenReefs.add((ReefVisibleDeckEntity) visibleEnt);
+        }
+        return visibleEntities;
     }
 
     public Wind getWind() {
@@ -119,5 +127,17 @@ public class Race {
 
     public Transform getSpeed() {
         return speed;
+    }
+
+    public void setUseWatch(boolean useWatch) {
+        this.useWatch = useWatch;
+    }
+
+    public boolean isUsingWatch() {
+        return useWatch;
+    }
+
+    public Set<ReefVisibleDeckEntity> getSeenReefs() {
+        return seenReefs;
     }
 }

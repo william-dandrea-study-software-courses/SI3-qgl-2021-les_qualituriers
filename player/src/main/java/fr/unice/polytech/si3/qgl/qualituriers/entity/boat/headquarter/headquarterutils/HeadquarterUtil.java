@@ -405,4 +405,15 @@ public class HeadquarterUtil {
         }
         return closerSailor;
     }
+
+
+
+
+    public static Optional<BoatEntity> getWatch(Boat boat) {
+
+        return Arrays.stream(boat.getEntities()).filter(entity -> entity.getType().equals(BoatEntities.WATCH)).findAny();
+
+    }
+
+
 }

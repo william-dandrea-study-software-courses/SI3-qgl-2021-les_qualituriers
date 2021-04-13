@@ -1,8 +1,16 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy;
 
+import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.SailBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.StreamVisibleDeckEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntities;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
+import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 
@@ -16,12 +24,14 @@ public class OarTheGoodAmountOfSailors {
     private final List<Marin> sailors;
     private final int differenceOfSailors;
     private final Transform goal;
+    private final GameInfo gameInfo;
 
-    public OarTheGoodAmountOfSailors(Boat boat, List<Marin> sailors, int differenceOfSailors, Transform goal) {
+    public OarTheGoodAmountOfSailors(Boat boat, List<Marin> sailors, int differenceOfSailors, Transform goal, GameInfo gameInfo) {
         this.boat = boat;
         this.sailors = sailors;
         this.differenceOfSailors = differenceOfSailors;
         this.goal = goal;
+        this.gameInfo = gameInfo;
     }
 
 
@@ -133,15 +143,43 @@ public class OarTheGoodAmountOfSailors {
         double distanceBetweenBoatAndCheckPoint = HeadquarterUtil.distanceBetweenTwoPoints(boat.getPosition(), goal);
         int numberOfOarsOnTheBoat = HeadquarterUtil.getListOfOars(boat).size();
 
+        boolean sailIsOpen = false;
+        Optional<BoatEntity> sailOp = HeadquarterUtil.getSail(boat);
+        if (sailOp.isPresent()) {
+            sailIsOpen = true;
+        }
 
-        for (int i = 1; i <= numberOfOarsOnTheBoat ; i++) {
+
+        double courantSpeed = 0;
+        for (VisibleDeckEntity visibleDeckEntity : gameInfo.getSeaEntities()) {
+
+            if ( visibleDeckEntity.getType().equals(VisibleDeckEntities.STREAM) && Collisions.isColliding(visibleDeckEntity.getPositionableShape(), boat.getPositionableShape())) {
+
+                if (Math.abs(((StreamVisibleDeckEntity) visibleDeckEntity).getPosition().getAngleToSee(boat.getPosition())) <= Math.PI / 4) {
+                    courantSpeed += ((StreamVisibleDeckEntity) visibleDeckEntity).getStrength();
+                } else {
+                    courantSpeed -= ((StreamVisibleDeckEntity) visibleDeckEntity).getStrength();
+                }
+                break;
+            }
+        }
+
+
+
+
+
+        for (int i = 0; i <= numberOfOarsOnTheBoat ; i++) {
 
             double distanceWithThisAmountOfOars = (double) 165 * i / numberOfOarsOnTheBoat;
+            distanceWithThisAmountOfOars += courantSpeed;
+
+            if (sailIsOpen) {
+                distanceWithThisAmountOfOars += Config.linearSpeedWind(1,1, gameInfo.getWind().getStrength(), boat.getPosition().getOrientation(), gameInfo.getWind().getOrientation());
+            }
 
             if ( distanceWithThisAmountOfOars >= distanceBetweenBoatAndCheckPoint) {
                 return i;
             }
-
         }
 
         return numberOfOarsOnTheBoat;

@@ -12,14 +12,10 @@ import java.awt.event.*;
 public class Sea {
 
     private final JFrame frame;
-    public static MyCanvas canvas;
+    public MyCanvas canvas;
 
     private final Race race;
-    private final BoatRenderer boatR;
-    private final CheckpointRenderer checkR;
-    private final PathRenderer path;
-    private final ReefRenderer reefR;
-    private final StreamRendered streamR;
+
 
     public Sea(Race race) {
         frame = new JFrame();
@@ -28,7 +24,7 @@ public class Sea {
         frame.setSize(600, 480);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        canvas = new MyCanvas();
+        canvas = new MyCanvas(race);
         canvas.setLocation(0, 0);
         canvas.setSize(600, 480);
 
@@ -60,7 +56,7 @@ public class Sea {
                 }
 
                 Point d = new Point(e.getX(), e.getY()).substract(start);
-                d = new Point(-d.getX(), d.getY());
+                d = d.scalar(-1);
                 canvas.setOffset(startDisplayOffset.add(d));
                 draw();
             }
@@ -75,12 +71,13 @@ public class Sea {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                ajustCanvas();
+                canvas.ajustCanvas();
+                if(e.getButton() == MouseEvent.BUTTON3) //clic droit
+                    canvas.clearFuturDraw();
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                //init start -> calculer diff entre mousedragged et lui -> reinit start
             }
 
             @Override
@@ -104,22 +101,13 @@ public class Sea {
 
         this.race = race;
 
-        boatR = new BoatRenderer(race);
-        checkR = new CheckpointRenderer(race);
-        path = new PathRenderer(canvas);
-        reefR = new ReefRenderer(race);
-        streamR = new StreamRendered(race);
 
-        path.addWaypoint(race.getBoat().getPosition().getPoint(), null);
 
-        ajustCanvas();
+        canvas.ajustCanvas();
         //canvas.ajustWindows(java.util.List.of(new Rectangle2D.Double(150, 150, 1, 1), new Rectangle2D.Double(-1, -1, 1, 1)));
     }
 
-    private  void ajustCanvas() {
-        canvas.ajustWindows(java.util.List.of(boatR.getBounds(), checkR.getBounds()));
-        draw();
-    }
+
 
     private void clear() {
         canvas.getGraphics().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -128,20 +116,18 @@ public class Sea {
         g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
+
+
     public void draw() {
-        clear();
+        this.canvas.repaint();
+        //clear();
         //path.addWaypoint(race.getBoat().getPosition().getPoint(), Point.ZERO);
 
-        checkR.draw(canvas);
-        reefR.draw(canvas);
-        streamR.draw(canvas);
-        //path.draw();
-        boatR.render(canvas);
+
         //path.draw();
         //this.drawMousePosition();
 
-        if(race.getBoat().getLife() <= 0)
-            this.drawDeadMessage();
+
     }
 
     //Peut être sympa
@@ -150,18 +136,10 @@ public class Sea {
         canvas.getGraphics().drawString("X: "+mousePos.getX()+" | Y: "+mousePos.getY(), 0, 10);
     }*/
 
-    private void drawDeadMessage() {
-        Point position = race.getBoat().getPosition().getPoint();
-        var graphics = canvas.getGraphics();
-        graphics.setColor(Color.BLACK);
-        graphics.drawString("Mort !", (int) canvas.getScreenPosition(position).getX() - 15, (int) canvas.getScreenPosition(position).getY() - 10);
-    }
+
 
     public void close() {
         frame.dispose();
     }
 
-    public PathRenderer getPath() {
-        return path;
-    }
 }

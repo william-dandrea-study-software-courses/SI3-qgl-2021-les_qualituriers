@@ -47,6 +47,10 @@ public abstract class VisibleDeckEntity {
         return positionableShape;
     }
 
+    public VisibleDeckEntities getType() {
+        return type;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -3,7 +3,8 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter;
 public class HeadQuarterConfig {
 
 
-    public static final boolean USE_WIND = false;
+    public static final boolean USE_WIND = true;
+    public static final boolean USE_WATCH = false;
 
 
     /**

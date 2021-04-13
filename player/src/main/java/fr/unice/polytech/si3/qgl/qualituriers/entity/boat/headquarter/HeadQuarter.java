@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarterConfig.USE_WATCH;
 import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarterConfig.USE_WIND;
 
 /**
@@ -75,11 +76,7 @@ public class HeadQuarter {
             opSail.ifPresent(boatEntity -> finalListOfActions.addAll(setupWind(sailorOnRudderOp, boatEntity)));
         }
 
-        int babordSailors = HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat).size();
-        int tribordSailors = HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat).size();
 
-        int oarsActionBabord = (int) finalListOfActions.stream().filter(action -> HeadquarterUtil.getListOfSailorsOnBabordOars(sailors, boat).stream().map(Marin::getId).collect(Collectors.toList()).contains(action.getSailorId())).count();
-        int oarsActionTribord = (int) finalListOfActions.stream().filter(action -> HeadquarterUtil.getListOfSailorsOnTribordOars(sailors, boat).stream().map(Marin::getId).collect(Collectors.toList()).contains(action.getSailorId())).count();
 
 
         return finalListOfActions;
@@ -106,6 +103,19 @@ public class HeadQuarter {
 
         List<Action> finalsActions = new ArrayList<>();
         List<Integer> sailorsWeUsed = new ArrayList<>();
+
+        if (USE_WATCH && (new UseWatchStrategy(gameInfo, sailors, boat, idSailorsWeUsesMoving, new Marin(0,0,0,""))).isSmartToUseUseWatch()) {
+
+            Optional<BoatEntity> watchOp = HeadquarterUtil.getWatch(boat);
+            if (watchOp.isPresent()) {
+                BoatEntity watch = watchOp.get();
+                Marin marin = HeadquarterUtil.searchTheClosestSailorToAPoint(sailors,watch.getPosition(), idSailorsWeUsesMoving);
+                UseWatchStrategy useWatchStrategy = new UseWatchStrategy(gameInfo, sailors, boat, idSailorsWeUsesMoving, marin);
+                finalsActions.addAll(useWatchStrategy.useWatchStrategy());
+                sailorsWeUsed.add(marin.getId());
+                idSailorsWeUsesMoving.add(marin.getId());
+            }
+        }
 
         // Nous cherchons à faire bouger au moins un marin sur le gouvernail => si on a un gouvernail et qu'il n'y a encore aucun marins sur le gouvernail, on en bouge un
         Optional<BoatEntity> rudderOptional =  HeadquarterUtil.getRudder(methodBoat);
@@ -191,8 +201,11 @@ public class HeadQuarter {
      * @return la liste d'action a effectuer pour faire avancer le bateau
      */
     private List<Action> oarTheGoodAmountOfSailors(int differenceOfSailors, Boat methodBoat, List<Marin> methodSailors, Transform goal) {
-        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(methodBoat, methodSailors, differenceOfSailors, goal);
-        return oarTheGoodAmountOfSailors.oarTheGoodAmountOfSailors();
+        OarTheGoodAmountOfSailors oarTheGoodAmountOfSailors = new OarTheGoodAmountOfSailors(methodBoat, methodSailors, differenceOfSailors, goal, gameInfo);
+        List<Action> oarTheGoodAmount = oarTheGoodAmountOfSailors.oarTheGoodAmountOfSailors();
+        idSailorsWeUsesMoving.addAll(oarTheGoodAmount.stream().map(Action::getSailorId).collect(Collectors.toList()));
+
+        return oarTheGoodAmount;
     }
 
 
@@ -214,6 +227,12 @@ public class HeadQuarter {
 
         }
     }
+
+
+
+
+
+
 
 
 

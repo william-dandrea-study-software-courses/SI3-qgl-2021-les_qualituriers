@@ -112,9 +112,9 @@ public class Collisions {
     public static boolean raycast(Segment segment, double width, PositionableShape<? extends Shape> shape) {
         //return isColliding(new PositionablePolygon(segment, new Transform(0, 0, 0)), shape);
         var dir = segment.getEnd().substract(segment.getStart());
-        PositionablePolygon poly = new PositionablePolygon(new Rectangle(dir.length(), width, dir.getOrientation()), new Transform(segment.getStart().add(dir.scalar(0.5)), 0));
+        PositionablePolygon poly = new PositionablePolygon(new Rectangle(width, dir.length(), dir.getOrientation()), new Transform(segment.getStart().add(dir.scalar(0.5)), 0));
 
-        //if(TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawPolygon(poly, Color.RED);
+        //if(TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawFuturPolygon(poly, Color.RED);
 
         return isColliding(poly, shape);
 
@@ -126,11 +126,11 @@ public class Collisions {
         var dir = segment.getEnd().substract(segment.getStart());
         PositionablePolygon poly = new PositionablePolygon(new Rectangle(dir.length(), width, dir.getOrientation()), new Transform(segment.getStart().add(dir.scalar(0.5)), 0));
 
-        if(draw && TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawPolygon(poly, Color.RED);
+        if(draw && TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawFuturPolygon(poly, Color.RED);
 
-        return isColliding(poly, shape)
+        return isColliding(poly, shape);/*
                 && isColliding(new PositionableCircle(new Circle(width / 2), new Transform(segment.getStart(), 0)), shape)
-                && isColliding(new PositionableCircle(new Circle(width / 2), new Transform(segment.getEnd(), 0)), shape);
+                && isColliding(new PositionableCircle(new Circle(width / 2), new Transform(segment.getEnd(), 0)), shape);*/
 
     }
 

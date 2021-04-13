@@ -14,11 +14,11 @@ public class CheckpointRenderer {
         this.race = race;
     }
 
-    public void draw(MyCanvas canvas) {
+    public void draw(MyCanvas canvas, Graphics g) {
         if(race.getGoal() instanceof RegattaGoal) {
-            RegattaGoal g = (RegattaGoal)race.getGoal();
-            for(var checkpoint : g.getCheckPoints()) {
-                canvas.drawShape(checkpoint.getPositionableShape(), Color.RED);
+            RegattaGoal goal = (RegattaGoal)race.getGoal();
+            for(var checkpoint : goal.getCheckPoints()) {
+                canvas.drawShape(checkpoint.getPositionableShape(), Color.RED, g);
             }
         }
     }

@@ -7,6 +7,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.SeaDrawer;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.Dijkstra.Dijkstra;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -35,11 +36,12 @@ public class PathfindingProblem {
     }
 
     void addPolygon(PositionablePolygon polygon) {
+
         polygons.add(polygon);
         var enlarged = polygon.enlargeOf(Config.BOAT_MARGIN * 4);
         enlargedPolygons.add(enlarged);
 
-        SeaDrawer.drawPolygon(enlarged, Color.magenta);
+        //SeaDrawer.drawPolygon(enlarged, Color.magenta);
     }
 
     private boolean canNavigateOn(PathfindingNode start, PathfindingNode end) {
@@ -93,6 +95,11 @@ public class PathfindingProblem {
         nodes.add(pseudoGoal);
         nodes.add(pseudoStart);
 
+        for(var node : nodes) {
+            SeaDrawer.drawPin(node.getPosition(), Color.RED);
+        }
+
+        PathfindingRoad.clearRoads();
         // Generate road between the nodes
         generateRoads();
 
@@ -100,10 +107,13 @@ public class PathfindingProblem {
         SeaDrawer.drawPin(pseudoStart.getPosition(), Color.YELLOW);
 
         // Prepare the path with the starting nodes
-        var path = searchPath(pseudoStart, pseudoGoal, new PathfindingResult() {{ addNode(startPosition); addNode(pseudoStart); }});
+        //var path = searchPath(pseudoStart, pseudoGoal, new PathfindingResult() {{ addNode(startPosition); addNode(pseudoStart); }});
+
+        var path = PathfindingResult.createFrom(Dijkstra.execute(pseudoStart, pseudoGoal, this.nodes), new ArrayList<>() {{ add(startPosition); }});
 
         // Checking if a path exist
-        if(path == null) throw new RuntimeException("No path founded !");
+        if(path == null)
+            return null;
 
         // add the final node
         path.addNode(goal);
