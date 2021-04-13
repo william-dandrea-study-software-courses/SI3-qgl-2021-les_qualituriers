@@ -7,6 +7,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.SeaDrawer;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.Dijkstra.Dijkstra;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -106,10 +107,13 @@ public class PathfindingProblem {
         SeaDrawer.drawPin(pseudoStart.getPosition(), Color.YELLOW);
 
         // Prepare the path with the starting nodes
-        var path = searchPath(pseudoStart, pseudoGoal, new PathfindingResult() {{ addNode(startPosition); addNode(pseudoStart); }});
+        //var path = searchPath(pseudoStart, pseudoGoal, new PathfindingResult() {{ addNode(startPosition); addNode(pseudoStart); }});
+
+        var path = PathfindingResult.createFrom(Dijkstra.execute(pseudoStart, pseudoGoal, this.nodes), new ArrayList<>() {{ add(startPosition); }});
 
         // Checking if a path exist
-        if(path == null) return null;
+        if(path == null)
+            return null;
 
         // add the final node
         path.addNode(goal);

@@ -11,6 +11,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.Positiona
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class PathfindingNode {
     private Point position;
@@ -29,11 +30,21 @@ public class PathfindingNode {
         return result;
     }
 
+    public List<PathfindingNode> neighbours() {
+        var result = new ArrayList<PathfindingNode>();
+        neighboursStream().forEach(result::add);
+        return result;
+    }
+
+    public Stream<PathfindingNode> neighboursStream() {
+        return roads.stream().map(r -> r.getArriving(this));
+    }
+
     void removeRoad(PathfindingRoad road) {
         this.roads.remove(road);
     }
 
-    Point getPosition() {
+    public Point getPosition() {
         return position;
     }
 

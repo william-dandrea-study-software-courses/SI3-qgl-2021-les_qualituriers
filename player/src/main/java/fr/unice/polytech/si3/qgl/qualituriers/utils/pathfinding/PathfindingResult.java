@@ -4,6 +4,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IShapeDraw;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.Dijkstra.PathSteps;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 
@@ -20,6 +21,14 @@ public class PathfindingResult {
 
     PathfindingResult() {
         this.nodes = new ArrayList<>();
+    }
+
+    public static PathfindingResult createFrom(PathSteps path, List<PathfindingNode> prefix) {
+        if(path == null) return null;
+        var res = new PathfindingResult();
+        res.nodes.addAll(prefix);
+        res.nodes.addAll(path.getNodes());
+        return res;
     }
 
     PathfindingNode get(int index) {
@@ -65,7 +74,7 @@ public class PathfindingResult {
             var nodeA = nodes.get(i);
             var nodeB = nodes.get(i + 1);
 
-            if(Collisions.raycastPolygon(new Segment(nodeA.getPosition(), nodeB.getPosition()), 4 * Config.BOAT_MARGIN, obstacles.stream()))
+            if(Collisions.raycastPolygon(new Segment(nodeA.getPosition(), nodeB.getPosition()), 3 * Config.BOAT_MARGIN, obstacles.stream()))
                 return false;
 
 
@@ -83,7 +92,7 @@ public class PathfindingResult {
         return true;
     }
 
-    void draw() {
+    public void draw() {
         if(TempoRender.SeaDrawer == null) return;
         drawing.forEach(IShapeDraw::destroy);
         drawing.clear();
