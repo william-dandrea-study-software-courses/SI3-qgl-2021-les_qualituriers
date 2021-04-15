@@ -95,9 +95,9 @@ public class PathfindingProblem {
         nodes.add(pseudoGoal);
         nodes.add(pseudoStart);
 
-        for(var node : nodes) {
+        /*for(var node : nodes) {
             SeaDrawer.drawPin(node.getPosition(), Color.RED);
-        }
+        }*/
 
         PathfindingRoad.clearRoads();
         // Generate road between the nodes
