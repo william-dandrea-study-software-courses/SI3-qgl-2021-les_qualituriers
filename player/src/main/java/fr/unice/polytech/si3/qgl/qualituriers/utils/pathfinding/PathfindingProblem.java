@@ -109,14 +109,17 @@ public class PathfindingProblem {
         // Prepare the path with the starting nodes
         //var path = searchPath(pseudoStart, pseudoGoal, new PathfindingResult() {{ addNode(startPosition); addNode(pseudoStart); }});
 
-        var path = PathfindingResult.createFrom(Dijkstra.execute(pseudoStart, pseudoGoal, this.nodes), new ArrayList<>() {{ add(startPosition); }});
+        List<PathfindingNode> pathDeb = new ArrayList<>() {{ add(startPosition); }};
+        if(startPosition.equals(pseudoStart)) pathDeb = new ArrayList<>();
+        var path = PathfindingResult.createFrom(Dijkstra.execute(pseudoStart, pseudoGoal, this.nodes), pathDeb);
 
         // Checking if a path exist
         if(path == null)
             return null;
 
         // add the final node
-        path.addNode(goal);
+        if(!pseudoGoal.equals(goal))
+            path.addNode(goal);
 
         return path;
     }
