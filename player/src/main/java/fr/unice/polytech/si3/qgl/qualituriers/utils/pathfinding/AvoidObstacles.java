@@ -60,15 +60,15 @@ public class AvoidObstacles implements IPathfinder {
         else if(!context.getToReach().getPosition().getPoint().equals(store.getCalculatedPath().getLast().getPosition()))
             FindANewPath(context, obstacles);
 
-        // If we reached the final waypoint
-        else if(Collisions.isColliding(
-                context.getBoat().getPositionableShape(),
-                store.getCalculatedPath().getLast().toPositionableCircle())) {
-            FindANewPath(context, obstacles);
-        }
-        // If we reached an intermediare checkpoint
-        else if(Collisions.isColliding(context.getBoat().getPositionableShape(), store.getCalculatedPath().get(store.getCurrentNodeToReach()).toPositionableCircle())) {
-            store.setCurrentNodeToReach(store.getCurrentNodeToReach() + 1);
+        // If we reached a waypoint
+        else if(boatPosition.substract(store.getCalculatedPath().get(store.getCurrentNodeToReach()).getPosition()).lengthWithoutSquare() < WAYPOINT_SIZE * WAYPOINT_SIZE) {
+            if(store.getCalculatedPath().length() - 1 > store.getCurrentNodeToReach()) {
+                // If there is waypoints remaining in the path
+                store.setCurrentNodeToReach(store.getCurrentNodeToReach() + 1);
+            } else {
+                // Else generate a path to the next checkpoint
+                FindANewPath(context, obstacles);
+            }
         }
 
         if(store.getCalculatedPath() == null)
