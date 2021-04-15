@@ -73,15 +73,35 @@ public class HeadQuarter {
         if (USE_WIND) {
             // Maintenant on sélectionne un marin que nous allons déplacer sur la voile si cela est nécessaire
             Optional<BoatEntity> opSail = HeadquarterUtil.getSail(boat);
-            opSail.ifPresent(boatEntity -> finalListOfActions.addAll(setupWind(sailorOnRudderOp, boatEntity)));
+            List<Action> finalListOfActions1 = finalListOfActions;
+            opSail.ifPresent(boatEntity -> finalListOfActions1.addAll(setupWind(sailorOnRudderOp, boatEntity)));
         }
 
-
-
+        finalListOfActions =  sortTheFinalsActions(finalListOfActions);
 
         return finalListOfActions;
     }
 
+
+    List<Action> sortTheFinalsActions(List<Action> actionList) {
+
+        List<Action> newActionList = new ArrayList<>();
+
+        for (Action action : actionList) {
+            if (action instanceof Moving) {
+                newActionList.add(action);
+            }
+        }
+
+        for (Action action : actionList) {
+            if (!newActionList.contains(action)) {
+                newActionList.add(action);
+            }
+        }
+
+
+        return newActionList;
+    }
 
     public List<Action> setupWind(Optional<Marin> sailorForRudder, BoatEntity sail) {
 

@@ -227,7 +227,6 @@ class HeadquarterUtilTest {
     void generateOarTest() {
         assertTrue(HeadquarterUtil.generateOar(1, defaultSailors, defaultBoat).isPresent());
         assertEquals(Optional.of(new Oar(1)), HeadquarterUtil.generateOar(1, defaultSailors, defaultBoat));
-        assertThrows(SailorCantOarException.class, () -> HeadquarterUtil.generateOar(22, defaultSailors, defaultBoat));
 
     }
 

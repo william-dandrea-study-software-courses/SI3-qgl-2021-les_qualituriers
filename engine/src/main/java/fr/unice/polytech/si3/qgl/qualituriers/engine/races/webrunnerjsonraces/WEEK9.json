@@ -10,7 +10,7 @@
         },
         "shape": {
           "type": "circle",
-          "radius": 100
+          "radius": 10
         }
       },
       {
@@ -21,7 +21,7 @@
         },
         "shape": {
           "type": "circle",
-          "radius": 100
+          "radius": 10
         }
       },
       {
@@ -32,7 +32,7 @@
         },
         "shape": {
           "type": "circle",
-          "radius": "50"
+          "radius": 10
         }
       },
       {
@@ -43,7 +43,7 @@
         },
         "shape": {
           "type": "circle",
-          "radius": "100"
+          "radius": 10
         }
       },
       {
@@ -54,7 +54,7 @@
         },
         "shape": {
           "type": "circle",
-          "radius": "100"
+          "radius": 10
         }
       }
     ]

@@ -71,10 +71,6 @@ public class RectangleTest {
         Point point2 = new Point(5, 10).rotate(Math.PI);
         Point point3 = new Point(5, -10).rotate(Math.PI);
         Point point4 = new Point(-5, -10).rotate(Math.PI);
-        /*Point point1 = new Point(5, -10);
-        Point point2 = new Point(-5, -10);
-        Point point3 = new Point(-5, 10);
-        Point point4 = new Point(5, 10);*/
         assertArrayEquals(new Point[] {point1, point2, point3, point4}, this.reversedRect.getVertices());
     }
 

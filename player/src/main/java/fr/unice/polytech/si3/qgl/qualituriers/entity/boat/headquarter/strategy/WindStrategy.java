@@ -64,7 +64,11 @@ public class WindStrategy {
             Point pointFinal = boatPathFinding.generateClosestPoint();
 
             Optional<Action> movingAction = HeadquarterUtil.generateMovingAction(closestSailor.getId(), closestSailor.getX(), closestSailor.getY(), (int) pointFinal.getX(), (int) pointFinal.getY());
-            movingAction.ifPresent(finalListOfActions::add);
+
+            if (movingAction.isPresent()) {
+                finalListOfActions.add(movingAction.get());
+                closestSailor.setPosition((int) pointFinal.getX(), (int) pointFinal.getY());
+            }
 
             sailorOnSail = HeadquarterUtil.getSailorOnSail(boat, sailors);
             if (sailorOnSail.isPresent()) {

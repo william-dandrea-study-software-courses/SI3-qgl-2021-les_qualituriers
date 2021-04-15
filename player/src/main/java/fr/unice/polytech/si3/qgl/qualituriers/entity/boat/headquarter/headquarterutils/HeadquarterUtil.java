@@ -55,6 +55,7 @@ public class HeadquarterUtil {
             return Optional.empty();
         }
 
+
         return Optional.of(new Moving(sailorId, finalX - initialX, finalY - initialY));
     }
 
@@ -85,9 +86,14 @@ public class HeadquarterUtil {
      */
     public static Optional<Action> generateOar(int sailorId, List<Marin> sailors, Boat boat) {
 
-        if (getListOfSailorsOnOars(sailors, boat).stream().noneMatch(marin -> marin.getId() == sailorId)) {
+        Optional<Marin> sailorOp = getSailorByHisID(sailors, sailorId);
+        if (sailorOp.isEmpty())
+            throw new IllegalArgumentException("Il n'y a pas de marin avec l'id " + sailorId + " sur le bateau");
+
+
+        if (getListOfSailorsOnOars(sailors, boat).stream().noneMatch(marin -> marin.getId() == sailorId))
             throw new SailorCantOarException(sailorId);
-        }
+
         return Optional.of(new Oar(sailorId));
     }
 
