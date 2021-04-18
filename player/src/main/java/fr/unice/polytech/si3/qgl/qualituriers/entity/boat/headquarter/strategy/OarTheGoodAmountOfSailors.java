@@ -151,6 +151,7 @@ public class OarTheGoodAmountOfSailors {
 
 
         double courantSpeed = 0;
+        /*
         for (VisibleDeckEntity visibleDeckEntity : gameInfo.getSeaEntities()) {
 
             if ( visibleDeckEntity.getType().equals(VisibleDeckEntities.STREAM) && Collisions.isColliding(visibleDeckEntity.getPositionableShape(), boat.getPositionableShape())) {
@@ -163,6 +164,8 @@ public class OarTheGoodAmountOfSailors {
                 break;
             }
         }
+
+         */
 
 
 

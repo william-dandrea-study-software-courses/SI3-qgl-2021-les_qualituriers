@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AvoidObstacles implements IPathfinder {
+
+    private static final double WAYPOINT_SIZE = 100;
+
     @Override
     public int getPriorityRank() {
         return Integer.MAX_VALUE - 1;
@@ -57,19 +60,19 @@ public class AvoidObstacles implements IPathfinder {
         else if(!context.getToReach().getPosition().getPoint().equals(store.getCalculatedPath().getLast().getPosition()))
             FindANewPath(context, obstacles);
 
-        // If we reached the final waypoint
-        else if(Collisions.isColliding(
-                context.getBoat().getPositionableShape(),
-                store.getCalculatedPath().getLast().toPositionableCircle())) {
-            FindANewPath(context, obstacles);
-        }
-        // If we reached an intermediare checkpoint
-        else if(Collisions.isColliding(context.getBoat().getPositionableShape(), store.getCalculatedPath().get(store.getCurrentNodeToReach()).toPositionableCircle())) {
-            store.setCurrentNodeToReach(store.getCurrentNodeToReach() + 1);
+        // If we reached a waypoint
+        else if(boatPosition.substract(store.getCalculatedPath().get(store.getCurrentNodeToReach()).getPosition()).lengthWithoutSquare() < WAYPOINT_SIZE * WAYPOINT_SIZE) {
+            if(store.getCalculatedPath().length() - 1 > store.getCurrentNodeToReach()) {
+                // If there is waypoints remaining in the path
+                store.setCurrentNodeToReach(store.getCurrentNodeToReach() + 1);
+            } else {
+                // Else generate a path to the next checkpoint
+                FindANewPath(context, obstacles);
+            }
         }
 
         if(store.getCalculatedPath() == null)
-            return new CheckPoint(new Transform(boatPosition, 0), new Circle(50));
+            return new CheckPoint(new Transform(boatPosition, 0), new Circle(WAYPOINT_SIZE));
 
         // Getting the next checkpoint from the processed path
         var nextPos = store.getCalculatedPath().get(store.getCurrentNodeToReach()).getPosition();
@@ -78,7 +81,7 @@ public class AvoidObstacles implements IPathfinder {
         SeaDrawer.drawPin(nextPos, Color.ORANGE);
         //SeaDrawer.waitIfDebugMode(2000);
 
-        return new CheckPoint(new Transform(nextPos, 0), new Circle(50));
+        return new CheckPoint(new Transform(nextPos, 0), new Circle(WAYPOINT_SIZE));
     }
 
     private void FindANewPath(PathfindingContext context, List<PositionablePolygon> obstacles) {

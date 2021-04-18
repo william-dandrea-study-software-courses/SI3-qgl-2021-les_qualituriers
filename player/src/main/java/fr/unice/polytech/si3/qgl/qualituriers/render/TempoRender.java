@@ -85,10 +85,6 @@ public class TempoRender extends Render {
                     currentCheckpoint,
                     this.store
             ));
-            if(intermediareCheckpoint == null || Collisions.isColliding(intermediareCheckpoint.getPositionableShape(), this.gameInfo.getShip().getPositionableShape())) {
-
-                int i = 0;
-            }
         } else {
             intermediareCheckpoint = currentCheckpoint;
         }

@@ -225,18 +225,6 @@
         "width":"400",
         "height":"1350"
       }
-    },
-    {
-      "position":{
-        "x":2905.8663028649435,
-        "y":3074.3243243243232,
-        "orientation":0
-      },
-      "type":"reef",
-      "shape":{
-        "type":"circle",
-        "radius":100
-      }
     }
   ],
   "maxRound":500,

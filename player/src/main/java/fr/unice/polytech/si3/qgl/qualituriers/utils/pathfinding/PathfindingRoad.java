@@ -60,7 +60,7 @@ public class PathfindingRoad {
         if(canCreatePraticableRoad(from, to, width, obstacles)) {
             from.createRoadTo(to);
             if(TempoRender.SeaDrawer == null) return;
-            roadDrawings.add(TempoRender.SeaDrawer.drawFuturLine(from.getPosition(), to.getPosition(), Color.GREEN));
+            //roadDrawings.add(TempoRender.SeaDrawer.drawFuturLine(from.getPosition(), to.getPosition(), Color.GREEN));
         }
     }
 
@@ -72,7 +72,7 @@ public class PathfindingRoad {
     public static void draw() {
         if(TempoRender.SeaDrawer != null) {
             for(var r : roads) {
-                TempoRender.SeaDrawer.drawFuturLine(r.from.getPosition(), r.to.getPosition(), Color.MAGENTA);
+                //TempoRender.SeaDrawer.drawFuturLine(r.from.getPosition(), r.to.getPosition(), Color.MAGENTA);
             }
 
             /*

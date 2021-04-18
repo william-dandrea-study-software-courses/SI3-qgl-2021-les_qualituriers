@@ -21,7 +21,6 @@ public class OarMechanic extends Mechanic {
         int left = 0;
         int right = 0;
 
-        //System.out.println("===> " + Arrays.toString(race.getSailors()));
 
         for(var action : actions) {
             if(action instanceof Oar) {

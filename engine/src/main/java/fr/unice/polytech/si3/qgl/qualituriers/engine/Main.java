@@ -120,7 +120,7 @@ public class Main {
             renderer.draw();
             //deckRenderer.draw();
 
-            TimeUnit.MILLISECONDS.sleep(500);
+            TimeUnit.MILLISECONDS.sleep(100);
             compteurMax--;
             //System.out.println(cockpit.getLogs());
             cockpit.getLogs().clear();
@@ -226,7 +226,7 @@ public class Main {
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(loadRace("WEEK9"));
+        RunRace(loadRace("WEEK10_PREVIEW"));
         //RunRace(TestPathfinding.race);
         //RunRace(createRace());
     }
