@@ -10,12 +10,15 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEnt
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.BattleGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -143,5 +146,24 @@ public class GameInfoTest {
         assertNotEquals(gameInfo3.hashCode(), this.gameInfo.hashCode());
         assertNotEquals(gameInfo4.hashCode(), this.gameInfo.hashCode());
         assertNotEquals(gameInfo5.hashCode(), this.gameInfo.hashCode());
+    }
+
+    @Test
+    void testGetNumberOfTurn(){
+        assertEquals(gameInfo.getNumberOfTurn(), 0);
+    }
+
+    @Test
+    void testDistanceTraveled(){
+        assertEquals(gameInfo.getTraveledDistance(), 0);
+    }
+
+    @Test
+    void testAddPointsWhereTheBoatMoved(){
+        assertEquals(gameInfo.getPointsWhereTheBoatMoved(), new ArrayList<Point>());
+        gameInfo.addPointsWhereTheBoatMoved(new Point(1, 1));
+        List<Point> compare = new ArrayList<Point>();
+        compare.add(new Point(1, 1));
+        assertEquals(gameInfo.getPointsWhereTheBoatMoved(), compare);
     }
 }

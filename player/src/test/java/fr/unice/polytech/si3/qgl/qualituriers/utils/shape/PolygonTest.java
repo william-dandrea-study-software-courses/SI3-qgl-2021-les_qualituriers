@@ -41,4 +41,14 @@ public class PolygonTest {
         Polygon compare = new Polygon(0, vertices2);
         assertEquals(compare, polygon.scaleFromCenter(30));
     }
+
+    @Test
+    void enlargeOfTest(){
+        Point[] vertices = {new Point(30, 0), new Point(-15, 25), new Point(-25, -15)};
+        Polygon polygon = new Polygon(0, vertices);
+        Point[] vertices2 = {new Point(44.569287935358965, 26.224718283646126), new Point(-0.4307120646410372, 51.224718283646126), new Point(-26.940657102978733, 52.5212773676856), new Point(-44.104275004359955, 32.276068751089994),
+        new Point(-54.104275004359955, -7.723931248910009), new Point(-45.98636934605986, -36.437637502084016), new Point(-17.10647782623674, -43.94291463713196), new Point(37.89352217376326, -28.942914637131963), new Point(59.78273644277924, -3.60397141774866)};
+        Polygon pol = (Polygon) polygon.enlargeOf(30);
+        assertEquals(pol, new Polygon(0, vertices2));
+    }
 }
