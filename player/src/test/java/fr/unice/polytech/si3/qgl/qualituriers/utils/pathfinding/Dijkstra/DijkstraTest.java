@@ -27,7 +27,6 @@ public class DijkstraTest {
     @Test
     public void initTest(){
     Dijkstra test = new Dijkstra();
-    var oke = test.execute(nodes.get(0), nodes.get(nodes.size()-1), nodes);
         assertEquals(null, test.execute(nodes.get(0), nodes.get(nodes.size()-1), nodes));
     }
 }
