@@ -39,7 +39,7 @@ public class Main {
     // [{"position":{"x":10.0,"y":-350.0,"orientation":0.0},"shape":{"type":"circle","radius":85.0}},
     // {"position":{"x":-150.0,"y":1250.0,"orientation":0.0},"shape":{"type":"circle","radius":85.0}}]}
     static Boat createBoat() {
-
+        //pour ajouter le tag
         return TurnConfig.boat;
     }
 
