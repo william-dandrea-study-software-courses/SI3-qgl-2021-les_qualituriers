@@ -31,5 +31,12 @@ public class AngleUtilTest {
         assertTrue(AngleUtil.differenceBetweenTwoAngle(-5*Math.PI/6, 5*Math.PI/6)>= -2*Math.PI/6 - Config.EPSILON && AngleUtil.differenceBetweenTwoAngle(-5*Math.PI/6, 5*Math.PI/6)<= -2*Math.PI/6 + Config.EPSILON );
     }
 
+    @Test
+    void mod2PIAngleTest(){
+        assertEquals(3, AngleUtil.mod2PIAngle(3));
+        assertEquals(0.7168146928204138, AngleUtil.mod2PIAngle(7));
+        assertEquals(-3, AngleUtil.mod2PIAngle(-3));
+    }
+
 
 }
