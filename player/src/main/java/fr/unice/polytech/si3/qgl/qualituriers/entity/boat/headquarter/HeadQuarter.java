@@ -16,6 +16,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarterConfig.USE_WATCH;
@@ -32,12 +33,13 @@ import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.Hea
  */
 public class HeadQuarter {
 
-
     private final Boat boat;
     private final List<Marin> sailors;
     private final Transform goal;
     private final GameInfo gameInfo;
     private List<Integer> idSailorsWeUsesMoving;
+
+    private static final Logger LOGGER = Logger.getLogger(HeadQuarter.class.getName());
 
 
     public HeadQuarter(Boat boat, List<Marin> sailors, Transform goal, GameInfo gameInfo) {
@@ -247,13 +249,6 @@ public class HeadQuarter {
 
         }
     }
-
-
-
-
-
-
-
 
 
     public List<Marin> getSailors() {
