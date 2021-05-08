@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils;
+package fr.unice.polytech.si3.qgl.qualituriers.game.headquarter.headquarterutils;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
@@ -6,7 +6,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
 import fr.unice.polytech.si3.qgl.qualituriers.exceptions.MaxAngleRudderException;
 import fr.unice.polytech.si3.qgl.qualituriers.exceptions.MovingSailorException;
-import fr.unice.polytech.si3.qgl.qualituriers.exceptions.SailorCantOarException;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
@@ -16,7 +15,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil.*;
+import static fr.unice.polytech.si3.qgl.qualituriers.game.headquarter.headquarterutils.HeadquarterUtil.*;
 
 import java.util.ArrayList;
 import java.util.List;

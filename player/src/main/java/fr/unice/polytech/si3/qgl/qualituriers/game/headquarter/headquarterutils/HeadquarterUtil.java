@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils;
+package fr.unice.polytech.si3.qgl.qualituriers.game.headquarter.headquarterutils;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
@@ -136,7 +136,6 @@ public class HeadquarterUtil {
     public static boolean placeIsNotAnBoatEntity(Point position, Boat boat) {
 
         return Arrays.stream(boat.getEntities()).noneMatch(entity -> entity.getX() == (int) position.getX() && entity.getY() == (int) position.getY());
-
     }
 
     /**

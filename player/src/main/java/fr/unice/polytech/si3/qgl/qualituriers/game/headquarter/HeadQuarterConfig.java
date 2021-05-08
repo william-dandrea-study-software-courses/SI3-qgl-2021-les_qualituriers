@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter;
+package fr.unice.polytech.si3.qgl.qualituriers.game.headquarter;
 
 public class HeadQuarterConfig {
 

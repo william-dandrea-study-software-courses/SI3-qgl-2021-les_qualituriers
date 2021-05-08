@@ -1,11 +1,11 @@
-package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter;
+package fr.unice.polytech.si3.qgl.qualituriers.game.headquarter;
 
 
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.headquarterutils.HeadquarterUtil;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.strategy.*;
+import fr.unice.polytech.si3.qgl.qualituriers.game.headquarter.headquarterutils.HeadquarterUtil;
+import fr.unice.polytech.si3.qgl.qualituriers.game.headquarter.strategy.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.exceptions.MovingSailorException;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
@@ -19,8 +19,8 @@ import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarterConfig.USE_WATCH;
-import static fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarterConfig.USE_WIND;
+import static fr.unice.polytech.si3.qgl.qualituriers.game.headquarter.HeadQuarterConfig.USE_WATCH;
+import static fr.unice.polytech.si3.qgl.qualituriers.game.headquarter.HeadQuarterConfig.USE_WIND;
 
 /**
  * Cette classe a pour objectif de controller tout ce qu'il se passe sur le bateau.
