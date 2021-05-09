@@ -86,10 +86,4 @@ public class MoveSailorsOnTheirAffectedBoatEntities {
 
         return finalListOfActions;
     }
-
-
-
-
-
-
 }

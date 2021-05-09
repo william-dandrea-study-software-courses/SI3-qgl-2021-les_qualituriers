@@ -91,8 +91,7 @@ public class GiveMissionToSailors {
         int actualNumberOfSailorsAtBabord = 0;
         int actualNumberOfSailorsAtTribord = 0;
 
-        System.out.println(goalOfSailorsAtBabord);
-        System.out.println(goalOfSailorsAtTribord);
+
 
 
 
@@ -162,7 +161,6 @@ public class GiveMissionToSailors {
         Optional<BoatEntity> entityOptional = Arrays.stream(gameInfo.getShip().getEntities()).filter(boatEntity -> boatEntity.getType() == entityWeWantToAffectSailor).findAny();
 
 
-        System.out.println(entityOptional);
         if (entityOptional.isPresent()) {
             BoatEntity entity = entityOptional.get();
 

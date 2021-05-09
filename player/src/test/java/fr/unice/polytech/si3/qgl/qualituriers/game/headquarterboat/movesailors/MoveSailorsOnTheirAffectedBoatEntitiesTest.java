@@ -265,6 +265,7 @@ class MoveSailorsOnTheirAffectedBoatEntitiesTest {
 
         MoveSailorsOnTheirAffectedBoatEntities moveSailorsOnTheirAffectedBoatEntities = new MoveSailorsOnTheirAffectedBoatEntities(gameInfo);
         List<Action> actions = moveSailorsOnTheirAffectedBoatEntities.launch();
+        System.out.println(actions);
 
         assertEquals(new Point(6,1), sailor1.getPosition());
         assertEquals(new Point(6,2), sailor2.getPosition());
@@ -274,6 +275,7 @@ class MoveSailorsOnTheirAffectedBoatEntitiesTest {
         assertEquals(new Point(4,0), sailor6.getPosition());
 
         List<Action> actionsSecondRound = moveSailorsOnTheirAffectedBoatEntities.launch();
+        System.out.println(actionsSecondRound);
 
         assertEquals(new Point(7,0), sailor1.getPosition());
         assertEquals(new Point(7,4), sailor2.getPosition());
@@ -283,6 +285,7 @@ class MoveSailorsOnTheirAffectedBoatEntitiesTest {
         assertEquals(new Point(4,0), sailor6.getPosition());
 
         List<Action> actionsLastRound = moveSailorsOnTheirAffectedBoatEntities.launch();
+        System.out.println(actionsLastRound);
 
         assertEquals(new Point(7,0), sailor1.getPosition());
         assertEquals(new Point(7,4), sailor2.getPosition());

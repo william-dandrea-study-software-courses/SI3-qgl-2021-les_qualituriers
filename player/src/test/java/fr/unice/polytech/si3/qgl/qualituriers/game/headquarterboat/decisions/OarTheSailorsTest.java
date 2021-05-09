@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat;
+package fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
@@ -9,24 +9,23 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author D'Andréa William
  */
-class NewHeadQuarterTest {
+class OarTheSailorsTest {
 
     // Default CheckPoint
-    private CheckPoint[] defaultDeckPoints;
+    private CheckPoint[] defaultCheckPoints;
     private Goal defaultGoal;
 
     // Default boat
@@ -77,8 +76,8 @@ class NewHeadQuarterTest {
     void setUp() {
 
         // Default CheckPoint
-        defaultDeckPoints = new CheckPoint[]{new CheckPoint(new Transform(1000, 1000, 0), new Circle(50))};
-        defaultGoal = new RegattaGoal(defaultDeckPoints);
+        defaultCheckPoints = new CheckPoint[]{new CheckPoint(new Transform(1000, 1000, 0), new Circle(50))};
+        defaultGoal = new RegattaGoal(defaultCheckPoints);
 
         // Default boat
         defaultBoatLife = 100;
@@ -123,13 +122,31 @@ class NewHeadQuarterTest {
     }
 
     @Test
-    void playTurn() {
+    void launch() {
+    }
 
-        NewHeadQuarter newHeadQuarter = new NewHeadQuarter(gameInfo);
+    @Test
+    void getDifferenceOfOarsForGoingToDestination() {
 
-        List<Action> actions = newHeadQuarter.playTurn();
-        List<Action> actions2 = newHeadQuarter.playTurn();
-        List<Action> actions3 = newHeadQuarter.playTurn();
+        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(100,0, 0), new Circle(10)));
+        assertEquals(0, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
 
+        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(100,100, 0), new Circle(10)));
+        assertEquals(2, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
+
+        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(100,-100, 0), new Circle(10)));
+        assertEquals(-2, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
+
+        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(-10,-100, 0), new Circle(10)));
+        assertEquals(-4, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
+
+        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(-10,100, 0), new Circle(10)));
+        assertEquals(4, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
+
+        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
+        assertEquals(0, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
+
+        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(-1000,0, 0), new Circle(10)));
+        assertEquals(4, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
     }
 }

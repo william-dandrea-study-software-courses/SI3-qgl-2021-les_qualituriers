@@ -5,9 +5,11 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.movesailors.A
 import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.movesailors.MoveSailorsOnTheirAffectedBoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.sailorsmission.GiveMissionToSailors;
 import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.sailorsmission.SailorMission;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,6 +20,7 @@ import java.util.List;
 public class NewHeadQuarter {
 
     private final GameInfo gameInfo;
+    private CheckPoint goal;
 
     public NewHeadQuarter(GameInfo gameInfo) {
         this.gameInfo = gameInfo;
@@ -25,9 +28,11 @@ public class NewHeadQuarter {
 
     public List<Action> playTurn() {
 
+        System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>");
+        System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>");
         gameInfo.initializeActionsToDoDuringOneTurn();
-
-        List<Action> finalListOfActions = new ArrayList<>();
+        gameInfo.reinitializeAllSailorsMissions();
+        gameInfo.reinitializeAffectedSailorsInBoatEntities();
 
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.SAIL_SAILOR);
         giveMissionToSailors.launch();
@@ -36,12 +41,20 @@ public class NewHeadQuarter {
         affectSailorsWithObjectiveToTheirBoatEntities.launch();
 
         MoveSailorsOnTheirAffectedBoatEntities moveSailorsOnTheirAffectedBoatEntities = new MoveSailorsOnTheirAffectedBoatEntities(gameInfo);
-        gameInfo.addAllActionsToDoDuringOneTurn(moveSailorsOnTheirAffectedBoatEntities.launch());
+        List<Action> finalListOfActions = moveSailorsOnTheirAffectedBoatEntities.launch();
 
+        System.out.println("===============");
+        System.out.println(finalListOfActions);
+        System.out.println("===============");
 
+        System.out.println("===============");
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+        System.out.println("===============");
 
+        System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>");
+        System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>");
 
-        return gameInfo.getActionsToDoDuringOneTurn();
+        return finalListOfActions;
     }
 
 

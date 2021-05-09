@@ -67,12 +67,19 @@ public class AffectSailorsWithObjectiveToTheirBoatEntities {
 
         // D'abord, on va chercher les marins qui sont déjà bien positionné
         for (Marin marin : sailorsToAffectsClone) {
-            for (BoatEntity possiblePlace: goalBoatEntities) {
-                if (marin.getPosition().equals(possiblePlace.getPosition())) {
-                    possiblePlace.setSailorAffected(marin);
-                    sailorsToAffects.remove(marin);
+
+            // On vérifie que le marin n'est pas déjà affecté à une action
+            if (!Arrays.asList(gameInfo.getShip().getEntities()).contains(marin)) {
+
+                for (BoatEntity possiblePlace: goalBoatEntities) {
+                    if (marin.getPosition().equals(possiblePlace.getPosition())) {
+                        possiblePlace.setSailorAffected(marin);
+                        sailorsToAffects.remove(marin);
+                    }
                 }
             }
+
+
         }
 
 
@@ -81,16 +88,19 @@ public class AffectSailorsWithObjectiveToTheirBoatEntities {
             double distance = Double.POSITIVE_INFINITY;
             Optional<BoatEntity> bestPlace = Optional.empty();
 
+            // On vérifie que le marin n'est pas déjà affecté à une action
+            if (!Arrays.asList(gameInfo.getShip().getEntities()).contains(marin)) {
 
-            // Maintenant on regarde la place la plus proche
-            for (BoatEntity possiblePlace : goalBoatEntities) {
-                double distanceBetweenMarinAndPossiblePlace =  possiblePlace.getPosition().distance(marin.getPosition());
+                // Maintenant on regarde la place la plus proche
+                for (BoatEntity possiblePlace : goalBoatEntities) {
+                    double distanceBetweenMarinAndPossiblePlace =  possiblePlace.getPosition().distance(marin.getPosition());
 
-                // Si aucun marin n'est affecté à ectte place et que la distance entre le marin et la destination est plus courte,
-                // On affecte ce marin a cette place
-                if (possiblePlace.getSailorAffected() == null && distanceBetweenMarinAndPossiblePlace <= distance) {
-                    distance = distanceBetweenMarinAndPossiblePlace;
-                    bestPlace = Optional.of(possiblePlace);
+                    // Si aucun marin n'est affecté à ectte place et que la distance entre le marin et la destination est plus courte,
+                    // On affecte ce marin a cette place
+                    if (possiblePlace.getSailorAffected() == null && distanceBetweenMarinAndPossiblePlace <= distance) {
+                        distance = distanceBetweenMarinAndPossiblePlace;
+                        bestPlace = Optional.of(possiblePlace);
+                    }
                 }
             }
 

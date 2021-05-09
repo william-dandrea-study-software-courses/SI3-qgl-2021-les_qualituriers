@@ -162,6 +162,13 @@ public class GameInfo {
 
 
 
+    public void reinitializeAffectedSailorsInBoatEntities() {
+
+        for (BoatEntity entity : ship.getEntities()) {
+            entity.setSailorAffected(null);
+        }
+
+    }
 
     public void reinitializeAllSailorsMissions() {
         for (Marin marin : sailors) {
