@@ -9,6 +9,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
+import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.sailorsmission.SailorMission;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import java.util.*;
@@ -146,9 +147,17 @@ public class GameInfo {
 
     public void reinitializeAllSailorsMissions() {
         for (Marin marin : sailors) {
-            marin.setSailorMission(null);
+            marin.setSailorMission(SailorMission.NONE_SAILOR);
         }
     }
+
+
+
+    public List<Marin> getSailorsWithAnyMissions() {
+        return Arrays.stream(sailors).filter(sailor -> sailor.getSailorMission() == SailorMission.NONE_SAILOR).collect(Collectors.toList());
+    }
+
+
 
 
     /**

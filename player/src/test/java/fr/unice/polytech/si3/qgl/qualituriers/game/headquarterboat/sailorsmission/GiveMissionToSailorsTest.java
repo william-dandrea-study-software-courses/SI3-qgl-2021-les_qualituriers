@@ -112,16 +112,12 @@ class GiveMissionToSailorsTest {
         gameInfo = new GameInfo(defaultGoal, defaultBoat, defaultSailors, defaultShipCount, defaultWind, defaultVisibleDeckEntities);
     }
 
-    @Test
-    void launch() {
-    }
-
 
 
     @Test
     void affectMissionForOneSailor_TestOnRudderWhenSailorIsOnFreePlaceWhenAnyAvoidMission() {
 
-        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo);
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.affectMissionForOneSailor(BoatEntities.RUDDER, SailorMission.RUDDER_SAILOR, new ArrayList<>());
 
         assertEquals(sailor5.getSailorMission(), SailorMission.RUDDER_SAILOR);
@@ -132,7 +128,7 @@ class GiveMissionToSailorsTest {
     @Test
     void affectMissionForOneSailor_TestOnRudderWhenSailorIsOnRudderWhenAnyAvoidMission() {
 
-        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo);
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         sailor1.setPosition(11,2);
         giveMissionToSailors.affectMissionForOneSailor(BoatEntities.RUDDER, SailorMission.RUDDER_SAILOR, new ArrayList<>());
 
@@ -146,7 +142,7 @@ class GiveMissionToSailorsTest {
     void affectMissionForOneSailor_TestOnRudderWhenAllSailorsAreOnOarWhenAnyAvoidMission() {
 
 
-        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo);
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         sailor1.setPosition(4,0);
         sailor2.setPosition(5,0);
         sailor3.setPosition(6,0);
@@ -162,7 +158,7 @@ class GiveMissionToSailorsTest {
     @Test
     void affectMissionForOneSailor_TestOnRudderWhenSailorIsOnSailWhenAnyAvoidMission() {
 
-        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo);
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         sailor1.setPosition(8,2);
 
         giveMissionToSailors.affectMissionForOneSailor(BoatEntities.RUDDER, SailorMission.RUDDER_SAILOR, new ArrayList<>());
@@ -179,7 +175,7 @@ class GiveMissionToSailorsTest {
         defaultSailors = new Marin[]{sailor1};
         gameInfo = new GameInfo(defaultGoal, defaultBoat, defaultSailors, defaultShipCount, defaultWind, defaultVisibleDeckEntities);
 
-        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo);
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.affectMissionForOneSailor(BoatEntities.RUDDER, SailorMission.RUDDER_SAILOR, new ArrayList<>());
 
         System.out.println(Arrays.toString(defaultSailors));
@@ -207,7 +203,7 @@ class GiveMissionToSailorsTest {
             add(SailorMission.TRIBORDOAR_SAILOR);
         }};
 
-        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo);
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.affectMissionForOneSailor(BoatEntities.RUDDER, SailorMission.RUDDER_SAILOR, avoidMissions);
 
         assertEquals(sailor5.getSailorMission(), SailorMission.RUDDER_SAILOR);
@@ -222,7 +218,7 @@ class GiveMissionToSailorsTest {
             add(SailorMission.TRIBORDOAR_SAILOR);
         }};
 
-        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo);
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         sailor1.setPosition(11,2);
         giveMissionToSailors.affectMissionForOneSailor(BoatEntities.RUDDER, SailorMission.RUDDER_SAILOR, avoidMissions);
 
@@ -253,7 +249,7 @@ class GiveMissionToSailorsTest {
         sailor6.setPosition(7,4);
         sailor6.setSailorMission(SailorMission.TRIBORDOAR_SAILOR);
 
-        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo);
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.affectMissionForOneSailor(BoatEntities.RUDDER, SailorMission.RUDDER_SAILOR, avoidMissions);
 
         System.out.println(Arrays.toString(defaultSailors));
@@ -288,7 +284,7 @@ class GiveMissionToSailorsTest {
         sailor6.setPosition(7,4);
         sailor6.setSailorMission(SailorMission.TRIBORDOAR_SAILOR);
 
-        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo);
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.affectMissionForOneSailor(BoatEntities.RUDDER, SailorMission.RUDDER_SAILOR, avoidMissions);
 
         System.out.println(Arrays.toString(defaultSailors));
@@ -314,24 +310,708 @@ class GiveMissionToSailorsTest {
 
 
 
-
     @Test
-    void affectAllTheSailorsWithAnyMissionOnOarTest() {
+    void affectAllTheSailorsWithAnyMissionOnOar_TestWhenAnySailorsOnOar() {
 
-        defaultSailors = new Marin[] {
-                sailor1, sailor2, sailor3, sailor4, sailor5, sailor6,
-                new Marin(7, 7,4, "marin 7")
-        };
+        gameInfo.reinitializeAllSailorsMissions();
 
-        gameInfo = new GameInfo(defaultGoal, defaultBoat, defaultSailors, defaultShipCount, defaultWind, defaultVisibleDeckEntities);
-
-        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo);
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.affectAllTheSailorsWithAnyMissionOnOar();
 
-        System.out.println(Arrays.toString(defaultSailors));
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor1.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor2.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor3.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor4.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor5.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor6.getSailorMission());
+    }
 
-        assertTrue(false);
 
+    @Test
+    void affectAllTheSailorsWithAnyMissionOnOar_TestWhenOneSailorIsOnTribordOar() {
+
+        Marin sailor7 =  new Marin(7, 7,4, "marin7");
+        defaultSailors = new Marin[] {sailor1, sailor2, sailor3, sailor4, sailor5, sailor6, sailor7};
+
+        gameInfo = new GameInfo(defaultGoal, defaultBoat, defaultSailors, defaultShipCount, defaultWind, defaultVisibleDeckEntities);
+        gameInfo.reinitializeAllSailorsMissions();
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
+        giveMissionToSailors.affectAllTheSailorsWithAnyMissionOnOar();
+
+
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor1.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor2.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor3.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor4.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor5.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor6.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor7.getSailorMission());
+    }
+
+
+
+    @Test
+    void affectAllTheSailorsWithAnyMissionOnOar_TestWhenOneSailorOnTribordOarAndOneSailorOnBabordOar() {
+
+        Marin sailor7 =  new Marin(7, 7,4, "marin7");
+        sailor6.setPosition(6,0);
+        defaultSailors = new Marin[] {sailor1, sailor2, sailor3, sailor4, sailor5, sailor6, sailor7};
+
+        gameInfo = new GameInfo(defaultGoal, defaultBoat, defaultSailors, defaultShipCount, defaultWind, defaultVisibleDeckEntities);
+        gameInfo.reinitializeAllSailorsMissions();
+
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
+        giveMissionToSailors.affectAllTheSailorsWithAnyMissionOnOar();
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor1.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor2.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor3.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor4.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor5.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor6.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor7.getSailorMission());
+    }
+
+
+    @Test
+    void affectAllTheSailorsWithAnyMissionOnOar_TestWhenThreeSailorOnBabordOar() {
+
+        Marin sailor7 =  new Marin(7, 7,4, "marin7");
+        sailor1.setPosition(6,0);
+        sailor2.setPosition(7,0);
+        sailor3.setPosition(5,0);
+        defaultSailors = new Marin[] {sailor1, sailor2, sailor3, sailor4, sailor5, sailor6, sailor7};
+
+        gameInfo = new GameInfo(defaultGoal, defaultBoat, defaultSailors, defaultShipCount, defaultWind, defaultVisibleDeckEntities);
+        gameInfo.reinitializeAllSailorsMissions();
+
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
+        giveMissionToSailors.affectAllTheSailorsWithAnyMissionOnOar();
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor1.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor2.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor3.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor4.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor5.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor6.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor7.getSailorMission());
+    }
+
+
+    /**
+     *
+     *
+     *
+     *
+     *
+     *
+     */
+
+
+
+    @Test
+    void launch_TestWithTwoSailors() {
+
+
+        defaultSailors = new Marin[] {sailor1, sailor2};
+        gameInfo = new GameInfo(defaultGoal, defaultBoat, defaultSailors, defaultShipCount, defaultWind, defaultVisibleDeckEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
+        giveMissionToSailors.launch();
+
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor1.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor2.getSailorMission());
+    }
+
+
+    @Test
+    void launch_TestWithTwoSailorsWhenSailorsAreAlreadyInOars() {
+
+        sailor1.setPosition(4,0);
+        sailor2.setPosition(4,4);
+
+        defaultSailors = new Marin[] {sailor1, sailor2};
+        gameInfo = new GameInfo(defaultGoal, defaultBoat, defaultSailors, defaultShipCount, defaultWind, defaultVisibleDeckEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
+        giveMissionToSailors.launch();
+
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor1.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor2.getSailorMission());
+    }
+
+
+    @Test
+    void launch_TestWithThreeSailorsOnAnything() {
+
+
+        defaultSailors = new Marin[] {sailor1, sailor2, sailor3};
+        gameInfo.setSailors(defaultSailors);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
+        giveMissionToSailors.launch();
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor1.getSailorMission());
+        assertEquals(SailorMission.RUDDER_SAILOR, sailor2.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor3.getSailorMission());
+    }
+
+
+    @Test
+    void launch_TestWithOneSailorOnRudder() {
+
+        sailor1.setPosition(11,2);
+
+        defaultSailors = new Marin[] {sailor1, sailor2, sailor3};
+        gameInfo.setSailors(defaultSailors);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
+        giveMissionToSailors.launch();
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(SailorMission.RUDDER_SAILOR, sailor1.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor2.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor3.getSailorMission());
+    }
+
+
+    @Test
+    void launch_TestWithOneSailorOnRudderAndOneOnTribordOar() {
+
+        sailor1.setPosition(11,2);
+        sailor3.setPosition(6,4);
+
+        defaultSailors = new Marin[] {sailor1, sailor2, sailor3};
+        gameInfo.setSailors(defaultSailors);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
+        giveMissionToSailors.launch();
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(SailorMission.RUDDER_SAILOR, sailor1.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor2.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor3.getSailorMission());
+    }
+
+    @Test
+    void launch_TestWithOneSailorOnRudderAndOneOnBabordOar() {
+
+        sailor1.setPosition(11,2);
+        sailor3.setPosition(6,0);
+
+        defaultSailors = new Marin[] {sailor1, sailor2, sailor3};
+        gameInfo.setSailors(defaultSailors);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
+        giveMissionToSailors.launch();
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(SailorMission.RUDDER_SAILOR, sailor1.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor2.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor3.getSailorMission());
+    }
+
+    @Test
+    void launch_TestWithThreeSailorsOnAnythingAndNoRudderOnBoat() {
+
+        sailor1.setPosition(11,2);
+        sailor3.setPosition(6,0);
+
+        defaultSailors = new Marin[] {sailor1, sailor2, sailor3};
+        gameInfo.setSailors(defaultSailors);
+
+        defaultBoatEntities = new BoatEntity[]{
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(6,4),
+                new OarBoatEntity(7,0),
+                new OarBoatEntity(7,4),
+                new SailBoatEntity(8, 2, false),
+                new WatchBoatEntity(0,2)
+        };
+
+        gameInfo.getShip().setEntities(defaultBoatEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
+        giveMissionToSailors.launch();
+
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor1.getSailorMission());
+        assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor2.getSailorMission());
+        assertEquals(SailorMission.BABORDOAR_SAILOR, sailor3.getSailorMission());
+    }
+
+
+
+    @Test
+    void launch_TestWithAllSailorsWhenWatch() {
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.WATCH_SAILOR);
+        giveMissionToSailors.launch();
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
+        assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
+
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.WATCH_SAILOR).count());
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.RUDDER_SAILOR).count());
+    }
+
+
+
+    @Test
+    void launch_TestWithAllSailorsWhenSail() {
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.SAIL_SAILOR);
+        giveMissionToSailors.launch();
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
+        assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
+
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).count());
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.RUDDER_SAILOR).count());
+    }
+
+
+
+    /**
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     */
+
+    @Test
+    void launch_TestWithAllSailorsOnAnythingAndNoWatchOnBoat() {
+
+
+        defaultSailors = new Marin[]{sailor1, sailor2, sailor3, sailor4, sailor5, sailor6,};
+
+        defaultBoatEntities = new BoatEntity[]{
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(6,4),
+                new OarBoatEntity(7,0),
+                new OarBoatEntity(7,4),
+                new RudderBoatEntity(11, 2),
+                new SailBoatEntity(8, 2, false),
+                // new WatchBoatEntity(0,2)
+        };
+
+        gameInfo.getShip().setEntities(defaultBoatEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.WATCH_SAILOR);
+        giveMissionToSailors.launch();
+
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
+        assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
+
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).count());
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.WATCH_SAILOR).count());
+
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.RUDDER_SAILOR).count());
+
+    }
+
+    @Test
+    void launch_TestWithAllSailorsOnAnythingAndNoSailOnBoat() {
+
+
+        defaultBoatEntities = new BoatEntity[]{
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(6,4),
+                new OarBoatEntity(7,0),
+                new OarBoatEntity(7,4),
+                new RudderBoatEntity(11, 2),
+                // new SailBoatEntity(8, 2, false),
+                new WatchBoatEntity(0,2)
+        };
+
+        gameInfo.getShip().setEntities(defaultBoatEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.SAIL_SAILOR);
+        giveMissionToSailors.launch();
+
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
+        assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
+
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).count());
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.WATCH_SAILOR).count());
+
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.RUDDER_SAILOR).count());
+
+    }
+
+    @Test
+    void launch_TestWithAllSailorsOnAnythingAndNoRudderOnBoat() {
+
+
+        defaultBoatEntities = new BoatEntity[]{
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(6,4),
+                new OarBoatEntity(7,0),
+                new OarBoatEntity(7,4),
+                //new RudderBoatEntity(11, 2),
+                new SailBoatEntity(8, 2, false),
+                new WatchBoatEntity(0,2)
+        };
+
+        gameInfo.getShip().setEntities(defaultBoatEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.SAIL_SAILOR);
+        giveMissionToSailors.launch();
+
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
+        assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
+
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).count());
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.WATCH_SAILOR).count());
+
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.RUDDER_SAILOR).count());
+
+    }
+
+    @Test
+    void launch_TestWithAllSailorsOnAnythingAndNoRudderOnBoatAndWatchMission() {
+
+
+        defaultBoatEntities = new BoatEntity[]{
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(6,4),
+                new OarBoatEntity(7,0),
+                new OarBoatEntity(7,4),
+                //new RudderBoatEntity(11, 2),
+                new SailBoatEntity(8, 2, false),
+                new WatchBoatEntity(0,2)
+        };
+
+        gameInfo.getShip().setEntities(defaultBoatEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.WATCH_SAILOR);
+        giveMissionToSailors.launch();
+
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
+        assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
+
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).count());
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.WATCH_SAILOR).count());
+
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.RUDDER_SAILOR).count());
+    }
+
+
+
+
+    /**
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     */
+
+    @Test
+    void launch_TestWithImpairSailorsOnAnythingAndWatchMission() {
+
+
+        Marin sailor7 = new Marin(7,0,0, "Marin7");
+
+        defaultSailors = new Marin[]{sailor1, sailor2, sailor3, sailor4, sailor5, sailor6,sailor7};
+        gameInfo.setSailors(defaultSailors);
+
+
+        defaultBoatEntities = new BoatEntity[]{
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(6,4),
+                new OarBoatEntity(7,0),
+                new OarBoatEntity(7,4),
+                new RudderBoatEntity(11, 2),
+                new SailBoatEntity(8, 2, false),
+                new WatchBoatEntity(0,2)
+        };
+
+        gameInfo.getShip().setEntities(defaultBoatEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.WATCH_SAILOR);
+        giveMissionToSailors.launch();
+
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
+        assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
+
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).count());
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.WATCH_SAILOR).count());
+
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.RUDDER_SAILOR).count());
+
+    }
+
+
+    @Test
+    void launch_TestWithImpairSailorsOnAnythingAndSailMission() {
+
+
+        Marin sailor7 = new Marin(7,0,0, "Marin7");
+
+        defaultSailors = new Marin[]{sailor1, sailor2, sailor3, sailor4, sailor5, sailor6,sailor7};
+        gameInfo.setSailors(defaultSailors);
+
+
+        defaultBoatEntities = new BoatEntity[]{
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(6,4),
+                new OarBoatEntity(7,0),
+                new OarBoatEntity(7,4),
+                new RudderBoatEntity(11, 2),
+                new SailBoatEntity(8, 2, false),
+                new WatchBoatEntity(0,2)
+        };
+
+        gameInfo.getShip().setEntities(defaultBoatEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.SAIL_SAILOR);
+        giveMissionToSailors.launch();
+
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
+        assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
+
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).count());
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.WATCH_SAILOR).count());
+
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.RUDDER_SAILOR).count());
+
+    }
+
+    @Test
+    void launch_TestWithImpairSailorsOnAnythingAndNoWatchOnBoat() {
+
+
+        Marin sailor7 = new Marin(7,0,0, "Marin7");
+
+        defaultSailors = new Marin[]{sailor1, sailor2, sailor3, sailor4, sailor5, sailor6,sailor7};
+        gameInfo.setSailors(defaultSailors);
+
+
+        defaultBoatEntities = new BoatEntity[]{
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(6,4),
+                new OarBoatEntity(7,0),
+                new OarBoatEntity(7,4),
+                new RudderBoatEntity(11, 2),
+                new SailBoatEntity(8, 2, false),
+                // new WatchBoatEntity(0,2)
+        };
+
+        gameInfo.getShip().setEntities(defaultBoatEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.WATCH_SAILOR);
+        giveMissionToSailors.launch();
+
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
+
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).count());
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.WATCH_SAILOR).count());
+
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.RUDDER_SAILOR).count());
+
+    }
+
+    @Test
+    void launch_TestWithImpairOnAnythingAndNoSailOnBoat() {
+
+        Marin sailor7 = new Marin(7,0,0, "Marin7");
+
+        defaultSailors = new Marin[]{sailor1, sailor2, sailor3, sailor4, sailor5, sailor6,sailor7};
+        gameInfo.setSailors(defaultSailors);
+
+
+
+        defaultBoatEntities = new BoatEntity[]{
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(6,4),
+                new OarBoatEntity(7,0),
+                new OarBoatEntity(7,4),
+                new RudderBoatEntity(11, 2),
+                // new SailBoatEntity(8, 2, false),
+                new WatchBoatEntity(0,2)
+        };
+
+        gameInfo.getShip().setEntities(defaultBoatEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.SAIL_SAILOR);
+        giveMissionToSailors.launch();
+
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
+
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).count());
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.WATCH_SAILOR).count());
+
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.RUDDER_SAILOR).count());
+
+    }
+
+    @Test
+    void launch_TestWithImpairOnAnythingAndNoRudderOnBoat() {
+
+
+        Marin sailor7 = new Marin(7,0,0, "Marin7");
+
+        defaultSailors = new Marin[]{sailor1, sailor2, sailor3, sailor4, sailor5, sailor6,sailor7};
+        gameInfo.setSailors(defaultSailors);
+
+
+        defaultBoatEntities = new BoatEntity[]{
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(6,4),
+                new OarBoatEntity(7,0),
+                new OarBoatEntity(7,4),
+                //new RudderBoatEntity(11, 2),
+                new SailBoatEntity(8, 2, false),
+                new WatchBoatEntity(0,2)
+        };
+
+        gameInfo.getShip().setEntities(defaultBoatEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.SAIL_SAILOR);
+        giveMissionToSailors.launch();
+
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
+
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).count());
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.WATCH_SAILOR).count());
+
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.RUDDER_SAILOR).count());
+
+    }
+
+    @Test
+    void launch_TestWithImpairOnAnythingAndNoRudderOnBoatAndWatchMission() {
+
+        Marin sailor7 = new Marin(7,0,0, "Marin7");
+
+        defaultSailors = new Marin[]{sailor1, sailor2, sailor3, sailor4, sailor5, sailor6,sailor7};
+        gameInfo.setSailors(defaultSailors);
+
+
+
+        defaultBoatEntities = new BoatEntity[]{
+                new OarBoatEntity(4,0),
+                new OarBoatEntity(4,4),
+                new OarBoatEntity(5,0),
+                new OarBoatEntity(5,4),
+                new OarBoatEntity(6,0),
+                new OarBoatEntity(6,4),
+                new OarBoatEntity(7,0),
+                new OarBoatEntity(7,4),
+                //new RudderBoatEntity(11, 2),
+                new SailBoatEntity(8, 2, false),
+                new WatchBoatEntity(0,2)
+        };
+
+        gameInfo.getShip().setEntities(defaultBoatEntities);
+
+        GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.WATCH_SAILOR);
+        giveMissionToSailors.launch();
+
+
+        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
+        assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
+
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).count());
+        assertEquals(1, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.WATCH_SAILOR).count());
+
+        assertEquals(0, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.RUDDER_SAILOR).count());
     }
 
 }

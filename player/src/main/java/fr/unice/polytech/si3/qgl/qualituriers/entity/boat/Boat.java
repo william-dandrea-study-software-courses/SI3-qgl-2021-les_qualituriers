@@ -110,9 +110,12 @@ public class Boat {
     }
 
 
-
-
-
+    /**
+     * @return le rudder du bateau si il est présent, empty() sinon
+     */
+    public Optional<BoatEntity> getRudder() {
+        return Arrays.stream(this.entities).filter(boatEntity -> boatEntity.getType() == BoatEntities.RUDDER).findAny();
+    }
 
 
 
