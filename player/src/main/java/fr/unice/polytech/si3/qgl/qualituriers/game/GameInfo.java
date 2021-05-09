@@ -11,6 +11,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEnt
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
 import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.sailorsmission.SailorMission;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,6 +33,8 @@ public class GameInfo {
     private int numberOfTurn;
     private double traveledDistance;
     private List<Point> pointsWhereTheBoatMoved;
+
+    private List<Action> actionsToDoDuringOneTurn;
 
     @JsonCreator
     public GameInfo(@JsonProperty("goal") Goal goal, @JsonProperty("ship") Boat ship,
@@ -120,6 +123,21 @@ public class GameInfo {
     }
 
 
+    public void initializeActionsToDoDuringOneTurn() {
+        this.actionsToDoDuringOneTurn = new ArrayList<>();
+    }
+
+    public void addActionsToDoDuringOneTurn(Action action) {
+        this.actionsToDoDuringOneTurn.add(action);
+    }
+
+    public void addAllActionsToDoDuringOneTurn(List<Action> actions) {
+        this.actionsToDoDuringOneTurn.addAll(actions);
+    }
+
+    public List<Action> getActionsToDoDuringOneTurn() {
+        return actionsToDoDuringOneTurn;
+    }
 
     @Override
     public int hashCode() {

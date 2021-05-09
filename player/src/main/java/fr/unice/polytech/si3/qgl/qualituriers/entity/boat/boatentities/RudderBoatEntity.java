@@ -18,9 +18,10 @@ public class RudderBoatEntity extends BoatEntity {
     @Override
     public String toString() {
         return "RudderBoatEntity : " +
-                "type=" + type +
+                "type=" + type.getType() +
                 ", x=" + x +
                 ", y=" + y +
+                ", affectedSailor : " + getSailorAffected() +
                 '\n';
     }
 }

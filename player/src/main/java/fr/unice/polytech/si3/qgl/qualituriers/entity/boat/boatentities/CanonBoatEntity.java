@@ -42,9 +42,10 @@ public class CanonBoatEntity extends BoatEntity {
         return "CanonBoatEntity : " +
                 "loaded=" + loaded +
                 ", angle=" + angle +
-                ", type=" + type +
+                ", type=" + type.getType() +
                 ", x=" + x +
                 ", y=" + y +
+                ", affectedSailor : " + getSailorAffected() +
                 '\n';
     }
 }

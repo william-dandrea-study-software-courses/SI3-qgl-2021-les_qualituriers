@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.HeadQuarterControls.*;
-import static java.lang.Math.min;
+
 
 /**
  * Cette classe a pour objectif d'affecter à chaque marin une mission
@@ -157,7 +157,7 @@ public class GiveMissionToSailors {
      * @param sailorMission la mission que l'on souhaite affecter au marin qui est sur entityWeWantToAffectSailor ou au plus proche
      * @param sailorsMissionsToAvoid la liste des missions qu'on deja des sailors et que l'on souhaite éviter
      */
-    void affectMissionForOneSailor(BoatEntities entityWeWantToAffectSailor, SailorMission sailorMission, List<SailorMission> sailorsMissionsToAvoid) {
+    public void affectMissionForOneSailor(BoatEntities entityWeWantToAffectSailor, SailorMission sailorMission, List<SailorMission> sailorsMissionsToAvoid) {
 
         Optional<BoatEntity> entityOptional = Arrays.stream(gameInfo.getShip().getEntities()).filter(boatEntity -> boatEntity.getType() == entityWeWantToAffectSailor).findAny();
 
