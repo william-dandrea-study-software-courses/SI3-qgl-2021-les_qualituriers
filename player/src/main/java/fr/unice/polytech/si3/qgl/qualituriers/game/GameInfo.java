@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 
 public class GameInfo {
 
-    private final Goal goal;
+    private Goal goal;
     private Boat ship;
     private Marin[] sailors;
     private int shipCount;
@@ -118,6 +118,8 @@ public class GameInfo {
         this.sailors = sailors;
     }
 
+    public void setGoal(Goal goal) {this.goal = goal;}
+
     public void setShipCount(int shipCount) {
         this.shipCount = shipCount;
     }
@@ -161,6 +163,21 @@ public class GameInfo {
 
 
 
+    public Optional<Marin> getSailorOnRudder() {
+
+        Optional<BoatEntity> rudderOpPos = ship.getRudder();
+        if (rudderOpPos.isPresent()) {
+            return Arrays.stream(sailors).filter(sailor -> rudderOpPos.get().getPosition().equals(sailor.getPosition())).findFirst();
+        }
+
+        return Optional.empty();
+    }
+
+
+    public List<BoatEntity> getListOfSail() {
+
+        return Arrays.stream(ship.getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.SAIL).collect(Collectors.toList());
+    }
 
     public void reinitializeAffectedSailorsInBoatEntities() {
 
