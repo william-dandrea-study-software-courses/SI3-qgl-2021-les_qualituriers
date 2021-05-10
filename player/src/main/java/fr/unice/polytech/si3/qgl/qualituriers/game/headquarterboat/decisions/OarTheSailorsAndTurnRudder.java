@@ -8,7 +8,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.StreamVisibleD
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
-import fr.unice.polytech.si3.qgl.qualituriers.game.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;

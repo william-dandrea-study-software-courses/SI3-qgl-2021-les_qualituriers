@@ -4,7 +4,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
-import fr.unice.polytech.si3.qgl.qualituriers.game.headquarter.headquarterutils.HeadquarterUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import java.util.ArrayList;

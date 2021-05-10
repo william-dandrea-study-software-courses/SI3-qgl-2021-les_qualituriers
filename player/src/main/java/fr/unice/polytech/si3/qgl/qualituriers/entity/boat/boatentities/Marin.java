@@ -1,18 +1,15 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.exceptions.MovingSailorException;
-import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.sailorsmission.SailorMission;
+import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions.SailorMission;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import static fr.unice.polytech.si3.qgl.qualituriers.Config.MAX_MOVING_CASES_MARIN;
 

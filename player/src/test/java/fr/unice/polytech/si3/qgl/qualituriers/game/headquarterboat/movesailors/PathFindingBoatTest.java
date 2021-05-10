@@ -8,7 +8,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEnt
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
-import fr.unice.polytech.si3.qgl.qualituriers.game.headquarter.headquarterutils.BoatPathFinding;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;

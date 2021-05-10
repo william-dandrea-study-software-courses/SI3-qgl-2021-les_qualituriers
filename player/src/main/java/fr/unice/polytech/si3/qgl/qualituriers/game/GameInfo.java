@@ -9,7 +9,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
-import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.sailorsmission.SailorMission;
+import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions.SailorMission;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 

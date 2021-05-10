@@ -8,8 +8,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions.OarTheSailorsAndTurnRudder;
 import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.movesailors.AffectSailorsWithObjectiveToTheirBoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.movesailors.MoveSailorsOnTheirAffectedBoatEntities;
-import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.sailorsmission.GiveMissionToSailors;
-import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.sailorsmission.SailorMission;
+import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions.GiveMissionToSailors;
+import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions.SailorMission;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
@@ -30,7 +30,7 @@ import java.util.Optional;
 public class NewHeadQuarter {
 
     private static final int ACTIVATE_WATCH_FOR_HOW_MANY_TOUR = 30;
-    private static final int DISTANCE_WITH_CHECKPOINT_FOR_DONT_USE_SAIL = 200;
+    private static final int DISTANCE_WITH_CHECKPOINT_FOR_DONT_USE_SAIL = 300;
 
     private final GameInfo gameInfo;
     private CheckPoint goal;
@@ -42,7 +42,7 @@ public class NewHeadQuarter {
     public NewHeadQuarter(GameInfo gameInfo) {
         this.gameInfo = gameInfo;
 
-        this.tryingToGoToWatch = false;
+        this.tryingToGoToWatch = true;
         this.useWatch = false;
 
         this.numberOfTurn = 0;
@@ -69,36 +69,30 @@ public class NewHeadQuarter {
         MoveSailorsOnTheirAffectedBoatEntities moveSailorsOnTheirAffectedBoatEntities = new MoveSailorsOnTheirAffectedBoatEntities(gameInfo);
         actions.addAll(moveSailorsOnTheirAffectedBoatEntities.launch());
 
-
         Optional<Action> actionWatch = activateWatch();actionWatch.ifPresent(actions::add);
         Optional<Action> actionSail = activateSail(); actionSail.ifPresent(actions::add);
 
         OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, goal);
         actions.addAll(oarTheSailorsAndTurnRudder.launch());
 
-        System.out.println("===============");
-        System.out.println(actions);
-        System.out.println("===============");
-
-        System.out.println("===============");
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
-        System.out.println("===============");
-
-        System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>");
-        System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>");
-
-        System.out.println(gameInfo.getNumberOfTurn());
-
-
         this.numberOfTurn++;
         return actions;
     }
 
 
+    /**
+     * Les méthodes ci-dessous sont situés ici car elles sont un lien entre plusieurs missions, et il était plus simple
+     * de les implémenté ici. Nous trouvions cela plus claire dans la lecture du code
+     */
 
 
+    /**
+     * Méthode qui donne a un marin la mission WATCH_SAILOR ou SAIL_SAILOR
+     * @return
+     */
     SailorMission switchBetweenWatchAndSail() {
 
+        // Si nous avons fait le nombre de tour donné, on doit aller activer la watch
         if (numberOfTurn % ACTIVATE_WATCH_FOR_HOW_MANY_TOUR == 0) {
             this.tryingToGoToWatch = true;
             this.useWatch = false;
@@ -113,7 +107,10 @@ public class NewHeadQuarter {
     }
 
 
-
+    /**
+     * Méthode activant la WATCH si un marin est dessus
+     * @return l'action pour activer la watch
+     */
     Optional<Action> activateWatch() {
 
         // On cherche la Watch
@@ -139,22 +136,20 @@ public class NewHeadQuarter {
     }
 
 
-
+    /**
+     * Méthode qui prend la décision d'activer ou désactiver la voile
+     * @return Action lever ou descendre sail
+     */
     Optional<Action> activateSail() {
 
-        Optional<BoatEntity> sailOp = Arrays.stream(gameInfo.getShip().getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.SAIL).findFirst();
-        Optional<Marin> sailSailorOp = Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).findFirst();
-
-
         if (!tryingToGoToWatch) {
+
 
             // Si nous sommes juste avant le moment ou nous devons bouger le marin sur la watch, nous désactivons la sail
             if (numberOfTurn % ACTIVATE_WATCH_FOR_HOW_MANY_TOUR == ACTIVATE_WATCH_FOR_HOW_MANY_TOUR - 1) {
 
-                return desactivateSail();
+                return desactivateSailIn();
             }
-
-
 
             // Si le vent nous pousse, nous activons la voile
             if (gameInfo.getWind() != null && gameInfo.getWind().getStrength() != 0.0) {
@@ -168,30 +163,23 @@ public class NewHeadQuarter {
                     if (gameInfo.getShip().getPosition().distance(goal.getPosition()) > DISTANCE_WITH_CHECKPOINT_FOR_DONT_USE_SAIL) {
                         // On peut activer la voile
 
-                        if (sailOp.isPresent() && sailSailorOp.isPresent()) {
-                            SailBoatEntity sail = (SailBoatEntity) sailOp.get();
-                            Marin marin = sailSailorOp.get();
-
-                            if (marin.getPosition().equals(sail.getPosition()) && !sail.isOpened()) {
-
-                                sail.setOpened(true);
-                                return Optional.of(new LiftSail(marin.getId()));
-                            }
-                        }
+                        return activateSailIn();
                     } else {
-                        return desactivateSail();
+
+                        return desactivateSailIn();
                     }
                 }
-            } else {
-                return desactivateSail();
             }
         }
-        return desactivateSail();
+        return Optional.empty();
     }
 
 
-
-    Optional<Action> desactivateSail() {
+    /**
+     * Méthode qui regarde juste si un marin est sur la sail, et si il est dessus, désactive la sail
+     * @return action pour désactiver la sail
+     */
+    Optional<Action> desactivateSailIn() {
 
         Optional<BoatEntity> sailOp = Arrays.stream(gameInfo.getShip().getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.SAIL).findFirst();
         Optional<Marin> sailSailorOp = Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).findFirst();
@@ -208,7 +196,30 @@ public class NewHeadQuarter {
             }
         }
         return Optional.empty();
+    }
 
+
+
+    /**
+     * Méthode qui regarde juste si un marin est sur la sail, et si il est dessus, désactive la sail
+     * @return action pour désactiver la sail
+     */
+    Optional<Action> activateSailIn() {
+
+        Optional<BoatEntity> sailOp = Arrays.stream(gameInfo.getShip().getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.SAIL).findFirst();
+        Optional<Marin> sailSailorOp = Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).findFirst();
+
+        if (sailOp.isPresent() && sailSailorOp.isPresent()) {
+            SailBoatEntity sail = (SailBoatEntity) sailOp.get();
+            Marin marin = sailSailorOp.get();
+
+            if (marin.getPosition().equals(sail.getPosition()) && !sail.isOpened()) {
+
+                sail.setOpened(true);
+                return Optional.of(new LiftSail(marin.getId()));
+            }
+        }
+        return Optional.empty();
     }
 
 }

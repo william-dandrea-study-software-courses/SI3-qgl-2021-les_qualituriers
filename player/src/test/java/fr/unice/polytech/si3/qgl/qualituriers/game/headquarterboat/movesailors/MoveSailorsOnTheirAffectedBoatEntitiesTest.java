@@ -8,7 +8,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEnt
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
-import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.sailorsmission.SailorMission;
+import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions.SailorMission;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
@@ -20,7 +20,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.text.Position;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

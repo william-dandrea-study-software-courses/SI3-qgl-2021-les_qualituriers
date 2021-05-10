@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.sailorsmission;
+package fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions;
 
 /**
  * Cette énumération représente les missions des marins :

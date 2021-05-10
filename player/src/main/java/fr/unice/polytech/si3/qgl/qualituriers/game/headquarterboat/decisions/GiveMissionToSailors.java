@@ -1,11 +1,9 @@
-package fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.sailorsmission;
+package fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions;
 
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.RudderBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import java.util.ArrayList;
 import java.util.Arrays;

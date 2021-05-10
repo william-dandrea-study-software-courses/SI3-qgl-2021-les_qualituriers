@@ -8,9 +8,13 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEnt
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.Goal;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
+import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions.SailorMission;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LiftSail;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.LowerSail;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.UseWatch;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -19,6 +23,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author D'Andréa William
@@ -131,5 +138,154 @@ class NewHeadQuarterTest {
         List<Action> actions2 = newHeadQuarter.playTurn(new CheckPoint(new Transform(1000,1000,0),new Circle(10)));
         List<Action> actions3 = newHeadQuarter.playTurn(new CheckPoint(new Transform(1000,1000,0),new Circle(10)));
 
+    }
+
+
+
+
+
+
+
+    @Test
+    void desactivateSailTest() {
+
+        sailor1.setPosition(8,2);
+        sailor1.setSailorMission(SailorMission.SAIL_SAILOR);
+        boatEntity10.setOpened(true);
+
+        NewHeadQuarter headQuarter = new NewHeadQuarter(gameInfo);
+
+        assertEquals(Optional.of(new LowerSail(sailor1.getId())), headQuarter.desactivateSailIn());
+
+        boatEntity10.setOpened(false);
+        assertEquals(Optional.empty(), headQuarter.desactivateSailIn());
+    }
+
+
+    @Test
+    void activateSailTest() {
+
+        sailor1.setPosition(8,2);
+        sailor1.setSailorMission(SailorMission.SAIL_SAILOR);
+        boatEntity10.setOpened(false);
+
+        NewHeadQuarter headQuarter = new NewHeadQuarter(gameInfo);
+
+        assertEquals(Optional.of(new LiftSail(sailor1.getId())), headQuarter.activateSailIn());
+
+        boatEntity10.setOpened(true);
+        assertEquals(Optional.empty(), headQuarter.activateSailIn());
+    }
+
+
+    /**
+     *
+     *
+     *
+     *
+     *
+     */
+
+
+    @Test
+    void activateWatchTest() {
+
+
+        NewHeadQuarter headQuarter = new NewHeadQuarter(gameInfo);
+        assertEquals(Optional.empty(), headQuarter.activateWatch());
+
+        sailor1.setPosition(0,2);
+        sailor1.setSailorMission(SailorMission.WATCH_SAILOR);
+        assertEquals(Optional.of(new UseWatch(sailor1.getId())), headQuarter.activateWatch());
+
+
+
+    }
+
+
+    @Test
+    void switchBetweenWatchAndSailTest() {
+
+
+        NewHeadQuarter headQuarter = new NewHeadQuarter(gameInfo);
+        assertEquals(SailorMission.WATCH_SAILOR, headQuarter.switchBetweenWatchAndSail());
+
+        headQuarter.playTurn(new CheckPoint(new Transform(1000,1000,0),new Circle(10)));
+
+        assertEquals(SailorMission.SAIL_SAILOR, headQuarter.switchBetweenWatchAndSail());
+
+
+    }
+
+
+    @Test
+    void activateSailAllTest() {
+
+        NewHeadQuarter headQuarter = new NewHeadQuarter(gameInfo);
+        assertEquals(Optional.empty(), headQuarter.activateSail());
+
+        defaultWind = new Wind(0, 100);
+
+        for (int i = 0; i < 20; i++) { headQuarter.playTurn(new CheckPoint(new Transform(100000,0,0),new Circle(10))); }
+
+        assertEquals(Optional.empty(), headQuarter.activateSail());
+
+
+        Optional<Marin> sailSailorOp = Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.SAIL_SAILOR).findFirst();
+        assertEquals(boatEntity10.getPosition()  , sailSailorOp.get().getPosition());
+
+    }
+
+
+    @Test
+    void activateSailAll_TestWhenDistanceIsFar() {
+
+        NewHeadQuarter headQuarter = new NewHeadQuarter(gameInfo);
+        assertEquals(Optional.empty(), headQuarter.activateSail());
+
+        defaultWind = new Wind(0, 100);
+        gameInfo.setWind(defaultWind);
+
+        headQuarter.playTurn(new CheckPoint(new Transform(100000,0,0),new Circle(10)));
+
+        Optional<Action> action = headQuarter.activateSail();
+        assertEquals(Optional.empty(), action);
+
+        headQuarter.playTurn(new CheckPoint(new Transform(100000,0,0),new Circle(10)));
+        headQuarter.playTurn(new CheckPoint(new Transform(100000,0,0),new Circle(10)));
+        headQuarter.playTurn(new CheckPoint(new Transform(100000,0,0),new Circle(10)));
+
+        action = headQuarter.activateSail();
+        assertEquals(Optional.empty(), action);
+
+        assertEquals(sailor6.getPosition(), boatEntity10.getPosition());
+        assertTrue(((SailBoatEntity) boatEntity10).isOpened());
+    }
+
+
+
+    @Test
+    void activateSailAll_TestWhenDistanceIsNotFar() {
+
+        NewHeadQuarter headQuarter = new NewHeadQuarter(gameInfo);
+        assertEquals(Optional.empty(), headQuarter.activateSail());
+
+        defaultWind = new Wind(0, 100);
+        gameInfo.setWind(defaultWind);
+
+        headQuarter.playTurn(new CheckPoint(new Transform(299,0,0),new Circle(10)));
+
+        Optional<Action> action = headQuarter.activateSail();
+        assertEquals(Optional.empty(), action);
+
+        headQuarter.playTurn(new CheckPoint(new Transform(299,0,0),new Circle(10)));
+        headQuarter.playTurn(new CheckPoint(new Transform(299,0,0),new Circle(10)));
+        headQuarter.playTurn(new CheckPoint(new Transform(299,0,0),new Circle(10)));
+
+        action = headQuarter.activateSail();
+        assertEquals(Optional.empty(), action);
+
+        assertEquals(sailor6.getPosition(), boatEntity10.getPosition());
+        assertFalse(((SailBoatEntity) boatEntity10).isOpened());
     }
 }
