@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEnt
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.RoundInfo;
 import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
+import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.NewHeadQuarter;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
@@ -118,7 +119,10 @@ public class TempoRender extends Render {
 
 
         assert intermediareCheckpoint != null;
-        List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(intermediareCheckpoint.getPosition(), this.gameInfo);
+
+        // List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(intermediareCheckpoint.getPosition(), this.gameInfo);
+        NewHeadQuarter headQuarter = new NewHeadQuarter(gameInfo, intermediareCheckpoint);
+        List<Action> actions = headQuarter.playTurn();
 
         double distanceRestanteX = intermediareCheckpoint.getPosition().getX() - gameInfo.getShip().getPosition().getX();
         double distanceRestanteY = intermediareCheckpoint.getPosition().getY() - gameInfo.getShip().getPosition().getY();

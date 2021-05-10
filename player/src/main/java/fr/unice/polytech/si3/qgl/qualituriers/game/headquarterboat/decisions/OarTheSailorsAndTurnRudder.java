@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Config;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.SailBoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.StreamVisibleDeckEntity;
@@ -23,14 +24,14 @@ import java.util.Optional;
 /**
  * @author D'Andréa William
  */
-public class OarTheSailors {
+public class OarTheSailorsAndTurnRudder {
 
     private GameInfo gameInfo;
     private CheckPoint goal;
 
     private double angleWithOar;
 
-    public OarTheSailors(GameInfo gameInfo, CheckPoint goal) {
+    public OarTheSailorsAndTurnRudder(GameInfo gameInfo, CheckPoint goal) {
         this.gameInfo = gameInfo;
         this.goal = goal;
         angleWithOar = 0;
@@ -45,8 +46,7 @@ public class OarTheSailors {
 
 
         if (differenceOfSailors == 0) {
-            int difference = Math.abs(differenceOfSailors);
-            actions.addAll(generateOarAction(0, difference, numberOfActiveOars));
+            actions.addAll(generateOarAction(0, 0, numberOfActiveOars));
         }
 
 
@@ -58,26 +58,27 @@ public class OarTheSailors {
 
         // On doit avoir differenceOfSailors marins actifs de plus a Tribord qu'a babord
         if (differenceOfSailors > 0) {
-            actions.addAll(generateOarAction(0,1, numberOfActiveOars));
+            int difference = Math.abs(differenceOfSailors);
+            actions.addAll(generateOarAction(0,difference, numberOfActiveOars));
         }
 
 
         // On donne maintenant l'angle de rotation restant au Rudder si il est sur le rudder
         Optional<Marin> rudderOp = gameInfo.getSailorOnRudder();
         if (rudderOp.isPresent()) {
-            double angleRudder = gameInfo.getShip().getPosition().getAngleToSee(goal.getPosition()) + angleWithOar;
 
-            if (angleRudder > 0) {
-                angleRudder = Math.min(angleRudder, Math.PI / 4);
-            } else {
-                angleRudder = Math.max(angleRudder, -Math.PI / 4);
-            }
+            double phiThatTheBoatCanTurn = Math.PI * differenceOfSailors / gameInfo.getListOfOars().size();
 
-            actions.add(new Turn(rudderOp.get().getId(), angleRudder));
+            double differenceOfAngleThatTheRudderWillTurn = gameInfo.getShip().getPosition().getAngleToSee(goal.getPosition()) - phiThatTheBoatCanTurn;
+
+
+            if (differenceOfAngleThatTheRudderWillTurn >= Config.MAX_ANGLE_FOR_RUDDER) {differenceOfAngleThatTheRudderWillTurn = Config.MAX_ANGLE_FOR_RUDDER;}
+            if (differenceOfAngleThatTheRudderWillTurn <= -Config.MAX_ANGLE_FOR_RUDDER) {differenceOfAngleThatTheRudderWillTurn = -Config.MAX_ANGLE_FOR_RUDDER;}
+
+
+            actions.add(new Turn(rudderOp.get().getId(), differenceOfAngleThatTheRudderWillTurn));
         }
 
-
-        System.out.println(angleWithOar);
         return actions;
     }
 
@@ -130,11 +131,14 @@ public class OarTheSailors {
 
         // Vitesse avec vent
         double speedBoatWind = 0;
-        if (gameInfo.getWind() != null) {
+        Optional<BoatEntity> sailOp = gameInfo.getShip().getSail();
+        if (gameInfo.getWind() != null && sailOp.isPresent()) {
+            SailBoatEntity sail = (SailBoatEntity) sailOp.get();
             double numberOfSails = (double) gameInfo.getListOfSail().size();
-            double numberOfOpenSails = (double) gameInfo.getListOfSail().stream().filter(sail -> ((SailBoatEntity) sail).isOpened()).count();
+            double numberOfOpenSails = (double) gameInfo.getListOfSail().stream().filter(sailIn -> ((SailBoatEntity) sailIn).isOpened()).count();
 
-            if (gameInfo.getWind().getStrength() != 0.0)
+            if (gameInfo.getWind().getStrength() != 0.0 && sail.isOpened())
+
                 speedBoatWind = (double) (numberOfSails / numberOfOpenSails) * gameInfo.getWind().getStrength() * Math.cos(AngleUtil.differenceBetweenTwoAngle(gameInfo.getShip().getPosition().getOrientation(), gameInfo.getWind().getOrientation()));
         }
 

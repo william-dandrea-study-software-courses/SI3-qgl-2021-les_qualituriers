@@ -28,7 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 /**
  * @author D'Andréa William
  */
-class OarTheSailorsTest {
+class OarTheSailorsAndTurnRudderTest {
 
     // Default CheckPoint
     private CheckPoint[] defaultCheckPoints;
@@ -134,26 +134,26 @@ class OarTheSailorsTest {
     @Test
     void getDifferenceOfOarsForGoingToDestination() {
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(100,0, 0), new Circle(10)));
-        assertEquals(0, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(100,0, 0), new Circle(10)));
+        assertEquals(0, oarTheSailorsAndTurnRudder.getDifferenceOfOarsForGoingToDestination());
 
-        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(100,100, 0), new Circle(10)));
-        assertEquals(2, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
+        oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(100,100, 0), new Circle(10)));
+        assertEquals(2, oarTheSailorsAndTurnRudder.getDifferenceOfOarsForGoingToDestination());
 
-        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(100,-100, 0), new Circle(10)));
-        assertEquals(-2, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
+        oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(100,-100, 0), new Circle(10)));
+        assertEquals(-2, oarTheSailorsAndTurnRudder.getDifferenceOfOarsForGoingToDestination());
 
-        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(-10,-100, 0), new Circle(10)));
-        assertEquals(-4, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
+        oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(-10,-100, 0), new Circle(10)));
+        assertEquals(-4, oarTheSailorsAndTurnRudder.getDifferenceOfOarsForGoingToDestination());
 
-        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(-10,100, 0), new Circle(10)));
-        assertEquals(4, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
+        oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(-10,100, 0), new Circle(10)));
+        assertEquals(4, oarTheSailorsAndTurnRudder.getDifferenceOfOarsForGoingToDestination());
 
-        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
-        assertEquals(0, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
+        oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
+        assertEquals(0, oarTheSailorsAndTurnRudder.getDifferenceOfOarsForGoingToDestination());
 
-        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(-1000,0, 0), new Circle(10)));
-        assertEquals(4, oarTheSailors.getDifferenceOfOarsForGoingToDestination());
+        oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(-1000,0, 0), new Circle(10)));
+        assertEquals(4, oarTheSailorsAndTurnRudder.getDifferenceOfOarsForGoingToDestination());
     }
 
 
@@ -174,15 +174,15 @@ class OarTheSailorsTest {
         gameInfo.setWind(null);
         gameInfo.setSeaEntities(new VisibleDeckEntity[]{});
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(-1000,0, 0), new Circle(10)));
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(-1000,0, 0), new Circle(10)));
 
-        double distance = oarTheSailors.generateBoatSpeed(0);
+        double distance = oarTheSailorsAndTurnRudder.generateBoatSpeed(0);
         assertEquals(0.0, distance);
 
-        distance = oarTheSailors.generateBoatSpeed(1);
+        distance = oarTheSailorsAndTurnRudder.generateBoatSpeed(1);
         assertEquals(165.0 * 1 / 8, distance);
 
-        distance = oarTheSailors.generateBoatSpeed(9);
+        distance = oarTheSailorsAndTurnRudder.generateBoatSpeed(9);
         assertEquals(165.0, distance);
 
     }
@@ -195,22 +195,22 @@ class OarTheSailorsTest {
         boatEntity10.setOpened(true);
         gameInfo.setSeaEntities(new VisibleDeckEntity[]{});
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(-1000,0, 0), new Circle(10)));
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(-1000,0, 0), new Circle(10)));
 
-        double distance = oarTheSailors.generateBoatSpeed(0);
+        double distance = oarTheSailorsAndTurnRudder.generateBoatSpeed(0);
         double speedOar = 0.0;
         double speedWind = 125 * Math.cos(-Math.PI / 4);
         double speedStream = 0.0;
         assertEquals(speedOar + speedWind + speedStream, distance);
 
-        distance = oarTheSailors.generateBoatSpeed(1);
+        distance = oarTheSailorsAndTurnRudder.generateBoatSpeed(1);
         speedOar = (165.0 * 1 / 8);
         speedWind = (125.0 * Math.cos(-Math.PI / 4));
         speedStream = 0;
         assertEquals(speedOar + speedWind + speedStream, distance);
 
         gameInfo.setWind(new Wind(Math.PI, 500));
-        distance = oarTheSailors.generateBoatSpeed(9);
+        distance = oarTheSailorsAndTurnRudder.generateBoatSpeed(9);
         speedOar = 165.0;
         speedWind = 500 * -1;
         speedStream = 0;
@@ -226,23 +226,23 @@ class OarTheSailorsTest {
         boatEntity10.setOpened(true);
         gameInfo.setSeaEntities(new VisibleDeckEntity[]{new StreamVisibleDeckEntity(new Transform(0,0,3*Math.PI/4), new Rectangle(100, 500,3*Math.PI/4), 1050)});
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(-1000,0, 0), new Circle(10)));
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(-1000,0, 0), new Circle(10)));
 
 
-        double distance = oarTheSailors.generateBoatSpeed(0);
+        double distance = oarTheSailorsAndTurnRudder.generateBoatSpeed(0);
         double speedOar = 0.0;
         double speedWind = 125 * Math.cos(-Math.PI / 4);
         double speedStream = -1050;
         assertEquals(speedOar + speedWind + speedStream, distance);
 
-        distance = oarTheSailors.generateBoatSpeed(1);
+        distance = oarTheSailorsAndTurnRudder.generateBoatSpeed(1);
         speedOar = (165.0 * 1 / 8);
         speedWind = (125.0 * Math.cos(-Math.PI / 4));
         speedStream = -1050;
         assertEquals(speedOar + speedWind + speedStream, distance);
 
         gameInfo.setWind(new Wind(Math.PI, 500));
-        distance = oarTheSailors.generateBoatSpeed(9);
+        distance = oarTheSailorsAndTurnRudder.generateBoatSpeed(9);
         speedOar = 165.0;
         speedWind = 500 * -1;
         speedStream = -1050;
@@ -258,23 +258,23 @@ class OarTheSailorsTest {
         boatEntity10.setOpened(true);
         gameInfo.setSeaEntities(new VisibleDeckEntity[]{new StreamVisibleDeckEntity(new Transform(0,0,0), new Rectangle(100, 500,0), 1050)});
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(-1000,0, 0), new Circle(10)));
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(-1000,0, 0), new Circle(10)));
 
 
-        double distance = oarTheSailors.generateBoatSpeed(0);
+        double distance = oarTheSailorsAndTurnRudder.generateBoatSpeed(0);
         double speedOar = 0.0;
         double speedWind = 125 * Math.cos(-Math.PI / 4);
         double speedStream = 1050;
         assertEquals(speedOar + speedWind + speedStream, distance);
 
-        distance = oarTheSailors.generateBoatSpeed(1);
+        distance = oarTheSailorsAndTurnRudder.generateBoatSpeed(1);
         speedOar = (165.0 * 1 / 8);
         speedWind = (125.0 * Math.cos(-Math.PI / 4));
         speedStream = 1050;
         assertEquals(speedOar + speedWind + speedStream, distance);
 
         gameInfo.setWind(new Wind(Math.PI, 500));
-        distance = oarTheSailors.generateBoatSpeed(9);
+        distance = oarTheSailorsAndTurnRudder.generateBoatSpeed(9);
         speedOar = 165.0;
         speedWind = 500 * -1;
         speedStream = 1050;
@@ -297,15 +297,15 @@ class OarTheSailorsTest {
     void numberOfOarWeNeedToActivateForGoingToCheckpoint_TestWhenDistancePositive() {
 
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
-        assertEquals(8, oarTheSailors.numberOfOarWeNeedToActivateForGoingToCheckpoint());
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
+        assertEquals(8, oarTheSailorsAndTurnRudder.numberOfOarWeNeedToActivateForGoingToCheckpoint());
 
 
-        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(82.5,0, 0), new Circle(10)));
-        assertEquals(4, oarTheSailors.numberOfOarWeNeedToActivateForGoingToCheckpoint());
+        oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(82.5,0, 0), new Circle(10)));
+        assertEquals(4, oarTheSailorsAndTurnRudder.numberOfOarWeNeedToActivateForGoingToCheckpoint());
 
-        oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(1,0, 0), new Circle(10)));
-        assertEquals(0, oarTheSailors.numberOfOarWeNeedToActivateForGoingToCheckpoint());
+        oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(1,0, 0), new Circle(10)));
+        assertEquals(0, oarTheSailorsAndTurnRudder.numberOfOarWeNeedToActivateForGoingToCheckpoint());
 
     }
 
@@ -330,9 +330,9 @@ class OarTheSailorsTest {
         sailor4.setPosition(5,4);
         sailor6.setPosition(6,4);
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
 
-        List<Action> actions = oarTheSailors.generateOarAction(1, 0, 6);
+        List<Action> actions = oarTheSailorsAndTurnRudder.generateOarAction(1, 0, 6);
         assertEquals(5, actions.size());
         assertTrue(actions.contains(new Oar(1)));
         assertTrue(actions.contains(new Oar(3)));
@@ -343,7 +343,7 @@ class OarTheSailorsTest {
         assertFalse(actions.contains(new Oar(6)));
 
 
-        actions = oarTheSailors.generateOarAction(3, 0, 6);
+        actions = oarTheSailorsAndTurnRudder.generateOarAction(3, 0, 6);
         assertEquals(3, actions.size());
         assertTrue(actions.contains(new Oar(1)));
         assertTrue(actions.contains(new Oar(3)));
@@ -353,7 +353,7 @@ class OarTheSailorsTest {
         assertFalse(actions.contains(new Oar(4)));
         assertFalse(actions.contains(new Oar(6)));
 
-        actions = oarTheSailors.generateOarAction(4, 0, 6);
+        actions = oarTheSailorsAndTurnRudder.generateOarAction(4, 0, 6);
         assertEquals(3, actions.size());
         assertTrue(actions.contains(new Oar(1)));
         assertTrue(actions.contains(new Oar(3)));
@@ -363,7 +363,7 @@ class OarTheSailorsTest {
         assertFalse(actions.contains(new Oar(4)));
         assertFalse(actions.contains(new Oar(6)));
 
-        actions = oarTheSailors.generateOarAction(1, 0, 0);
+        actions = oarTheSailorsAndTurnRudder.generateOarAction(1, 0, 0);
         assertEquals(1, actions.size());
         assertTrue(actions.contains(new Oar(1)));
         assertFalse(actions.contains(new Oar(3)));
@@ -385,9 +385,9 @@ class OarTheSailorsTest {
         sailor4.setPosition(5,4);
         sailor6.setPosition(6,4);
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
 
-        List<Action> actions = oarTheSailors.generateOarAction(0, 1, 6);
+        List<Action> actions = oarTheSailorsAndTurnRudder.generateOarAction(0, 1, 6);
         assertEquals(5, actions.size());
         assertTrue(actions.contains(new Oar(1)));
         assertTrue(actions.contains(new Oar(3)));
@@ -398,7 +398,7 @@ class OarTheSailorsTest {
         assertTrue(actions.contains(new Oar(6)));
 
 
-        actions = oarTheSailors.generateOarAction(0, 3, 6);
+        actions = oarTheSailorsAndTurnRudder.generateOarAction(0, 3, 6);
         assertEquals(3, actions.size());
         assertFalse(actions.contains(new Oar(1)));
         assertFalse(actions.contains(new Oar(3)));
@@ -408,7 +408,7 @@ class OarTheSailorsTest {
         assertTrue(actions.contains(new Oar(4)));
         assertTrue(actions.contains(new Oar(6)));
 
-        actions = oarTheSailors.generateOarAction(0, 4, 6);
+        actions = oarTheSailorsAndTurnRudder.generateOarAction(0, 4, 6);
         assertEquals(3, actions.size());
         assertFalse(actions.contains(new Oar(1)));
         assertFalse(actions.contains(new Oar(3)));
@@ -430,9 +430,9 @@ class OarTheSailorsTest {
         sailor4.setPosition(5,4);
         sailor6.setPosition(6,4);
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
 
-        List<Action> actions = oarTheSailors.generateOarAction(0, 0, 6);
+        List<Action> actions = oarTheSailorsAndTurnRudder.generateOarAction(0, 0, 6);
         assertEquals(6, actions.size());
         assertTrue(actions.contains(new Oar(1)));
         assertTrue(actions.contains(new Oar(3)));
@@ -443,7 +443,7 @@ class OarTheSailorsTest {
         assertTrue(actions.contains(new Oar(6)));
 
 
-        actions = oarTheSailors.generateOarAction(0, 3, 10);
+        actions = oarTheSailorsAndTurnRudder.generateOarAction(0, 3, 10);
         assertEquals(3, actions.size());
         assertFalse(actions.contains(new Oar(1)));
         assertFalse(actions.contains(new Oar(3)));
@@ -454,7 +454,7 @@ class OarTheSailorsTest {
         assertTrue(actions.contains(new Oar(6)));
 
 
-        actions = oarTheSailors.generateOarAction(0, 0, 2);
+        actions = oarTheSailorsAndTurnRudder.generateOarAction(0, 0, 2);
         assertEquals(2, actions.size());
         assertTrue(actions.contains(new Oar(1)));
         assertFalse(actions.contains(new Oar(3)));
@@ -465,7 +465,7 @@ class OarTheSailorsTest {
         assertFalse(actions.contains(new Oar(6)));
 
 
-        actions = oarTheSailors.generateOarAction(0, 0, 3);
+        actions = oarTheSailorsAndTurnRudder.generateOarAction(0, 0, 3);
         assertEquals(2, actions.size());
         assertTrue(actions.contains(new Oar(1)));
         assertFalse(actions.contains(new Oar(3)));
@@ -489,8 +489,8 @@ class OarTheSailorsTest {
     @Test
     void launch_TestClassic() {
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
-        List<Action> actions = oarTheSailors.launch();
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
+        List<Action> actions = oarTheSailorsAndTurnRudder.launch();
         assertTrue(actions.isEmpty());
 
 
@@ -501,7 +501,7 @@ class OarTheSailorsTest {
         sailor4.setPosition(5,4);
         sailor6.setPosition(6,4);
 
-        actions = oarTheSailors.launch();
+        actions = oarTheSailorsAndTurnRudder.launch();
         System.out.println(actions);
 
         assertEquals(6, actions.size());
@@ -519,7 +519,7 @@ class OarTheSailorsTest {
     @Test
     void launch_TestWhenCheckpointNotFar() {
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(41.25,41.25, 0), new Circle(10)));
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(41.25,41.25, 0), new Circle(10)));
 
         sailor1.setPosition(4,0);
         sailor3.setPosition(5,0);
@@ -528,16 +528,16 @@ class OarTheSailorsTest {
         sailor4.setPosition(5,4);
         sailor6.setPosition(6,4);
 
-        List<Action> actions = oarTheSailors.launch();
+        List<Action> actions = oarTheSailorsAndTurnRudder.launch();
         System.out.println(actions);
 
-        assertEquals(1, actions.size());
+        assertEquals(2, actions.size());
         assertFalse(actions.contains(new Oar(1)));
         assertFalse(actions.contains(new Oar(3)));
         assertFalse(actions.contains(new Oar(5)));
 
         assertTrue(actions.contains(new Oar(2)));
-        assertFalse(actions.contains(new Oar(4)));
+        assertTrue(actions.contains(new Oar(4)));
         assertFalse(actions.contains(new Oar(6)));
 
     }
@@ -546,7 +546,7 @@ class OarTheSailorsTest {
     @Test
     void launch_TestWhenCheckpointNotFar2() {
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(41.25,-41.25, 0), new Circle(10)));
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(41.25,-41.25, 0), new Circle(10)));
 
         sailor1.setPosition(4,0);
         sailor3.setPosition(5,0);
@@ -555,7 +555,7 @@ class OarTheSailorsTest {
         sailor4.setPosition(5,4);
         sailor6.setPosition(6,4);
 
-        List<Action> actions = oarTheSailors.launch();
+        List<Action> actions = oarTheSailorsAndTurnRudder.launch();
         System.out.println(actions);
 
         assertEquals(2, actions.size());
@@ -573,7 +573,7 @@ class OarTheSailorsTest {
     @Test
     void launch_TestWhenCheckpointFar() {
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(1000,0, 0), new Circle(10)));
 
         sailor1.setPosition(4,0);
         sailor3.setPosition(5,0);
@@ -582,7 +582,7 @@ class OarTheSailorsTest {
         sailor4.setPosition(5,4);
         sailor6.setPosition(6,4);
 
-        List<Action> actions = oarTheSailors.launch();
+        List<Action> actions = oarTheSailorsAndTurnRudder.launch();
         System.out.println(actions);
 
         assertEquals(6, actions.size());
@@ -599,7 +599,7 @@ class OarTheSailorsTest {
     @Test
     void launch_TestWhenCheckpointAtTheOpposite() {
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(0,-1000, 0), new Circle(10)));
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(0,-1000, 0), new Circle(10)));
 
         sailor1.setPosition(4,0);
         sailor3.setPosition(5,0);
@@ -608,7 +608,7 @@ class OarTheSailorsTest {
         sailor4.setPosition(5,4);
         sailor6.setPosition(6,4);
 
-        List<Action> actions = oarTheSailors.launch();
+        List<Action> actions = oarTheSailorsAndTurnRudder.launch();
         System.out.println(actions);
 
         assertEquals(3, actions.size());
@@ -631,7 +631,7 @@ class OarTheSailorsTest {
         defaultSailors = new Marin[] {sailor1, sailor2, sailor3, sailor4, sailor5, sailor6, sailor7};
         gameInfo.setSailors(defaultSailors);
 
-        OarTheSailors oarTheSailors = new OarTheSailors(gameInfo, new CheckPoint(new Transform(0,-1000, 0), new Circle(10)));
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, new CheckPoint(new Transform(0,-1000, 0), new Circle(10)));
 
         sailor1.setPosition(4,0);
         sailor3.setPosition(5,0);
@@ -640,7 +640,7 @@ class OarTheSailorsTest {
         sailor4.setPosition(5,4);
         sailor6.setPosition(6,4);
 
-        List<Action> actions = oarTheSailors.launch();
+        List<Action> actions = oarTheSailorsAndTurnRudder.launch();
 
         assertEquals(4, actions.size());
         assertTrue(actions.contains(new Oar(1)));
@@ -650,8 +650,12 @@ class OarTheSailorsTest {
         assertFalse(actions.contains(new Oar(2)));
         assertFalse(actions.contains(new Oar(4)));
         assertFalse(actions.contains(new Oar(6)));
-        assertTrue(actions.contains(new Turn(7, -Math.PI/4)));
+        assertTrue(actions.contains(new Turn(7, 0.0)));
     }
+
+
+
+
 
 
 }

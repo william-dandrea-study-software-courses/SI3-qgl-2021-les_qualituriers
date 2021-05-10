@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat;
 
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions.OarTheSailorsAndTurnRudder;
 import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.movesailors.AffectSailorsWithObjectiveToTheirBoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.movesailors.MoveSailorsOnTheirAffectedBoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.sailorsmission.GiveMissionToSailors;
@@ -22,8 +23,9 @@ public class NewHeadQuarter {
     private final GameInfo gameInfo;
     private CheckPoint goal;
 
-    public NewHeadQuarter(GameInfo gameInfo) {
+    public NewHeadQuarter(GameInfo gameInfo, CheckPoint goal) {
         this.gameInfo = gameInfo;
+        this.goal = goal;
     }
 
     public List<Action> playTurn() {
@@ -34,6 +36,8 @@ public class NewHeadQuarter {
         gameInfo.reinitializeAllSailorsMissions();
         gameInfo.reinitializeAffectedSailorsInBoatEntities();
 
+        List<Action> actions = new ArrayList<>();
+
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.SAIL_SAILOR);
         giveMissionToSailors.launch();
 
@@ -41,10 +45,13 @@ public class NewHeadQuarter {
         affectSailorsWithObjectiveToTheirBoatEntities.launch();
 
         MoveSailorsOnTheirAffectedBoatEntities moveSailorsOnTheirAffectedBoatEntities = new MoveSailorsOnTheirAffectedBoatEntities(gameInfo);
-        List<Action> finalListOfActions = moveSailorsOnTheirAffectedBoatEntities.launch();
+        actions.addAll(moveSailorsOnTheirAffectedBoatEntities.launch());
+
+        OarTheSailorsAndTurnRudder oarTheSailorsAndTurnRudder = new OarTheSailorsAndTurnRudder(gameInfo, goal);
+        actions.addAll(oarTheSailorsAndTurnRudder.launch());
 
         System.out.println("===============");
-        System.out.println(finalListOfActions);
+        System.out.println(actions);
         System.out.println("===============");
 
         System.out.println("===============");
@@ -54,10 +61,22 @@ public class NewHeadQuarter {
         System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>");
         System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>");
 
-        return finalListOfActions;
+        return actions;
     }
 
 
+
+
+    SailorMission switchBetweenWatchAndSail() {
+
+
+
+
+
+
+
+        return SailorMission.NONE_SAILOR;
+    }
 
 
 

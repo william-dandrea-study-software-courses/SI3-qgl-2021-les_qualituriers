@@ -125,7 +125,7 @@ class NewHeadQuarterTest {
     @Test
     void playTurn() {
 
-        NewHeadQuarter newHeadQuarter = new NewHeadQuarter(gameInfo);
+        NewHeadQuarter newHeadQuarter = new NewHeadQuarter(gameInfo, new CheckPoint(new Transform(1000,1000,0),new Circle(10)));
 
         List<Action> actions = newHeadQuarter.playTurn();
         List<Action> actions2 = newHeadQuarter.playTurn();
