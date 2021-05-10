@@ -51,13 +51,15 @@ public class GiveMissionToSailors {
             // Si nous avons 4 marins ou plus, nous en affectons 1 à la voile/vigie, au gouvernail, les autres aux rames
 
             affectMissionForOneSailor(BoatEntities.RUDDER, SailorMission.RUDDER_SAILOR, new ArrayList<>());
+            List<SailorMission> sailorMissionsToAvoid = new ArrayList<>();
+            sailorMissionsToAvoid.add(SailorMission.RUDDER_SAILOR);
 
             if (watchOrSailMission == SailorMission.SAIL_SAILOR) {
-                affectMissionForOneSailor(BoatEntities.SAIL, SailorMission.SAIL_SAILOR, new ArrayList<>(){{add(SailorMission.RUDDER_SAILOR);}});
+                affectMissionForOneSailor(BoatEntities.SAIL, SailorMission.SAIL_SAILOR, sailorMissionsToAvoid);
             }
 
             if (watchOrSailMission == SailorMission.WATCH_SAILOR) {
-                affectMissionForOneSailor(BoatEntities.WATCH, SailorMission.WATCH_SAILOR, new ArrayList<>(){{add(SailorMission.RUDDER_SAILOR);}});
+                affectMissionForOneSailor(BoatEntities.WATCH, SailorMission.WATCH_SAILOR, sailorMissionsToAvoid);
             }
 
             affectAllTheSailorsWithAnyMissionOnOar();
