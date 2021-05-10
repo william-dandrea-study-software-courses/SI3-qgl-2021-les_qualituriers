@@ -24,10 +24,11 @@ import java.util.stream.Stream;
 public class PathfindingProblem {
     private final List<PositionablePolygon>  polygons = new ArrayList<>();
     private final List<PositionablePolygon>  enlargedPolygons = new ArrayList<>();
+
     private final List<PathfindingNode> nodes = new ArrayList<>();
+
     private final PathfindingNode startPosition;
     private final PathfindingNode goal;
-    private double currentMinimalValidPath = Double.MAX_VALUE;
 
 
     PathfindingProblem(PathfindingNode startPosition, PathfindingNode goal) {
@@ -35,6 +36,10 @@ public class PathfindingProblem {
         this.goal = goal;
     }
 
+    /**
+     * Ajoute un polygone à éviter
+     * @param polygon
+     */
     void addPolygon(PositionablePolygon polygon) {
 
         polygons.add(polygon);
@@ -44,12 +49,12 @@ public class PathfindingProblem {
         //SeaDrawer.drawPolygon(enlarged, Color.magenta);
     }
 
-    private boolean canNavigateOn(PathfindingNode start, PathfindingNode end) {
-        return !Collisions.raycastPolygon(new Segment(start.getPosition(), end.getPosition()), Config.BOAT_MARGIN * 2, polygons.stream());
-    }
-
+    /**
+     * @param node
+     * @return Un noeud en dehors des polygones
+     */
     private PathfindingNode getNearestOutsideLimitNode(PathfindingNode node) {
-        node = new PathfindingNode(node.getPosition(), null);
+        node = new PathfindingNode(node.getPosition());
         var poly = Collisions.getCollidingPolygon(node.toPositionableCircle(), enlargedPolygons.stream());
 
         // Move the point while it collid with an enlarged polygon.
@@ -67,12 +72,18 @@ public class PathfindingProblem {
         return node;
     }
 
+    /**
+     * Génère les noeuds à partir des Polygones agrandis
+     */
     private void generateNodes() {
         for(var poly : enlargedPolygons) {
             nodes.addAll(PathfindingNode.createFrom(poly));
         }
     }
 
+    /**
+     * Génère les routes entre les noeuds
+     */
     private void generateRoads() {
         // checking one by one if a road canBeCreated between the nodes
         for(var n1 : nodes) {
@@ -83,6 +94,9 @@ public class PathfindingProblem {
         }
     }
 
+    /**
+     * @return Le résultat de la recherche de chemin
+     */
     PathfindingResult solve() {
         // Get node outside the limit to counter StackOverflows
         var pseudoStart = getNearestOutsideLimitNode(startPosition);
@@ -95,11 +109,6 @@ public class PathfindingProblem {
         nodes.add(pseudoGoal);
         nodes.add(pseudoStart);
 
-        /*for(var node : nodes) {
-            SeaDrawer.drawPin(node.getPosition(), Color.RED);
-        }*/
-
-        PathfindingRoad.clearRoads();
         // Generate road between the nodes
         generateRoads();
 
@@ -107,7 +116,6 @@ public class PathfindingProblem {
         SeaDrawer.drawPin(pseudoStart.getPosition(), Color.YELLOW);
 
         // Prepare the path with the starting nodes
-        //var path = searchPath(pseudoStart, pseudoGoal, new PathfindingResult() {{ addNode(startPosition); addNode(pseudoStart); }});
 
         List<PathfindingNode> pathDeb = new ArrayList<>() {{ add(startPosition); }};
         if(startPosition.equals(pseudoStart)) pathDeb = new ArrayList<>();
@@ -122,46 +130,5 @@ public class PathfindingProblem {
             path.addNode(goal);
 
         return path;
-    }
-
-    private PathfindingResult searchPath(PathfindingNode from, PathfindingNode to, PathfindingResult currentPath) {
-
-        // Getting the neighbours nodes to process
-        List<PathfindingNode> connectedNodes = new ArrayList<>();
-        from.getRoads().stream()
-                .map(r -> r.getArriving(from))  // Get the neighboor node from the road
-                .filter(n -> !currentPath.contains(n)) // Remove the processed nodes
-                .sorted(Comparator.comparingDouble(r -> r.calculateHeuristic(to))) // Sort from the nearest to goal to the farest to increase processing time
-                .forEach(connectedNodes::add);
-
-        PathfindingResult bestPath = null;
-        for(var n : connectedNodes) {
-            // Check to don't go backward
-            if(currentPath.contains(n))
-                continue;
-
-            // Prepare for the next stage of searching
-            var evaluationPath = currentPath.copy();
-            evaluationPath.addNode(n);
-
-            // If this path is already longer than the currentMinimalFound we can let it here
-            if(evaluationPath.length() > currentMinimalValidPath) continue;
-
-            // Does this path reach the goal ?
-            if(n.equals(to)) {
-                currentMinimalValidPath = evaluationPath.length();
-                bestPath = evaluationPath;
-                break;
-            }
-
-            // if it doesn't, check for a path with a length increased
-            evaluationPath = searchPath(n, to, evaluationPath);
-            if(evaluationPath != null) {
-                bestPath = evaluationPath;
-                break;
-            }
-        }
-
-        return bestPath;
     }
 }
