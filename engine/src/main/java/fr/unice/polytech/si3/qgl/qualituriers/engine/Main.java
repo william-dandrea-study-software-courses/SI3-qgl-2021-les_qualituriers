@@ -216,7 +216,6 @@ public class Main {
             json += scanner.nextLine() + "\n";
 
 
-
         return new Race(json, new Mechanic[] {
                 new MovingMechanic(),
                 new OarMechanic(),

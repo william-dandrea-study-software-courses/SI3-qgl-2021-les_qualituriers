@@ -18,6 +18,11 @@ public class PathSteps {
         this.nodes = nodes;
     }
 
+    /**
+     * Ajoute un noeud de à la fin du chemin et le retourne
+     * @param node
+     * @return
+     */
     public PathSteps complete(PathfindingNode node) {
         return new PathSteps(new ArrayList<>(nodes) {{ add(node); }}, length + last().getPosition().substract(node.getPosition()).length());
     }
