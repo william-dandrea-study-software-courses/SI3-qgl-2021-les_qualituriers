@@ -32,6 +32,7 @@ public class TempoRender extends Render {
 
     public static boolean ON_ENGINE = false;
     public static IDrawer SeaDrawer;
+    public NewHeadQuarter headQuarter;
 
 
     private PathfindingStore store;
@@ -39,6 +40,7 @@ public class TempoRender extends Render {
     public TempoRender(GameInfo gameInfo, ILogger logger) {
         super(gameInfo, logger);
         CheckPoint[] listCheckPoint = ((RegattaGoal) gameInfo.getGoal()).getCheckPoints();
+        headQuarter = new NewHeadQuarter(gameInfo);
         this.store = new PathfindingStore();
     }
 
@@ -121,8 +123,7 @@ public class TempoRender extends Render {
         assert intermediareCheckpoint != null;
 
         // List<Action> actions = gameInfo.getShip().moveBoatDistanceStrategy2(intermediareCheckpoint.getPosition(), this.gameInfo);
-        NewHeadQuarter headQuarter = new NewHeadQuarter(gameInfo, intermediareCheckpoint);
-        List<Action> actions = headQuarter.playTurn();
+        List<Action> actions = headQuarter.playTurn(intermediareCheckpoint);
 
         double distanceRestanteX = intermediareCheckpoint.getPosition().getX() - gameInfo.getShip().getPosition().getX();
         double distanceRestanteY = intermediareCheckpoint.getPosition().getY() - gameInfo.getShip().getPosition().getY();
@@ -139,7 +140,7 @@ public class TempoRender extends Render {
         System.out.println(Collisions.isColliding(intermediareCheckpoint.getPositionableShape(), this.gameInfo.getShip().getPositionableShape()));
 
 
-        gameInfo.addPointsWhereTheBoatMoved(gameInfo.getShip().getPosition());
+        // gameInfo.addPointsWhereTheBoatMoved(gameInfo.getShip().getPosition());
 
         System.out.println("====> " + gameInfo.getTraveledDistance());
 
