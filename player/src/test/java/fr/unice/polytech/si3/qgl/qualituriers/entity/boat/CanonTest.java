@@ -46,10 +46,5 @@ public class CanonTest {
         assertNotEquals(canon5.hashCode(), canon.hashCode());
     }
 
-    @Test
-    public void testToString(){
-        assertEquals("CanonBoatEntity : loaded=true, angle=" + Math.PI/4 + ", type=BoatEntities{type='cannon', entity=class fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.CanonBoatEntity}, x=1, y=5\n", canon.toString());
-    }
-
 
 }

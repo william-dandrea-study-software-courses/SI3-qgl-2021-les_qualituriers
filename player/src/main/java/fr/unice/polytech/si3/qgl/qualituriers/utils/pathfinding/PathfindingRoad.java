@@ -36,53 +36,29 @@ public class PathfindingRoad {
         else throw new RuntimeException("The specified node is not linckeded with this road");
     }
 
-    double length() {
-        return from.getPosition().substract(to.getPosition()).length();
-    }
-
-    void destroy() {
-        roads.remove(this);
-        from.removeRoad(this);
-        to.removeRoad(this);
-    }
-
-    boolean isPraticable(double width, Stream<PositionablePolygon> obstacles) {
-        return canCreatePraticableRoad(from, to, width, obstacles);
-    }
-
+    /**
+     * @param from Départ de la route
+     * @param to Destination de la route
+     * @param width Largeur de la route
+     * @param obstacles Obstacles à éviter
+     * @return true si, et seulement si, la route ne croise aucun obstacle
+     */
     private static boolean canCreatePraticableRoad(PathfindingNode from, PathfindingNode to, double width, Stream<PositionablePolygon> obstacles) {
         return !Collisions.raycastPolygon(new Segment(from.getPosition(), to.getPosition()), width, obstacles);
     }
 
-    private static List<IShapeDraw> roadDrawings = new ArrayList<>();
-
+    /**
+     * Créer une route si il est possible d'en créer une
+     * @param from Départ
+     * @param to Destination
+     * @param width Largeur
+     * @param obstacles Obstacles à éviter
+     */
     public static void createIfPraticable(PathfindingNode from, PathfindingNode to, double width, Stream<PositionablePolygon> obstacles) {
         if(canCreatePraticableRoad(from, to, width, obstacles)) {
             from.createRoadTo(to);
             if(TempoRender.SeaDrawer == null) return;
             //roadDrawings.add(TempoRender.SeaDrawer.drawFuturLine(from.getPosition(), to.getPosition(), Color.GREEN));
-        }
-    }
-
-    static void clearRoads() {
-        roadDrawings.stream().filter(Predicate.not(Objects::isNull)).forEach(IShapeDraw::destroy);
-        roadDrawings.clear();
-    }
-
-    public static void draw() {
-        if(TempoRender.SeaDrawer != null) {
-            for(var r : roads) {
-                //TempoRender.SeaDrawer.drawFuturLine(r.from.getPosition(), r.to.getPosition(), Color.MAGENTA);
-            }
-
-            /*
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-             */
         }
     }
 }

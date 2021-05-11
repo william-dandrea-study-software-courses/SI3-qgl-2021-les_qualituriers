@@ -47,7 +47,9 @@ public class SeaDrawer {
         if(TempoRender.SeaDrawer != null) {
             try {
                 Thread.sleep(time);
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

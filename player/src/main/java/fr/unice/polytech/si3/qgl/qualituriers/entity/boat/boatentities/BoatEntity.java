@@ -30,10 +30,14 @@ public abstract class BoatEntity {
     protected int x;
     protected int y;
 
+    private Marin sailorAffected;
+
     protected BoatEntity(@JsonProperty("type") BoatEntities type, @JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.type = type;
         this.x = x;
         this.y = y;
+
+        this.sailorAffected = null;
     }
 
     @JsonIgnore
@@ -47,6 +51,14 @@ public abstract class BoatEntity {
 
     public int getY() {
         return y;
+    }
+
+    public Marin getSailorAffected() {
+        return sailorAffected;
+    }
+
+    public void setSailorAffected(Marin sailorAffected) {
+        this.sailorAffected = sailorAffected;
     }
 
     @JsonIgnore
@@ -72,6 +84,7 @@ public abstract class BoatEntity {
         return "BoatEntity{" +
                 ", x=" + x +
                 ", y=" + y +
+                ", affectedSailor : " + sailorAffected +
                 '}';
     }
 }

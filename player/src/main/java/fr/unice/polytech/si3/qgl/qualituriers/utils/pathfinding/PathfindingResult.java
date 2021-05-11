@@ -9,13 +9,14 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class PathfindingResult {
     private static List<IShapeDraw> drawing = new ArrayList<>();
+
+
     private List<PathfindingNode> nodes;
     private boolean resolved = false;
 
@@ -23,6 +24,11 @@ public class PathfindingResult {
         this.nodes = new ArrayList<>();
     }
 
+    /**
+     * @param path Chemin issue de Dijkstra
+     * @param prefix Les premiers noeuds du chemin
+     * @return Le chemin de Dijkstra concaténé avec un préfixe
+     */
     public static PathfindingResult createFrom(PathSteps path, List<PathfindingNode> prefix) {
         if(path == null) return null;
         var res = new PathfindingResult();
@@ -31,29 +37,39 @@ public class PathfindingResult {
         return res;
     }
 
+    /**
+     * @param index
+     * @return Le index-ieme noeud du chemin
+     */
     PathfindingNode get(int index) {
         return nodes.get(index);
     }
+
+    /**
+     * @return Le dernier noeud du chemin
+     */
     PathfindingNode getLast() {
         return nodes.get(nodes.size() - 1);
     }
 
+    /**
+     * @return Le nombre de noeuds définissant le chemin
+     */
     int size() {
         return nodes.size();
     }
 
-    Stream<PathfindingNode> stream() {
-        return nodes.stream();
-    }
-
-    boolean contains(PathfindingNode node) {
-        return nodes.stream().anyMatch(n -> n.getPosition().equals(node.getPosition()));
-    }
-
+    /**
+     * Ajoute un noeud à la fin du chemin
+     * @param node
+     */
     void addNode(PathfindingNode node) {
         this.nodes.add(node);
     }
 
+    /**
+     * @return Une copy du chemin
+     */
     PathfindingResult copy() {
         var path = new PathfindingResult();
         path.nodes = new ArrayList<>(this.nodes);
@@ -61,6 +77,9 @@ public class PathfindingResult {
         return path;
     }
 
+    /**
+     * @return La longueur du chemin en unité géographique
+     */
     double length() {
         double result = 0;
         for(int i = 0; i < size() - 1; i++) {
@@ -69,6 +88,11 @@ public class PathfindingResult {
         return result;
     }
 
+    /**
+     * @param startWayPoint à partir d'où vérifier le chemin
+     * @param obstacles les obstacles à éviter
+     * @return true si, et seulement si, le chemin ne croise aucun obstacle
+     */
     boolean pathIsCorrect(int startWayPoint, List<PositionablePolygon> obstacles) {
         for (int i = startWayPoint; i < nodes.size() - 1; i++) {
             var nodeA = nodes.get(i);
@@ -76,18 +100,6 @@ public class PathfindingResult {
 
             if(Collisions.raycastPolygon(new Segment(nodeA.getPosition(), nodeB.getPosition()), 3 * Config.BOAT_MARGIN, obstacles.stream()))
                 return false;
-
-
-        }
-        if(TempoRender.SeaDrawer != null) {
-            /*
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-             */
         }
         return true;
     }

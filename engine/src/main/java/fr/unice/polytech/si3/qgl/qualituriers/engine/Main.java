@@ -216,7 +216,6 @@ public class Main {
             json += scanner.nextLine() + "\n";
 
 
-
         return new Race(json, new Mechanic[] {
                 new MovingMechanic(),
                 new OarMechanic(),
@@ -226,7 +225,7 @@ public class Main {
     }
 
     public static void main(String... args) throws IOException, InterruptedException {
-        RunRace(loadRace("WEEK10_PREVIEW"));
+        RunRace(loadRace("WEEK8"));
         //RunRace(TestPathfinding.race);
         //RunRace(createRace());
     }

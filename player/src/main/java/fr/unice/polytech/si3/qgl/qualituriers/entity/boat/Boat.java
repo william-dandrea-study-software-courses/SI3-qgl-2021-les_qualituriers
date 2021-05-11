@@ -7,8 +7,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.headquarter.HeadQuarter;
 import fr.unice.polytech.si3.qgl.qualituriers.game.GameInfo;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -51,15 +51,6 @@ public class Boat {
 
 
 
-    public List<Action> moveBoatDistanceStrategy2(Transform checkPoint, GameInfo gameInfo) {
-
-        HeadQuarter headQuarter = new HeadQuarter(this, sailors, checkPoint, gameInfo);
-        List<Action> actions = headQuarter.playTurn();
-        setSailors(headQuarter.getSailors());
-
-
-        return actions;
-    }
 
 
     @Override
@@ -107,5 +98,54 @@ public class Boat {
         if(sailors == null) return Collections.emptyList();
         return List.copyOf(sailors);
     }
+
+
+    /**
+     * @return le rudder du bateau si il est présent, empty() sinon
+     */
+    public Optional<BoatEntity> getRudder() {
+        return Arrays.stream(this.entities).filter(boatEntity -> boatEntity.getType() == BoatEntities.RUDDER).findAny();
+    }
+
+
+
+    /**
+     * @return true s'il y a une rame sur le bateau, false s'il n'y a pas de rame sur le bateau
+     */
+    public boolean containsOar() {
+        return Arrays.stream(this.entities).anyMatch(boatEntity -> boatEntity.getType() == BoatEntities.OAR);
+    }
+
+    /**
+     * @return true s'il y a une voile sur le bateau, false s'il n'y a pas de voile sur le bateau
+     */
+    public boolean containsSail() {
+        return Arrays.stream(this.entities).anyMatch(boatEntity -> boatEntity.getType() == BoatEntities.SAIL);
+    }
+
+    /**
+     * @return true s'il y a un gouvernail sur le bateau, false s'il n'y a pas de gouvernail sur le bateau
+     */
+    public boolean containsRudder() {
+        return Arrays.stream(this.entities).anyMatch(boatEntity -> boatEntity.getType() == BoatEntities.RUDDER);
+    }
+
+    /**
+     * @return true s'il y a une vigie sur le bateau, false s'il n'y a pas de vigie sur le bateau
+     */
+    public boolean containsWatch() {
+        return Arrays.stream(this.entities).anyMatch(boatEntity -> boatEntity.getType() == BoatEntities.WATCH);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -1,10 +1,14 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
+import fr.unice.polytech.si3.qgl.qualituriers.exceptions.MovingSailorException;
+import fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.decisions.SailorMission;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 import static fr.unice.polytech.si3.qgl.qualituriers.Config.MAX_MOVING_CASES_MARIN;
@@ -21,6 +25,7 @@ public class Marin {
     private int x;
     private int y;
     private final String name;
+    private SailorMission sailorMission;
 
     public Marin(@JsonProperty("id")int id, @JsonProperty("x")int x, @JsonProperty("y")int y, @JsonProperty("name")String name) {
         this.id = id;
@@ -60,6 +65,14 @@ public class Marin {
     public void setPosition(int x, int y) { this.x = x; this.y = y;}
 
 
+    public void setSailorMission(SailorMission internSailorMission) {
+        this.sailorMission = internSailorMission;
+    }
+
+    public SailorMission getSailorMission() {
+        return sailorMission;
+    }
+
     public boolean canMoveTo(int xFinal, int yFinal, Boat boat) {
         return (Math.abs(xFinal - x) + Math.abs(yFinal - y)) <= MAX_MOVING_CASES_MARIN
                 && xFinal <= boat.getDeck().getLength()-1 && xFinal >= 0
@@ -73,7 +86,9 @@ public class Marin {
                 "id=" + id +
                 ", x=" + x +
                 ", y=" + y +
-                ", name=" + name +  "\n";
+                ", name=" + name +
+                ", mission : " + sailorMission +
+                "\n";
     }
 
     @Override
@@ -88,4 +103,113 @@ public class Marin {
     public int hashCode() {
         return Objects.hash(id, x, y, name);
     }
+
+
+    /**
+     * @param boat sur lequel on veut regarder s'il y a des marins dessus
+     * @return true si le marin est sur une rame de babord, false sinon
+     */
+    public boolean isOnBabordOar(Boat boat) {
+        return Arrays.stream(boat.getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.OAR).anyMatch(boatEntity ->
+                boatEntity.getX() == this.x &&
+                        boatEntity.getX() == this.y &&
+                        boatEntity.getY() == 0
+        );
+    }
+
+    /**
+     * @param boat sur lequel on veut regarder s'il y a des marins dessus
+     * @return true si le marin est sur une rame de tribord, false sinon
+     */
+    public boolean isOnTribordOar(Boat boat) {
+        return Arrays.stream(boat.getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.OAR).anyMatch(boatEntity ->
+                boatEntity.getX() == this.x &&
+                        boatEntity.getX() == this.y &&
+                        boatEntity.getY() == boat.getDeck().getWidth() - 1
+        );
+    }
+
+
+    /**
+     * @param boat sur lequel on veut regarder s'il y a des marins dessus
+     * @param boatEntities le type de boatEntities sur lequel on veut regader si il y a, ou non, le marin actuel
+     * @return true si le marin est sur une de ces boatEntities, false sinon
+     */
+    public boolean isOn(BoatEntities boatEntities, Boat boat) {
+        return Arrays.stream(boat.getEntities()).filter(boatEntity -> boatEntity.getType() == boatEntities).anyMatch(boatEntity ->
+                boatEntity.getX() == this.x && boatEntity.getX() == this.y
+        );
+    }
+
+
+    /**
+     * @param boat sur lequel on veut regarder s'il y a des marins dessus
+     * @return true si le marin est sur le gouvernail, false sinon
+     */
+    public boolean isOnRudder(Boat boat) {
+        return Arrays.stream(boat.getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.RUDDER).anyMatch(boatEntity ->
+                boatEntity.getX() == this.x && boatEntity.getX() == this.y
+        );
+    }
+
+
+    /**
+     * @param boat sur lequel on veut regarder s'il y a des marins dessus
+     * @return true si le marin est sur la voile , false sinon
+     */
+    public boolean isOnSail(Boat boat) {
+        return Arrays.stream(boat.getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.SAIL).anyMatch(boatEntity ->
+                boatEntity.getX() == this.x && boatEntity.getX() == this.y
+        );
+    }
+
+
+    /**
+     * @param boat sur lequel on veut regarder s'il y a des marins dessus
+     * @return true si le marin est sur la vigie , false sinon
+     */
+    public boolean isOnWatch(Boat boat) {
+        return Arrays.stream(boat.getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.WATCH).anyMatch(boatEntity ->
+                boatEntity.getX() == this.x && boatEntity.getX() == this.y
+        );
+    }
+
+
+    /**
+     * @param boat sur lequel on veut regarder s'il y a des marins dessus
+     * @return true si le marin est sur aucune entité du bateau , false sinon
+     */
+    public boolean isOnNothing(Boat boat) {
+        return !isOnBabordOar(boat) && !isOnTribordOar(boat) && !isOnRudder(boat) && !isOnSail(boat) && !isOnWatch(boat);
+    }
+
+
+
+
+
+
+    public Action generateMovingAction(Point destination, Boat boat) {
+
+        if (!canMoveTo((int) destination.getX(), (int) destination.getY(), boat)) {
+            throw new MovingSailorException(id);
+        }
+
+        Action action =  new Moving(id, (int) destination.getX() - this.x, (int) destination.getY() - this.y);
+
+        this.x = (int) destination.getX();
+        this.y = (int) destination.getY();
+
+        return action;
+    }
+
+
+
+
+
+
+
+
+
+
+
 }

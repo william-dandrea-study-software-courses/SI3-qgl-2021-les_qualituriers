@@ -38,9 +38,10 @@ public class OarBoatEntity extends BoatEntity {
     @Override
     public String toString() {
         return "OarBoatEntity : " +
-                "type=" + type +
+                "type=" + type.getType() +
                 ", x=" + x +
                 ", y=" + y +
+                ", affectedSailor : " + getSailorAffected() +
                 '\n';
     }
 }

@@ -47,9 +47,10 @@ public class SailBoatEntity extends BoatEntity {
     public String toString() {
         return "SailBoatEntity : " +
                 "opened=" + opened +
-                ", type=" + type +
+                ", type=" + type.getType() +
                 ", x=" + x +
                 ", y=" + y +
+                ", affectedSailor : " + getSailorAffected() +
                 '\n';
     }
 }
