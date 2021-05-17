@@ -112,5 +112,37 @@ class BoatTest {
         assertNotEquals(boat7.hashCode(), this.boat.hashCode());
     }
 
+    @Test
+    public void containsOarTest(){
+        assertTrue(boat.containsOar());
+        Boat boat2 = new Boat(100, transform, "bateau", new Deck(4, 5),
+                new BoatEntity[]{}, shape);
+        assertFalse(boat2.containsOar());
+    }
+
+    @Test
+    public void containsSailTest(){
+        assertFalse(boat.containsSail());
+        Boat boat2 = new Boat(100, transform, "bateau", new Deck(4, 5),
+                new BoatEntity[]{new SailBoatEntity(1, 2, false)}, shape);
+        assertTrue(boat2.containsSail());
+    }
+
+    @Test
+    public void containsRudderTest(){
+        assertFalse(boat.containsRudder());
+        Boat boat2 = new Boat(100, transform, "bateau", new Deck(4, 5),
+                new BoatEntity[]{new RudderBoatEntity(1, 2)}, shape);
+        assertTrue(boat2.containsRudder());
+    }
+
+    @Test
+    public void containsWatchTest(){
+        assertFalse(boat.containsWatch());
+        Boat boat2 = new Boat(100, transform, "bateau", new Deck(4, 5),
+                new BoatEntity[]{new WatchBoatEntity(1, 2)}, shape);
+        assertTrue(boat2.containsWatch());
+    }
+
 
 }
