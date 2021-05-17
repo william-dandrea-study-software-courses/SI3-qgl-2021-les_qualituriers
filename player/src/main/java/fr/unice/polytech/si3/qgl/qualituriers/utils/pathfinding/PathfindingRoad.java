@@ -26,6 +26,20 @@ public class PathfindingRoad {
         this.to = to;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || !(obj instanceof PathfindingRoad)) return false;
+
+        var road = (PathfindingRoad)obj;
+        return (from.equals(road.from) && to.equals(road.to)) || (to.equals(road.from) && from.equals(road.to));
+    }
+
+    @Override
+    public String toString() {
+        return "{ " + from.getPosition().toString() + " <-> " + to.getPosition().toString() + " }";
+    }
+
     boolean isLinckedWith(PathfindingNode node) {
         return from == node || to == node;
     }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public class PathfindingStore {
+    // TESTED
     private PathfindingResult calculatedPath;
     private int currentNodeToReach = 0;
     private final Set<PositionablePolygon> obstacles = new HashSet<>();
