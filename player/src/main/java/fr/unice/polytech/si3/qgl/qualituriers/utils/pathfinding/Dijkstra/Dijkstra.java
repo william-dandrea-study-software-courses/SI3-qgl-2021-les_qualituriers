@@ -30,22 +30,32 @@ public class Dijkstra {
         PathSteps searchingNode = PathSteps.root(start);
         while(store.canUse.values().stream().anyMatch(Boolean::booleanValue)) {
             List<PathSteps> paths = new ArrayList<>();
+
+            // Set the visited nodes to not reachable
             store.canUse.replace(searchingNode.last(), false);
 
+            // Set the node to process
             PathSteps finalSearchingNode = searchingNode;
+
+            // Get not processed neighbours
             searchingNode.last().neighboursStream()
                     .filter(store.canUse::get)
                     .forEach(n -> paths.add(finalSearchingNode.complete(n)));
 
+            // Foreach neighbours
             for(var p : paths) {
+                // Siwtch of shortest path if it is valuable
                 if(store.shortestPaths.get(p.last()).length() > p.length())
                     store.shortestPaths.replace(p.last(), p);
             }
 
+            // getting the shortest path
             var minimalCurrentPath = store.shortestPaths.values().stream()
                     .filter(p -> store.canUse.get(p.last()))
+                    //.filter(p -> p.last().neighboursStream().anyMatch(n -> store.canUse.get(n)))
                     .min(Comparator.comparingDouble(PathSteps::length));
 
+            // For IDE
             if(minimalCurrentPath.isEmpty()) break;
 
             searchingNode = minimalCurrentPath.get();

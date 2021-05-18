@@ -68,16 +68,6 @@ public class PathfindingResult {
     }
 
     /**
-     * @return Une copy du chemin
-     */
-    PathfindingResult copy() {
-        var path = new PathfindingResult();
-        path.nodes = new ArrayList<>(this.nodes);
-        path.resolved = resolved;
-        return path;
-    }
-
-    /**
      * @return La longueur du chemin en unité géographique
      */
     double length() {
@@ -89,6 +79,7 @@ public class PathfindingResult {
     }
 
     /**
+     * TESTED
      * @param startWayPoint à partir d'où vérifier le chemin
      * @param obstacles les obstacles à éviter
      * @return true si, et seulement si, le chemin ne croise aucun obstacle

@@ -37,6 +37,7 @@ public class PathfindingProblem {
     }
 
     /**
+     * TESTED
      * Ajoute un polygone à éviter
      * @param polygon
      */
@@ -49,13 +50,26 @@ public class PathfindingProblem {
         //SeaDrawer.drawPolygon(enlarged, Color.magenta);
     }
 
+    List<PositionablePolygon> getPolygons() {
+        return this.polygons;
+    }
+
+    List<PositionablePolygon> getEnlargedPolygons() {
+        return this.enlargedPolygons;
+    }
+
     /**
+     * TESTED
      * @param node
      * @return Un noeud en dehors des polygones
      */
-    private PathfindingNode getNearestOutsideLimitNode(PathfindingNode node) {
+    PathfindingNode getNearestOutsideLimitNode(PathfindingNode node) {
         node = new PathfindingNode(node.getPosition());
         var poly = Collisions.getCollidingPolygon(node.toPositionableCircle(), enlargedPolygons.stream());
+
+        // Cas très très rare: Si le point est au centre d'un obstacle (voir impossible sinon le bateau serait dans l'incapacité de l'atteindre)
+        if(poly != null && node.getPosition().equals(poly.getTransform().getPoint()))
+            node.setPosition(node.getPosition().add(new Point(0, 50)));
 
         // Move the point while it collid with an enlarged polygon.
         while(poly != null) {
@@ -74,17 +88,23 @@ public class PathfindingProblem {
 
     /**
      * Génère les noeuds à partir des Polygones agrandis
+     * TESTED
      */
-    private void generateNodes() {
+    void generateNodes() {
         for(var poly : enlargedPolygons) {
             nodes.addAll(PathfindingNode.createFrom(poly));
         }
     }
 
+    List<PathfindingNode> getNodes() {
+        return this.nodes;
+    }
+
     /**
      * Génère les routes entre les noeuds
+     * TESTED
      */
-    private void generateRoads() {
+    void generateRoads() {
         // checking one by one if a road canBeCreated between the nodes
         for(var n1 : nodes) {
             for(var n2 : nodes) {
@@ -117,7 +137,8 @@ public class PathfindingProblem {
 
         // Prepare the path with the starting nodes
 
-        List<PathfindingNode> pathDeb = new ArrayList<>() {{ add(startPosition); }};
+        List<PathfindingNode> pathDeb = new ArrayList<>();
+        pathDeb.add(startPosition);
         if(startPosition.equals(pseudoStart)) pathDeb = new ArrayList<>();
         var path = PathfindingResult.createFrom(Dijkstra.execute(pseudoStart, pseudoGoal, this.nodes), pathDeb);
 

@@ -24,7 +24,9 @@ public class PathSteps {
      * @return
      */
     public PathSteps complete(PathfindingNode node) {
-        return new PathSteps(new ArrayList<PathfindingNode>(nodes) {{ add(node); }}, length + last().getPosition().substract(node.getPosition()).length());
+        List<PathfindingNode> nodes = new ArrayList<>(this.nodes);
+        nodes.add(node);
+        return new PathSteps(nodes, length + last().getPosition().substract(node.getPosition()).length());
     }
 
     public PathfindingNode last() {
@@ -40,6 +42,8 @@ public class PathSteps {
     }
 
     public static PathSteps root(PathfindingNode node) {
-        return new PathSteps(new ArrayList<PathfindingNode>() {{ add(node); }}, 0);
+        List<PathfindingNode> nodes = new ArrayList<>();
+        nodes.add(node);
+        return new PathSteps(nodes, 0);
     }
 }

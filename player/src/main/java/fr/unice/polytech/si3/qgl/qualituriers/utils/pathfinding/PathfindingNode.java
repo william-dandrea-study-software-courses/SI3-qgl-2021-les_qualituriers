@@ -20,12 +20,13 @@ public class PathfindingNode {
     /**
      * @param position Géolocalisation du point
      */
-    PathfindingNode(Point position) {
+    public PathfindingNode(Point position) {
         this.position = position;
     }
 
 
     /**
+     * TESTED
      * @param polygon Le polygone source
      * @return La liste des vertices du polygon converties en PathfindingNode
      */
@@ -57,6 +58,11 @@ public class PathfindingNode {
     }
 
     @Override
+    public String toString() {
+        return getPosition().toString();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || !(obj instanceof PathfindingNode)) return false;
@@ -68,6 +74,7 @@ public class PathfindingNode {
     }
 
     /**
+     * TESTED
      * @return Creer un positionableCircle centré sur ce noeud
      */
     PositionableCircle toPositionableCircle() {
@@ -83,15 +90,20 @@ public class PathfindingNode {
     }
 
     /**
+     * TESTED
      * Créer une route entre 2 noeuds
      * Warning: S'il il y a un obstacle sur le passage, il est ignoré
      * @param node Noeud auquel lier la route
      */
-    void createRoadTo(PathfindingNode node) {
+    public void createRoadTo(PathfindingNode node) {
         if(!hasRoadLeadingTo(node)) {
             var road = new PathfindingRoad(node, this);
             roads.add(road);
             node.roads.add(road);
         }
+    }
+
+    List<PathfindingRoad> getRoads() {
+        return this.roads;
     }
 }

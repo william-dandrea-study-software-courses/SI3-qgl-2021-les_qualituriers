@@ -82,7 +82,7 @@ public class NewHeadQuarter {
 
     /**
      * Les méthodes ci-dessous sont situés ici car elles sont un lien entre plusieurs missions, et il était plus simple
-     * de les implémenté ici. Nous trouvions cela plus claire dans la lecture du code
+     * de les implémenter ici. Nous trouvions cela plus claire dans la lecture du code
      */
 
 

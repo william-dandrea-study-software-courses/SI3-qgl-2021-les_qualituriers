@@ -24,6 +24,7 @@ public class MainPathfinding {
 
     /**
      * Retourne la prochaine étape afin de rejoindre le point le plus rapidement possible
+     * TESTED
      * @param context: Les paramètres de recherche
      * @return Checkpoint de la prochaine étape
      */
@@ -75,6 +76,9 @@ public class MainPathfinding {
         return nextPos;
     }
 
+    /**
+     * NO TEST NEEDED
+     */
     void FindANewPath(PathfindingContext context, List<PositionablePolygon> obstacles) {
 
 
