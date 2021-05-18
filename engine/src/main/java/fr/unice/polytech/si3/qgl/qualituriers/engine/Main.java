@@ -122,7 +122,7 @@ public class Main {
 
             TimeUnit.MILLISECONDS.sleep(100);
             compteurMax--;
-            //System.out.println(cockpit.getLogs());
+
             cockpit.getLogs().clear();
 
         } while(actionsDone.length != 0 && compteurMax >= 0 && race.getBoat().getLife() > 0);

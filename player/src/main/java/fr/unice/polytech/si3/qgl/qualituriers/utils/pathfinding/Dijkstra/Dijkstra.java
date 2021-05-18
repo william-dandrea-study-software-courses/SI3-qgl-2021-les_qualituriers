@@ -18,12 +18,7 @@ public class Dijkstra {
         return store;
     }
 
-    private static void drawAll(DijkstraStore store) {
-        for(var e : store.shortestPaths.values()) {
-            PathfindingResult.createFrom(e, new ArrayList<>()).draw();
-        }
-        SeaDrawer.waitIfDebugMode(100);
-    }
+
 
     public static PathSteps execute(PathfindingNode start, PathfindingNode goal, List<PathfindingNode> nodes) {
         var store = init(nodes);

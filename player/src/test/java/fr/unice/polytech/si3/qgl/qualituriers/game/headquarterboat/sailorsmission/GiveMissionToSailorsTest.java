@@ -180,7 +180,7 @@ class GiveMissionToSailorsTest {
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.affectMissionForOneSailor(BoatEntities.RUDDER, SailorMission.RUDDER_SAILOR, new ArrayList<>());
 
-        System.out.println(Arrays.toString(defaultSailors));
+
 
         assertEquals(sailor1.getSailorMission(), SailorMission.RUDDER_SAILOR);
 
@@ -254,7 +254,7 @@ class GiveMissionToSailorsTest {
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.affectMissionForOneSailor(BoatEntities.RUDDER, SailorMission.RUDDER_SAILOR, avoidMissions);
 
-        System.out.println(Arrays.toString(defaultSailors));
+
 
         assertEquals(sailor1.getSailorMission(), SailorMission.BABORDOAR_SAILOR);
         assertEquals(sailor2.getSailorMission(), SailorMission.BABORDOAR_SAILOR);
@@ -289,7 +289,7 @@ class GiveMissionToSailorsTest {
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.affectMissionForOneSailor(BoatEntities.RUDDER, SailorMission.RUDDER_SAILOR, avoidMissions);
 
-        System.out.println(Arrays.toString(defaultSailors));
+
 
         assertEquals(sailor1.getSailorMission(), SailorMission.BABORDOAR_SAILOR);
         assertEquals(sailor2.getSailorMission(), SailorMission.BABORDOAR_SAILOR);
@@ -367,7 +367,7 @@ class GiveMissionToSailorsTest {
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.affectAllTheSailorsWithAnyMissionOnOar();
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor1.getSailorMission());
         assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor2.getSailorMission());
@@ -392,11 +392,11 @@ class GiveMissionToSailorsTest {
         gameInfo.reinitializeAllSailorsMissions();
 
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.affectAllTheSailorsWithAnyMissionOnOar();
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(SailorMission.BABORDOAR_SAILOR, sailor1.getSailorMission());
         assertEquals(SailorMission.BABORDOAR_SAILOR, sailor2.getSailorMission());
@@ -461,7 +461,7 @@ class GiveMissionToSailorsTest {
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.launch();
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor1.getSailorMission());
         assertEquals(SailorMission.RUDDER_SAILOR, sailor2.getSailorMission());
@@ -480,7 +480,7 @@ class GiveMissionToSailorsTest {
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.launch();
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(SailorMission.RUDDER_SAILOR, sailor1.getSailorMission());
         assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor2.getSailorMission());
@@ -500,7 +500,7 @@ class GiveMissionToSailorsTest {
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.launch();
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(SailorMission.RUDDER_SAILOR, sailor1.getSailorMission());
         assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor2.getSailorMission());
@@ -519,7 +519,7 @@ class GiveMissionToSailorsTest {
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.NONE_SAILOR);
         giveMissionToSailors.launch();
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(SailorMission.RUDDER_SAILOR, sailor1.getSailorMission());
         assertEquals(SailorMission.TRIBORDOAR_SAILOR, sailor2.getSailorMission());
@@ -566,7 +566,7 @@ class GiveMissionToSailorsTest {
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.WATCH_SAILOR);
         giveMissionToSailors.launch();
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
         assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
@@ -583,7 +583,7 @@ class GiveMissionToSailorsTest {
         GiveMissionToSailors giveMissionToSailors = new GiveMissionToSailors(gameInfo, SailorMission.SAIL_SAILOR);
         giveMissionToSailors.launch();
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
         assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
@@ -631,7 +631,7 @@ class GiveMissionToSailorsTest {
         giveMissionToSailors.launch();
 
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
         assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
@@ -667,7 +667,7 @@ class GiveMissionToSailorsTest {
         giveMissionToSailors.launch();
 
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
         assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
@@ -703,7 +703,7 @@ class GiveMissionToSailorsTest {
         giveMissionToSailors.launch();
 
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
         assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
@@ -739,7 +739,7 @@ class GiveMissionToSailorsTest {
         giveMissionToSailors.launch();
 
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
         assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
@@ -794,7 +794,7 @@ class GiveMissionToSailorsTest {
         giveMissionToSailors.launch();
 
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
         assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
@@ -837,7 +837,7 @@ class GiveMissionToSailorsTest {
         giveMissionToSailors.launch();
 
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
         assertEquals(2, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
@@ -879,7 +879,7 @@ class GiveMissionToSailorsTest {
         giveMissionToSailors.launch();
 
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
@@ -921,7 +921,6 @@ class GiveMissionToSailorsTest {
         giveMissionToSailors.launch();
 
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
 
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
@@ -963,7 +962,7 @@ class GiveMissionToSailorsTest {
         giveMissionToSailors.launch();
 
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());
@@ -1005,7 +1004,7 @@ class GiveMissionToSailorsTest {
         giveMissionToSailors.launch();
 
 
-        System.out.println(Arrays.toString(gameInfo.getSailors()));
+
 
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.TRIBORDOAR_SAILOR).count());
         assertEquals(3, Arrays.stream(gameInfo.getSailors()).filter(marin -> marin.getSailorMission() == SailorMission.BABORDOAR_SAILOR).count());

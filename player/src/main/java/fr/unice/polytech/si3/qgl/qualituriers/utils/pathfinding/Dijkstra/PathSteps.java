@@ -10,7 +10,12 @@ public class PathSteps {
     private final List<PathfindingNode> nodes;
 
     PathSteps(PathfindingNode start) {
-        this(new ArrayList<PathfindingNode>() {{ add(start); }}, Double.MAX_VALUE);
+        List<PathfindingNode> nodes = new ArrayList<>();
+        nodes.add(start);
+        this.nodes = nodes;
+        this.length = Double.MAX_VALUE;
+
+        // this(new ArrayList<PathfindingNode>() {{ add(start); }}, Double.MAX_VALUE);
     }
 
     private PathSteps(List<PathfindingNode> nodes, double length) {

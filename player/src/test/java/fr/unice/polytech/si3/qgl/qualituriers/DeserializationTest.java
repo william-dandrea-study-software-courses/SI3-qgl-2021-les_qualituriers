@@ -87,7 +87,6 @@ public class DeserializationTest {
     @Test
     void deserializeCanonBoatEntity() {
         CanonBoatEntity ent = new CanonBoatEntity(1, 2, true, Math.PI/4);
-        System.out.println(Math.PI/4);
         String json = "{\"type\":\"canon\",\"x\":1,\"y\":2, \"loaded\":true, \"angle\":0.7853981633974483}";
         this.testDeserialization(ent, json);
     }

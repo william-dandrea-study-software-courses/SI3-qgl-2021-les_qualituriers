@@ -142,46 +142,7 @@ public class Marin {
     }
 
 
-    /**
-     * @param boat sur lequel on veut regarder s'il y a des marins dessus
-     * @return true si le marin est sur le gouvernail, false sinon
-     */
-    public boolean isOnRudder(Boat boat) {
-        return Arrays.stream(boat.getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.RUDDER).anyMatch(boatEntity ->
-                boatEntity.getX() == this.x && boatEntity.getX() == this.y
-        );
-    }
 
-
-    /**
-     * @param boat sur lequel on veut regarder s'il y a des marins dessus
-     * @return true si le marin est sur la voile , false sinon
-     */
-    public boolean isOnSail(Boat boat) {
-        return Arrays.stream(boat.getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.SAIL).anyMatch(boatEntity ->
-                boatEntity.getX() == this.x && boatEntity.getX() == this.y
-        );
-    }
-
-
-    /**
-     * @param boat sur lequel on veut regarder s'il y a des marins dessus
-     * @return true si le marin est sur la vigie , false sinon
-     */
-    public boolean isOnWatch(Boat boat) {
-        return Arrays.stream(boat.getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.WATCH).anyMatch(boatEntity ->
-                boatEntity.getX() == this.x && boatEntity.getX() == this.y
-        );
-    }
-
-
-    /**
-     * @param boat sur lequel on veut regarder s'il y a des marins dessus
-     * @return true si le marin est sur aucune entité du bateau , false sinon
-     */
-    public boolean isOnNothing(Boat boat) {
-        return !isOnBabordOar(boat) && !isOnTribordOar(boat) && !isOnRudder(boat) && !isOnSail(boat) && !isOnWatch(boat);
-    }
 
 
 
