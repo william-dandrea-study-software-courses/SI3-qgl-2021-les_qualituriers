@@ -246,7 +246,7 @@ class OarTheSailorsAndTurnRudderTest {
         speedOar = 165.0;
         speedWind = 500 * -1;
         speedStream = -1050;
-        System.out.println(distance);
+
         assertEquals(speedOar + speedWind + speedStream, distance);
 
     }
@@ -278,7 +278,7 @@ class OarTheSailorsAndTurnRudderTest {
         speedOar = 165.0;
         speedWind = 500 * -1;
         speedStream = 1050;
-        System.out.println(distance);
+
         assertEquals(speedOar + speedWind + speedStream, distance);
     }
 
@@ -502,7 +502,7 @@ class OarTheSailorsAndTurnRudderTest {
         sailor6.setPosition(6,4);
 
         actions = oarTheSailorsAndTurnRudder.launch();
-        System.out.println(actions);
+
 
         assertEquals(6, actions.size());
         assertTrue(actions.contains(new Oar(1)));
@@ -529,7 +529,7 @@ class OarTheSailorsAndTurnRudderTest {
         sailor6.setPosition(6,4);
 
         List<Action> actions = oarTheSailorsAndTurnRudder.launch();
-        System.out.println(actions);
+
 
         assertEquals(2, actions.size());
         assertFalse(actions.contains(new Oar(1)));
@@ -556,7 +556,7 @@ class OarTheSailorsAndTurnRudderTest {
         sailor6.setPosition(6,4);
 
         List<Action> actions = oarTheSailorsAndTurnRudder.launch();
-        System.out.println(actions);
+
 
         assertEquals(2, actions.size());
         assertTrue(actions.contains(new Oar(1)));
@@ -583,7 +583,7 @@ class OarTheSailorsAndTurnRudderTest {
         sailor6.setPosition(6,4);
 
         List<Action> actions = oarTheSailorsAndTurnRudder.launch();
-        System.out.println(actions);
+
 
         assertEquals(6, actions.size());
         assertTrue(actions.contains(new Oar(1)));
@@ -609,7 +609,7 @@ class OarTheSailorsAndTurnRudderTest {
         sailor6.setPosition(6,4);
 
         List<Action> actions = oarTheSailorsAndTurnRudder.launch();
-        System.out.println(actions);
+
 
         assertEquals(3, actions.size());
         assertTrue(actions.contains(new Oar(1)));
