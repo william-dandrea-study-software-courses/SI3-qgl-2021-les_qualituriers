@@ -5,7 +5,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.MyColumn2DMat;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.MySquared2DMat;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Polygon;
 
 import java.util.ArrayList;
 import java.util.List;

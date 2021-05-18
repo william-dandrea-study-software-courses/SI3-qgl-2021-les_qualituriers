@@ -117,15 +117,4 @@ public class SeaDrawerTest {
         assertEquals(color, colorCapt.getValue());
     }
 
-    @Test
-    public void waitDebugModeTest() {
-        IDrawer drawer = mock(IDrawer.class);
-
-        assertTimeout(Duration.ofMillis(1), () -> SeaDrawer.waitIfDebugMode(2));
-        int time = 20;
-        TempoRender.SeaDrawer = drawer;
-
-        assertTimeout(Duration.ofMillis(time+1), () -> SeaDrawer.waitIfDebugMode(time));
-    }
-
 }
