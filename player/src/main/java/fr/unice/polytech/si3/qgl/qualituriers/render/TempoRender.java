@@ -10,12 +10,13 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IDrawer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.ILogger;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.*;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.MainPathfinding;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.PathfindingContext;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.PathfindingStore;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 public class TempoRender extends Render {

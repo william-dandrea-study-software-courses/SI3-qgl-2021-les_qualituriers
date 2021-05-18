@@ -5,13 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
 /**
- * Le deck represente le plateau de jeu, dans notre cas, le deck represente la mer
+ * Le deck représente le plateau de jeu, dans notre cas, le deck représente la mer
  *
  * @author williamdandrea
  * @author CLODONG Yann
  */
-
-
 public class Deck {
 
     private final int width;
