@@ -82,7 +82,7 @@ public abstract class PolygonAbstract extends Shape {
     public PositionableCircle getCircumscribed() {
         var vertices = getVertices(Transform.ZERO);
         var center = Arrays.stream(vertices).reduce(Point.ZERO, Point::add).scalar(1 / (double)vertices.length);
-        var maxDist = Arrays.stream(vertices).mapToDouble(p -> p.substract(center).length()).max();
+        var maxDist = Arrays.stream(vertices).mapToDouble(p -> p.subtract(center).length()).max();
 
         if(maxDist.isEmpty()) return new PositionableCircle(new Circle(0), Transform.ZERO);
 

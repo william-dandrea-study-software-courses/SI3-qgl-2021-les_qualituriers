@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers;
+package fr.unice.polytech.si3.qgl.qualituriers.entity.deck;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

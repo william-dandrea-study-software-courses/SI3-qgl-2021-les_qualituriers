@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.Dijkstra;
+package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.dijkstra;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.PathfindingNode;
 
@@ -31,7 +31,7 @@ public class PathSteps {
     public PathSteps complete(PathfindingNode node) {
         List<PathfindingNode> nodes = new ArrayList<>(this.nodes);
         nodes.add(node);
-        return new PathSteps(nodes, length + last().getPosition().substract(node.getPosition()).length());
+        return new PathSteps(nodes, length + last().getPosition().subtract(node.getPosition()).length());
     }
 
     public PathfindingNode last() {

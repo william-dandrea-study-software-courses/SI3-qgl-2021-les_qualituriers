@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers;
 
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Deck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

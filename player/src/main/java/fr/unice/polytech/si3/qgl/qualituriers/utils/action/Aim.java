@@ -1,9 +1,7 @@
-package fr.unice.polytech.si3.qgl.qualituriers.utils.action.nonexit;
+package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
 
 import java.util.Objects;
 

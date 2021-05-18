@@ -13,11 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.awt.*;
-import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class SeaDrawerTest {
 
@@ -49,6 +47,8 @@ public class SeaDrawerTest {
         ArgumentCaptor<Point> endCapt = ArgumentCaptor.forClass(Point.class);
         ArgumentCaptor<Color> colorCapt = ArgumentCaptor.forClass(Color.class);
         IDrawer drawer = mock(IDrawer.class);
+        IShapeDraw shapeDraw = mock(IShapeDraw.class);
+        when(drawer.drawFuturLine(any(Point.class), any(Point.class), any(Color.class))).thenReturn(shapeDraw);
 
         assertDoesNotThrow(() -> SeaDrawer.drawLine(null, null, null));
         assertNull(SeaDrawer.drawLine(null, null, null));

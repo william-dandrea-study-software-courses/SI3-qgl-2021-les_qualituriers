@@ -1,6 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.engine;
 
-import fr.unice.polytech.si3.qgl.qualituriers.Deck;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.VisibleDeckEntity;

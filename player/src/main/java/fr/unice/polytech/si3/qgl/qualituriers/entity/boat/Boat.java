@@ -3,7 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.qualituriers.Deck;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntities;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.BoatEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.Marin;

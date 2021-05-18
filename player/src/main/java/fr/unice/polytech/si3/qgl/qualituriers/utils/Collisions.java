@@ -2,7 +2,6 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils;
 
 
 import fr.unice.polytech.si3.qgl.qualituriers.Config;
-import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.*;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -10,7 +9,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.Positiona
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -111,26 +109,12 @@ public class Collisions {
      */
     public static boolean raycast(Segment segment, double width, PositionableShape<? extends Shape> shape) {
         //return isColliding(new PositionablePolygon(segment, new Transform(0, 0, 0)), shape);
-        var dir = segment.getEnd().substract(segment.getStart());
+        var dir = segment.getEnd().subtract(segment.getStart());
         PositionablePolygon poly = new PositionablePolygon(new Rectangle(width, dir.length(), dir.getOrientation()), new Transform(segment.getStart().add(dir.scalar(0.5)), 0));
 
         //if(TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawFuturPolygon(poly, Color.RED);
 
         return isColliding(poly, shape);
-
-    }
-
-
-    public static boolean raycast(Segment segment, double width, PositionableShape<? extends Shape> shape, boolean draw) {
-        //return isColliding(new PositionablePolygon(segment, new Transform(0, 0, 0)), shape);
-        var dir = segment.getEnd().substract(segment.getStart());
-        PositionablePolygon poly = new PositionablePolygon(new Rectangle(dir.length(), width, dir.getOrientation()), new Transform(segment.getStart().add(dir.scalar(0.5)), 0));
-
-        if(draw && TempoRender.SeaDrawer != null) TempoRender.SeaDrawer.drawFuturPolygon(poly, Color.RED);
-
-        return isColliding(poly, shape);/*
-                && isColliding(new PositionableCircle(new Circle(width / 2), new Transform(segment.getStart(), 0)), shape)
-                && isColliding(new PositionableCircle(new Circle(width / 2), new Transform(segment.getEnd(), 0)), shape);*/
 
     }
 
@@ -141,18 +125,14 @@ public class Collisions {
         });
     }
 
-    public static boolean raycast(Segment segment, double width, Stream<PositionableShape<? extends Shape>> shape) {
-        return shape.anyMatch(s -> raycast(segment, width, s));
-    }
-
     public static double getDistanceCast(Point start, Point end, PositionableCircle shape, double margin) {
         var r = shape.getShape().getRadius() + margin;
 
-        var d = end.substract(start).normalized();
+        var d = end.subtract(start).normalized();
         var dx = d.getX();
         var dy = d.getY();
 
-        var dObs = shape.getTransform().getPoint().substract(start);
+        var dObs = shape.getTransform().getPoint().subtract(start);
         var ABx = dObs.getX();
         var ABy = dObs.getY();
 

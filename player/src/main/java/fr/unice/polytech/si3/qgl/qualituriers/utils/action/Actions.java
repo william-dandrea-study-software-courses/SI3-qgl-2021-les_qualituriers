@@ -1,9 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.nonexit.Aim;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.nonexit.Fire;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.nonexit.Reload;
 
 /**
  * @author Alexandre Arcil
@@ -26,19 +23,6 @@ public enum Actions {
     Actions(String type, Class<? extends Action> action) {
         this.type = type;
         this.action = action;
-    }
-
-    /**
-     * Convertie un type reçu depuis le json en la class Action qui correspond.
-     * @param type Le type de l'action
-     * @return la class de l'Action correspond, null sinon.
-     */
-    public static Class<? extends Action> typeToAction(String type) {
-        for (Actions value : values()) {
-            if(value.type.equals(type))
-                return value.action;
-        }
-        return null;
     }
 
     @JsonValue

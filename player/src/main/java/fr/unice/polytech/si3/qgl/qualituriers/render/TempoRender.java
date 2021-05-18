@@ -25,8 +25,8 @@ public class TempoRender extends Render {
     public static IDrawer SeaDrawer;
     public NewHeadQuarter headQuarter;
     protected final ILogger logger;
-
-
+    int currentCheckpointIndex = 0;
+    CheckPoint intermediareCheckpoint = null;
     private PathfindingStore store;
 
     public TempoRender(GameInfo gameInfo, ILogger logger) {
@@ -36,8 +36,6 @@ public class TempoRender extends Render {
         this.logger = logger;
     }
 
-    int currentCheckpointIndex = 0;
-    CheckPoint intermediareCheckpoint = null;
     public List<Action> nextRoundAlternative(RoundInfo round) {
 
         // Récupération des checkpoints

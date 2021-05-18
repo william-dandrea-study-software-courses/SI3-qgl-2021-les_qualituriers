@@ -1,25 +1,15 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Config;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.SeaDrawer;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.Dijkstra.Dijkstra;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.dijkstra.Dijkstra;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class PathfindingProblem {
     private final List<PositionablePolygon>  polygons = new ArrayList<>();
@@ -74,7 +64,7 @@ public class PathfindingProblem {
         // Move the point while it collid with an enlarged polygon.
         while(poly != null) {
             Point pt = node.getPosition();
-            var dir = pt.substract(poly.getTransform().getPoint());
+            var dir = pt.subtract(poly.getTransform().getPoint());
             var dist = dir.length();
             dir = dir.normalized();
 

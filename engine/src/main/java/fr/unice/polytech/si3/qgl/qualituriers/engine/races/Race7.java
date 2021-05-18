@@ -1,6 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.engine.races;
 
-import fr.unice.polytech.si3.qgl.qualituriers.Deck;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.TurnConfig;
 import fr.unice.polytech.si3.qgl.qualituriers.engine.mechanics.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;

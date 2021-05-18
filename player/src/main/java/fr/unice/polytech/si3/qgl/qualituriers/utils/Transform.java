@@ -126,7 +126,7 @@ public class Transform extends Point {
      * @return L'angle
      */
     public double getAngleToSee(Point location) {
-        var dir = location.substract(getPoint());
+        var dir = location.subtract(getPoint());
         return direction().angleWith(dir);
     }
 

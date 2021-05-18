@@ -75,7 +75,7 @@ public class MyCanvas extends JPanel implements IDrawer {
     }
 
     public Point getScreenPosition(Point pt) {
-        pt = pt.substract(offset);
+        pt = pt.subtract(offset);
         pt = pt.scalar(zoom * scale);
 
         return pt.add(new Point(getWidth() / 2.0, getHeight() / 2.0));
@@ -138,7 +138,6 @@ public class MyCanvas extends JPanel implements IDrawer {
 
     public void zoomIn() {
         zoom /= 2;
-        //offset = offset.substract(new Point(getWidth() / 2, getHeight() / 2).scalar(zoom));
     }
 
     public void zoomOut() {

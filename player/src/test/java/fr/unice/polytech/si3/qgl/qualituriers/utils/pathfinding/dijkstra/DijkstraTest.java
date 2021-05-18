@@ -1,9 +1,8 @@
-package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.Dijkstra;
+package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.dijkstra;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.PathfindingNode;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShapeFactory;

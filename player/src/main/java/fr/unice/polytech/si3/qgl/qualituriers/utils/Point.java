@@ -55,7 +55,7 @@ public class Point {
      * @param other: Deuxieme element
      * @return this - other
      */
-    public Point substract(Point other) {
+    public Point subtract(Point other) {
         return new Point(x - other.getX(), y - other.getY());
     }
 
@@ -157,7 +157,7 @@ public class Point {
      * @return le nouveau vecteur
      */
     public Point rotate(double angle, Point origin) {
-        return this.substract(origin).rotate(angle).add(origin);
+        return this.subtract(origin).rotate(angle).add(origin);
     }
 
     /**

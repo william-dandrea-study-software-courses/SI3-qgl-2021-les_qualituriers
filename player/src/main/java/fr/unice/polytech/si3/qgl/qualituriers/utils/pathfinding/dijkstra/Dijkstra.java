@@ -1,13 +1,10 @@
-package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.Dijkstra;
+package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.dijkstra;
 
-import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.SeaDrawer;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.PathfindingNode;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.PathfindingResult;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 public class Dijkstra {
 

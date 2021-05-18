@@ -107,31 +107,6 @@ public class Marin {
 
     /**
      * @param boat sur lequel on veut regarder s'il y a des marins dessus
-     * @return true si le marin est sur une rame de babord, false sinon
-     */
-    public boolean isOnBabordOar(Boat boat) {
-        return Arrays.stream(boat.getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.OAR).anyMatch(boatEntity ->
-                boatEntity.getX() == this.x &&
-                        boatEntity.getX() == this.y &&
-                        boatEntity.getY() == 0
-        );
-    }
-
-    /**
-     * @param boat sur lequel on veut regarder s'il y a des marins dessus
-     * @return true si le marin est sur une rame de tribord, false sinon
-     */
-    public boolean isOnTribordOar(Boat boat) {
-        return Arrays.stream(boat.getEntities()).filter(boatEntity -> boatEntity.getType() == BoatEntities.OAR).anyMatch(boatEntity ->
-                boatEntity.getX() == this.x &&
-                        boatEntity.getX() == this.y &&
-                        boatEntity.getY() == boat.getDeck().getWidth() - 1
-        );
-    }
-
-
-    /**
-     * @param boat sur lequel on veut regarder s'il y a des marins dessus
      * @param boatEntities le type de boatEntities sur lequel on veut regader si il y a, ou non, le marin actuel
      * @return true si le marin est sur une de ces boatEntities, false sinon
      */

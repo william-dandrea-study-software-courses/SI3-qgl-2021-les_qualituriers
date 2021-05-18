@@ -4,14 +4,13 @@ import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IShapeDraw;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.Dijkstra.PathSteps;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.dijkstra.PathSteps;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class PathfindingResult {
     private static List<IShapeDraw> drawing = new ArrayList<>();
@@ -73,7 +72,7 @@ public class PathfindingResult {
     double length() {
         double result = 0;
         for(int i = 0; i < size() - 1; i++) {
-            result += nodes.get(i + 1).getPosition().substract(nodes.get(i).getPosition()).length();
+            result += nodes.get(i + 1).getPosition().subtract(nodes.get(i).getPosition()).length();
         }
         return result;
     }

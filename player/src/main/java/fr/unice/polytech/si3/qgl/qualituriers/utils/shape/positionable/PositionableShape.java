@@ -50,25 +50,6 @@ public abstract class PositionableShape<T extends Shape> {
         this.transform = transform;
     }
 
-    /**
-     * Teste si le point est dans la forme
-     * @param pt le point
-     * @return true si le point est dans la forme, false sinon
-     */
-    /*public boolean isIn(Point pt) {
-        return shape.isIn(pt.substract(transform.getPoint()).rotate(-transform.getOrientation()));
-    }*/
-
-
-    /**
-     * @return Le cercle circonscrit de la forme
-     */
-    @JsonIgnore
-    public PositionableCircle getCircumscribed() {
-        var c = shape.getCircumscribed();
-        return new PositionableCircle(c.getShape(), transform.getInParentLandmark(c.getTransform()));
-    }
-
     @JsonIgnore
     public abstract PositionablePolygon getCircumscribedPolygon();
 
