@@ -27,6 +27,11 @@ public class PathfindingRoad {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(from, to);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || !(obj instanceof PathfindingRoad)) return false;
