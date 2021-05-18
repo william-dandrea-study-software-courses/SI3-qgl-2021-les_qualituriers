@@ -12,6 +12,8 @@ import fr.unice.polytech.si3.qgl.qualituriers.game.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.CheckPoint;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Action;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Moving;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
@@ -20,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -142,6 +145,8 @@ public class GameInfoTest {
         assertEquals(gameInfo.getShip(), boat);
         this.gameInfo.setSailors(sailors);
         assertArrayEquals(sailors, this.gameInfo.getSailors());
+        this.gameInfo.setGoal(new RegattaGoal(new CheckPoint[]{new CheckPoint(new Transform(1, 2, 2), new Rectangle(1, 2, 2))}));
+        assertEquals(gameInfo.getGoal(), new RegattaGoal(new CheckPoint[]{new CheckPoint(new Transform(1, 2, 2), new Rectangle(1, 2, 2))}));
         this.gameInfo.setShipCount(shipCount);
         assertEquals(shipCount, this.gameInfo.getShipCount());
         this.gameInfo.setWind(new Wind(2, 0));
@@ -355,12 +360,87 @@ public class GameInfoTest {
         assertEquals(0, result.size());
     }
 
+    @Test
+    void getListOfOarWithAnySailorsOnItTest(){
+        List<BoatEntity> result = gameInfo2.getListOfOarWithAnySailorsOnIt();
+        assertEquals(8, result.size());
 
+        sailor6.setPosition(7,4);
+        result = gameInfo2.getListOfOarWithAnySailorsOnIt();
+        assertEquals(7, result.size());
+    }
 
+    @Test
+    void getListOfBabordOarWithAnySailorsOnItTest(){
+        List<BoatEntity> result = gameInfo2.getListOfBabordOarWithAnySailorsOnIt();
+        assertEquals(8, result.size());
 
+        sailor6.setPosition(7,4);
+        result = gameInfo2.getListOfBabordOarWithAnySailorsOnIt();
+        assertEquals(8, result.size());
 
+        sailor6.setPosition(4,0);
+        result = gameInfo2.getListOfBabordOarWithAnySailorsOnIt();
+        assertEquals(7, result.size());
+    }
 
+    @Test
+    void getListOfTribordOarWithAnySailorsOnItTest(){
+        List<BoatEntity> result = gameInfo2.getListOfTribordOarWithAnySailorsOnIt();
+        assertEquals(8, result.size());
 
+        sailor6.setPosition(7,4);
+        result = gameInfo2.getListOfTribordOarWithAnySailorsOnIt();
+        assertEquals(7, result.size());
 
+        sailor6.setPosition(4,0);
+        result = gameInfo2.getListOfTribordOarWithAnySailorsOnIt();
+        assertEquals(8, result.size());
+    }
+
+    @Test
+    void getSailorByHisIDTest(){
+        var result = gameInfo2.getSailorByHisID(2);
+        assertEquals(result.get(), sailor2);
+    }
+
+    @Test
+    void getSailorByHisPositionTest(){
+        var result = gameInfo2.getSailorByHisPosition(1, 2);
+        assertEquals(result.get(), sailor2);
+        assertEquals(gameInfo2.getSailorByHisPosition(0, 0), Optional.empty());
+    }
+
+    @Test
+    void addActionsToDoDuringOneTurnTest(){
+        gameInfo2.initializeActionsToDoDuringOneTurn();
+        gameInfo2.addActionsToDoDuringOneTurn(new Moving(2, 1, 1));
+        var result = gameInfo2.getActionsToDoDuringOneTurn();
+        assertEquals(result.get(0), new Moving(2, 1, 1));
+    }
+
+    @Test
+    void addAllActionsToDoDuringOneTurnTest(){
+        List<Action> actions = new ArrayList<>();
+        actions.add(new Moving(2, 1, 1));
+        actions.add(new Moving(3, 2, 2));
+        gameInfo2.initializeActionsToDoDuringOneTurn();
+        gameInfo2.addAllActionsToDoDuringOneTurn(actions);
+        var result = gameInfo2.getActionsToDoDuringOneTurn();
+        assertEquals(result.get(0), new Moving(2, 1, 1));
+        assertEquals(result.get(1), new Moving(3, 2, 2));
+    }
+
+    @Test
+    void searchTheClosestSailorToAPointTest(){
+        assertEquals(gameInfo2.searchTheClosestSailorToAPoint(new Point(1, 1)), sailor1);
+        assertEquals(gameInfo2.searchTheClosestSailorToAPoint(new Point(4, 4)), sailor6);
+    }
+
+    @Test
+    void getListOfPlaceWithAnyEntitiesOnIt(){
+        assertEquals(49, gameInfo2.getListOfPlaceWithAnyEntitiesOnIt().size());
+        assertEquals(20, gameInfo.getListOfPlaceWithAnyEntitiesOnIt().size());
+    }
 
 }
