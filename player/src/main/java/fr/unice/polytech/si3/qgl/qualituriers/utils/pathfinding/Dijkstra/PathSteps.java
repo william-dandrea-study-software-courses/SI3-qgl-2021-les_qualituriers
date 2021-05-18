@@ -24,7 +24,7 @@ public class PathSteps {
      * @return
      */
     public PathSteps complete(PathfindingNode node) {
-        List<PathfindingNode> nodes = new ArrayList<>();
+        List<PathfindingNode> nodes = new ArrayList<>(this.nodes);
         nodes.add(node);
         return new PathSteps(nodes, length + last().getPosition().substract(node.getPosition()).length());
     }
