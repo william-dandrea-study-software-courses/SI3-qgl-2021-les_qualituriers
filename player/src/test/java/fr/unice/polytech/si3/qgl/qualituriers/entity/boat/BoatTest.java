@@ -1,12 +1,11 @@
 package fr.unice.polytech.si3.qgl.qualituriers.entity.boat;
 
-import fr.unice.polytech.si3.qgl.qualituriers.Deck;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShapeFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -110,6 +108,38 @@ class BoatTest {
         assertNotEquals(boat5.hashCode(), this.boat.hashCode());
         assertNotEquals(boat6.hashCode(), this.boat.hashCode());
         assertNotEquals(boat7.hashCode(), this.boat.hashCode());
+    }
+
+    @Test
+    public void containsOarTest(){
+        assertTrue(boat.containsOar());
+        Boat boat2 = new Boat(100, transform, "bateau", new Deck(4, 5),
+                new BoatEntity[]{}, shape);
+        assertFalse(boat2.containsOar());
+    }
+
+    @Test
+    public void containsSailTest(){
+        assertFalse(boat.containsSail());
+        Boat boat2 = new Boat(100, transform, "bateau", new Deck(4, 5),
+                new BoatEntity[]{new SailBoatEntity(1, 2, false)}, shape);
+        assertTrue(boat2.containsSail());
+    }
+
+    @Test
+    public void containsRudderTest(){
+        assertFalse(boat.containsRudder());
+        Boat boat2 = new Boat(100, transform, "bateau", new Deck(4, 5),
+                new BoatEntity[]{new RudderBoatEntity(1, 2)}, shape);
+        assertTrue(boat2.containsRudder());
+    }
+
+    @Test
+    public void containsWatchTest(){
+        assertFalse(boat.containsWatch());
+        Boat boat2 = new Boat(100, transform, "bateau", new Deck(4, 5),
+                new BoatEntity[]{new WatchBoatEntity(1, 2)}, shape);
+        assertTrue(boat2.containsWatch());
     }
 
 

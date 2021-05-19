@@ -5,7 +5,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.MyColumn2DMat;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.MySquared2DMat;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Polygon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +16,6 @@ public class Segment extends Polygon {
 
     public Segment(Point start, Point end) {
         super(0, new Point[] {start,end});
-        //super(0D, new Point[]{start, end} );
-        //Est-ce utile de calculer l'angle entre les 2 points ?
         this.start = start;
         this.end = end;
     }
@@ -38,11 +35,11 @@ public class Segment extends Polygon {
      */
     @JsonIgnore
     public boolean intersectWith(PositionableShape<Circle> other) {
-        var segmentLength = end.substract(start).length();
-        var vector = end.substract(start).normalized();
+        var segmentLength = end.subtract(start).length();
+        var vector = end.subtract(start).normalized();
         var normal = new Point(vector.getY(), -vector.getX());
 
-        var relativePos = other.getTransform().getPoint().substract(start);
+        var relativePos = other.getTransform().getPoint().subtract(start);
         var distFromDroite = relativePos.scalar(normal);
 
         // Circle is too far from the droite
@@ -51,8 +48,8 @@ public class Segment extends Polygon {
         // check if collid in the segment
         var projOnDroite = relativePos.scalar(vector);
 
-        boolean startInside = other.getShape().isIn(start.substract(other.getTransform().getPoint()));
-        boolean endInside = other.getShape().isIn(end.substract(other.getTransform().getPoint()));
+        boolean startInside = other.getShape().isIn(start.subtract(other.getTransform().getPoint()));
+        boolean endInside = other.getShape().isIn(end.subtract(other.getTransform().getPoint()));
 
         return (projOnDroite >= 0 && projOnDroite <= segmentLength && !startInside && !endInside) ||
                 // L'un des deux extremités sont dans le cercle
@@ -71,11 +68,11 @@ public class Segment extends Polygon {
 
     @JsonIgnore
     private boolean isIntersectDontCheckOther(Segment other) {
-        var vector = end.substract(start);
+        var vector = end.subtract(start);
         var normal = new Point(vector.getY(), -vector.getX());
 
-        var relativeEnd = other.end.substract(start);
-        var relativeStart = other.start.substract(start);
+        var relativeEnd = other.end.subtract(start);
+        var relativeStart = other.start.subtract(start);
 
         var endDistToDroite = relativeEnd.scalar(normal);
         var startDistToDroite = relativeStart.scalar(normal);
@@ -88,7 +85,7 @@ public class Segment extends Polygon {
     }
 
     private double[] getCartesianFactors() {
-        var dir = getEnd().substract(getStart());
+        var dir = getEnd().subtract(getStart());
         double a = dir.getY();
         double b = -dir.getX();
         double c = -(getStart().getX() * dir.getY() - getStart().getY() * dir.getX());
@@ -99,7 +96,7 @@ public class Segment extends Polygon {
     }
 
     public Point getDirection() {
-        return end.substract(start);
+        return end.subtract(start);
     }
 
     public Point intersectionOfSupports(Segment other) {
@@ -128,31 +125,15 @@ public class Segment extends Polygon {
 
 
     public List<Point> axis(PositionableShape<? extends Shape> other) {
-        var delta = end.substract(start);
+        var delta = end.subtract(start);
         List<Point> a = new ArrayList<>();
         a.add(delta);
         return a;
     }
 
     public double length() {
-        return end.substract(start).length();
+        return end.subtract(start).length();
     }
-
-    /*public Segment scale(double scale) {
-        return changeLength(length() * scale);
-    }
-
-    public Segment changeLength(double length) {
-        var dir = end.substract(start);
-        var currentLength = dir.length();
-        var oldCenter = start.add(dir.scalar(0.5));
-        dir = dir.normalized();
-
-        var nStart = oldCenter.add(dir.scalar(-length / 2));
-        var nEnd = oldCenter.add(dir.scalar(length / 2));
-
-        return new Segment(nStart, nEnd);
-    }*/
 
     @Override
     public String toString() {

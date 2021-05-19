@@ -1,8 +1,7 @@
-package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.Dijkstra;
+package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.dijkstra;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.PathfindingNode;
 
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 

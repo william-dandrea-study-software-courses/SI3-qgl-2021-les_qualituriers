@@ -42,14 +42,4 @@ public class SeaDrawer {
         }
         return null;
     }
-
-    public static void waitIfDebugMode(int time) {
-        if(TempoRender.SeaDrawer != null) {
-            try {
-                Thread.sleep(time);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

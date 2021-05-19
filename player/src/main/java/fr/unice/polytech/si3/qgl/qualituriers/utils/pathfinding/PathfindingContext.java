@@ -26,7 +26,7 @@ public class PathfindingContext {
         this.start = start;
         this.goal = goal;
 
-
+        // TESTED
         this.obstacles = new ArrayList<>();
         this.obstacles.addAll(obstacles.stream()
                 .map(VisibleDeckEntity::getPositionableShape)

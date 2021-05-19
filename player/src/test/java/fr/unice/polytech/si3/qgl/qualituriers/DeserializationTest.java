@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.qualituriers;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.EnemyVisibleDeckEntity;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.visible.ReefVisibleDeckEntity;
@@ -87,7 +88,6 @@ public class DeserializationTest {
     @Test
     void deserializeCanonBoatEntity() {
         CanonBoatEntity ent = new CanonBoatEntity(1, 2, true, Math.PI/4);
-        System.out.println(Math.PI/4);
         String json = "{\"type\":\"canon\",\"x\":1,\"y\":2, \"loaded\":true, \"angle\":0.7853981633974483}";
         this.testDeserialization(ent, json);
     }

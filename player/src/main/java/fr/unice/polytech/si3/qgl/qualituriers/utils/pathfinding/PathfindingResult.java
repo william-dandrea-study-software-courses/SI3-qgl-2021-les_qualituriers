@@ -4,14 +4,13 @@ import fr.unice.polytech.si3.qgl.qualituriers.Config;
 import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.helpers.IShapeDraw;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.Dijkstra.PathSteps;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.dijkstra.PathSteps;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class PathfindingResult {
     private static List<IShapeDraw> drawing = new ArrayList<>();
@@ -68,27 +67,18 @@ public class PathfindingResult {
     }
 
     /**
-     * @return Une copy du chemin
-     */
-    PathfindingResult copy() {
-        var path = new PathfindingResult();
-        path.nodes = new ArrayList<>(this.nodes);
-        path.resolved = resolved;
-        return path;
-    }
-
-    /**
      * @return La longueur du chemin en unité géographique
      */
     double length() {
         double result = 0;
         for(int i = 0; i < size() - 1; i++) {
-            result += nodes.get(i + 1).getPosition().substract(nodes.get(i).getPosition()).length();
+            result += nodes.get(i + 1).getPosition().subtract(nodes.get(i).getPosition()).length();
         }
         return result;
     }
 
     /**
+     * TESTED
      * @param startWayPoint à partir d'où vérifier le chemin
      * @param obstacles les obstacles à éviter
      * @return true si, et seulement si, le chemin ne croise aucun obstacle

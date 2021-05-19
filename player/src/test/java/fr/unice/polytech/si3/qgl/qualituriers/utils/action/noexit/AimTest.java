@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action.noexit;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Actions;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.nonexit.Aim;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Aim;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

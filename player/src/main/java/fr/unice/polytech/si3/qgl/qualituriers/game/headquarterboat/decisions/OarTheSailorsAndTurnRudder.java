@@ -16,7 +16,6 @@ import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Oar;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.action.Turn;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,12 +27,12 @@ public class OarTheSailorsAndTurnRudder {
     private GameInfo gameInfo;
     private CheckPoint goal;
 
-    private double angleWithOar;
+    // private double angleWithOar;
 
     public OarTheSailorsAndTurnRudder(GameInfo gameInfo, CheckPoint goal) {
         this.gameInfo = gameInfo;
         this.goal = goal;
-        angleWithOar = 0;
+        // angleWithOar = 0;
     }
 
     public List<Action> launch() {
@@ -133,12 +132,12 @@ public class OarTheSailorsAndTurnRudder {
         Optional<BoatEntity> sailOp = gameInfo.getShip().getSail();
         if (gameInfo.getWind() != null && sailOp.isPresent()) {
             SailBoatEntity sail = (SailBoatEntity) sailOp.get();
-            double numberOfSails = (double) gameInfo.getListOfSail().size();
+            double numberOfSails = gameInfo.getListOfSail().size();
             double numberOfOpenSails = (double) gameInfo.getListOfSail().stream().filter(sailIn -> ((SailBoatEntity) sailIn).isOpened()).count();
 
             if (gameInfo.getWind().getStrength() != 0.0 && sail.isOpened())
 
-                speedBoatWind = (double) (numberOfSails / numberOfOpenSails) * gameInfo.getWind().getStrength() * Math.cos(AngleUtil.differenceBetweenTwoAngle(gameInfo.getShip().getPosition().getOrientation(), gameInfo.getWind().getOrientation()));
+                speedBoatWind = (numberOfSails / numberOfOpenSails) * gameInfo.getWind().getStrength() * Math.cos(AngleUtil.differenceBetweenTwoAngle(gameInfo.getShip().getPosition().getOrientation(), gameInfo.getWind().getOrientation()));
         }
 
         // Si on est dans un courant
@@ -232,7 +231,7 @@ public class OarTheSailorsAndTurnRudder {
             increment++;
         }
 
-        angleWithOar = Math.PI * (tribord - babord) / gameInfo.getListOfOars().size();
+        // angleWithOar = Math.PI * (tribord - babord) / gameInfo.getListOfOars().size();
 
         List<Action> finalActions = new ArrayList<>();
         finalActions.addAll(oarListOfSailors(tribord, listOfTribordSailors));

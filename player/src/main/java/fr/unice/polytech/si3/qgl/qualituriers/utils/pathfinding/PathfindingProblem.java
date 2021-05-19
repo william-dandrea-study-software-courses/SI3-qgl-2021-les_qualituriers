@@ -1,25 +1,15 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding;
 
 import fr.unice.polytech.si3.qgl.qualituriers.Config;
-import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
-import fr.unice.polytech.si3.qgl.qualituriers.render.TempoRender;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Collisions;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.Transform;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.logger.SeaDrawer;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.Dijkstra.Dijkstra;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Circle;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Segment;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.Shape;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableCircle;
+import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.dijkstra.Dijkstra;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionablePolygon;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.shape.positionable.PositionableShape;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class PathfindingProblem {
     private final List<PositionablePolygon>  polygons = new ArrayList<>();
@@ -37,6 +27,7 @@ public class PathfindingProblem {
     }
 
     /**
+     * TESTED
      * Ajoute un polygone à éviter
      * @param polygon
      */
@@ -49,18 +40,31 @@ public class PathfindingProblem {
         //SeaDrawer.drawPolygon(enlarged, Color.magenta);
     }
 
+    List<PositionablePolygon> getPolygons() {
+        return this.polygons;
+    }
+
+    List<PositionablePolygon> getEnlargedPolygons() {
+        return this.enlargedPolygons;
+    }
+
     /**
+     * TESTED
      * @param node
      * @return Un noeud en dehors des polygones
      */
-    private PathfindingNode getNearestOutsideLimitNode(PathfindingNode node) {
+    PathfindingNode getNearestOutsideLimitNode(PathfindingNode node) {
         node = new PathfindingNode(node.getPosition());
         var poly = Collisions.getCollidingPolygon(node.toPositionableCircle(), enlargedPolygons.stream());
+
+        // Cas très très rare: Si le point est au centre d'un obstacle (voir impossible sinon le bateau serait dans l'incapacité de l'atteindre)
+        if(poly != null && node.getPosition().equals(poly.getTransform().getPoint()))
+            node.setPosition(node.getPosition().add(new Point(0, 50)));
 
         // Move the point while it collid with an enlarged polygon.
         while(poly != null) {
             Point pt = node.getPosition();
-            var dir = pt.substract(poly.getTransform().getPoint());
+            var dir = pt.subtract(poly.getTransform().getPoint());
             var dist = dir.length();
             dir = dir.normalized();
 
@@ -74,17 +78,23 @@ public class PathfindingProblem {
 
     /**
      * Génère les noeuds à partir des Polygones agrandis
+     * TESTED
      */
-    private void generateNodes() {
+    void generateNodes() {
         for(var poly : enlargedPolygons) {
             nodes.addAll(PathfindingNode.createFrom(poly));
         }
     }
 
+    List<PathfindingNode> getNodes() {
+        return this.nodes;
+    }
+
     /**
      * Génère les routes entre les noeuds
+     * TESTED
      */
-    private void generateRoads() {
+    void generateRoads() {
         // checking one by one if a road canBeCreated between the nodes
         for(var n1 : nodes) {
             for(var n2 : nodes) {
@@ -117,7 +127,8 @@ public class PathfindingProblem {
 
         // Prepare the path with the starting nodes
 
-        List<PathfindingNode> pathDeb = new ArrayList<>() {{ add(startPosition); }};
+        List<PathfindingNode> pathDeb = new ArrayList<>();
+        pathDeb.add(startPosition);
         if(startPosition.equals(pseudoStart)) pathDeb = new ArrayList<>();
         var path = PathfindingResult.createFrom(Dijkstra.execute(pseudoStart, pseudoGoal, this.nodes), pathDeb);
 

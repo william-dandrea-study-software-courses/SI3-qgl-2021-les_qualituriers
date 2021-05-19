@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.HeadQuarterControls.*;
 
@@ -82,8 +81,6 @@ public class GiveMissionToSailors {
         List<Marin> sailorsOnAnyOars = gameInfo.getListOfSailorsOnAnyOar();
 
         List<Marin> sailorsWithAnyMissions = gameInfo.getSailorsWithAnyMissions();
-        List<Marin> babordSailorsOnOarWithAnyMissions = sailorsWithAnyMissions.stream().filter(sailor -> sailor.isOnBabordOar(gameInfo.getShip())).collect(Collectors.toList());
-        List<Marin> tribordSailorsOnOarWithAnyMissions = sailorsWithAnyMissions.stream().filter(sailor -> sailor.isOnTribordOar(gameInfo.getShip())).collect(Collectors.toList());
 
         int goalOfSailorsAtBabord = sailorsWithAnyMissions.size() / 2;
         int goalOfSailorsAtTribord = sailorsWithAnyMissions.size() - goalOfSailorsAtBabord;
@@ -192,7 +189,6 @@ public class GiveMissionToSailors {
     private Optional<Marin> takeTheCloserSailorFromDestination(BoatEntity destination, List<SailorMission> sailorsMissionsToAvoid) {
 
         double distanceMinimale = Double.POSITIVE_INFINITY;
-        Marin closerSailor = null;
         Optional<Marin> finalMarin = Optional.empty();
 
 
@@ -200,7 +196,6 @@ public class GiveMissionToSailors {
 
             if (marin.getPosition().distance(destination.getPosition()) < distanceMinimale && !sailorsMissionsToAvoid.contains(marin.getSailorMission())) {
                 distanceMinimale = marin.getPosition().distance(destination.getPosition());
-                closerSailor = marin;
                 finalMarin = Optional.of(marin);
             }
         }

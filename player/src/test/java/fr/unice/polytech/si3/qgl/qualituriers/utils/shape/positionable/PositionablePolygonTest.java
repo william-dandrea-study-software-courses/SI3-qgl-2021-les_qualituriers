@@ -30,31 +30,6 @@ public class PositionablePolygonTest {
         this.circle = new PositionableCircle(new Circle(10), new Transform(new Point(5, 9), Math.PI/4));
     }
 
-    @Disabled
-    @Test
-    public void construct() {
-        Point[] points = new Point[] {
-                new Point(-2, 3).rotate(orientation, transform),
-                new Point(4, 3).rotate(orientation, transform),
-                new Point(4, 1).rotate(orientation, transform),
-                new Point(-2, 1).rotate(orientation, transform)
-        };
-        //assertArrayEquals(points, this.polygon.getPoints());
-    }
-
-    @Disabled
-    @Test
-    public void project() {
-        Point axis = new Point(1, 0);
-        Point[] points = new Point[] {
-                new Point(-2, 3).rotate(orientation, transform).projection(axis),
-                new Point(4, 3).rotate(orientation, transform).projection(axis),
-                new Point(4, 1).rotate(orientation, transform).projection(axis),
-                new Point(-2, 1).rotate(orientation, transform).projection(axis)
-        };
-       // assertArrayEquals(points, this.polygon.project(axis));
-    }
-
     @Test
     public void axis() {
         List<Point> points = Arrays.asList(
@@ -66,17 +41,6 @@ public class PositionablePolygonTest {
         //assertEquals(this.polygon.axis(this.circle), points);
     }
 
-    @Disabled
-    @Test
-    public void setTransform() {
-        double angle = Math.PI / 4;
-        Transform transform = new Transform(2, 1, angle);
-        Point[] points = new Point[] {new Point(-1, 2).rotate(angle, transform), new Point(5, 2).rotate(angle, transform),
-                new Point(5, 0).rotate(angle, transform), new Point(-1, 0).rotate(angle, transform)};
-        this.polygon.setTransform(transform);
-        assertEquals(transform, this.polygon.getTransform());
-       // assertArrayEquals(points, this.polygon.getPoints());
-    }
 
     @Test
     public void testEquals() {

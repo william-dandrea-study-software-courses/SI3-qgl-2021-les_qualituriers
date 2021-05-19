@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.Dijkstra;
+package fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.dijkstra;
 
 import fr.unice.polytech.si3.qgl.qualituriers.utils.pathfinding.PathfindingNode;
 
@@ -10,7 +10,12 @@ public class PathSteps {
     private final List<PathfindingNode> nodes;
 
     PathSteps(PathfindingNode start) {
-        this(new ArrayList<PathfindingNode>() {{ add(start); }}, Double.MAX_VALUE);
+        List<PathfindingNode> nodes = new ArrayList<>();
+        nodes.add(start);
+        this.nodes = nodes;
+        this.length = Double.MAX_VALUE;
+
+        // this(new ArrayList<PathfindingNode>() {{ add(start); }}, Double.MAX_VALUE);
     }
 
     private PathSteps(List<PathfindingNode> nodes, double length) {
@@ -24,7 +29,9 @@ public class PathSteps {
      * @return
      */
     public PathSteps complete(PathfindingNode node) {
-        return new PathSteps(new ArrayList<PathfindingNode>(nodes) {{ add(node); }}, length + last().getPosition().substract(node.getPosition()).length());
+        List<PathfindingNode> nodes = new ArrayList<>(this.nodes);
+        nodes.add(node);
+        return new PathSteps(nodes, length + last().getPosition().subtract(node.getPosition()).length());
     }
 
     public PathfindingNode last() {
@@ -40,6 +47,8 @@ public class PathSteps {
     }
 
     public static PathSteps root(PathfindingNode node) {
-        return new PathSteps(new ArrayList<PathfindingNode>() {{ add(node); }}, 0);
+        List<PathfindingNode> nodes = new ArrayList<>();
+        nodes.add(node);
+        return new PathSteps(nodes, 0);
     }
 }

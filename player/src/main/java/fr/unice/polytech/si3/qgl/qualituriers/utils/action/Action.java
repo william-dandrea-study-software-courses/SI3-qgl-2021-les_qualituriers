@@ -1,10 +1,8 @@
 package fr.unice.polytech.si3.qgl.qualituriers.utils.action;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.action.nonexit.Aim;
 
 import java.util.Objects;
 

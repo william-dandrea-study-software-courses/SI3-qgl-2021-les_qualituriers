@@ -20,8 +20,8 @@ public class PointTest {
 
     @Test
     void substractionTest() {
-        assertEquals(new Point(1, 2), new Point(4, 6).substract(new Point(3, 4)));
-        assertEquals(new Point(-1, -5), new Point(4, 10).substract(new Point(5, 15)));
+        assertEquals(new Point(1, 2), new Point(4, 6).subtract(new Point(3, 4)));
+        assertEquals(new Point(-1, -5), new Point(4, 10).subtract(new Point(5, 15)));
     }
 
     @Test

@@ -1,6 +1,6 @@
 package fr.unice.polytech.si3.qgl.qualituriers.game.headquarterboat.movesailors;
 
-import fr.unice.polytech.si3.qgl.qualituriers.Deck;
+import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Deck;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.Boat;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.boat.boatentities.*;
 import fr.unice.polytech.si3.qgl.qualituriers.entity.deck.Wind;
@@ -141,7 +141,7 @@ class AffectSailorsWithObjectiveToTheirBoatEntitiesTest {
         AffectSailorsWithObjectiveToTheirBoatEntities affectSailorsWithObjectiveToTheirBoatEntities = new AffectSailorsWithObjectiveToTheirBoatEntities(gameInfo);
         affectSailorsWithObjectiveToTheirBoatEntities.affectSailorsToBoatEntity(SailorMission.WATCH_SAILOR, watchBoatEntities);
 
-        System.out.println(Arrays.toString(gameInfo.getShip().getEntities()));
+
 
         assertEquals(boatEntity1.getSailorAffected(), null);
         assertEquals(boatEntity2.getSailorAffected(), null);
@@ -173,7 +173,7 @@ class AffectSailorsWithObjectiveToTheirBoatEntitiesTest {
         AffectSailorsWithObjectiveToTheirBoatEntities affectSailorsWithObjectiveToTheirBoatEntities = new AffectSailorsWithObjectiveToTheirBoatEntities(gameInfo);
         affectSailorsWithObjectiveToTheirBoatEntities.affectSailorsToBoatEntity(SailorMission.WATCH_SAILOR, watchBoatEntities);
 
-        System.out.println(Arrays.toString(gameInfo.getShip().getEntities()));
+
 
         assertEquals(boatEntity1.getSailorAffected(), null);
         assertEquals(boatEntity2.getSailorAffected(), null);
@@ -204,7 +204,7 @@ class AffectSailorsWithObjectiveToTheirBoatEntitiesTest {
         AffectSailorsWithObjectiveToTheirBoatEntities affectSailorsWithObjectiveToTheirBoatEntities = new AffectSailorsWithObjectiveToTheirBoatEntities(gameInfo);
         affectSailorsWithObjectiveToTheirBoatEntities.affectSailorsToBoatEntity(SailorMission.RUDDER_SAILOR, watchBoatEntities);
 
-        System.out.println(Arrays.toString(gameInfo.getShip().getEntities()));
+
 
         assertEquals(boatEntity1.getSailorAffected(), null);
         assertEquals(boatEntity2.getSailorAffected(), null);
@@ -235,7 +235,7 @@ class AffectSailorsWithObjectiveToTheirBoatEntitiesTest {
         AffectSailorsWithObjectiveToTheirBoatEntities affectSailorsWithObjectiveToTheirBoatEntities = new AffectSailorsWithObjectiveToTheirBoatEntities(gameInfo);
         affectSailorsWithObjectiveToTheirBoatEntities.affectSailorsToBoatEntity(SailorMission.SAIL_SAILOR, watchBoatEntities);
 
-        System.out.println(Arrays.toString(gameInfo.getShip().getEntities()));
+
 
         assertEquals(boatEntity1.getSailorAffected(), null);
         assertEquals(boatEntity2.getSailorAffected(), null);
@@ -268,7 +268,7 @@ class AffectSailorsWithObjectiveToTheirBoatEntitiesTest {
         AffectSailorsWithObjectiveToTheirBoatEntities affectSailorsWithObjectiveToTheirBoatEntities = new AffectSailorsWithObjectiveToTheirBoatEntities(gameInfo);
         affectSailorsWithObjectiveToTheirBoatEntities.affectSailorsToBoatEntity(SailorMission.BABORDOAR_SAILOR, watchBoatEntities);
 
-        System.out.println(Arrays.toString(gameInfo.getShip().getEntities()));
+
 
         assertEquals(boatEntity1.getSailorAffected(), sailor3);
         assertEquals(boatEntity2.getSailorAffected(), null);
@@ -300,7 +300,7 @@ class AffectSailorsWithObjectiveToTheirBoatEntitiesTest {
         AffectSailorsWithObjectiveToTheirBoatEntities affectSailorsWithObjectiveToTheirBoatEntities = new AffectSailorsWithObjectiveToTheirBoatEntities(gameInfo);
         affectSailorsWithObjectiveToTheirBoatEntities.affectSailorsToBoatEntity(SailorMission.BABORDOAR_SAILOR, watchBoatEntities);
 
-        System.out.println(Arrays.toString(gameInfo.getShip().getEntities()));
+
 
         assertEquals(boatEntity1.getSailorAffected(), sailor4);
         assertEquals(boatEntity2.getSailorAffected(), null);
@@ -333,7 +333,7 @@ class AffectSailorsWithObjectiveToTheirBoatEntitiesTest {
         AffectSailorsWithObjectiveToTheirBoatEntities affectSailorsWithObjectiveToTheirBoatEntities = new AffectSailorsWithObjectiveToTheirBoatEntities(gameInfo);
         affectSailorsWithObjectiveToTheirBoatEntities.affectSailorsToBoatEntity(SailorMission.TRIBORDOAR_SAILOR, watchBoatEntities);
 
-        System.out.println(Arrays.toString(gameInfo.getShip().getEntities()));
+
 
         assertEquals(boatEntity1.getSailorAffected(), null);
         assertEquals(boatEntity2.getSailorAffected(), sailor5);
@@ -374,7 +374,7 @@ class AffectSailorsWithObjectiveToTheirBoatEntitiesTest {
         AffectSailorsWithObjectiveToTheirBoatEntities affectSailorsWithObjectiveToTheirBoatEntities = new AffectSailorsWithObjectiveToTheirBoatEntities(gameInfo);
         affectSailorsWithObjectiveToTheirBoatEntities.launch();
 
-        System.out.println(Arrays.toString(gameInfo.getShip().getEntities()));
+
 
         assertEquals(boatEntity1.getSailorAffected(), sailor3);
         assertEquals(boatEntity2.getSailorAffected(), sailor5);
@@ -406,7 +406,7 @@ class AffectSailorsWithObjectiveToTheirBoatEntitiesTest {
         AffectSailorsWithObjectiveToTheirBoatEntities affectSailorsWithObjectiveToTheirBoatEntities = new AffectSailorsWithObjectiveToTheirBoatEntities(gameInfo);
         affectSailorsWithObjectiveToTheirBoatEntities.launch();
 
-        System.out.println(Arrays.toString(gameInfo.getShip().getEntities()));
+
 
         assertEquals(boatEntity1.getSailorAffected(), sailor3);
         assertEquals(boatEntity2.getSailorAffected(), sailor5);
@@ -438,7 +438,7 @@ class AffectSailorsWithObjectiveToTheirBoatEntitiesTest {
         AffectSailorsWithObjectiveToTheirBoatEntities affectSailorsWithObjectiveToTheirBoatEntities = new AffectSailorsWithObjectiveToTheirBoatEntities(gameInfo);
         affectSailorsWithObjectiveToTheirBoatEntities.launch();
 
-        System.out.println(Arrays.toString(gameInfo.getShip().getEntities()));
+
 
         assertEquals(boatEntity1.getSailorAffected(), sailor4);
         assertEquals(boatEntity2.getSailorAffected(), sailor6);

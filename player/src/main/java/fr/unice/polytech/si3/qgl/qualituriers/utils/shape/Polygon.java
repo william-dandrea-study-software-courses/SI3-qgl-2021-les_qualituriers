@@ -3,7 +3,6 @@ package fr.unice.polytech.si3.qgl.qualituriers.utils.shape;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.qualituriers.utils.AngleUtil;
 import fr.unice.polytech.si3.qgl.qualituriers.utils.Point;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class Polygon extends PolygonAbstract {
         var center = Arrays.stream(vertices).reduce(Point.ZERO, Point::add).scalar(1 / (double)vertices.length);
 
         List<Point> newVertices = new ArrayList<>();
-        Arrays.stream(vertices).map(v -> v.substract(center)).map(v -> v.scalar(scale)).forEach(newVertices::add);
+        Arrays.stream(vertices).map(v -> v.subtract(center)).map(v -> v.scalar(scale)).forEach(newVertices::add);
         return new Polygon(getOrientation(), newVertices.toArray(new Point[0]));
     }
 
@@ -58,7 +57,7 @@ public class Polygon extends PolygonAbstract {
 
         // move the edges outside
         for(var arr : arretes) {
-            var dir = arr.getEnd().substract(arr.getStart());
+            var dir = arr.getEnd().subtract(arr.getStart());
             var directionDecalage = dir.rotate(Math.PI / 2);
             var sensDecalage = arr.getStart().projection(directionDecalage).normalized();
 
@@ -79,7 +78,7 @@ public class Polygon extends PolygonAbstract {
             finalVertices.add(seg1.getStart());
             finalVertices.add(seg1.getEnd());
 
-            var dir = seg2.getStart().substract(seg1.getEnd());
+            var dir = seg2.getStart().subtract(seg1.getEnd());
             var middleVertice = vertices[(i + 1) % vertices.length].add(dir.normalized().rotate(-Math.PI / 2).scalar(length));
 
             finalVertices.add(middleVertice);
